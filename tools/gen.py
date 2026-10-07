@@ -322,7 +322,10 @@ def render_page(pg):
         ph('<p class="muted">-</p>')
     for k, (idx, res) in sorted(svcs.items(), key=lambda x: x[1][0]):
         q = res['query']; c = res['cmd']
-        ph('<details id="svc-%d" class="svc" open><summary><b>#%d</b> %s</summary>' % (idx, idx, ' + '.join(
+        # 그리드 조회와 연결된 서비스만 기본 펼침 (그 외 서비스·내부 쿼리는 접힘)
+        gopen = any(r_['func'].startswith('조회 - 그리드') and any(ix_ == idx for ix_, _ in r_['res']) for r_ in rows)
+        _op = ' open' if gopen else ''
+        ph('<details id="svc-%d" class="svc"%s><summary><b>#%d</b> %s</summary>' % (idx, _op, idx, ' + '.join(
             ([('Rule <code>%s</code>' % esc(c['id']))] if c else []) + ([('Query <code>%s</code>' % esc(q['id']))] if q else []))))
         used = [(i_, r_['func'], r_['kind']) for i_, r_ in enumerate(rows, 1) if any(ix_ == idx for ix_, _ in r_['res'])]
         if used:
@@ -354,7 +357,7 @@ def render_page(pg):
             for qid in c.get('queries', []):
                 rq = A.resolve_query(qid)
                 tcount = len(set(rq['tables_r']) | set(rq['tables_w']))
-                ph('<details class="svc" open><summary>Rule 내부 호출 쿼리 <code>%s</code> <small class="muted">(%s · 테이블 %d)</small></summary>' % (esc(qid), esc(rq['src'] or '정의 미확인'), tcount))
+                ph('<details class="svc"%s><summary>Rule 내부 호출 쿼리 <code>%s</code> <small class="muted">(%s · 테이블 %d)</small></summary>' % (_op, esc(qid), esc(rq['src'] or '정의 미확인'), tcount))
                 if rq['params']:
                     ph('<p>쿼리 파라메터: %s</p>' % ' '.join('<code>%s</code>' % esc(p) for p in rq['params']))
                 ph('<ul><li>테이블: %s</li></ul>' % query_tables_html(rq))
@@ -373,7 +376,7 @@ def render_page(pg):
                 ph(query_viz(eq))
                 ph('</details>')
             for i, (sq_, eq) in enumerate(multi, 1):
-                _emit(i, sq_, eq, True)
+                _emit(i, sq_, eq, gopen)
             if simple:
                 ph('<details class="svc"><summary>Rule 코드 내 단순 SQL(단일 테이블) %d건 <small class="muted">- 펼쳐서 확인</small></summary>' % len(simple))
                 for j, (sq_, eq) in enumerate(simple, len(multi) + 1):

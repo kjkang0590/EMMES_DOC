@@ -1,49 +1,94 @@
-<!DOCTYPE html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>BOM_1 - BOM 관리</title><link rel="stylesheet" href="../style.css"></head><body><header class="top"><a href="../index.html">← 전체 목록</a><a href="../tables.html">테이블 색인</a></header><main><h1>BOM 관리 <small>BOM_1</small></h1><table class="kv"><tr><th>화면 경로</th><td><code>THiRAMES_UI/wwwroot/view/ngs/mes/MD/BOM_1.html</code></td></tr><tr><th>화면 구분</th><td>MD 기준정보</td></tr><tr><th>위젯(Grid)</th><td><code>BOM_11</code>, <code>BOM_12</code>, <code>BOM_13</code></td></tr><tr><th>화면 버튼</th><td><span class="chip">findBtn1 · 조회</span> <span class="chip">findBtn2 · 조회</span> <span class="chip">findBtn3 · 조회</span></td></tr></table><h2>1. 기능별 호출 서비스 / 파라메터 / 테이블</h2><div class="wrap"><table class="grid"><thead><tr><th>#</th><th>기능</th><th>구분</th><th>호출 서비스</th><th>파라메터</th><th>DB 테이블</th></tr></thead><tbody><tr id="fn-1"><td>1</td><td>조회 - 그리드 BOM_11 (BOM조회1_자재BOM)<br><small class="muted">조회 버튼(findBtn)/마스터-디테일 행선택 시 호출</small></td><td>R 조회</td><td><a href="#svc-1"><span class="tag q">Query</span> <code>SelectBomList</code></a> <small>THiRAMES.Service.UI</small></td><td class="params"><code>SITEID</code> <code>PRODUCTDEFINITIONID</code><br><span class="muted">UI 전달:</span> <code class="ui">PRODUCTCLASSID</code></td><td><a class="tbl" href="../tables.html#CIM_BOM">CIM_BOM</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_MATERIALDEFINITION">CIM_MATERIALDEFINITION</a><span class="b r">읽기</span></td></tr><tr id="fn-2"><td>2</td><td>조회 - 그리드 BOM_12 (BOM조회2_치공구BOM)<br><small class="muted">조회 버튼(findBtn)/마스터-디테일 행선택 시 호출</small></td><td>R 조회</td><td><a href="#svc-2"><span class="tag q">Query</span> <code>SelectDurableBomListbyProductDefinitionId</code></a> <small>THiRAMES.Service.UI</small></td><td class="params"><code>SITEID</code> <code>PRODUCTDEFINITIONID</code></td><td><a class="tbl" href="../tables.html#CIM_DURABLEBOM">CIM_DURABLEBOM</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_DURABLEDEFINITION">CIM_DURABLEDEFINITION</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_PROCESSSEGMENT">CIM_PROCESSSEGMENT</a><span class="b r">읽기</span></td></tr><tr id="fn-3"><td>3</td><td>조회 - 그리드 BOM_13 (BOM조회3_CarrierBOM)<br><small class="muted">조회 버튼(findBtn)/마스터-디테일 행선택 시 호출</small></td><td>R 조회</td><td><a href="#svc-3"><span class="tag q">Query</span> <code>SelectCarrierBomListbyProductDefinitionId</code></a> <small>THiRAMES.Service.UI</small></td><td class="params"><code>SITEID</code> <code>PRODUCTDEFINITIONID</code></td><td><a class="tbl" href="../tables.html#CIM_CARRIERBOM">CIM_CARRIERBOM</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_CARRIERDEFINITION">CIM_CARRIERDEFINITION</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_PROCESSSEGMENT">CIM_PROCESSSEGMENT</a><span class="b r">읽기</span></td></tr><tr id="fn-4"><td>4</td><td>검색조건 콤보 - PRODUCTCLASSID (PRODUCTCLASSID)</td><td>R 조회</td><td><a href="#svc-4"><span class="tag q">Query</span> <code>SelectProductClassList</code></a> <small>THiRAMES.Service.UI</small></td><td class="params"><code>SITEID</code></td><td><a class="tbl" href="../tables.html#CIM_PRODUCTCLASS">CIM_PRODUCTCLASS</a><span class="b r">읽기</span></td></tr><tr id="fn-5"><td>5</td><td>검색조건 콤보 - PRODUCTDEFINITIONID (PRODUCTDEFINITIONID)</td><td>R 조회</td><td><a href="#svc-5"><span class="tag q">Query</span> <code>SelectProductDefinitionListByProductClass</code></a> <small>THiRAMES.Service.UI</small></td><td class="params"><code>SITEID</code> <code>PRODUCTCLASSID</code></td><td><a class="tbl" href="../tables.html#CIM_PRODUCTDEFINITION">CIM_PRODUCTDEFINITION</a><span class="b r">읽기</span></td></tr></tbody></table></div><h2>2. 서비스 상세</h2><details id="svc-1" class="svc" open><summary><b>#1</b> Query <code>SelectBomList</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-1">#1 조회 - 그리드 BOM_11 (BOM조회1_자재BOM)</a></p><h4>Query (조회 서비스) : SelectBomList</h4><ul><li>ID 구성: <code>SelectBomList</code> / 클래스 <code>THiRAMES.Service.UI</code> / 버전 <code>00001</code></li><li>정의 위치: DB 저장 쿼리 (CIM_STOREDQUERY)</li><li>쿼리 파라메터: <code>SITEID</code> <code>PRODUCTDEFINITIONID</code></li><li>테이블(조회/쓰기 전체, 함수·SP 포함): <div><a class="tbl" href="../tables.html#CIM_BOM">CIM_BOM</a><span class="b m">메인</span><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_MATERIALDEFINITION">CIM_MATERIALDEFINITION</a><span class="b r">읽기</span></div></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 1 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 202 76" width="202" height="76" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="170" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_BOM</text><text x="26" y="52" class="t2">alias A</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small><br><small class="muted">마스터/명칭 조회용 조인 제외(기준 테이블 제외): CIM_MATERIALDEFINITION</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>SELECT 
-	A.* , B.MATERIALDEFINITIONNAME 
-  FROM CIM_BOM A
- INNER JOIN CIM_MATERIALDEFINITION B 
- 	ON 1=1
-   AND B.MATERIALDEFINITIONID = A.MATERIALDEFINITIONID
-   AND B.SITEID = A.SITEID 
-   AND B.ISUSABLE = &#x27;Usable&#x27;
- WHERE A.SITEID = :SITEID 
-   AND A.ISUSABLE = &#x27;Usable&#x27;
-   AND A.PRODUCTDEFINITIONID = :PRODUCTDEFINITIONID</pre></details></details><details id="svc-2" class="svc" open><summary><b>#2</b> Query <code>SelectDurableBomListbyProductDefinitionId</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-2">#2 조회 - 그리드 BOM_12 (BOM조회2_치공구BOM)</a></p><h4>Query (조회 서비스) : SelectDurableBomListbyProductDefinitionId</h4><ul><li>ID 구성: <code>SelectDurableBomListbyProductDefinitionId</code> / 클래스 <code>THiRAMES.Service.UI</code> / 버전 <code>00001</code></li><li>정의 위치: DB 저장 쿼리 (CIM_STOREDQUERY)</li><li>쿼리 파라메터: <code>SITEID</code> <code>PRODUCTDEFINITIONID</code></li><li>테이블(조회/쓰기 전체, 함수·SP 포함): <div><a class="tbl" href="../tables.html#CIM_DURABLEBOM">CIM_DURABLEBOM</a><span class="b m">메인</span><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_PROCESSSEGMENT">CIM_PROCESSSEGMENT</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_DURABLEDEFINITION">CIM_DURABLEDEFINITION</a><span class="b r">읽기</span></div></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 1 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 202 76" width="202" height="76" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="170" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_DURABLEBOM</text><text x="26" y="52" class="t2">alias A</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small><br><small class="muted">마스터/명칭 조회용 조인 제외(기준 테이블 제외): CIM_PROCESSSEGMENT, CIM_DURABLEDEFINITION</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>SELECT 
-	A.* ,B.PROCESSSEGMENTNAME , C.DURABLEDEFINITIONNAME
-  FROM CIM_DURABLEBOM A
- INNER JOIN CIM_PROCESSSEGMENT B
- 	ON 1=1
-   AND B.SITEID = A.SITEID
-   AND B.ISUSABLE = &#x27;Usable&#x27;
-   AND B.PROCESSSEGMENTID = A.PROCESSSEGMENTID
- INNER JOIN CIM_DURABLEDEFINITION C
- 	ON 1=1
-   AND C.SITEID = A.SITEID
-   AND C.ISUSABLE = &#x27;Usable&#x27;
-   AND C.DURABLEDEFINITIONID = A.DURABLEDEFINITIONID 
- WHERE A.SITEID = :SITEID
-   AND A.ISUSABLE = &#x27;Usable&#x27;
-   AND A.PRODUCTDEFINITIONID = :PRODUCTDEFINITIONID</pre></details></details><details id="svc-3" class="svc" open><summary><b>#3</b> Query <code>SelectCarrierBomListbyProductDefinitionId</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-3">#3 조회 - 그리드 BOM_13 (BOM조회3_CarrierBOM)</a></p><h4>Query (조회 서비스) : SelectCarrierBomListbyProductDefinitionId</h4><ul><li>ID 구성: <code>SelectCarrierBomListbyProductDefinitionId</code> / 클래스 <code>THiRAMES.Service.UI</code> / 버전 <code>00001</code></li><li>정의 위치: DB 저장 쿼리 (CIM_STOREDQUERY)</li><li>쿼리 파라메터: <code>SITEID</code> <code>PRODUCTDEFINITIONID</code></li><li>테이블(조회/쓰기 전체, 함수·SP 포함): <div><a class="tbl" href="../tables.html#CIM_CARRIERBOM">CIM_CARRIERBOM</a><span class="b m">메인</span><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_PROCESSSEGMENT">CIM_PROCESSSEGMENT</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_CARRIERDEFINITION">CIM_CARRIERDEFINITION</a><span class="b r">읽기</span></div></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 1 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 202 76" width="202" height="76" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="170" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_CARRIERBOM</text><text x="26" y="52" class="t2">alias A</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small><br><small class="muted">마스터/명칭 조회용 조인 제외(기준 테이블 제외): CIM_PROCESSSEGMENT, CIM_CARRIERDEFINITION</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>SELECT 
-	A.* ,B.PROCESSSEGMENTNAME , C.CARRIERDEFINITIONNAME
-  FROM CIM_CARRIERBOM A
- INNER JOIN CIM_PROCESSSEGMENT B
- 	ON 1=1
-   AND B.SITEID = A.SITEID
-   AND B.ISUSABLE = &#x27;Usable&#x27;
-   AND B.PROCESSSEGMENTID = A.PROCESSSEGMENTID
- INNER JOIN CIM_CARRIERDEFINITION C
- 	ON 1=1
-   AND C.SITEID = A.SITEID
-   AND C.ISUSABLE = &#x27;Usable&#x27;
-   AND C.CARRIERDEFINITIONID = A.CARRIERDEFINITIONID 
- WHERE A.SITEID = :SITEID
-   AND A.ISUSABLE = &#x27;Usable&#x27;
-   AND A.PRODUCTDEFINITIONID = :PRODUCTDEFINITIONID</pre></details></details><details id="svc-4" class="svc" open><summary><b>#4</b> Query <code>SelectProductClassList</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-4">#4 검색조건 콤보 - PRODUCTCLASSID (PRODUCTCLASSID)</a></p><h4>Query (조회 서비스) : SelectProductClassList</h4><ul><li>ID 구성: <code>SelectProductClassList</code> / 클래스 <code>THiRAMES.Service.UI</code> / 버전 <code>00001</code></li><li>정의 위치: DB 저장 쿼리 (CIM_STOREDQUERY)</li><li>쿼리 파라메터: <code>SITEID</code></li><li>테이블(조회/쓰기 전체, 함수·SP 포함): <div><a class="tbl" href="../tables.html#CIM_PRODUCTCLASS">CIM_PRODUCTCLASS</a><span class="b m">메인</span><span class="b r">읽기</span></div></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 1 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 202 76" width="202" height="76" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="170" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_PRODUCTCLASS</text><text x="26" y="52" class="t2">alias A</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>SELECT
-	A.PRODUCTCLASSID AS CODE ,
-	A.PRODUCTCLASSNAME AS NAME  
-  FROM CIM_PRODUCTCLASS A
- WHERE A.SITEID = :SITEID 
-   AND A.ISUSABLE = &#x27;Usable&#x27;</pre></details></details><details id="svc-5" class="svc" open><summary><b>#5</b> Query <code>SelectProductDefinitionListByProductClass</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-5">#5 검색조건 콤보 - PRODUCTDEFINITIONID (PRODUCTDEFINITIONID)</a></p><h4>Query (조회 서비스) : SelectProductDefinitionListByProductClass</h4><ul><li>ID 구성: <code>SelectProductDefinitionListByProductClass</code> / 클래스 <code>THiRAMES.Service.UI</code> / 버전 <code>00001</code></li><li>정의 위치: DB 저장 쿼리 (CIM_STOREDQUERY)</li><li>쿼리 파라메터: <code>SITEID</code> <code>PRODUCTCLASSID</code></li><li>테이블(조회/쓰기 전체, 함수·SP 포함): <div><a class="tbl" href="../tables.html#CIM_PRODUCTDEFINITION">CIM_PRODUCTDEFINITION</a><span class="b m">메인</span><span class="b r">읽기</span></div></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 1 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 211 76" width="211" height="76" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="179" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_PRODUCTDEFINITION</text><text x="26" y="52" class="t2">alias A</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>SELECT
+<!DOCTYPE html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>BOM_1 - BOM 관리</title><link rel="stylesheet" href="../style.css"></head><body><header class="top"><a href="../index.html">← 전체 목록</a><a href="../tables.html">테이블 색인</a></header><main><h1>BOM 관리 <small>BOM_1</small></h1><table class="kv"><tr><th>화면 경로</th><td><code>THiRAMES_UI/wwwroot/view/ngs/mes/MD/BOM_1.html</code></td></tr><tr><th>화면 구분</th><td>MD 기준정보</td></tr><tr><th>위젯(Grid)</th><td><code>BOM_11</code>, <code>BOM_12</code>, <code>BOM_13</code></td></tr><tr><th>화면 버튼</th><td><span class="chip">findBtn1 · 조회</span> <span class="chip">findBtn2 · 조회</span> <span class="chip">findBtn3 · 조회</span></td></tr></table><h2>1. 기능별 호출 서비스 / 파라메터 / 테이블</h2><div class="wrap"><table class="grid"><thead><tr><th>#</th><th>기능</th><th>구분</th><th>호출 서비스</th><th>파라메터</th><th>DB 테이블</th></tr></thead><tbody><tr id="fn-1"><td>1</td><td>조회 - 그리드 BOM_11 (BOM조회1_자재BOM)<br><small class="muted">조회 버튼(findBtn)/마스터-디테일 행선택 시 호출</small></td><td>R 조회</td><td><a href="#svc-1"><span class="tag q">Query</span> <code>SelectBomList</code></a> <small>THiRAMES.Service.UI</small></td><td class="params"><code>SITEID</code> <code>PRODUCTDEFINITIONID</code><br><span class="muted">UI 전달:</span> <code class="ui">PRODUCTCLASSID</code></td><td><a class="tbl" href="../tables.html#CIM_BOM">CIM_BOM</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_MATERIALDEFINITION">CIM_MATERIALDEFINITION</a><span class="b r">읽기</span></td></tr><tr id="fn-2"><td>2</td><td>조회 - 그리드 BOM_12 (BOM조회2_치공구BOM)<br><small class="muted">조회 버튼(findBtn)/마스터-디테일 행선택 시 호출</small></td><td>R 조회</td><td><a href="#svc-2"><span class="tag q">Query</span> <code>SelectDurableBomListbyProductDefinitionId</code></a> <small>THiRAMES.Service.UI</small></td><td class="params"><code>SITEID</code> <code>PRODUCTDEFINITIONID</code></td><td><a class="tbl" href="../tables.html#CIM_DURABLEBOM">CIM_DURABLEBOM</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_DURABLEDEFINITION">CIM_DURABLEDEFINITION</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_PROCESSSEGMENT">CIM_PROCESSSEGMENT</a><span class="b r">읽기</span></td></tr><tr id="fn-3"><td>3</td><td>조회 - 그리드 BOM_13 (BOM조회3_CarrierBOM)<br><small class="muted">조회 버튼(findBtn)/마스터-디테일 행선택 시 호출</small></td><td>R 조회</td><td><a href="#svc-3"><span class="tag q">Query</span> <code>SelectCarrierBomListbyProductDefinitionId</code></a> <small>THiRAMES.Service.UI</small></td><td class="params"><code>SITEID</code> <code>PRODUCTDEFINITIONID</code></td><td><a class="tbl" href="../tables.html#CIM_CARRIERBOM">CIM_CARRIERBOM</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_CARRIERDEFINITION">CIM_CARRIERDEFINITION</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_PROCESSSEGMENT">CIM_PROCESSSEGMENT</a><span class="b r">읽기</span></td></tr><tr id="fn-4"><td>4</td><td>검색조건 콤보 - PRODUCTCLASSID (PRODUCTCLASSID)</td><td>R 조회</td><td><a href="#svc-4"><span class="tag q">Query</span> <code>SelectProductClassList</code></a> <small>THiRAMES.Service.UI</small></td><td class="params"><code>SITEID</code></td><td><a class="tbl" href="../tables.html#CIM_PRODUCTCLASS">CIM_PRODUCTCLASS</a><span class="b r">읽기</span></td></tr><tr id="fn-5"><td>5</td><td>검색조건 콤보 - PRODUCTDEFINITIONID (PRODUCTDEFINITIONID)</td><td>R 조회</td><td><a href="#svc-5"><span class="tag q">Query</span> <code>SelectProductDefinitionListByProductClass</code></a> <small>THiRAMES.Service.UI</small></td><td class="params"><code>SITEID</code> <code>PRODUCTCLASSID</code></td><td><a class="tbl" href="../tables.html#CIM_PRODUCTDEFINITION">CIM_PRODUCTDEFINITION</a><span class="b r">읽기</span></td></tr></tbody></table></div><h2>2. 서비스 상세</h2><details id="svc-1" class="svc" open><summary><b>#1</b> Query <code>SelectBomList</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-1">#1 조회 - 그리드 BOM_11 (BOM조회1_자재BOM)</a></p><h4>Query (조회 서비스) : SelectBomList</h4><ul><li>ID 구성: <code>SelectBomList</code> / 클래스 <code>THiRAMES.Service.UI</code> / 버전 <code>00001</code></li><li>정의 위치: DB 저장 쿼리 (CIM_STOREDQUERY)</li><li>쿼리 파라메터: <code>SITEID</code> <code>PRODUCTDEFINITIONID</code></li><li>테이블(조회/쓰기 전체, 함수·SP 포함): <div><a class="tbl" href="../tables.html#CIM_BOM">CIM_BOM</a><span class="b m">메인</span><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_MATERIALDEFINITION">CIM_MATERIALDEFINITION</a><span class="b r">읽기</span></div></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 1 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 202 76" width="202" height="76" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="170" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_BOM</text><text x="26" y="52" class="t2">alias A</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small><br><small class="muted">마스터/명칭 조회용 조인 제외(기준 테이블 제외): CIM_MATERIALDEFINITION</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>SELECT 
+
+	A.* , B.MATERIALDEFINITIONNAME 
+
+  FROM CIM_BOM A
+
+ INNER JOIN CIM_MATERIALDEFINITION B 
+
+ 	ON 1=1
+
+   AND B.MATERIALDEFINITIONID = A.MATERIALDEFINITIONID
+
+   AND B.SITEID = A.SITEID 
+
+   AND B.ISUSABLE = &#x27;Usable&#x27;
+
+ WHERE A.SITEID = :SITEID 
+
+   AND A.ISUSABLE = &#x27;Usable&#x27;
+
+   AND A.PRODUCTDEFINITIONID = :PRODUCTDEFINITIONID</pre></details></details><details id="svc-2" class="svc" open><summary><b>#2</b> Query <code>SelectDurableBomListbyProductDefinitionId</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-2">#2 조회 - 그리드 BOM_12 (BOM조회2_치공구BOM)</a></p><h4>Query (조회 서비스) : SelectDurableBomListbyProductDefinitionId</h4><ul><li>ID 구성: <code>SelectDurableBomListbyProductDefinitionId</code> / 클래스 <code>THiRAMES.Service.UI</code> / 버전 <code>00001</code></li><li>정의 위치: DB 저장 쿼리 (CIM_STOREDQUERY)</li><li>쿼리 파라메터: <code>SITEID</code> <code>PRODUCTDEFINITIONID</code></li><li>테이블(조회/쓰기 전체, 함수·SP 포함): <div><a class="tbl" href="../tables.html#CIM_DURABLEBOM">CIM_DURABLEBOM</a><span class="b m">메인</span><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_PROCESSSEGMENT">CIM_PROCESSSEGMENT</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_DURABLEDEFINITION">CIM_DURABLEDEFINITION</a><span class="b r">읽기</span></div></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 1 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 202 76" width="202" height="76" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="170" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_DURABLEBOM</text><text x="26" y="52" class="t2">alias A</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small><br><small class="muted">마스터/명칭 조회용 조인 제외(기준 테이블 제외): CIM_PROCESSSEGMENT, CIM_DURABLEDEFINITION</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>SELECT 
+
+	A.* ,B.PROCESSSEGMENTNAME , C.DURABLEDEFINITIONNAME
+
+  FROM CIM_DURABLEBOM A
+
+ INNER JOIN CIM_PROCESSSEGMENT B
+
+ 	ON 1=1
+
+   AND B.SITEID = A.SITEID
+
+   AND B.ISUSABLE = &#x27;Usable&#x27;
+
+   AND B.PROCESSSEGMENTID = A.PROCESSSEGMENTID
+
+ INNER JOIN CIM_DURABLEDEFINITION C
+
+ 	ON 1=1
+
+   AND C.SITEID = A.SITEID
+
+   AND C.ISUSABLE = &#x27;Usable&#x27;
+
+   AND C.DURABLEDEFINITIONID = A.DURABLEDEFINITIONID 
+
+ WHERE A.SITEID = :SITEID
+
+   AND A.ISUSABLE = &#x27;Usable&#x27;
+
+   AND A.PRODUCTDEFINITIONID = :PRODUCTDEFINITIONID</pre></details></details><details id="svc-3" class="svc" open><summary><b>#3</b> Query <code>SelectCarrierBomListbyProductDefinitionId</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-3">#3 조회 - 그리드 BOM_13 (BOM조회3_CarrierBOM)</a></p><h4>Query (조회 서비스) : SelectCarrierBomListbyProductDefinitionId</h4><ul><li>ID 구성: <code>SelectCarrierBomListbyProductDefinitionId</code> / 클래스 <code>THiRAMES.Service.UI</code> / 버전 <code>00001</code></li><li>정의 위치: DB 저장 쿼리 (CIM_STOREDQUERY)</li><li>쿼리 파라메터: <code>SITEID</code> <code>PRODUCTDEFINITIONID</code></li><li>테이블(조회/쓰기 전체, 함수·SP 포함): <div><a class="tbl" href="../tables.html#CIM_CARRIERBOM">CIM_CARRIERBOM</a><span class="b m">메인</span><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_PROCESSSEGMENT">CIM_PROCESSSEGMENT</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_CARRIERDEFINITION">CIM_CARRIERDEFINITION</a><span class="b r">읽기</span></div></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 1 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 202 76" width="202" height="76" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="170" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_CARRIERBOM</text><text x="26" y="52" class="t2">alias A</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small><br><small class="muted">마스터/명칭 조회용 조인 제외(기준 테이블 제외): CIM_PROCESSSEGMENT, CIM_CARRIERDEFINITION</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>SELECT 
+
+	A.* ,B.PROCESSSEGMENTNAME , C.CARRIERDEFINITIONNAME
+
+  FROM CIM_CARRIERBOM A
+
+ INNER JOIN CIM_PROCESSSEGMENT B
+
+ 	ON 1=1
+
+   AND B.SITEID = A.SITEID
+
+   AND B.ISUSABLE = &#x27;Usable&#x27;
+
+   AND B.PROCESSSEGMENTID = A.PROCESSSEGMENTID
+
+ INNER JOIN CIM_CARRIERDEFINITION C
+
+ 	ON 1=1
+
+   AND C.SITEID = A.SITEID
+
+   AND C.ISUSABLE = &#x27;Usable&#x27;
+
+   AND C.CARRIERDEFINITIONID = A.CARRIERDEFINITIONID 
+
+ WHERE A.SITEID = :SITEID
+
+   AND A.ISUSABLE = &#x27;Usable&#x27;
+
+   AND A.PRODUCTDEFINITIONID = :PRODUCTDEFINITIONID</pre></details></details><details id="svc-4" class="svc"><summary><b>#4</b> Query <code>SelectProductClassList</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-4">#4 검색조건 콤보 - PRODUCTCLASSID (PRODUCTCLASSID)</a></p><h4>Query (조회 서비스) : SelectProductClassList</h4><ul><li>ID 구성: <code>SelectProductClassList</code> / 클래스 <code>THiRAMES.Service.UI</code> / 버전 <code>00001</code></li><li>정의 위치: DB 저장 쿼리 (CIM_STOREDQUERY)</li><li>쿼리 파라메터: <code>SITEID</code></li><li>테이블(조회/쓰기 전체, 함수·SP 포함): <div><a class="tbl" href="../tables.html#CIM_PRODUCTCLASS">CIM_PRODUCTCLASS</a><span class="b m">메인</span><span class="b r">읽기</span></div></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 1 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 202 76" width="202" height="76" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="170" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_PRODUCTCLASS</text><text x="26" y="52" class="t2">alias A</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>SELECT
+
+	A.PRODUCTCLASSID AS CODE ,
+
+	A.PRODUCTCLASSNAME AS NAME  
+
+  FROM CIM_PRODUCTCLASS A
+
+ WHERE A.SITEID = :SITEID 
+
+   AND A.ISUSABLE = &#x27;Usable&#x27;</pre></details></details><details id="svc-5" class="svc"><summary><b>#5</b> Query <code>SelectProductDefinitionListByProductClass</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-5">#5 검색조건 콤보 - PRODUCTDEFINITIONID (PRODUCTDEFINITIONID)</a></p><h4>Query (조회 서비스) : SelectProductDefinitionListByProductClass</h4><ul><li>ID 구성: <code>SelectProductDefinitionListByProductClass</code> / 클래스 <code>THiRAMES.Service.UI</code> / 버전 <code>00001</code></li><li>정의 위치: DB 저장 쿼리 (CIM_STOREDQUERY)</li><li>쿼리 파라메터: <code>SITEID</code> <code>PRODUCTCLASSID</code></li><li>테이블(조회/쓰기 전체, 함수·SP 포함): <div><a class="tbl" href="../tables.html#CIM_PRODUCTDEFINITION">CIM_PRODUCTDEFINITION</a><span class="b m">메인</span><span class="b r">읽기</span></div></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 1 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 211 76" width="211" height="76" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="179" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_PRODUCTDEFINITION</text><text x="26" y="52" class="t2">alias A</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>SELECT
  		A.PRODUCTDEFINITIONID AS CODE,
  		--A.PRODUCTDEFINITIONNAME AS NAME
                  A.PRODUCTDEFINITIONID AS NAME 

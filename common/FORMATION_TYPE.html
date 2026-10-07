@@ -1,87 +1,173 @@
-<!DOCTYPE html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>FORMATION_TYPE - 화성 타입 지정 - 화성타입 선택(팝업)</title><link rel="stylesheet" href="../style.css"></head><body><header class="top"><a href="../index.html">← 전체 목록</a><a href="../tables.html">테이블 색인</a></header><main><h1>화성 타입 지정 - 화성타입 선택(팝업) <small>FORMATION_TYPE</small></h1><table class="kv"><tr><th>화면 경로</th><td><code>THiRAMES_UI/wwwroot/view/ngs/mes/common/FORMATION_TYPE.html</code></td></tr><tr><th>화면 구분</th><td>공통 팝업/컴포넌트</td></tr><tr><th>위젯(Grid)</th><td><code>FORMATION_TYPE1</code>, <code>FORMATION_TYPE2</code></td></tr><tr><th>화면 버튼</th><td><span class="chip">findBtn1 · 조회</span> <span class="chip">findBtn2 · 조회</span> <span class="chip">upsertBtn · 저장</span> <span class="chip">closeBtn · Btn_Close</span></td></tr></table><h2>1. 기능별 호출 서비스 / 파라메터 / 테이블</h2><div class="wrap"><table class="grid"><thead><tr><th>#</th><th>기능</th><th>구분</th><th>호출 서비스</th><th>파라메터</th><th>DB 테이블</th></tr></thead><tbody><tr id="fn-1"><td>1</td><td>조회 - 그리드 FORMATION_TYPE1 (화성타입지정_팝업_화성타입선택1_화성타입목록)<br><small class="muted">조회 버튼(findBtn)/마스터-디테일 행선택 시 호출</small></td><td>R 조회</td><td><a href="#svc-1"><span class="tag q">Query</span> <code>SelectFormationDefinitionList</code></a> <small>THiRAMES.Service.UI</small></td><td class="params"><code>SITEID</code><br><span class="muted">UI 전달:</span> <code class="ui">BATCHID</code></td><td><a class="tbl" href="../tables.html#CIM_FORMATIONDEFINITION">CIM_FORMATIONDEFINITION</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_PRODUCTDEFINITION">CIM_PRODUCTDEFINITION</a><span class="b r">읽기</span></td></tr><tr id="fn-2"><td>2</td><td>조회 - 그리드 FORMATION_TYPE2 (화성타입지정_팝업_화성타입선택2_그리드2)<br><small class="muted">조회 버튼(findBtn)/마스터-디테일 행선택 시 호출</small></td><td>R 조회</td><td><a href="#svc-2"><span class="tag q">Query</span> <code>SelectProcessNodeListByBatchId</code></a> <small>THiRAMES.Service.UI</small></td><td class="params"><code>SITEID</code> <code>BATCHID</code><br><span class="muted">UI 전달:</span> <code class="ui">PROCESSDEFINITIONID</code></td><td><a class="tbl" href="../tables.html#CIM_FORMATIONDEFINITION">CIM_FORMATIONDEFINITION</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_PROCESSNODE">CIM_PROCESSNODE</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_PROCESSSEGMENT">CIM_PROCESSSEGMENT</a><span class="b r">읽기</span></td></tr><tr id="fn-3"><td>3</td><td>event<br><small class="muted">JS ngsWidget.ajax(R)</small></td><td>조회</td><td><a href="#svc-3"><span class="tag q">Query</span> <code>SelectCurrentProcessNodeSequence</code></a> <small>THiRAMES.Service.UI</small></td><td class="params"><code>SITEID</code> <code>WORKORDERID</code> <code>BATCHID</code><br><span class="muted">UI 전달:</span> <code class="ui">PROCESSNODESEQUENCE</code> <code class="ui">DESCRIPTION</code> <code class="ui">CYCLE</code> <code class="ui">NEXTPROCESSNODEID</code> <code class="ui">FORMATIONDEFINITIONID</code> <code class="ui">FORMATIONVERSION</code> <code class="ui">RECIPEDEFINITIONNAME</code> <code class="ui">RECIPEDEFINITIONID</code> <code class="ui">DATALIST</code> <code class="ui">FORMATIONDEFINITIONIDLIST</code></td><td><a class="tbl" href="../tables.html#CIM_BATCH">CIM_BATCH</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_LOTBATCHREL">CIM_LOTBATCHREL</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_LOTHIST">CIM_LOTHIST</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_PROCESSNODE">CIM_PROCESSNODE</a><span class="b r">읽기</span></td></tr></tbody></table></div><h2>2. 서비스 상세</h2><details id="svc-1" class="svc" open><summary><b>#1</b> Query <code>SelectFormationDefinitionList</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-1">#1 조회 - 그리드 FORMATION_TYPE1 (화성타입지정_팝업_화성타입선택1_화성타입목록)</a></p><h4>Query (조회 서비스) : SelectFormationDefinitionList</h4><ul><li>ID 구성: <code>SelectFormationDefinitionList</code> / 클래스 <code>THiRAMES.Service.UI</code> / 버전 <code>00001</code></li><li>정의 위치: DB 저장 쿼리 (CIM_STOREDQUERY)</li><li>쿼리 파라메터: <code>SITEID</code></li><li>테이블(조회/쓰기 전체, 함수·SP 포함): <div><a class="tbl" href="../tables.html#CIM_FORMATIONDEFINITION">CIM_FORMATIONDEFINITION</a><span class="b m">메인</span><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_PRODUCTDEFINITION">CIM_PRODUCTDEFINITION</a><span class="b r">읽기</span></div></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 1 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 226 76" width="226" height="76" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="194" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_FORMATIONDEFINITION</text><text x="26" y="52" class="t2">alias CFD</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small><br><small class="muted">마스터/명칭 조회용 조인 제외(기준 테이블 제외): CIM_PRODUCTDEFINITION</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>-------- 화성타입 NODE 조회 
- SELECT 
- 	CFD.FORMATIONDEFINITIONID ,
- 	CFD.FORMATIONVERSION ,
- 	CFD.FORMATIONDEFINITIONNAME ,
- 	CFD.PROCESSDEFINITIONID AS BATCHID ,
- 	CFD.PROCESSTYPE ,
- 	CFD.PRODUCTDEFINITIONID ,
- 	CPD.PRODUCTDEFINITIONNAME ,
- 	CFD.PRODUCTORDERTYPE ,
- 	CFD.RECIPEDEFINITIONTYPE 
- FROM CIM_FORMATIONDEFINITION CFD
-INNER JOIN CIM_PRODUCTDEFINITION CPD
-   ON 1=1
-  AND CPD.PRODUCTDEFINITIONID  = CFD.PRODUCTDEFINITIONID 
-  AND CPD.SITEID = CFD.SITEID 
-  AND CPD.ISUSABLE = &#x27;Usable&#x27;
-  AND CFD.STATE = &#x27;Active&#x27;
-WHERE 1=1
-  AND CFD.SITEID = :SITEID</pre></details></details><details id="svc-2" class="svc" open><summary><b>#2</b> Query <code>SelectProcessNodeListByBatchId</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-2">#2 조회 - 그리드 FORMATION_TYPE2 (화성타입지정_팝업_화성타입선택2_그리드2)</a></p><h4>Query (조회 서비스) : SelectProcessNodeListByBatchId</h4><ul><li>ID 구성: <code>SelectProcessNodeListByBatchId</code> / 클래스 <code>THiRAMES.Service.UI</code> / 버전 <code>00001</code></li><li>정의 위치: DB 저장 쿼리 (CIM_STOREDQUERY)</li><li>쿼리 파라메터: <code>SITEID</code> <code>BATCHID</code></li><li>테이블(조회/쓰기 전체, 함수·SP 포함): <div><a class="tbl" href="../tables.html#CIM_PROCESSNODE">CIM_PROCESSNODE</a><span class="b m">메인</span><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_FORMATIONDEFINITION">CIM_FORMATIONDEFINITION</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_PROCESSSEGMENT">CIM_PROCESSSEGMENT</a><span class="b r">읽기</span></div></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 1 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 202 76" width="202" height="76" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="170" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_PROCESSNODE</text><text x="26" y="52" class="t2">alias CPN</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small><br><small class="muted">마스터/명칭 조회용 조인 제외(기준 테이블 제외): CIM_FORMATIONDEFINITION, CIM_PROCESSSEGMENT</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>-------------- 화성타입지정 Node 조회 쿼리
- SELECT
-  	CPN.FORMATIONDEFINITIONID ,
- 	CPN.FORMATIONVERSION ,
- 	CPN.PROCESSDEFINITIONID ,
-    CPN.PROCESSNODEID ,
-    CPN.PROCESSNODENAME ,
- 	CPN.PROCESSNODETYPE ,
- 	CPN.PROCESSNODESEQUENCE ,
- 	CPN.ISSTARTNODE ,
- 	CPN.ISENDNODE ,
- 	CPN.NEXTPROCESSNODEID ,
- 	CPN.DESCRIPTION ,
- 	CPN.&quot;CYCLE&quot; ,
- 	CFD.FORMATIONDEFINITIONNAME ,
- 	CPN.PROCESSSEGMENTID ,
-    CPS.PROCESSSEGMENTNAME ,
- 	CPN.RECIPEDEFINITIONID ,
- 	CPN.RECIPEDEFINITIONNAME 
-   FROM CIM_PROCESSNODE CPN
-   LEFT JOIN CIM_FORMATIONDEFINITION CFD 
-     ON 1=1
-    AND CFD.FORMATIONDEFINITIONID = CPN.FORMATIONDEFINITIONID 
-    AND CFD.FORMATIONVERSION  = CPN.FORMATIONVERSION 
-    AND CFD.SITEID = CPN.SITEID 
-    AND CFD.ISUSABLE = &#x27;Usable&#x27;
-   LEFT JOIN CIM_PROCESSSEGMENT CPS 
-     ON 1=1
-    AND CPS.PROCESSSEGMENTID  = CPN.PROCESSSEGMENTID
-    AND CPS.SITEID = CPN.SITEID 
-    AND CPS.ISUSABLE = &#x27;Usable&#x27;  
-  WHERE 1=1
-    AND CPN.SITEID = :SITEID
-    AND CPN.ISUSABLE = &#x27;Usable&#x27;
-    AND CPN.PROCESSDEFINITIONID = :BATCHID
-  ORDER BY CPN.PROCESSNODESEQUENCE</pre></details></details><details id="svc-3" class="svc" open><summary><b>#3</b> Query <code>SelectCurrentProcessNodeSequence</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-3">#3 event</a></p><h4>Query (조회 서비스) : SelectCurrentProcessNodeSequence</h4><ul><li>ID 구성: <code>SelectCurrentProcessNodeSequence</code> / 클래스 <code>THiRAMES.Service.UI</code> / 버전 <code>00001</code></li><li>정의 위치: DB 저장 쿼리 (CIM_STOREDQUERY)</li><li>쿼리 파라메터: <code>SITEID</code> <code>WORKORDERID</code> <code>BATCHID</code></li><li>테이블(조회/쓰기 전체, 함수·SP 포함): <div><a class="tbl" href="../tables.html#CIM_BATCH">CIM_BATCH</a><span class="b m">메인</span><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_LOTHIST">CIM_LOTHIST</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_LOTBATCHREL">CIM_LOTBATCHREL</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_PROCESSNODE">CIM_PROCESSNODE</a><span class="b r">읽기</span></div></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 3 · 조인 2</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 831 136" width="831" height="136" role="img" aria-label="조인 구조도"><path class="edge e-inner" d="M645 38 C600 38 600 38 555 38"/><text class="elab" x="600" y="34" text-anchor="middle">INNER</text><path class="edge e-inner" d="M293 38 C248 38 248 38 203 38"/><text class="elab" x="248" y="34" text-anchor="middle">INNER</text><g class="node base"><rect x="16" y="16" width="187" height="74" rx="7"/><text x="26" y="35" class="t1">CIM_BATCH</text><text x="26" y="52" class="t2">alias CB</text><text x="26" y="67" class="t2 jt">INNER</text><text x="44" y="82" class="t3">BATCHID = CLB.BATCHID</text></g><g class="node"><rect x="645" y="16" width="170" height="44" rx="7"/><text x="655" y="35" class="t1">CIM_LOTHIST</text><text x="655" y="52" class="t2">alias CL</text></g><g class="node"><rect x="293" y="16" width="262" height="104" rx="7"/><text x="303" y="35" class="t1">CIM_LOTBATCHREL</text><text x="303" y="52" class="t2">alias CLB</text><text x="303" y="67" class="t2 jt">INNER</text><text x="321" y="82" class="t3">LOTID = CL.LOTID</text><text x="321" y="97" class="t3">BATCHID = CL.PROCESSDEFINITIONID</text><text x="321" y="112" class="t3">SITEID = CL.SITEID</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small><br><small class="muted">마스터/명칭 조회용 조인 제외(기준 테이블 제외): CIM_PROCESSNODE</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>------- 화성타입지정 Current Sequence 조회 쿼리
-SELECT 
-	 NVL(CPN.PROCESSNODESEQUENCE,0) AS PROCESSNODESEQUENCE
-  FROM CIM_BATCH CB
-  LEFT JOIN (
-	 	SELECT
-	 		CLB.BATCHID ,
-	 		MAX(CL.PROCESSNODEID) AS PROCESSNODEID 
-		  FROM CIM_LOTHIST CL 
-	     INNER JOIN CIM_LOTBATCHREL CLB 
-	             ON CLB.LOTID  = CL.LOTID
-	            AND CLB.BATCHID = CL.PROCESSDEFINITIONID
-	            AND CLB.SITEID = CL.SITEID
-	            AND CLB.ISUSABLE = &#x27;Usable&#x27;
-	     INNER JOIN CIM_BATCH CB 
-	             ON CB.BATCHID = CLB.BATCHID 
-	            AND CB.BATCHTYPE = &#x27;Formation&#x27;
-	     GROUP BY CLB.BATCHID
-  	  ) NODE 
-     ON 1=1
-    AND NODE.BATCHID = CB.BATCHID
-  LEFT JOIN CIM_PROCESSNODE CPN 
-         ON 1=1
-        AND CPN.PROCESSNODEID = NODE.PROCESSNODEID
-        AND CPN.SITEID = CB.SITEID 
-        AND CPN.ISUSABLE = &#x27;Usable&#x27;
- WHERE 1=1
-   AND CB.BATCHTYPE = &#x27;Formation&#x27;
-   AND CB.ISUSABLE = &#x27;Usable&#x27;
-   AND CB.SITEID = :SITEID
-   AND CB.WORKORDERID = :WORKORDERID     
-   AND CB.BATCHID = :BATCHID    
+<!DOCTYPE html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>FORMATION_TYPE - 화성 타입 지정 - 화성타입 선택(팝업)</title><link rel="stylesheet" href="../style.css"></head><body><header class="top"><a href="../index.html">← 전체 목록</a><a href="../tables.html">테이블 색인</a></header><main><h1>화성 타입 지정 - 화성타입 선택(팝업) <small>FORMATION_TYPE</small></h1><table class="kv"><tr><th>화면 경로</th><td><code>THiRAMES_UI/wwwroot/view/ngs/mes/common/FORMATION_TYPE.html</code></td></tr><tr><th>화면 구분</th><td>공통 팝업/컴포넌트</td></tr><tr><th>위젯(Grid)</th><td><code>FORMATION_TYPE1</code>, <code>FORMATION_TYPE2</code></td></tr><tr><th>화면 버튼</th><td><span class="chip">findBtn1 · 조회</span> <span class="chip">findBtn2 · 조회</span> <span class="chip">upsertBtn · 저장</span> <span class="chip">closeBtn · Btn_Close</span></td></tr></table><h2>1. 기능별 호출 서비스 / 파라메터 / 테이블</h2><div class="wrap"><table class="grid"><thead><tr><th>#</th><th>기능</th><th>구분</th><th>호출 서비스</th><th>파라메터</th><th>DB 테이블</th></tr></thead><tbody><tr id="fn-1"><td>1</td><td>조회 - 그리드 FORMATION_TYPE1 (화성타입지정_팝업_화성타입선택1_화성타입목록)<br><small class="muted">조회 버튼(findBtn)/마스터-디테일 행선택 시 호출</small></td><td>R 조회</td><td><a href="#svc-1"><span class="tag q">Query</span> <code>SelectFormationDefinitionList</code></a> <small>THiRAMES.Service.UI</small></td><td class="params"><code>SITEID</code><br><span class="muted">UI 전달:</span> <code class="ui">BATCHID</code></td><td><a class="tbl" href="../tables.html#CIM_FORMATIONDEFINITION">CIM_FORMATIONDEFINITION</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_PRODUCTDEFINITION">CIM_PRODUCTDEFINITION</a><span class="b r">읽기</span></td></tr><tr id="fn-2"><td>2</td><td>조회 - 그리드 FORMATION_TYPE2 (화성타입지정_팝업_화성타입선택2_그리드2)<br><small class="muted">조회 버튼(findBtn)/마스터-디테일 행선택 시 호출</small></td><td>R 조회</td><td><a href="#svc-2"><span class="tag q">Query</span> <code>SelectProcessNodeListByBatchId</code></a> <small>THiRAMES.Service.UI</small></td><td class="params"><code>SITEID</code> <code>BATCHID</code><br><span class="muted">UI 전달:</span> <code class="ui">PROCESSDEFINITIONID</code></td><td><a class="tbl" href="../tables.html#CIM_FORMATIONDEFINITION">CIM_FORMATIONDEFINITION</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_PROCESSNODE">CIM_PROCESSNODE</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_PROCESSSEGMENT">CIM_PROCESSSEGMENT</a><span class="b r">읽기</span></td></tr><tr id="fn-3"><td>3</td><td>event<br><small class="muted">JS ngsWidget.ajax(R)</small></td><td>조회</td><td><a href="#svc-3"><span class="tag q">Query</span> <code>SelectCurrentProcessNodeSequence</code></a> <small>THiRAMES.Service.UI</small></td><td class="params"><code>SITEID</code> <code>WORKORDERID</code> <code>BATCHID</code><br><span class="muted">UI 전달:</span> <code class="ui">PROCESSNODESEQUENCE</code> <code class="ui">DESCRIPTION</code> <code class="ui">CYCLE</code> <code class="ui">NEXTPROCESSNODEID</code> <code class="ui">FORMATIONDEFINITIONID</code> <code class="ui">FORMATIONVERSION</code> <code class="ui">RECIPEDEFINITIONNAME</code> <code class="ui">RECIPEDEFINITIONID</code> <code class="ui">DATALIST</code> <code class="ui">FORMATIONDEFINITIONIDLIST</code></td><td><a class="tbl" href="../tables.html#CIM_BATCH">CIM_BATCH</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_LOTBATCHREL">CIM_LOTBATCHREL</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_LOTHIST">CIM_LOTHIST</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_PROCESSNODE">CIM_PROCESSNODE</a><span class="b r">읽기</span></td></tr></tbody></table></div><h2>2. 서비스 상세</h2><details id="svc-1" class="svc" open><summary><b>#1</b> Query <code>SelectFormationDefinitionList</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-1">#1 조회 - 그리드 FORMATION_TYPE1 (화성타입지정_팝업_화성타입선택1_화성타입목록)</a></p><h4>Query (조회 서비스) : SelectFormationDefinitionList</h4><ul><li>ID 구성: <code>SelectFormationDefinitionList</code> / 클래스 <code>THiRAMES.Service.UI</code> / 버전 <code>00001</code></li><li>정의 위치: DB 저장 쿼리 (CIM_STOREDQUERY)</li><li>쿼리 파라메터: <code>SITEID</code></li><li>테이블(조회/쓰기 전체, 함수·SP 포함): <div><a class="tbl" href="../tables.html#CIM_FORMATIONDEFINITION">CIM_FORMATIONDEFINITION</a><span class="b m">메인</span><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_PRODUCTDEFINITION">CIM_PRODUCTDEFINITION</a><span class="b r">읽기</span></div></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 1 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 226 76" width="226" height="76" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="194" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_FORMATIONDEFINITION</text><text x="26" y="52" class="t2">alias CFD</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small><br><small class="muted">마스터/명칭 조회용 조인 제외(기준 테이블 제외): CIM_PRODUCTDEFINITION</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>-------- 화성타입 NODE 조회 
+
+ SELECT 
+
+ 	CFD.FORMATIONDEFINITIONID ,
+
+ 	CFD.FORMATIONVERSION ,
+
+ 	CFD.FORMATIONDEFINITIONNAME ,
+
+ 	CFD.PROCESSDEFINITIONID AS BATCHID ,
+
+ 	CFD.PROCESSTYPE ,
+
+ 	CFD.PRODUCTDEFINITIONID ,
+
+ 	CPD.PRODUCTDEFINITIONNAME ,
+
+ 	CFD.PRODUCTORDERTYPE ,
+
+ 	CFD.RECIPEDEFINITIONTYPE 
+
+ FROM CIM_FORMATIONDEFINITION CFD
+
+INNER JOIN CIM_PRODUCTDEFINITION CPD
+
+   ON 1=1
+
+  AND CPD.PRODUCTDEFINITIONID  = CFD.PRODUCTDEFINITIONID 
+
+  AND CPD.SITEID = CFD.SITEID 
+
+  AND CPD.ISUSABLE = &#x27;Usable&#x27;
+
+  AND CFD.STATE = &#x27;Active&#x27;
+
+WHERE 1=1
+
+  AND CFD.SITEID = :SITEID</pre></details></details><details id="svc-2" class="svc" open><summary><b>#2</b> Query <code>SelectProcessNodeListByBatchId</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-2">#2 조회 - 그리드 FORMATION_TYPE2 (화성타입지정_팝업_화성타입선택2_그리드2)</a></p><h4>Query (조회 서비스) : SelectProcessNodeListByBatchId</h4><ul><li>ID 구성: <code>SelectProcessNodeListByBatchId</code> / 클래스 <code>THiRAMES.Service.UI</code> / 버전 <code>00001</code></li><li>정의 위치: DB 저장 쿼리 (CIM_STOREDQUERY)</li><li>쿼리 파라메터: <code>SITEID</code> <code>BATCHID</code></li><li>테이블(조회/쓰기 전체, 함수·SP 포함): <div><a class="tbl" href="../tables.html#CIM_PROCESSNODE">CIM_PROCESSNODE</a><span class="b m">메인</span><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_FORMATIONDEFINITION">CIM_FORMATIONDEFINITION</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_PROCESSSEGMENT">CIM_PROCESSSEGMENT</a><span class="b r">읽기</span></div></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 1 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 202 76" width="202" height="76" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="170" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_PROCESSNODE</text><text x="26" y="52" class="t2">alias CPN</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small><br><small class="muted">마스터/명칭 조회용 조인 제외(기준 테이블 제외): CIM_FORMATIONDEFINITION, CIM_PROCESSSEGMENT</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>-------------- 화성타입지정 Node 조회 쿼리
+
+ SELECT
+
+  	CPN.FORMATIONDEFINITIONID ,
+
+ 	CPN.FORMATIONVERSION ,
+
+ 	CPN.PROCESSDEFINITIONID ,
+
+    CPN.PROCESSNODEID ,
+
+    CPN.PROCESSNODENAME ,
+
+ 	CPN.PROCESSNODETYPE ,
+
+ 	CPN.PROCESSNODESEQUENCE ,
+
+ 	CPN.ISSTARTNODE ,
+
+ 	CPN.ISENDNODE ,
+
+ 	CPN.NEXTPROCESSNODEID ,
+
+ 	CPN.DESCRIPTION ,
+
+ 	CPN.&quot;CYCLE&quot; ,
+
+ 	CFD.FORMATIONDEFINITIONNAME ,
+
+ 	CPN.PROCESSSEGMENTID ,
+
+    CPS.PROCESSSEGMENTNAME ,
+
+ 	CPN.RECIPEDEFINITIONID ,
+
+ 	CPN.RECIPEDEFINITIONNAME 
+
+   FROM CIM_PROCESSNODE CPN
+
+   LEFT JOIN CIM_FORMATIONDEFINITION CFD 
+
+     ON 1=1
+
+    AND CFD.FORMATIONDEFINITIONID = CPN.FORMATIONDEFINITIONID 
+
+    AND CFD.FORMATIONVERSION  = CPN.FORMATIONVERSION 
+
+    AND CFD.SITEID = CPN.SITEID 
+
+    AND CFD.ISUSABLE = &#x27;Usable&#x27;
+
+   LEFT JOIN CIM_PROCESSSEGMENT CPS 
+
+     ON 1=1
+
+    AND CPS.PROCESSSEGMENTID  = CPN.PROCESSSEGMENTID
+
+    AND CPS.SITEID = CPN.SITEID 
+
+    AND CPS.ISUSABLE = &#x27;Usable&#x27;  
+
+  WHERE 1=1
+
+    AND CPN.SITEID = :SITEID
+
+    AND CPN.ISUSABLE = &#x27;Usable&#x27;
+
+    AND CPN.PROCESSDEFINITIONID = :BATCHID
+
+  ORDER BY CPN.PROCESSNODESEQUENCE</pre></details></details><details id="svc-3" class="svc"><summary><b>#3</b> Query <code>SelectCurrentProcessNodeSequence</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-3">#3 event</a></p><h4>Query (조회 서비스) : SelectCurrentProcessNodeSequence</h4><ul><li>ID 구성: <code>SelectCurrentProcessNodeSequence</code> / 클래스 <code>THiRAMES.Service.UI</code> / 버전 <code>00001</code></li><li>정의 위치: DB 저장 쿼리 (CIM_STOREDQUERY)</li><li>쿼리 파라메터: <code>SITEID</code> <code>WORKORDERID</code> <code>BATCHID</code></li><li>테이블(조회/쓰기 전체, 함수·SP 포함): <div><a class="tbl" href="../tables.html#CIM_BATCH">CIM_BATCH</a><span class="b m">메인</span><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_LOTHIST">CIM_LOTHIST</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_LOTBATCHREL">CIM_LOTBATCHREL</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_PROCESSNODE">CIM_PROCESSNODE</a><span class="b r">읽기</span></div></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 3 · 조인 2</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 831 136" width="831" height="136" role="img" aria-label="조인 구조도"><path class="edge e-inner" d="M645 38 C600 38 600 38 555 38"/><text class="elab" x="600" y="34" text-anchor="middle">INNER</text><path class="edge e-inner" d="M293 38 C248 38 248 38 203 38"/><text class="elab" x="248" y="34" text-anchor="middle">INNER</text><g class="node base"><rect x="16" y="16" width="187" height="74" rx="7"/><text x="26" y="35" class="t1">CIM_BATCH</text><text x="26" y="52" class="t2">alias CB</text><text x="26" y="67" class="t2 jt">INNER</text><text x="44" y="82" class="t3">BATCHID = CLB.BATCHID</text></g><g class="node"><rect x="645" y="16" width="170" height="44" rx="7"/><text x="655" y="35" class="t1">CIM_LOTHIST</text><text x="655" y="52" class="t2">alias CL</text></g><g class="node"><rect x="293" y="16" width="262" height="104" rx="7"/><text x="303" y="35" class="t1">CIM_LOTBATCHREL</text><text x="303" y="52" class="t2">alias CLB</text><text x="303" y="67" class="t2 jt">INNER</text><text x="321" y="82" class="t3">LOTID = CL.LOTID</text><text x="321" y="97" class="t3">BATCHID = CL.PROCESSDEFINITIONID</text><text x="321" y="112" class="t3">SITEID = CL.SITEID</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small><br><small class="muted">마스터/명칭 조회용 조인 제외(기준 테이블 제외): CIM_PROCESSNODE</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>------- 화성타입지정 Current Sequence 조회 쿼리
+
+SELECT 
+
+	 NVL(CPN.PROCESSNODESEQUENCE,0) AS PROCESSNODESEQUENCE
+
+  FROM CIM_BATCH CB
+
+  LEFT JOIN (
+
+	 	SELECT
+
+	 		CLB.BATCHID ,
+
+	 		MAX(CL.PROCESSNODEID) AS PROCESSNODEID 
+
+		  FROM CIM_LOTHIST CL 
+
+	     INNER JOIN CIM_LOTBATCHREL CLB 
+
+	             ON CLB.LOTID  = CL.LOTID
+
+	            AND CLB.BATCHID = CL.PROCESSDEFINITIONID
+
+	            AND CLB.SITEID = CL.SITEID
+
+	            AND CLB.ISUSABLE = &#x27;Usable&#x27;
+
+	     INNER JOIN CIM_BATCH CB 
+
+	             ON CB.BATCHID = CLB.BATCHID 
+
+	            AND CB.BATCHTYPE = &#x27;Formation&#x27;
+
+	     GROUP BY CLB.BATCHID
+
+  	  ) NODE 
+
+     ON 1=1
+
+    AND NODE.BATCHID = CB.BATCHID
+
+  LEFT JOIN CIM_PROCESSNODE CPN 
+
+         ON 1=1
+
+        AND CPN.PROCESSNODEID = NODE.PROCESSNODEID
+
+        AND CPN.SITEID = CB.SITEID 
+
+        AND CPN.ISUSABLE = &#x27;Usable&#x27;
+
+ WHERE 1=1
+
+   AND CB.BATCHTYPE = &#x27;Formation&#x27;
+
+   AND CB.ISUSABLE = &#x27;Usable&#x27;
+
+   AND CB.SITEID = :SITEID
+
+   AND CB.WORKORDERID = :WORKORDERID     
+
+   AND CB.BATCHID = :BATCHID    
+
  ORDER BY CB.BATCHID</pre></details></details><h2>3. 그리드 / 검색조건 정의</h2><details><summary><b>FORMATION_TYPE1</b> 화성타입지정_팝업_화성타입선택1_화성타입목록 — 컬럼 9, 검색조건 0</summary><p>actionId: <code class="wrapc">THiRAMES.Service.UI$RuleMultiInquiry$THiRAMES.Service.UI$SelectFormationDefinitionList$00001?SITEID=0100</code></p><p class="muted">조회 쿼리의 메인 테이블 <a class="tbl" href="../tables.html#CIM_FORMATIONDEFINITION">CIM_FORMATIONDEFINITION</a> 에서 오는 컬럼은 <span class="mainmark">강조</span> 표시됩니다 (8개 / 9개)</p><h4>컬럼</h4><table class="grid sm"><thead><tr><th>필드</th><th>표시명</th><th>표시명(한글)</th><th>편집</th><th>필수</th><th>콤보 서비스</th></tr></thead><tbody><tr class="mainc"><td><code>FORMATIONDEFINITIONID</code> <span class="b m">메인</span></td><td>FORMATIONDEFINITIONID</td><td><b>화성타입</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>FORMATIONVERSION</code> <span class="b m">메인</span></td><td>FORMATIONVERSION</td><td><b>버전</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>FORMATIONDEFINITIONNAME</code> <span class="b m">메인</span></td><td>FORMATIONDEFINITIONNAME</td><td><b>화성타입명</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>BATCHID</code> <span class="b m">메인</span></td><td>BATCHID</td><td><b>Batch</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>PROCESSTYPE</code> <span class="b m">메인</span></td><td>PROCESSTYPE</td><td><b>공정그룹</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>PRODUCTDEFINITIONID</code> <span class="b m">메인</span></td><td>PRODUCTDEFINITIONID</td><td><b>제품코드</b></td><td></td><td></td><td class="wrapc"></td></tr><tr><td><code>PRODUCTDEFINITIONNAME</code></td><td>PRODUCTDEFINITIONNAME</td><td><b>제품명</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>PRODUCTORDERTYPE</code> <span class="b m">메인</span></td><td>PRODUCTORDERTYPE</td><td><b>제조 형태</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>RECIPEDEFINITIONTYPE</code> <span class="b m">메인</span></td><td>RECIPEDEFINITIONTYPE</td><td><b>Recipe 타입</b></td><td></td><td></td><td class="wrapc"></td></tr></tbody></table></details><details><summary><b>FORMATION_TYPE2</b> 화성타입지정_팝업_화성타입선택2_그리드2 — 컬럼 17, 검색조건 0</summary><p>actionId: <code class="wrapc">THiRAMES.Service.UI$RuleMultiInquiry$THiRAMES.Service.UI$SelectProcessNodeListByBatchId$00001?SITEID=0100&amp;PROCESSDEFINITIONID=</code></p><p class="muted">조회 쿼리의 메인 테이블 <a class="tbl" href="../tables.html#CIM_PROCESSNODE">CIM_PROCESSNODE</a> 에서 오는 컬럼은 <span class="mainmark">강조</span> 표시됩니다 (14개 / 17개)</p><h4>컬럼</h4><table class="grid sm"><thead><tr><th>필드</th><th>표시명</th><th>표시명(한글)</th><th>편집</th><th>필수</th><th>콤보 서비스</th></tr></thead><tbody><tr class="mainc"><td><code>FORMATIONDEFINITIONID</code> <span class="b m">메인</span></td><td>FORMATIONDEFINITIONID</td><td><b>화성타입</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>FORMATIONVERSION</code> <span class="b m">메인</span></td><td>FORMATIONVERSION</td><td><b>버전</b></td><td></td><td></td><td class="wrapc"></td></tr><tr><td><code>FORMATIONDEFINITIONNAME</code></td><td>FORMATIONDEFINITIONNAME</td><td><b>화성타입명</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>PROCESSDEFINITIONID</code> <span class="b m">메인</span></td><td>PROCESSDEFINITIONID</td><td><b>프로세스</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>PROCESSNODEID</code> <span class="b m">메인</span></td><td>PROCESSNODEID</td><td><b>프로세스Node</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>PROCESSNODENAME</code> <span class="b m">메인</span></td><td>PROCESSNODENAME</td><td><b>프로세스Node명</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>PROCESSNODETYPE</code> <span class="b m">메인</span></td><td>PROCESSNODETYPE</td><td><b>프로세스Node타입</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>PROCESSNODESEQUENCE</code> <span class="b m">메인</span></td><td>PROCESSNODESEQUENCE</td><td><b>프로세스Node순서</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>ISSTARTNODE</code> <span class="b m">메인</span></td><td>ISSTARTNODE</td><td><b>시작Node여부</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>ISENDNODE</code> <span class="b m">메인</span></td><td>ISENDNODE</td><td><b>Node완료여부</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>NEXTPROCESSNODEID</code> <span class="b m">메인</span></td><td>NEXTPROCESSNODEID</td><td><b>다음프로세스Node</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>DESCRIPTION</code> <span class="b m">메인</span></td><td>DESCRIPTION</td><td><b>설명</b></td><td></td><td></td><td class="wrapc"></td></tr><tr><td><code>CYCLE</code></td><td>CYCLE</td><td><b>CYCLE</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>PROCESSSEGMENTID</code> <span class="b m">메인</span></td><td>PROCESSSEGMENTID</td><td><b>공정</b></td><td></td><td></td><td class="wrapc"></td></tr><tr><td><code>PROCESSSEGMENTNAME</code></td><td>PROCESSSEGMENTNAME</td><td><b>공정명</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>RECIPEDEFINITIONNAME</code> <span class="b m">메인</span></td><td>RECIPEDEFINITIONNAME</td><td><b>Recipe명</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>RECIPEDEFINITIONID</code> <span class="b m">메인</span></td><td>RECIPEDEFINITIONID</td><td><b>Recipe</b></td><td></td><td></td><td class="wrapc"></td></tr></tbody></table></details><footer>자동 생성 문서 · DB: EM_MES_DEV (10.130.11.100) · 소스: THiRAMES_UI / THiRAMES_Service · "추정"/"코드 분석 기반" 표기는 정적 분석 결과이므로 실제 동작과 다를 수 있습니다.</footer></main></body></html>

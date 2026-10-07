@@ -3,1100 +3,2193 @@
 --SelectProdPlanList
 --Param : SITEID, TYPES, STARTDATE ENDDATE, PROCESSTYPE
 ------------------------------------------
-EXEC SP_RPT_PRODUCTION_SELECT @SITEID, @TYPES, @STARTDATE, @ENDDATE, @PROCESSTYPE</pre></details><details class="sql"><summary>Stored Procedure SP_RPT_PRODUCTION_SELECT 정의 보기</summary><pre>/**************************************************************************
- * REPORT 생산량 조회 쿼리
- *    - 2024.08.01 : 수정 - 8개 컬럼 조회 추가
- * 
- *     DECLARE @SITEID VARCHAR(40) = &#x27;PL01&#x27;
- *         , @TYPES VARCHAR(10) = &#x27;M&#x27;  -- D / W / M
- *         , @STARTDATE VARCHAR(10) = &#x27;202401&#x27; -- 2024.01~2024.05
- *         , @ENDDATE  VARCHAR(10)  = &#x27;202405&#x27;
- *         , @PROCESSTYPE VARCHAR(40) = &#x27;&#x27;    -- &#x27;&#x27; : ALL, PREVPROCESS - 전처리, FIRPROCESS - 소성, LIPROCESS - Li, NCMPROCESS - NCM
- *     EXEC SP_RPT_PRODUCTION_SELECT @SITEID, @TYPES, @STARTDATE, @ENDDATE, @PROCESSTYPE
- * 
- *  VER. 1.1 : KG -&gt; TON 으로 환산
- **************************************************************************/
-CREATE PROCEDURE [dbo].[SP_RPT_PRODUCTION_SELECT] 
-    @SITEID VARCHAR(40), @TYPES VARCHAR(40), @STARTDATE VARCHAR(40), @ENDDATE VARCHAR(40), @PROCESSTYPE VARCHAR(40)
-AS  
---     DECLARE @SITEID VARCHAR(40) = &#x27;PL01&#x27;
---         , @TYPES VARCHAR(10) = &#x27;D&#x27;  -- D / W / M
---         , @STARTDATE VARCHAR(10) = &#x27;20240701&#x27; -- 2024.01~2024.05
---         , @ENDDATE  VARCHAR(10)  = &#x27;20240731&#x27;
---         , @PROCESSTYPE VARCHAR(40) = &#x27;&#x27;    -- &#x27;&#x27; : ALL, PREVPROCESS - 전처리, FIRPROCESS - 소성, LIPROCESS - Li, NCMPROCESS - NCM
-BEGIN 
-
-    SET @ENDDATE   = REPLACE(@ENDDATE, &#x27;-&#x27;, &#x27;&#x27;)
-    
-    
-    IF OBJECT_ID(&#x27;tempdb..#RPT_PRODUCTION_BASE&#x27;) IS NOT NULL
-    BEGIN    
-        DROP TABLE #RPT_PRODUCTION_BASE
-    END
-    
-    
-    -----------------------------
-    -- 1. TABLE 생성
-    -----------------------------
---    DROP TABLE #RPT_PRODUCTION_BASE
-    --
-    -- 1.01 : 전처리 PLAN/RESULT 값 보관 임시 테이블
-    --
-    DECLARE @PREV_PRODUCTION_BASE TABLE
-    (
-        WORKDATE     VARCHAR(40)
-        , YEARMONTH  VARCHAR(40)
-        , YEARWEEK   VARCHAR(40)
-        , PLAN_BM_NORMAL_INPUT      FLOAT
-        , RESULT_BM_NORMAL_INPUT    FLOAT
-        , GAP_BM_NORMA_INPUT        FLOAT
-        , PLAN_BP_NORMAL_OUTPUT     FLOAT
-        , RESULT_BP_NORMAL_OUTPUT   FLOAT
-        , GAP_BP_NORMAL_OUTPUT      FLOAT
-        , PLAN_BP_NODISC_INPUT      FLOAT
-        , RESULT_BP_NODISC_INPUT    FLOAT
-        , GAP_BP_NODISC_INPUT       FLOAT
-        , PLAN_BP_NODISC_OUTPUT     FLOAT
-        , RESULT_BP_NODISC_OUTPUT   FLOAT
-        , GAP_BP_NODISC_OUTPUT      FLOAT
-        , PLAN_BP_TOTAL_INPUT       FLOAT
-        , RESULT_BP_TOTAL_INPUT     FLOAT
-        , GAP_BP_TOTAL_INPUT        FLOAT
-        , PLAN_BP_TOTAL_OUTPUT      FLOAT
-        , RESULT_BP_TOTAL_OUTPUT    FLOAT
-        , GAP_BP_TOTAL_OUTPUT       FLOAT
-    )
-    ;
-
-    --
-    -- 1.02 : 후처리 PLAN/RESULT 값 보관 임시 테이블
-    --    
-    DECLARE @NEXT_PRODUCTION_BASE TABLE 
-    (
-        WORKDATE     VARCHAR(40)    -- 일자 [ YYYYMMDD ]
-        , YEARMONTH  VARCHAR(40)    -- 년월 [ YYYYMM ]
-        , YEARWEEK   VARCHAR(40)    -- 년주 [ YYYYWW ]
-        --, PROCESSTYPE  VARCHAR(40)  -- Report Process Type [ all | PREVPROCESS - 전처리 | FIRPROCESS - 소성 | LIPROCESS - Li | NCMPROCESS - NCM ]
-        -- FIRPROCESS - 소성 계획
-        , PLAN_BM_SILO_INPUT  FLOAT -- BP 투입량
-        , PLAN_FIRING_INPUT   FLOAT -- 소성 투입량
-        , PLAN_FIRING_OUTPUT  FLOAT -- 소성 배출량
-        -- FIRPROCESS - 소성 결과
-        , RESULT_BM_SILO_INPUT FLOAT -- BP 투입량
-        , RESULT_FIRING_INPUT  FLOAT -- 소성 투입량
-        , RESULT_FIRING_OUTPUT FLOAT -- 소성 배출량    
-        -- LI 계획
-        , PLAN_PREMIX_INPUT   FLOAT -- Pre-Mixing 투입량 - LI
-        , PLAN_REACTOR_INPUT  FLOAT -- R-1401 투입량 - LI
-        , PLAN_DRY_INPUT      FLOAT -- 건조전 투입량 - LI
-        , PLAN_DRY_OUTPUT     FLOAT -- 건조후 배출량 - LI
-        , PLAN_LI2CO3_OUTPUT  FLOAT -- Li2CO3 배출량 - LI
-        , PLAN_LI3PO4_OUTPUT  FLOAT -- Li3PO4 배출량 - LI
-        -- LI 결과
-        , RESULT_PREMIX_INPUT  FLOAT -- Pre-Mixing 투입량 - LI
-        , RESULT_REACTOR_INPUT FLOAT -- R-1401 투입량 - LI
-        , RESULT_DRY_INPUT     FLOAT -- 건조전 투입량 - LI
-        , RESULT_DRY_OUTPUT    FLOAT -- 건조후 배출량 - LI
-        , RESULT_LI2CO3_OUTPUT FLOAT -- Li2CO3 배출량 - LI
-        , RESULT_LI3PO4_OUTPUT FLOAT -- Li3PO4 배출량 - LI    
-        -- NCM 계획
-        , PLAN_PK1501_INPUT   FLOAT -- PK-1501 투입량 - NCM
-        , PLAN_PK1502_INPUT   FLOAT -- PK-1502 투입량 - NCM
-        , PLAN_PK1503_INPUT FLOAT -- PK-1503 투입량 - NCM
-        , PLAN_PK1504_INPUT   FLOAT -- PK-1504 투입량 - NCM
-        , PLAN_CO_EXT_OUTPUT  FLOAT -- Co Sol&#x27; Ext Box 배출량  - NCM
-        , PLAN_NI_EXT_OUTPUT  FLOAT -- Ni Sol&#x27; Ext Box  배출량 - NCM
-        , PLAN_NI3SO4_OUTPUT  FLOAT -- NI3SO4 배출량 - NCM
-        -- NCM 결과
-        , RESULT_PK1501_INPUT  FLOAT -- PK-1501 투입량 - NCM
-        , RESULT_PK1502_INPUT  FLOAT -- PK-1502 투입량 - NCM
-        , RESULT_PK1503_INPUT  FLOAT -- PK-1503 투입량 - NCM
-        , RESULT_PK1504_INPUT  FLOAT -- PK-1504 투입량 - NCM
-        , RESULT_CO_EXT_OUTPUT FLOAT -- Co Sol&#x27; Ext Box 배출량  - NCM
-        , RESULT_NI_EXT_OUTPUT FLOAT -- Ni Sol&#x27; Ext Box  배출량 - NCM
-        , RESULT_NI3SO4_OUTPUT FLOAT -- NI3SO4 배출량 - NCM
-        --############ 추가 #######################
-        -- LI 계획/결과
-        , PLAN_PREMIX_OUTPUT    FLOAT   -- Pre-Mixing 배출량 - LI
-        , PLAN_REACTOR_OUTPUT   FLOAT   -- R-1401 배출량 - LI
-        , RESULT_PREMIX_OUTPUT  FLOAT   -- Pre-Mixing 배출량 - LI
-        , RESULT_REACTOR_OUTPUT FLOAT   -- R-1401 배출량 - LI
-        -- NCM 계획/결과
-        , PLAN_V1517NCM_SULFATE_INPUT   FLOAT   -- Ni/Co/Mg Sulfate     - NCM
-        , PLAN_V1523NM_SULFATE_INPUT    FLOAT   -- Ni/Mg Sulfate(V1523) - NCM
-        , PLAN_V1526N_SULFATE_INPUT     FLOAT   -- Ni Sulfate(V1526)    - NCM
-        , PLAN_V1531N_SULFATE_INPUT     FLOAT   -- Ni Sulfate(V1531)    - NCM
-        , PLAN_CR_FEEDTANK_INPUT        FLOAT   -- CR FEED TANK         - NCM
-        , PLAN_CR_NIFEED_INPUT          FLOAT   -- CR Ni Feed Flow      - NCM
-        , RESULT_V1517NCM_SULFATE_INPUT FLOAT   -- Ni/Co/Mg Sulfate     - NCM
-        , RESULT_V1523NM_SULFATE_INPUT  FLOAT   -- Ni/Mg Sulfate(V1523) - NCM
-        , RESULT_V1526N_SULFATE_INPUT   FLOAT   -- Ni Sulfate(V1526)    - NCM
-        , RESULT_V1531N_SULFATE_INPUT   FLOAT   -- Ni Sulfate(V1531)    - NCM
-        , RESULT_CR_FEEDTANK_INPUT      FLOAT   -- CR FEED TANK         - NCM
-        --, RESULT_CR_NIFEED_INPUT        FLOAT   -- CR Ni Feed Flow      - NCM
-        --#######################################   
-    )
-    ;
-    
-
-    --
-    -- 1.03 : 조회 결과 취합 임시 테이블
-    --       
-    CREATE TABLE #RPT_PRODUCTION_BASE
-    (
-        RPTDATE         VARCHAR(40) COLLATE Korean_100_CS_AI_KS_WS_SC_UTF8 
-        , PROCESSTYPE   VARCHAR(40) COLLATE Korean_100_CS_AI_KS_WS_SC_UTF8 
-        , TOPICS        NVARCHAR(100) COLLATE Korean_100_CS_AI_KS_WS_SC_UTF8 
-        , SUBTOPICS     NVARCHAR(100) COLLATE Korean_100_CS_AI_KS_WS_SC_UTF8 
-        , UNITID        VARCHAR(10)   COLLATE Korean_100_CS_AI_KS_WS_SC_UTF8 
-        , PLANQTY       FLOAT
-        , RESULTQTY     FLOAT
-        , GAPQTY        FLOAT
-        , ORDERNO       SMALLINT
-        , TYPES         VARCHAR(4)   COLLATE Korean_100_CS_AI_KS_WS_SC_UTF8 
-    );
-    
-    
-    -----------------------------
-    -- 2. TEMP TABLE INSERT 
-    -----------------------------
-
-    --
-    -- 2.01 : 전처리 조회 부분
-    --
-
-    IF @PROCESSTYPE = &#x27;&#x27; OR @PROCESSTYPE = &#x27;PREVPROCESS&#x27;
-    BEGIN
-        
---        PRINT &#x27;PREVPROCESS : [&#x27; + @PROCESSTYPE  + &#x27;]&#x27;
-        
-        -- 전처리 PLAN/RESULT 값
-        INSERT INTO @PREV_PRODUCTION_BASE --TEMP_PREV_PRODUCTION_BASE --@PREV_PRODUCTION_BASE
-        (   WORKDATE, YEARMONTH, YEARWEEK
-            , PLAN_BM_NORMAL_INPUT,  RESULT_BM_NORMAL_INPUT,  GAP_BM_NORMA_INPUT
-            , PLAN_BP_NORMAL_OUTPUT, RESULT_BP_NORMAL_OUTPUT, GAP_BP_NORMAL_OUTPUT
-            , PLAN_BP_NODISC_INPUT,  RESULT_BP_NODISC_INPUT,  GAP_BP_NODISC_INPUT
-            , PLAN_BP_NODISC_OUTPUT, RESULT_BP_NODISC_OUTPUT, GAP_BP_NODISC_OUTPUT
-            , PLAN_BP_TOTAL_INPUT,   RESULT_BP_TOTAL_INPUT,   GAP_BP_TOTAL_INPUT
-            , PLAN_BP_TOTAL_OUTPUT,  RESULT_BP_TOTAL_OUTPUT,  GAP_BP_TOTAL_OUTPUT
-        )
-        SELECT 
-   M.WORKDATE
-            , M.YEARMONTH
-            , M.YEARWEEK
-            , ISNULL(M.PLAN_BM_NORMAL_INPUT,   0) AS PLAN_BM_NORMAL_INPUT
-            , ISNULL(M.RESULT_BM_NORMAL_INPUT, 0) AS RESULT_BM_NORMAL_INPUT
-            , ISNULL(M.GAP_BM_NORMA_INPUT,     0) AS GAP_BM_NORMA_INPUT
-            , ISNULL(M.PLAN_BP_NORMAL_OUTPUT,  0) AS PLAN_BP_NORMAL_OUTPUT
-            , ISNULL(M.RESULT_BP_NORMAL_OUTPUT,0) AS RESULT_BP_NORMAL_OUTPUT
-            , ISNULL(M.GAP_BP_NORMAL_OUTPUT,   0) AS GAP_BP_NORMAL_OUTPUT
-            , ISNULL(M.PLAN_BP_NODISC_INPUT,   0) AS PLAN_BP_NODISC_INPUT
-            , ISNULL(M.RESULT_BP_NODISC_INPUT, 0) AS RESULT_BP_NODISC_INPUT
-            , ISNULL(M.GAP_BP_NODISC_INPUT,    0) AS GAP_BP_NODISC_INPUT
-            , ISNULL(M.PLAN_BP_NODISC_OUTPUT,  0) AS PLAN_BP_NODISC_OUTPUT
-            , ISNULL(M.RESULT_BP_NODISC_OUTPUT,0) AS RESULT_BP_NODISC_OUTPUT
-            , ISNULL(M.GAP_BP_NODISC_OUTPUT,   0) AS GAP_BP_NODISC_OUTPUT
-            , ISNULL(M.PLAN_BP_TOTAL_INPUT,    0) AS PLAN_BP_TOTAL_INPUT
-            , ISNULL(M.RESULT_BP_TOTAL_INPUT,  0) AS RESULT_BP_TOTAL_INPUT
-            , ISNULL(M.GAP_BP_TOTAL_INPUT,     0) AS GAP_BP_TOTAL_INPUT
-            , ISNULL(M.PLAN_BP_TOTAL_OUTPUT,   0) AS PLAN_BP_TOTAL_OUTPUT
-            , ISNULL(M.RESULT_BP_TOTAL_OUTPUT, 0) AS RESULT_BP_TOTAL_OUTPUT
-            , ISNULL(M.GAP_BP_TOTAL_OUTPUT,    0) AS GAP_BP_TOTAL_OUTPUT
-        FROM 
-        (
-            SELECT 
-                M.WORKDATE
-                , M.YEARMONTH
-                , M.YEARWEEK
-                ---
-               , PV.PLAN_BM_NORMAL_INPUT       -- CELL 투입량 계획
-                , PV.RESULT_BM_NORMAL_INPUT     -- CELL 투입량 결과
-                , ( PV.RESULT_BM_NORMAL_INPUT - PV.PLAN_BM_NORMAL_INPUT ) AS GAP_BM_NORMA_INPUT -- CELL 투입량 GAP
-                ---
-                , PV.PLAN_BP_NORMAL_OUTPUT      -- BM생산(모듈 파쇄) 배출량 계획
-                , PV.RESULT_BP_NORMAL_OUTPUT    -- BM생산(모듈 파쇄) 배출량 결과
-                , ( PV.RESULT_BP_NORMAL_OUTPUT - PV.PLAN_BP_NORMAL_OUTPUT ) AS GAP_BP_NORMAL_OUTPUT -- BM생산(모듈 파쇄) 배출량 GAP
-                ---
-                , PV.PLAN_BP_NODISC_INPUT       -- CELL BM생산 (무방전) 투입량 계획
-                , PV.RESULT_BP_NODISC_INPUT     -- CELL BM생산 (무방전) 투입량 결과
-                , ( PV.RESULT_BP_NODISC_INPUT - PV.PLAN_BP_NODISC_INPUT ) AS GAP_BP_NODISC_INPUT    -- BM생산 (무방전) 투입량 GAP
-                ---
-                , PV.PLAN_BP_NODISC_OUTPUT      -- BM생산 (무방전) 배출량 계획
-                , PV.RESULT_BP_NODISC_OUTPUT    -- BM생산 (무방전) 배출량 결과
-                , ( PV.RESULT_BP_NODISC_OUTPUT - PV.PLAN_BP_NODISC_OUTPUT ) AS GAP_BP_NODISC_OUTPUT  -- BM생산 (무방전) 배출량 GAP
-                ---
-                , PV.PLAN_BM_NORMAL_INPUT + PV.PLAN_BP_NODISC_INPUT  AS PLAN_BP_TOTAL_INPUT  --TOTAL CELL투입량 계획
-                , PV.RESULT_BM_NORMAL_INPUT + PV.RESULT_BP_NODISC_INPUT AS RESULT_BP_TOTAL_INPUT -- TOTAL CELL투입량 실적
-                , ( PV.RESULT_BM_NORMAL_INPUT + PV.RESULT_BP_NODISC_INPUT ) - ( PV.PLAN_BM_NORMAL_INPUT + PV.PLAN_BP_NODISC_INPUT ) AS GAP_BP_TOTAL_INPUT
-                ---
-                , PV.PLAN_BP_NORMAL_OUTPUT + PV.PLAN_BP_NODISC_OUTPUT AS PLAN_BP_TOTAL_OUTPUT  -- TOTAL BP 투입량 계획
-                , PV.RESULT_BP_NORMAL_OUTPUT + PV.RESULT_BP_NODISC_OUTPUT AS RESULT_BP_TOTAL_OUTPUT  -- TOTAL BP 투입량 실적 
-                , ( PV.RESULT_BP_NORMAL_OUTPUT + PV.RESULT_BP_NODISC_OUTPUT ) - ( PV.PLAN_BP_NORMAL_OUTPUT + PV.PLAN_BP_NODISC_OUTPUT ) AS GAP_BP_TOTAL_OUTPUT  -- TOTAL BP 투입량 GAP
-            FROM dbo.FN_RPT_DAY_WEEK_MONTH( @TYPES, @STARTDATE, @ENDDATE) M 
-                LEFT OUTER JOIN RPT_PRODUCTION_PREV_PLAN_RESULT PV
-                    ON  M.WORKDATE = PV.WORKDATE
-        ) M
-    END 
-    -- 2.01 : 전처리 조회 부분 END
-
-
-    --
-    -- 2.02 : 후처리 조회 부분
-    -- 
-    IF @PROCESSTYPE = &#x27;&#x27; OR @PROCESSTYPE &lt;&gt; &#x27;PREVPROCESS&#x27;
-    BEGIN
-        
---        PRINT &#x27;NOT PREVPROCESS : [&#x27; + @PROCESSTYPE  + &#x27;]&#x27;
-        
-        INSERT INTO @NEXT_PRODUCTION_BASE --TEMP_NEXT_PRODUCTION_BASE --@NEXT_PRODUCTION_BASE
-        (
-            WORKDATE, YEARMONTH, YEARWEEK
-            , PLAN_BM_SILO_INPUT,   PLAN_FIRING_INPUT,    PLAN_FIRING_OUTPUT
-            , RESULT_BM_SILO_INPUT, RESULT_FIRING_INPUT,  RESULT_FIRING_OUTPUT
-            , PLAN_PREMIX_INPUT,    PLAN_REACTOR_INPUT,   PLAN_DRY_INPUT,      PLAN_DRY_OUTPUT,     PLAN_LI2CO3_OUTPUT,   PLAN_LI3PO4_OUTPUT
-            , RESULT_PREMIX_INPUT,  RESULT_REACTOR_INPUT, RESULT_DRY_INPUT,    RESULT_DRY_OUTPUT,   RESULT_LI2CO3_OUTPUT, RESULT_LI3PO4_OUTPUT
-            , PLAN_PK1501_INPUT,    PLAN_PK1502_INPUT,    PLAN_PK1503_INPUT,   PLAN_PK1504_INPUT,   PLAN_CO_EXT_OUTPUT,   PLAN_NI_EXT_OUTPUT,   PLAN_NI3SO4_OUTPUT
-            , RESULT_PK1501_INPUT,  RESULT_PK1502_INPUT,  RESULT_PK1503_INPUT, RESULT_PK1504_INPUT, RESULT_CO_EXT_OUTPUT, RESULT_NI_EXT_OUTPUT, RESULT_NI3SO4_OUTPUT
-            -------------
-            , PLAN_PREMIX_OUTPUT,   PLAN_REACTOR_OUTPUT
-            , RESULT_PREMIX_OUTPUT, RESULT_REACTOR_OUTPUT
-            , PLAN_V1517NCM_SULFATE_INPUT, PLAN_V1523NM_SULFATE_INPUT, PLAN_V1526N_SULFATE_INPUT, PLAN_V1531N_SULFATE_INPUT, PLAN_CR_FEEDTANK_INPUT --, PLAN_CR_NIFEED_INPUT
-            , RESULT_V1517NCM_SULFATE_INPUT, RESULT_V1523NM_SULFATE_INPUT, RESULT_V1526N_SULFATE_INPUT, RESULT_V1531N_SULFATE_INPUT, RESULT_CR_FEEDTANK_INPUT --, RESULT_CR_NIFEED_INPUT
-        )
-        SELECT 
-            M.WORKDATE
-            , M.YEARMONTH
-            , M.YEARWEEK
-            , ISNULL( PL.PLAN_BM_SILO_INPUT   , 0) AS PLAN_BM_SILO_INPUT
-            , ISNULL( PL.PLAN_FIRING_INPUT    , 0) AS PLAN_FIRING_INPUT
-            , ISNULL( PL.PLAN_FIRING_OUTPUT   , 0) AS PLAN_FIRING_OUTPUT
-            , ISNULL( PR.RESULT_BM_SILO_INPUT , 0) AS RESULT_BM_SILO_INPUT
-            , ISNULL( PR.RESULT_FIRING_INPUT  , 0) AS RESULT_FIRING_INPUT
-            , ISNULL( PR.RESULT_FIRING_OUTPUT , 0) AS RESULT_FIRING_OUTPUT
-            , ISNULL( PL.PLAN_PREMIX_INPUT    , 0) AS PLAN_PREMIX_INPUT
-            , ISNULL( PL.PLAN_REACTOR_INPUT   , 0) AS PLAN_REACTOR_INPUT
-            , ISNULL( PL.PLAN_DRY_INPUT       , 0) AS PLAN_DRY_INPUT
-            , ISNULL( PL.PLAN_DRY_OUTPUT      , 0) AS PLAN_DRY_OUTPUT
-            , ISNULL( PL.PLAN_LI2CO3_OUTPUT   , 0) AS PLAN_LI2CO3_OUTPUT
-            , ISNULL( PL.PLAN_LI3PO4_OUTPUT   , 0) AS PLAN_LI3PO4_OUTPUT
-            , ISNULL( PR.RESULT_PREMIX_INPUT  , 0) AS RESULT_PREMIX_INPUT
-            , ISNULL( PR.RESULT_REACTOR_INPUT , 0) AS RESULT_REACTOR_INPUT
-            , ISNULL( PR.RESULT_DRY_INPUT     , 0) AS RESULT_DRY_INPUT
-            , ISNULL( PR.RESULT_DRY_OUTPUT    , 0) AS RESULT_DRY_OUTPUT
-            , ISNULL( PR.RESULT_LI2CO3_OUTPUT , 0) AS RESULT_LI2CO3_OUTPUT
-            , ISNULL( PR.RESULT_LI3PO4_OUTPUT , 0) AS RESULT_LI3PO4_OUTPUT
-            , ISNULL( PL.PLAN_PK1501_INPUT    , 0) AS PLAN_PK1501_INPUT
-            , ISNULL( PL.PLAN_PK1502_INPUT    , 0) AS PLAN_PK1502_INPUT
-            , ISNULL( PL.PLAN_PK1503_INPUT    , 0) AS PLAN_PK1503_INPUT
-            , ISNULL( PL.PLAN_PK1504_INPUT    , 0) AS PLAN_PK1504_INPUT
-            , ISNULL( PL.PLAN_CO_EXT_OUTPUT   , 0) AS PLAN_CO_EXT_OUTPUT
-            , ISNULL( PL.PLAN_NI_EXT_OUTPUT   , 0) AS PLAN_NI_EXT_OUTPUT
-            , ISNULL( PL.PLAN_NI3SO4_OUTPUT   , 0) AS PLAN_NI3SO4_OUTPUT
-            , ISNULL( PR.RESULT_PK1501_INPUT  , 0) AS RESULT_PK1501_INPUT
-            , ISNULL( PR.RESULT_PK1502_INPUT  , 0) AS RESULT_PK1502_INPUT
-            , ISNULL( PR.RESULT_PK1503_INPUT  , 0) AS RESULT_PK1503_INPUT
-            , ISNULL( PR.RESULT_PK1504_INPUT  , 0) AS RESULT_PK1504_INPUT
-            , ISNULL( PR.RESULT_CO_EXT_OUTPUT , 0) AS RESULT_CO_EXT_OUTPUT
-            , ISNULL( PR.RESULT_NI_EXT_OUTPUT , 0) AS RESULT_NI_EXT_OUTPUT
-            , ISNULL( PR.RESULT_NI3SO4_OUTPUT , 0) AS RESULT_NI3SO4_OUTPUT
-            ------- 추가 -----------
-            -- LI
-            , ISNULL(PLAN_PREMIX_OUTPUT         , 0) AS PLAN_PREMIX_OUTPUT
-            , ISNULL(PLAN_REACTOR_OUTPUT          , 0) AS PLAN_REACTOR_OUTPUT
-            , ISNULL(RESULT_PREMIX_OUTPUT         , 0) AS RESULT_PREMIX_OUTPUT
-            , ISNULL(RESULT_REACTOR_OUTPUT        , 0) AS RESULT_REACTOR_OUTPUT
-            -- MCM 
-            , ISNULL(PLAN_V1517NCM_SULFATE_INPUT  , 0) AS PLAN_V1517NCM_SULFATE_INPUT
-            , ISNULL(PLAN_V1523NM_SULFATE_INPUT   , 0) AS PLAN_V1523NM_SULFATE_INPUT
-            , ISNULL(PLAN_V1526N_SULFATE_INPUT    , 0) AS PLAN_V1526N_SULFATE_INPUT
-            , ISNULL(PLAN_V1531N_SULFATE_INPUT    , 0) AS PLAN_V1531N_SULFATE_INPUT
-            , ISNULL(PLAN_CR_FEEDTANK_INPUT       , 0) AS PLAN_CR_FEEDTANK_INPUT
-            , ISNULL(RESULT_V1517NCM_SULFATE_INPUT, 0) AS RESULT_V1517NCM_SULFATE_INPUT
-            , ISNULL(RESULT_V1523NM_SULFATE_INPUT , 0) AS RESULT_V1523NM_SULFATE_INPUT
-            , ISNULL(RESULT_V1526N_SULFATE_INPUT  , 0) AS RESULT_V1526N_SULFATE_INPUT
-            , ISNULL(RESULT_V1531N_SULFATE_INPUT  , 0) AS RESULT_V1531N_SULFATE_INPUT
-            , ISNULL(RESULT_CR_FEEDTANK_INPUT     , 0) AS RESULT_CR_FEEDTANK_INPUT
-            ----------------------------------------------------------------------
-        FROM dbo.FN_RPT_DAY_WEEK_MONTH( @TYPES, @STARTDATE, @ENDDATE) M
-            LEFT JOIN RPT_PRODUCTION_PLAN PL
-                ON  M.WORKDATE = PL.WORKDATE
-            LEFT OUTER JOIN RPT_PRODUCTION_RESULT PR
-                ON M.WORKDATE = PR.WORKDATE 
-    END 
-    -- 2.02 : 후처리 조회 부분 END
- 
-
-
-    -----------------------------
-    -- 3. RESULT DATA 생성 (최종 TEMP TABLE)
-    -----------------------------  
-    
-    --
-    -- 3.01 : 전처리 RESULT DATA 
-    --
-    IF @PROCESSTYPE = &#x27;PREVPROCESS&#x27; OR @PROCESSTYPE = &#x27;&#x27; -- 전처리
-    BEGIN
-    
---        PRINT &#x27;NOT PREVPROCESS : [&#x27; + @PROCESSTYPE  + &#x27;]&#x27;
-        
-        INSERT INTO #RPT_PRODUCTION_BASE
-        ( RPTDATE, PROCESSTYPE, TOPICS, SUBTOPICS, UNITID, PLANQTY, RESULTQTY, GAPQTY, ORDERNO, TYPES )
-        -- BM생산(모듈 파쇄) 투입량
-        SELECT 
-            CASE WHEN @TYPES = &#x27;D&#x27; THEN PB.WORKDATE
-                 WHEN @TYPES = &#x27;W&#x27; THEN PB.YEARWEEK
-                 ELSE PB.YEARMONTH 
-            END AS RPTDATE
-            , &#x27;PREVPROCESS&#x27; AS PROCESSTYPE
-            , &#x27;BM_NORMAL_INPUT&#x27; AS TOPICS
-            , &#x27;CELL&#x27; AS SUBTOPICS  -- Cell 투입량
-            , &#x27;Ton&#x27; AS UNITID
-            , SUM(PB.PLAN_BM_NORMAL_INPUT) AS PLANQTY
-            , SUM(PB.RESULT_BM_NORMAL_INPUT) AS RESULTQTY
-            , SUM(PB.GAP_BM_NORMA_INPUT) AS GAPQTY
-            , 11 AS ORDERNO
-            , @TYPES AS TYPES
-        FROM  @PREV_PRODUCTION_BASE PB
-        GROUP BY CASE WHEN @TYPES = &#x27;D&#x27; THEN PB.WORKDATE WHEN @TYPES = &#x27;W&#x27; THEN PB.YEARWEEK ELSE PB.YEARMONTH END 
-        UNION ALL
-        -- BM생산(모듈 파쇄) 배출량
-        SELECT 
-            CASE WHEN @TYPES = &#x27;D&#x27; THEN PB.WORKDATE
-                 WHEN @TYPES = &#x27;W&#x27; THEN PB.YEARWEEK
-                 ELSE PB.YEARMONTH 
-            END AS RPTDATE
-            , &#x27;PREVPROCESS&#x27; AS PROCESSTYPE
-            , &#x27;BP_NORMAL_OUTPUT&#x27; AS TOPICS
-            , &#x27;TONBAG&#x27; AS SUBTOPICS  -- Ton Bag 무게
-            , &#x27;Ton&#x27; AS UNITID
-            , SUM(PB.PLAN_BP_NORMAL_OUTPUT)   AS PLANQTY
-            , SUM(PB.RESULT_BP_NORMAL_OUTPUT) AS RESULTQTY
-            , SUM(PB.GAP_BP_NORMAL_OUTPUT)    AS GAPQTY            
-            , 12 AS ORDERNO
-            , @TYPES AS TYPES
-        FROM  @PREV_PRODUCTION_BASE PB --TEMP_PREV_PRODUCTION_BASE PB
-        GROUP BY CASE WHEN @TYPES = &#x27;D&#x27; THEN PB.WORKDATE WHEN @TYPES = &#x27;W&#x27; THEN PB.YEARWEEK ELSE PB.YEARMONTH END 
-        UNION ALL
-        -- BM생산 (무방전) 투입량
-        SELECT 
-            CASE WHEN @TYPES = &#x27;D&#x27; THEN PB.WORKDATE
-                 WHEN @TYPES = &#x27;W&#x27; THEN PB.YEARWEEK
-                 ELSE PB.YEARMONTH 
-            END AS RPTDATE
-            , &#x27;PREVPROCESS&#x27; AS PROCESSTYPE
-            , &#x27;BP_NODISC_INPUT&#x27; AS TOPICS
-            , &#x27;CELL&#x27; AS SUBTOPICS  -- Cell 투입량
-   , &#x27;Ton&#x27; AS UNITID    
-            , SUM(PB.PLAN_BP_NODISC_INPUT) AS PLANQTY
-            , SUM(PB.RESULT_BP_NODISC_INPUT) AS RESULTQTY
-            , SUM(PB.GAP_BP_NODISC_INPUT) AS GAPQTY
-            , 13 AS ORDERNO
-            , @TYPES AS TYPES
-        FROM  @PREV_PRODUCTION_BASE PB --TEMP_PREV_PRODUCTION_BASE PB
-        GROUP BY CASE WHEN @TYPES = &#x27;D&#x27; THEN PB.WORKDATE WHEN @TYPES = &#x27;W&#x27; THEN PB.YEARWEEK ELSE PB.YEARMONTH END
-        UNION ALL
-        -- BM생산 (무방전) 배출량
-        SELECT 
-            CASE WHEN @TYPES = &#x27;D&#x27; THEN PB.WORKDATE
-                 WHEN @TYPES = &#x27;W&#x27; THEN PB.YEARWEEK
-                 ELSE PB.YEARMONTH 
-            END AS RPTDATE
-            , &#x27;PREVPROCESS&#x27; AS PROCESSTYPE
-            , &#x27;BP_NODISC_OUTPUT&#x27; AS TOPICS
-            , &#x27;TONBAG&#x27; AS SUBTOPICS  -- Ton Bag 무게
-            , &#x27;Ton&#x27; AS UNITID
-            , SUM(PB.PLAN_BP_NODISC_OUTPUT)   AS PLANQTY
-            , SUM(PB.RESULT_BP_NODISC_OUTPUT) AS RESULTQTY
-            , SUM(PB.GAP_BP_NODISC_OUTPUT)    AS GAPQTY            
-            , 14 AS ORDERNO
-            , @TYPES AS TYPES
-        FROM  @PREV_PRODUCTION_BASE PB --TEMP_PREV_PRODUCTION_BASE PB
-        GROUP BY CASE WHEN @TYPES = &#x27;D&#x27; THEN PB.WORKDATE WHEN @TYPES = &#x27;W&#x27; THEN PB.YEARWEEK ELSE PB.YEARMONTH END
-        UNION ALL
-        -- BM생산 Total 투입량
-        SELECT 
-            CASE WHEN @TYPES = &#x27;D&#x27; THEN PB.WORKDATE
-                 WHEN @TYPES = &#x27;W&#x27; THEN PB.YEARWEEK
-                 ELSE PB.YEARMONTH 
-            END AS RPTDATE
-            , &#x27;PREVPROCESS&#x27; AS PROCESSTYPE
-            , &#x27;BP_TOTAL_INPUT&#x27; AS TOPICS
-            , &#x27;CELL&#x27; AS SUBTOPICS   -- Cell 투입량
-            , &#x27;Ton&#x27; AS UNITID
-            , SUM(PB.PLAN_BP_TOTAL_INPUT) AS PLANQTY
-            , SUM(PB.RESULT_BP_TOTAL_INPUT) AS RESULTQTY
-            , SUM(PB.GAP_BP_TOTAL_INPUT) AS GAPQTY
-            , 15 AS ORDERNO
-            , @TYPES AS TYPES
-        FROM  @PREV_PRODUCTION_BASE PB --TEMP_PREV_PRODUCTION_BASE PB
-        GROUP BY CASE WHEN @TYPES = &#x27;D&#x27; THEN PB.WORKDATE WHEN @TYPES = &#x27;W&#x27; THEN PB.YEARWEEK ELSE PB.YEARMONTH END
-        UNION ALL
-        -- BM생산 Total 배출량
-        SELECT 
-            CASE WHEN @TYPES = &#x27;D&#x27; THEN PB.WORKDATE
-                 WHEN @TYPES = &#x27;W&#x27; THEN PB.YEARWEEK
-                 ELSE PB.YEARMONTH 
-            END AS RPTDATE
-            , &#x27;PREVPROCESS&#x27; AS PROCESSTYPE
-            , &#x27;BP_TOTAL_OUTPUT&#x27; AS TOPICS
-            , &#x27;TONBAG&#x27; AS SUBTOPICS  -- Ton Bag 무게
-            , &#x27;Ton&#x27; AS UNITID
-            , SUM(PB.PLAN_BP_TOTAL_INPUT)    AS PLANQTY
-            , SUM(PB.RESULT_BP_TOTAL_OUTPUT) AS RESULTQTY
-            , SUM(PB.GAP_BP_TOTAL_OUTPUT)    AS GAPQTY            
-            , 16 AS ORDERNO
-            , @TYPES AS TYPES
-        FROM  @PREV_PRODUCTION_BASE PB --TEMP_PREV_PRODUCTION_BASE PB
-        GROUP BY CASE WHEN @TYPES = &#x27;D&#x27; THEN PB.WORKDATE WHEN @TYPES = &#x27;W&#x27; THEN PB.YEARWEEK ELSE PB.YEARMONTH END
-        ORDER BY 1, ORDERNO        
-        
-        
---        PRINT &#x27;NOT PREVPROCESS : [&#x27; + @PROCESSTYPE  + &#x27;]&#x27;
-        
-    END  
-    --
-    -- 3.01 : 전처리 RESULT DATA  END
-    --
-    
-    --
-    -- 3.02 : 소성 RESULT DATA
-    --
-    IF @PROCESSTYPE = &#x27;FIRPROCESS&#x27; OR @PROCESSTYPE = &#x27;&#x27; -- 소성
-    BEGIN
-        
---        PRINT &#x27;FIRPROCESS : [&#x27; + @PROCESSTYPE  + &#x27;]&#x27;
-        
-        INSERT INTO #RPT_PRODUCTION_BASE -- TEMP_RPT_PRODUCTION_BASE -- @RPT_PRODUCTION_BASE
-        ( RPTDATE, PROCESSTYPE, TOPICS, SUBTOPICS, UNITID, PLANQTY, RESULTQTY, GAPQTY, ORDERNO, TYPES )
-        SELECT 
-            CASE WHEN @TYPES = &#x27;D&#x27; THEN NB.WORKDATE
-                 WHEN @TYPES = &#x27;W&#x27; THEN NB.YEARWEEK
-                 ELSE NB.YEARMONTH 
-            END AS RPTDATE
-            , &#x27;FIRPROCESS&#x27; AS PROCESSTYPE   -- 소성
-            , &#x27;BM_SILO_INPUT&#x27; AS TOPICS     -- BP 투입량
-            , &#x27;TONBAG&#x27; AS SUBTOPICS         -- Cell 투입량
-            , &#x27;Ton&#x27; AS UNITID
-            , SUM(NB.PLAN_BM_SILO_INPUT)  AS PLANQTY
-            , SUM(NB.RESULT_BM_SILO_INPUT) / 1000.0 AS RESULTQTY
-            , SUM((NB.RESULT_BM_SILO_INPUT / 1000.0) - NB.PLAN_BM_SILO_INPUT)  AS GAPQTY            
-            , 21 AS ORDERNO
-            , @TYPES AS TYPES
-        FROM @NEXT_PRODUCTION_BASE NB
-        GROUP BY CASE WHEN @TYPES = &#x27;D&#x27; THEN NB.WORKDATE WHEN @TYPES = &#x27;W&#x27; THEN NB.YEARWEEK ELSE NB.YEARMONTH END 
-        UNION ALL 
-        -- 소성 투입량   
-        SELECT 
-            CASE WHEN @TYPES = &#x27;D&#x27; THEN NB.WORKDATE
-                 WHEN @TYPES = &#x27;W&#x27; THEN NB.YEARWEEK
-                 ELSE NB.YEARMONTH 
-            END AS RPTDATE
-            , &#x27;FIRPROCESS&#x27; AS PROCESSTYPE   -- 소성
-            , &#x27;FIRING_INPUT&#x27; AS TOPICS      -- 소성 투입량
-            , &#x27;FIR_IN&#x27; AS SUBTOPICS         -- 소성 투입 무게
-            , &#x27;Ton&#x27; AS UNITID
-            , SUM(NB.PLAN_FIRING_INPUT)   AS PLANQTY
-            , SUM(NB.RESULT_FIRING_INPUT) / 1000.0 AS RESULTQTY
-            , SUM((NB.RESULT_FIRING_INPUT / 1000.0) - NB.PLAN_FIRING_INPUT)  AS GAPQTY            
-            , 22 AS ORDERNO
-            , @TYPES AS TYPES
-        FROM @NEXT_PRODUCTION_BASE NB
-        GROUP BY CASE WHEN @TYPES = &#x27;D&#x27; THEN NB.WORKDATE WHEN @TYPES = &#x27;W&#x27; THEN NB.YEARWEEK ELSE NB.YEARMONTH END 
-        UNION ALL 
-        -- 소성 배출량
-        SELECT 
-            CASE WHEN @TYPES = &#x27;D&#x27; THEN NB.WORKDATE
-                 WHEN @TYPES = &#x27;W&#x27; THEN NB.YEARWEEK
-                 ELSE NB.YEARMONTH 
-            END AS RPTDATE
-            , &#x27;FIRPROCESS&#x27; AS PROCESSTYPE   -- 소성
-            , &#x27;FIRING_OUTPUT&#x27; AS TOPICS     -- 소성 배출량
-            , &#x27;FIR_OUT&#x27; AS SUBTOPICS        -- 소성 배출 무게
-            , &#x27;Ton&#x27; AS UNITID
-            , SUM(NB.PLAN_FIRING_OUTPUT)    AS PLANQTY
-            , SUM((NB.RESULT_FIRING_OUTPUT / 1000.0))  AS RESULTQTY
-            , SUM((NB.RESULT_FIRING_OUTPUT / 1000.0) - NB.PLAN_FIRING_OUTPUT)  AS GAPQTY            
-            , 23 AS ORDERNO
-            , @TYPES AS TYPES
-        FROM @NEXT_PRODUCTION_BASE NB
-        GROUP BY CASE WHEN @TYPES = &#x27;D&#x27; THEN NB.WORKDATE WHEN @TYPES = &#x27;W&#x27; THEN NB.YEARWEEK ELSE NB.YEARMONTH END 
-        ORDER BY 1, ORDERNO
-        
-    END  
-    --
-    -- 3.02 : 소성 RESULT DATA  END
-    --
-    
-    
-    --
-    -- 3.03 : LI RESULT DATA
-    --
-    IF @PROCESSTYPE = &#x27;LIPROCESS&#x27;  OR @PROCESSTYPE = &#x27;&#x27; -- LI
-    BEGIN
-        
-        INSERT INTO #RPT_PRODUCTION_BASE -- TEMP_RPT_PRODUCTION_BASE -- @RPT_PRODUCTION_BASE
-        ( RPTDATE, PROCESSTYPE, TOPICS, SUBTOPICS, UNITID, PLANQTY, RESULTQTY, GAPQTY, ORDERNO, TYPES )
-        -- Pre-Mixing 투입량 
-        SELECT 
-            CASE WHEN @TYPES = &#x27;D&#x27; THEN NB.WORKDATE
-                 WHEN @TYPES = &#x27;W&#x27; THEN NB.YEARWEEK
-                 ELSE NB.YEARMONTH 
-            END AS RPTDATE
-            , &#x27;LIPROCESS&#x27; AS PROCESSTYPE   -- LI 공정
-            , &#x27;PREMIX_INPUT&#x27; AS TOPICS     -- Pre-Mixing 투입량    
-            , &#x27;BP_IN&#x27; AS SUBTOPICS         -- BP 투입량
-            , &#x27;Ton&#x27; AS UNITID
-            , SUM(NB.PLAN_PREMIX_INPUT)    AS PLANQTY
-            , SUM(NB.RESULT_PREMIX_INPUT) / 1000.0 AS RESULTQTY
-            , SUM((NB.RESULT_PREMIX_INPUT / 1000.0 ) - NB.PLAN_PREMIX_INPUT)  AS GAPQTY            
-            , 310 AS ORDERNO
-            , @TYPES AS TYPES
-        FROM @NEXT_PRODUCTION_BASE NB
-        GROUP BY CASE WHEN @TYPES = &#x27;D&#x27; THEN NB.WORKDATE WHEN @TYPES = &#x27;W&#x27; THEN NB.YEARWEEK ELSE NB.YEARMONTH END 
-        
-        UNION ALL
-        -- [추가] Pre-Mixing 배출량 
-        SELECT 
-            CASE WHEN @TYPES = &#x27;D&#x27; THEN NB.WORKDATE
-                 WHEN @TYPES = &#x27;W&#x27; THEN NB.YEARWEEK
-                 ELSE NB.YEARMONTH 
-            END AS RPTDATE
-            , &#x27;LIPROCESS&#x27; AS PROCESSTYPE   -- LI 공정
-            , &#x27;PREMIX_OUTPUT&#x27; AS TOPICS     -- Pre-Mixing 배출량    
-            , &#x27;BP_IN&#x27; AS SUBTOPICS         -- BP 투입량
-            , &#x27;Ton&#x27; AS UNITID
-            , SUM(NB.PLAN_PREMIX_OUTPUT)    AS PLANQTY
-            , SUM(NB.RESULT_PREMIX_OUTPUT) / 1000.0 AS RESULTQTY
-     , SUM((NB.RESULT_PREMIX_OUTPUT / 1000.0 ) - NB.PLAN_PREMIX_OUTPUT) AS GAPQTY            
-            , 320 AS ORDERNO
-            , @TYPES AS TYPES
-        FROM @NEXT_PRODUCTION_BASE NB
-        GROUP BY CASE WHEN @TYPES = &#x27;D&#x27; THEN NB.WORKDATE WHEN @TYPES = &#x27;W&#x27; THEN NB.YEARWEEK ELSE NB.YEARMONTH END         
-        
-        UNION ALL
-        -- R-1401 투입량
-        SELECT 
-            CASE WHEN @TYPES = &#x27;D&#x27; THEN NB.WORKDATE
-                 WHEN @TYPES = &#x27;W&#x27; THEN NB.YEARWEEK
-                 ELSE NB.YEARMONTH 
-            END AS RPTDATE
-            , &#x27;LIPROCESS&#x27; AS PROCESSTYPE    -- LI 공정
-            , &#x27;REACTOR_INPUT&#x27; AS TOPICS     -- R-1401 투입량    
-            , &#x27;BP_IN&#x27; AS SUBTOPICS          -- BP 투입량
-            , &#x27;Ton&#x27; AS UNITID
-            , SUM(NB.PLAN_REACTOR_INPUT)   AS PLANQTY
-            , SUM(NB.RESULT_REACTOR_INPUT) / 1000.0 AS RESULTQTY
-            , SUM((NB.RESULT_REACTOR_INPUT / 1000.0) - NB.PLAN_REACTOR_INPUT)  AS GAPQTY            
-            , 330 AS ORDERNO
-            , @TYPES AS TYPES
-        FROM @NEXT_PRODUCTION_BASE NB
-        GROUP BY CASE WHEN @TYPES = &#x27;D&#x27; THEN NB.WORKDATE WHEN @TYPES = &#x27;W&#x27; THEN NB.YEARWEEK ELSE NB.YEARMONTH END 
-        
-        UNION ALL
-        -- [추가] R-1401 배출량
-        SELECT 
-            CASE WHEN @TYPES = &#x27;D&#x27; THEN NB.WORKDATE
-                 WHEN @TYPES = &#x27;W&#x27; THEN NB.YEARWEEK
-                 ELSE NB.YEARMONTH 
-            END AS RPTDATE
-            , &#x27;LIPROCESS&#x27; AS PROCESSTYPE    -- LI 공정
-            , &#x27;REACTOR_OUTPUT&#x27; AS TOPICS     -- R-1401 배출량    
-            , &#x27;BP_IN&#x27; AS SUBTOPICS          -- BP 투입량
-            , &#x27;Ton&#x27; AS UNITID
-            , SUM(NB.PLAN_REACTOR_OUTPUT)   AS PLANQTY
-            , SUM(NB.RESULT_REACTOR_OUTPUT) / 1000.0 AS RESULTQTY
-            , SUM((NB.RESULT_REACTOR_OUTPUT / 1000.0) - NB.PLAN_REACTOR_OUTPUT)  AS GAPQTY
-            , 340 AS ORDERNO
-            , @TYPES AS TYPES
-        FROM @NEXT_PRODUCTION_BASE NB
-        GROUP BY CASE WHEN @TYPES = &#x27;D&#x27; THEN NB.WORKDATE WHEN @TYPES = &#x27;W&#x27; THEN NB.YEARWEEK ELSE NB.YEARMONTH END         
-        
-        UNION ALL
-        -- 건조 투입량
-        SELECT 
-            CASE WHEN @TYPES = &#x27;D&#x27; THEN NB.WORKDATE
-                 WHEN @TYPES = &#x27;W&#x27; THEN NB.YEARWEEK
-                 ELSE NB.YEARMONTH 
-            END AS RPTDATE
-            , &#x27;LIPROCESS&#x27; AS PROCESSTYPE   -- LI 공정
-            , &#x27;DRY_INPUT&#x27; AS TOPICS        -- 건조 투입량
-            , &#x27;DRY&#x27; AS SUBTOPICS           -- 건조 무게
-            , &#x27;Ton&#x27; AS UNITID
-            , SUM(NB.PLAN_DRY_INPUT)   AS PLANQTY
-            , SUM(NB.RESULT_DRY_INPUT) / 1000.0 AS RESULTQTY
-            , SUM((NB.RESULT_DRY_INPUT / 1000.0 ) - NB.PLAN_DRY_INPUT)  AS GAPQTY
-            , 350 AS ORDERNO
-            , @TYPES AS TYPES
-        FROM @NEXT_PRODUCTION_BASE NB
-        GROUP BY CASE WHEN @TYPES = &#x27;D&#x27; THEN NB.WORKDATE WHEN @TYPES = &#x27;W&#x27; THEN NB.YEARWEEK ELSE NB.YEARMONTH END 
-        UNION ALL
-        -- 건조 배출량
-        SELECT 
-            CASE WHEN @TYPES = &#x27;D&#x27; THEN NB.WORKDATE
-                 WHEN @TYPES = &#x27;W&#x27; THEN NB.YEARWEEK
-                 ELSE NB.YEARMONTH 
-            END AS RPTDATE
-            , &#x27;LIPROCESS&#x27; AS PROCESSTYPE   -- LI 공정
-            , &#x27;DRY_OUTPUT&#x27; AS TOPICS       -- 건조 배출량    
-            , &#x27;FIR_OUT&#x27; AS SUBTOPICS       -- 건조 무게
-            , &#x27;Ton&#x27; AS UNITID
-            , SUM(NB.PLAN_DRY_OUTPUT)   AS PLANQTY
-            , SUM(NB.RESULT_DRY_OUTPUT) / 1000.0 AS RESULTQTY
-            , SUM((NB.RESULT_DRY_OUTPUT / 1000.0 ) - NB.PLAN_DRY_OUTPUT) AS GAPQTY            
-            , 360 AS ORDERNO
-            , @TYPES AS TYPES
-        FROM @NEXT_PRODUCTION_BASE NB
-        GROUP BY CASE WHEN @TYPES = &#x27;D&#x27; THEN NB.WORKDATE WHEN @TYPES = &#x27;W&#x27; THEN NB.YEARWEEK ELSE NB.YEARMONTH END 
-        UNION ALL
-        -- Li2CO3 배출량
-        SELECT 
-            CASE WHEN @TYPES = &#x27;D&#x27; THEN NB.WORKDATE
-                 WHEN @TYPES = &#x27;W&#x27; THEN NB.YEARWEEK
-                 ELSE NB.YEARMONTH 
-            END AS RPTDATE
- , &#x27;LIPROCESS&#x27; AS PROCESSTYPE   -- LI 공정
-            , &#x27;LI2CO3_OUTPUT&#x27; AS TOPICS    -- Pre-Mixing 투입량    
-            , &#x27;TONBAG&#x27; AS SUBTOPICS        -- Ton Bag 무게 
-            , &#x27;Ton&#x27; AS UNITID
-            , SUM(NB.PLAN_LI2CO3_OUTPUT)   AS PLANQTY
-            , SUM(NB.RESULT_LI2CO3_OUTPUT) / 1000.0 AS RESULTQTY
-            , SUM((NB.RESULT_LI2CO3_OUTPUT / 1000.0 ) - NB.PLAN_LI2CO3_OUTPUT) AS GAPQTY            
-            , 370 AS ORDERNO
-            , @TYPES AS TYPES
-        FROM @NEXT_PRODUCTION_BASE NB
-        GROUP BY CASE WHEN @TYPES = &#x27;D&#x27; THEN NB.WORKDATE WHEN @TYPES = &#x27;W&#x27; THEN NB.YEARWEEK ELSE NB.YEARMONTH END 
-        UNION ALL
-        -- Li3PO4 배출량
-        SELECT 
-            CASE WHEN @TYPES = &#x27;D&#x27; THEN NB.WORKDATE
-                 WHEN @TYPES = &#x27;W&#x27; THEN NB.YEARWEEK
-                 ELSE NB.YEARMONTH 
-            END AS RPTDATE
-            , &#x27;LIPROCESS&#x27; AS PROCESSTYPE   -- LI 공정
-            , &#x27;LI3PO4_OUTPUT&#x27; AS TOPICS    -- Pre-Mixing 투입량    
-            , &#x27;TONBAG&#x27; AS SUBTOPICS        -- Ton Bag 무게 
-            , &#x27;Ton&#x27; AS UNITID
-            , SUM(NB.PLAN_LI3PO4_OUTPUT)    AS PLANQTY
-            , SUM(NB.RESULT_LI3PO4_OUTPUT) / 1000.0 AS RESULTQTY
-            , SUM((NB.RESULT_LI3PO4_OUTPUT / 1000.0 )- NB.PLAN_LI3PO4_OUTPUT)  AS GAPQTY            
-            , 380 AS ORDERNO
-            , @TYPES AS TYPES
-        FROM @NEXT_PRODUCTION_BASE NB
-        GROUP BY CASE WHEN @TYPES = &#x27;D&#x27; THEN NB.WORKDATE WHEN @TYPES = &#x27;W&#x27; THEN NB.YEARWEEK ELSE NB.YEARMONTH END 
-        ORDER BY 1, ORDERNO
-
-    END    
-    --
-    -- 3.03 : LI RESULT DATA  END
-    --
-    
-    
-    --
-    -- 3.04 : NCM RESULT DATA 
-    --
-    IF @PROCESSTYPE = &#x27;NCMPROCESS&#x27; OR @PROCESSTYPE = &#x27;&#x27; -- NCM
-    BEGIN
-        
-        INSERT INTO #RPT_PRODUCTION_BASE -- TEMP_RPT_PRODUCTION_BASE -- @RPT_PRODUCTION_BASE
-        ( RPTDATE, PROCESSTYPE, TOPICS, SUBTOPICS, UNITID, PLANQTY, RESULTQTY, GAPQTY, ORDERNO, TYPES )
-        -- PK-1501 투입량
-        SELECT 
-            CASE WHEN @TYPES = &#x27;D&#x27; THEN NB.WORKDATE
-                 WHEN @TYPES = &#x27;W&#x27; THEN NB.YEARWEEK
-                 ELSE NB.YEARMONTH 
-            END AS RPTDATE
-            , &#x27;NCMPROCESS&#x27; AS PROCESSTYPE  -- NCM 공정
-            , &#x27;PK1501_INPUT&#x27; AS TOPICS     -- PK-1501 투입량   
-            , &#x27;FQI&#x27; AS SUBTOPICS         -- 
-            , &#x27;m³&#x27; AS UNITID
-            , SUM(NB.PLAN_PK1501_INPUT) AS PLANQTY
-            , SUM(NB.RESULT_PK1501_INPUT) AS RESULTQTY
-            , SUM(NB.RESULT_PK1501_INPUT - NB.PLAN_PK1501_INPUT) AS GAPQTY
-            , 410 AS ORDERNO
-            , @TYPES AS TYPES
-        FROM @NEXT_PRODUCTION_BASE NB
-        GROUP BY CASE WHEN @TYPES = &#x27;D&#x27; THEN NB.WORKDATE WHEN @TYPES = &#x27;W&#x27; THEN NB.YEARWEEK ELSE NB.YEARMONTH END 
-        
-        UNION ALL
-        -- [추가] Ni/Co/Mg Sulfate
-        SELECT 
-            CASE WHEN @TYPES = &#x27;D&#x27; THEN NB.WORKDATE
-                 WHEN @TYPES = &#x27;W&#x27; THEN NB.YEARWEEK
-                 ELSE NB.YEARMONTH 
-            END AS RPTDATE
-            , &#x27;NCMPROCESS&#x27; AS PROCESSTYPE           -- NCM 공정
-            , &#x27;V1517NCM_SULFATE_INPUT&#x27; AS TOPICS    -- Ni/Co/Mg Sulfate TANK LT   
-            , &#x27;FQI&#x27; AS SUBTOPICS                    -- 적산량
-            , &#x27;m³&#x27; AS UNITID
-            , SUM(NB.PLAN_V1517NCM_SULFATE_INPUT) AS PLANQTY
-            , SUM(NB.RESULT_V1517NCM_SULFATE_INPUT) AS RESULTQTY
-            , SUM(NB.RESULT_V1517NCM_SULFATE_INPUT - NB.PLAN_V1517NCM_SULFATE_INPUT) AS GAPQTY
-            , 420 AS ORDERNO
-            , @TYPES AS TYPES
-        FROM @NEXT_PRODUCTION_BASE NB
-        GROUP BY CASE WHEN @TYPES = &#x27;D&#x27; THEN NB.WORKDATE WHEN @TYPES = &#x27;W&#x27; THEN NB.YEARWEEK ELSE NB.YEARMONTH END         
-        
-        UNION ALL
-        -- PK-1502 투입량
-        SELECT 
-            CASE WHEN @TYPES = &#x27;D&#x27; THEN NB.WORKDATE
-                 WHEN @TYPES = &#x27;W&#x27; THEN NB.YEARWEEK
-                 ELSE NB.YEARMONTH 
-            END AS RPTDATE
-            , &#x27;NCMPROCESS&#x27; AS PROCESSTYPE  -- NCM 공정
-  , &#x27;PK1502_INPUT&#x27; AS TOPICS     -- PK-1502 투입량   
-            , &#x27;FQI&#x27; AS SUBTOPICS         -- 
-            , &#x27;m³&#x27; AS UNITID
-            , SUM(NB.PLAN_PK1502_INPUT) AS PLANQTY
-            , SUM(NB.RESULT_PK1502_INPUT) AS RESULTQTY
-            , SUM(NB.RESULT_PK1502_INPUT - NB.PLAN_PK1502_INPUT) AS GAPQTY
-            , 430 AS ORDERNO
-            , @TYPES AS TYPES
-        FROM @NEXT_PRODUCTION_BASE NB
-        GROUP BY CASE WHEN @TYPES = &#x27;D&#x27; THEN NB.WORKDATE WHEN @TYPES = &#x27;W&#x27; THEN NB.YEARWEEK ELSE NB.YEARMONTH END 
-        
-        UNION ALL
-        -- [추가] Ni/Mg Sulfate(V1523)
-        SELECT 
-            CASE WHEN @TYPES = &#x27;D&#x27; THEN NB.WORKDATE
-                 WHEN @TYPES = &#x27;W&#x27; THEN NB.YEARWEEK
-                 ELSE NB.YEARMONTH 
-            END AS RPTDATE
-            , &#x27;NCMPROCESS&#x27; AS PROCESSTYPE          -- NCM 공정
-            , &#x27;V1523NM_SULFATE_INPUT&#x27; AS TOPICS    -- Ni/Mg Sulfate TANK LT     
-            , &#x27;FQI&#x27; AS SUBTOPICS                   -- 적산량
-            , &#x27;m³&#x27; AS UNITID
-            , SUM(NB.PLAN_V1523NM_SULFATE_INPUT) AS PLANQTY
-            , SUM(NB.RESULT_V1523NM_SULFATE_INPUT) AS RESULTQTY
-            , SUM(NB.RESULT_V1523NM_SULFATE_INPUT - NB.PLAN_V1523NM_SULFATE_INPUT) AS GAPQTY
-            , 440 AS ORDERNO
-            , @TYPES AS TYPES
-        FROM @NEXT_PRODUCTION_BASE NB
-        GROUP BY CASE WHEN @TYPES = &#x27;D&#x27; THEN NB.WORKDATE WHEN @TYPES = &#x27;W&#x27; THEN NB.YEARWEEK ELSE NB.YEARMONTH END         
-                        
-        UNION ALL
-        -- PK-1503 투입량
-        SELECT 
-            CASE WHEN @TYPES = &#x27;D&#x27; THEN NB.WORKDATE
-                 WHEN @TYPES = &#x27;W&#x27; THEN NB.YEARWEEK
-                 ELSE NB.YEARMONTH 
-            END AS RPTDATE
-            , &#x27;NCMPROCESS&#x27; AS PROCESSTYPE  -- NCM 공정
-            , &#x27;PK1503_INPUT&#x27; AS TOPICS     -- PK-1503 투입량   
-            , &#x27;FQI&#x27; AS SUBTOPICS         -- 
-            , &#x27;m³&#x27; AS UNITID
-            , SUM(NB.PLAN_PK1503_INPUT) AS PLANQTY
-            , SUM(NB.RESULT_PK1503_INPUT) AS RESULTQTY
-            , SUM(NB.RESULT_PK1503_INPUT - NB.PLAN_PK1503_INPUT) AS GAPQTY
-            , 450 AS ORDERNO
-            , @TYPES AS TYPES
-        FROM @NEXT_PRODUCTION_BASE NB
-        GROUP BY CASE WHEN @TYPES = &#x27;D&#x27; THEN NB.WORKDATE WHEN @TYPES = &#x27;W&#x27; THEN NB.YEARWEEK ELSE NB.YEARMONTH END 
-        
-        UNION ALL
-        -- [추가] Ni Sulfate(V1526)
-        SELECT 
-            CASE WHEN @TYPES = &#x27;D&#x27; THEN NB.WORKDATE
-                 WHEN @TYPES = &#x27;W&#x27; THEN NB.YEARWEEK
-                 ELSE NB.YEARMONTH 
-            END AS RPTDATE
-            , &#x27;NCMPROCESS&#x27; AS PROCESSTYPE          -- NCM 공정
-            , &#x27;V1526N_SULFATE_INPUT&#x27; AS TOPICS     -- Ni Sulfate TANK LT     
-            , &#x27;FQI&#x27; AS SUBTOPICS                   -- 적산량
-            , &#x27;m³&#x27; AS UNITID
-            , SUM(NB.PLAN_V1526N_SULFATE_INPUT) AS PLANQTY
-            , SUM(NB.RESULT_V1526N_SULFATE_INPUT) AS RESULTQTY
-            , SUM(NB.RESULT_V1526N_SULFATE_INPUT - NB.PLAN_V1526N_SULFATE_INPUT) AS GAPQTY
-            , 460 AS ORDERNO
-            , @TYPES AS TYPES
-        FROM @NEXT_PRODUCTION_BASE NB
-        GROUP BY CASE WHEN @TYPES = &#x27;D&#x27; THEN NB.WORKDATE WHEN @TYPES = &#x27;W&#x27; THEN NB.YEARWEEK ELSE NB.YEARMONTH END            
-        
-        UNION ALL
-        -- PK-1504 투입량
-        SELECT 
-            CASE WHEN @TYPES = &#x27;D&#x27; THEN NB.WORKDATE
-                 WHEN @TYPES = &#x27;W&#x27; THEN NB.YEARWEEK
-                 ELSE NB.YEARMONTH 
-            END AS RPTDATE
-            , &#x27;NCMPROCESS&#x27; AS PROCESSTYPE  -- NCM 공정
-            , &#x27;PK1504_INPUT&#x27; AS TOPICS     -- PK-1504 투입량   
-            , &#x27;FQI&#x27; AS SUBTOPICS         -- 
-            , &#x27;m³&#x27; AS UNITID
-            , SUM(NB.PLAN_PK1504_INPUT) AS PLANQTY
-            , SUM(NB.RESULT_PK1504_INPUT) AS RESULTQTY
-            , SUM(NB.RESULT_PK1504_INPUT - NB.PLAN_PK1504_INPUT) AS GAPQTY
-            , 470 AS ORDERNO
-            , @TYPES AS TYPES
-        FROM @NEXT_PRODUCTION_BASE NB
-        GROUP BY CASE WHEN @TYPES = &#x27;D&#x27; THEN NB.WORKDATE WHEN @TYPES = &#x27;W&#x27; THEN NB.YEARWEEK ELSE NB.YEARMONTH END 
-        
-        UNION ALL
-        -- [추가] Ni Sulfate(V1531)
-        SELECT 
-            CASE WHEN @TYPES = &#x27;D&#x27; THEN NB.WORKDATE
-                 WHEN @TYPES = &#x27;W&#x27; THEN NB.YEARWEEK
-                 ELSE NB.YEARMONTH 
-            END AS RPTDATE
-            , &#x27;NCMPROCESS&#x27; AS PROCESSTYPE          -- NCM 공정
-            , &#x27;V1531N_SULFATE_INPUT&#x27; AS TOPICS     -- Ni Sulfate TANK LT     
-            , &#x27;FQI&#x27; AS SUBTOPICS                   -- 적산량
-            , &#x27;m³&#x27; AS UNITID
-            , SUM(NB.PLAN_V1531N_SULFATE_INPUT) AS PLANQTY
-            , SUM(NB.RESULT_V1531N_SULFATE_INPUT) AS RESULTQTY
-            , SUM(NB.RESULT_V1531N_SULFATE_INPUT - NB.PLAN_V1531N_SULFATE_INPUT) AS GAPQTY
-            , 480 AS ORDERNO
-            , @TYPES AS TYPES
-        FROM @NEXT_PRODUCTION_BASE NB
-        GROUP BY CASE WHEN @TYPES = &#x27;D&#x27; THEN NB.WORKDATE WHEN @TYPES = &#x27;W&#x27; THEN NB.YEARWEEK ELSE NB.YEARMONTH END          
-
-        UNION ALL
-        -- [추가] CR FEED TANK
-        SELECT 
-            CASE WHEN @TYPES = &#x27;D&#x27; THEN NB.WORKDATE
-                 WHEN @TYPES = &#x27;W&#x27; THEN NB.YEARWEEK
-                 ELSE NB.YEARMONTH 
-            END AS RPTDATE
-            , &#x27;NCMPROCESS&#x27; AS PROCESSTYPE          -- NCM 공정
-            , &#x27;CR_FEEDTANK_INPUT&#x27; AS TOPICS        -- CR Feed Tank
-            , &#x27;FQI&#x27; AS SUBTOPICS                   -- 적산량
-            , &#x27;m³&#x27; AS UNITID
-            , SUM(NB.PLAN_CR_FEEDTANK_INPUT) AS PLANQTY
-            , SUM(NB.RESULT_CR_FEEDTANK_INPUT) AS RESULTQTY
-            , SUM(NB.RESULT_CR_FEEDTANK_INPUT - NB.PLAN_CR_FEEDTANK_INPUT) AS GAPQTY
-            , 490 AS ORDERNO
-            , @TYPES AS TYPES
-        FROM @NEXT_PRODUCTION_BASE NB
-        GROUP BY CASE WHEN @TYPES = &#x27;D&#x27; THEN NB.WORKDATE WHEN @TYPES = &#x27;W&#x27; THEN NB.YEARWEEK ELSE NB.YEARMONTH END      
-
-        UNION ALL
-        -- Co Sol&#x27; Ext Box 배출량
-        SELECT 
-            CASE WHEN @TYPES = &#x27;D&#x27; THEN NB.WORKDATE
-                 WHEN @TYPES = &#x27;W&#x27; THEN NB.YEARWEEK
-                 ELSE NB.YEARMONTH 
-            END AS RPTDATE
-            , &#x27;NCMPROCESS&#x27; AS PROCESSTYPE  -- NCM 공정
-            , &#x27;CO_EXT_OUTPUT&#x27; AS TOPICS    -- Co Sol&#x27; Ext Box 배출량  
-            , &#x27;FQI&#x27; AS SUBTOPICS         -- 
-            , &#x27;m³&#x27; AS UNITID
-            , SUM(NB.PLAN_CO_EXT_OUTPUT) AS PLANQTY
-            , SUM(NB.RESULT_CO_EXT_OUTPUT) AS RESULTQTY
-            , SUM(NB.RESULT_CO_EXT_OUTPUT - NB.PLAN_CO_EXT_OUTPUT) AS GAPQTY
-            , 510 AS ORDERNO
-            , @TYPES AS TYPES
-        FROM @NEXT_PRODUCTION_BASE NB
-        GROUP BY CASE WHEN @TYPES = &#x27;D&#x27; THEN NB.WORKDATE WHEN @TYPES = &#x27;W&#x27; THEN NB.YEARWEEK ELSE NB.YEARMONTH END 
-        UNION ALL
-        -- Ni Sol&#x27; Ext Box  배출량
-        SELECT 
-            CASE WHEN @TYPES = &#x27;D&#x27; THEN NB.WORKDATE
-                 WHEN @TYPES = &#x27;W&#x27; THEN NB.YEARWEEK
-                 ELSE NB.YEARMONTH 
-            END AS RPTDATE
-            , &#x27;NCMPROCESS&#x27; AS PROCESSTYPE  -- NCM 공정
-            , &#x27;NI_EXT_OUTPUT&#x27; AS TOPICS    -- Ni Sol&#x27; Ext Box  배출량  
-            , &#x27;TONBAG&#x27; AS SUBTOPICS         -- 
-            , &#x27;Ton&#x27; AS UNITID
-            , SUM(NB.PLAN_NI_EXT_OUTPUT) AS PLANQTY
-            , SUM(NB.RESULT_NI_EXT_OUTPUT) / 1000.0 AS RESULTQTY
-            , SUM((NB.RESULT_NI_EXT_OUTPUT / 1000.0 ) - NB.PLAN_NI_EXT_OUTPUT) AS GAPQTY
-            , 520 AS ORDERNO
-            , @TYPES AS TYPES
-        FROM @NEXT_PRODUCTION_BASE NB
-        GROUP BY CASE WHEN @TYPES = &#x27;D&#x27; THEN NB.WORKDATE WHEN @TYPES = &#x27;W&#x27; THEN NB.YEARWEEK ELSE NB.YEARMONTH END 
-        UNION ALL
-        -- Ni Sol&#x27; Ext Box  배출량
-        SELECT 
-            CASE WHEN @TYPES = &#x27;D&#x27; THEN NB.WORKDATE
-                 WHEN @TYPES = &#x27;W&#x27; THEN NB.YEARWEEK
-                 ELSE NB.YEARMONTH 
-            END AS RPTDATE
-            , &#x27;NCMPROCESS&#x27; AS PROCESSTYPE  -- NCM 공정
-            , &#x27;NI3SO4_OUTPUT&#x27; AS TOPICS    -- NI3SO4 배출량     
-            , &#x27;TONBAG&#x27; AS SUBTOPICS     -- 
-, &#x27;Ton&#x27; AS UNITID            
-            , SUM(NB.PLAN_NI3SO4_OUTPUT)    AS PLANQTY
-            , SUM(NB.RESULT_NI3SO4_OUTPUT) / 1000.0 AS RESULTQTY
-            , SUM(( NB.RESULT_NI3SO4_OUTPUT / 1000.0) - NB.PLAN_NI3SO4_OUTPUT)  AS GAPQTY            
-            , 530 AS ORDERNO
-            , @TYPES AS TYPES
-        FROM @NEXT_PRODUCTION_BASE NB
-        GROUP BY CASE WHEN @TYPES = &#x27;D&#x27; THEN NB.WORKDATE WHEN @TYPES = &#x27;W&#x27; THEN NB.YEARWEEK ELSE NB.YEARMONTH END 
-        ORDER BY 1, ORDERNO
-        
-    END    
-    
-    --
-    -- 3.04 : NCM RESULT DATA  END
-    --
-    
-    -----------------------------
-    -- 4. 조회 쿼리
-    -----------------------------      
-    
-    --
-    -- 4.01 : PIVOT COLUMN(HEADER) 구하기
-    --
-    DECLARE @PV_HEADERS VARCHAR(MAX)
-         ,  @GRID_HEADERS VARCHAR(MAX)
-         ,  @UNION_HEADERS VARCHAR(MAX)
-    ;
- 
-    SELECT 
-        @PV_HEADERS = STRING_AGG(&#x27;[&#x27; + RPTDATE + &#x27;]&#x27;, &#x27;, &#x27;) WITHIN GROUP ( ORDER BY M.RPTDATE )
-        , @GRID_HEADERS = STRING_AGG(&#x27;ISNULL([&#x27; + RPTDATE + &#x27;], 0) AS [&#x27; + PV_HEADER +&#x27;]&#x27;, &#x27;, &#x27;) WITHIN GROUP ( ORDER BY M.RPTDATE )
-        , @UNION_HEADERS = STRING_AGG(PV_HEADER, &#x27;, &#x27;) WITHIN GROUP ( ORDER BY M.RPTDATE ) 
-    FROM 
-    (
-        SELECT RPTDATE, TYPES
-            , CASE WHEN TYPES = &#x27;D&#x27; THEN LEFT(RPTDATE, 4) + &#x27;-&#x27; + SUBSTRING(RPTDATE, 5, 2) + &#x27;-&#x27; + RIGHT(RPTDATE, 2)
-                   WHEN TYPES = &#x27;W&#x27; THEN LEFT(RPTDATE, 4) + &#x27;-&#x27;  + RIGHT(RPTDATE, 2) + TYPES         
-                   ELSE LEFT(RPTDATE, 4) + &#x27;-&#x27;  + RIGHT(RPTDATE, 2) 
-              END AS PV_HEADER
-        FROM #RPT_PRODUCTION_BASE 
-        GROUP BY RPTDATE, TYPES
-    ) M
-
-    /*
-    SELECT       
-    &#x27;공정&#x27; AS PROCESSTYPE
-    , &#x27;관리항목&#x27; AS MANAGEITEM
-    , &#x27;세부항목&#x27; AS SUBMANAGEITEM
-    , &#x27;구분&#x27; AS ITEMTYPE
-    , &#x27;SUMMARY&#x27; AS SUMMARY
-*/
-    
-    --
-    -- 4.02 : 실행 쿼리 만들기
-    --
-    DECLARE @STRSQL VARCHAR(MAX);
-
-    SET @STRSQL = 
-       &#x27;WITH RPT_BASE_DATA AS 
-        (
-            SELECT 
-                RPTDATE,PROCESSTYPE,TOPICS,SUBTOPICS,UNITID,ORDERNO,PLANQTY,RESULTQTY,GAPQTY
-            FROM #RPT_PRODUCTION_BASE
-            UNION ALL
-            SELECT &#x27;&#x27;SUMMARY&#x27;&#x27; AS RPTDATE,PROCESSTYPE,TOPICS,SUBTOPICS,UNITID,ORDERNO, SUM(PLANQTY) AS PLANQTY, SUM(RESULTQTY) AS RESULTQTY, SUM(GAPQTY) AS GAPQTY
-            FROM #RPT_PRODUCTION_BASE
-            GROUP BY PROCESSTYPE,TOPICS,SUBTOPICS,UNITID,ORDERNO
-        )
-        SELECT 
-            CA.CODENAME AS PROCESSTYPE    -- P.PROCESSTYPE
-            , CB.CODENAME AS MANAGEITEM   -- P.TOPICS 
-            , CC.CODENAME + &#x27;&#x27;(&#x27;&#x27; + P.UNITID + &#x27;&#x27;)&#x27;&#x27; AS SUBMANAGEITEM   -- P.SUBTOPICS
-            , CASE WHEN P.SUBORDERNO = 1  THEN &#x27;&#x27;계획&#x27;&#x27;
-                   WHEN P.SUBORDERNO = 2  THEN &#x27;&#x27;실적&#x27;&#x27;
-                   ELSE &#x27;&#x27;GAP&#x27;&#x27;
-              END AS ITEMTYPE
-            , [SUMMARY],&#x27; 
-            + @GRID_HEADERS +
-      &#x27; FROM 
-        (
-            SELECT 
-                UNP.RPTDATE
-                , UNP.PROCESSTYPE
-                , UNP.TOPICS
-                , UNP.SUBTOPICS
-                , UNP.UNITID
-                , UNP.ORDERNO
-                , CASE WHEN UNP.ITEMTYPE = &#x27;&#x27;PLANQTY&#x27;&#x27; THEN 1 
-                       WHEN UNP.ITEMTYPE = &#x27;&#x27;RESULTQTY&#x27;&#x27; THEN 2
-                       WHEN UNP.ITEMTYPE = &#x27;&#x27;GAPQTY&#x27;&#x27; THEN 3
-                       ELSE 4
-                  END SUBORDERNO
-                , UNP.ITEMTYPE
-                , UNP.UP_VALUE
-            FROM RPT_BASE_DATA RD
-            UNPIVOT( UP_VALUE FOR ITEMTYPE IN ( PLANQTY, RESULTQTY, GAPQTY)) UNP
-        ) UP
-        PIVOT 
-        (
-            MAX(UP_VALUE) FOR RPTDATE IN ( [SUMMARY], &#x27; + @PV_HEADERS + &#x27; )
-        ) P
-        LEFT OUTER JOIN CIM_CODE CA
-            ON  P.PROCESSTYPE = CA.CODEID
-            AND CA.CODECLASSID = &#x27;&#x27;RPT_PROCESS&#x27;&#x27;
-            AND CA.SITEID = &#x27;&#x27;PL01&#x27;&#x27;
-        LEFT OUTER JOIN CIM_CODE CB
-            ON  P.TOPICS = CB.CODEID
-            AND CB.CODECLASSID = &#x27;&#x27;RPT_MANAGEMENTITEM&#x27;&#x27;
- AND CB.SITEID = &#x27;&#x27;PL01&#x27;&#x27;
-        LEFT OUTER JOIN CIM_CODE CC
-            ON  P.SUBTOPICS = CC.CODEID
-            AND CC.CODECLASSID = &#x27;&#x27;RPT_MANAGEMENTSUBITEM&#x27;&#x27;
-            AND CC.SITEID = &#x27;&#x27;PL01&#x27;&#x27;
-        ORDER BY P.ORDERNO, P.SUBORDERNO&#x27;;
-    
-    --
-    -- 4.03 : 조회 쿼리 실행 ( EXEC (SQL) )
-    --
---    PRINT @STRSQL + &#x27;;&#x27;;
-    EXEC (@STRSQL);
-
-END</pre></details><details class="sql"><summary>테이블 반환 함수 FN_RPT_DAY_WEEK_MONTH 정의 보기</summary><pre>-------------------------------------------------------------
--- REPORT 용 조회 기간 일자/주차/월 생성
---  SELECT * FROM dbo.FN_RPT_DAY_WEEK_MONTH(&#x27;D&#x27;, &#x27;20240101&#x27;, &#x27;20241231&#x27;)
---  PARAM :
---     @TYPES : 일,주,월 [ D | W | M ]
---     @STARTDATE  : 시작일,주,월  [ 20241231 | 202453 | 202412 ]
---     @ENDDATE  : 시작일,주,월  [ 20241231 | 202453 | 202412 ]
--------------------------------------------------------------
-CREATE FUNCTION [dbo].[FN_RPT_DAY_WEEK_MONTH]
-(
-    @TYPES VARCHAR(40)
-    , @STARTDATE VARCHAR(40)
-    , @ENDDATE VARCHAR(40)
-)
-RETURNS @RETARRAY TABLE
-(
-    WORKDATE    VARCHAR(8)
-    , YEARS     VARCHAR(4)
-    , YEARMONTH VARCHAR(6)
-    , YEARWEEK  VARCHAR(6)
-)
-AS  
-BEGIN  
-    
-    INSERT @RETARRAY( WORKDATE,YEARS,YEARMONTH,YEARWEEK)
-    SELECT 
-        WORKDATE,YEARS,YEARMONTH,YEARWEEK
-    FROM 
-    (
-        SELECT 
-            CONVERT(VARCHAR(8), WORKDATE, 112) AS WORKDATE
-            , CONVERT(VARCHAR(4), WORKDATE, 112) AS YEARS
-            , CONVERT(VARCHAR(6), WORKDATE, 112) AS YEARMONTH
-            , CONVERT(VARCHAR(4), WORKDATE, 112) + FORMAT(DATEPART(WEEK, WORKDATE), &#x27;00&#x27;) AS YEARWEEK
-        FROM 
-        (
-            SELECT 
-                DATEADD(DAY, NUMBER, CONVERT(DATETIME, LEFT(@STARTDATE, 4) + &#x27;-01-01&#x27;)) AS WORKDATE
-            FROM master..spt_values 
-            WHERE TYPE = &#x27;P&#x27;
-            AND   NUMBER &lt; DATEDIFF(DAY, CONVERT(DATETIME, LEFT(@STARTDATE, 4) + &#x27;-01-01&#x27;), CONVERT(DATETIME, LEFT(@ENDDATE, 4) + &#x27;-12-31&#x27;))
-        ) M
-    ) P
-    WHERE  
-        ( 
-            (
-                ( @TYPES = &#x27;D&#x27; ) AND P.WORKDATE BETWEEN @STARTDATE AND @ENDDATE
-            )
-            OR 
-            (
-                ( @TYPES = &#x27;W&#x27; ) AND P.YEARWEEK BETWEEN @STARTDATE AND @ENDDATE
-            )
-            OR 
-            (
-                ( @TYPES = &#x27;M&#x27; ) AND P.YEARMONTH BETWEEN @STARTDATE AND @ENDDATE
-            )
-        )
-    ;
-
-    RETURN
-END</pre></details></details><details id="svc-2" class="svc" open><summary><b>#2</b> Query <code>CDS_Code_200</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-2">#2 검색조건 콤보 - LINEID (LINEID)</a> <a class="chip" href="#fn-3">#3 검색조건 콤보 - TYPES (SEARCHCYCLE)</a> <a class="chip" href="#fn-4">#4 검색조건 콤보 - PROCESSTYPE (PROCESSSEGMENTID)</a></p><h4>Query (조회 서비스) : CDS_Code_200</h4><ul><li>ID 구성: <code>CDS_Code_200</code> / 클래스 <code>THiRA.MES.Modeler</code> / 버전 <code>00001</code></li><li>정의 위치: Modeler 내장 쿼리 (THiRAMES.Service.Modeler.MSSQL DLL)</li><li>쿼리 파라메터: <code>CODECLASSID</code> <code>SITEID</code></li><li>테이블(조회/쓰기 전체, 함수·SP 포함): <div><a class="tbl" href="../tables.html#CIM_CODE">CIM_CODE</a><span class="b m">메인</span><span class="b r">읽기</span></div></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 1 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 202 76" width="202" height="76" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="170" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_CODE</text><text x="26" y="52" class="t2">기준 테이블</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>SELECT CODEID AS CODE,
+EXEC SP_RPT_PRODUCTION_SELECT @SITEID, @TYPES, @STARTDATE, @ENDDATE, @PROCESSTYPE</pre></details><details class="sql"><summary>Stored Procedure SP_RPT_PRODUCTION_SELECT 정의 보기</summary><pre>/**************************************************************************
+
+ * REPORT 생산량 조회 쿼리
+
+ *    - 2024.08.01 : 수정 - 8개 컬럼 조회 추가
+
+ * 
+
+ *     DECLARE @SITEID VARCHAR(40) = &#x27;PL01&#x27;
+
+ *         , @TYPES VARCHAR(10) = &#x27;M&#x27;  -- D / W / M
+
+ *         , @STARTDATE VARCHAR(10) = &#x27;202401&#x27; -- 2024.01~2024.05
+
+ *         , @ENDDATE  VARCHAR(10)  = &#x27;202405&#x27;
+
+ *         , @PROCESSTYPE VARCHAR(40) = &#x27;&#x27;    -- &#x27;&#x27; : ALL, PREVPROCESS - 전처리, FIRPROCESS - 소성, LIPROCESS - Li, NCMPROCESS - NCM
+
+ *     EXEC SP_RPT_PRODUCTION_SELECT @SITEID, @TYPES, @STARTDATE, @ENDDATE, @PROCESSTYPE
+
+ * 
+
+ *  VER. 1.1 : KG -&gt; TON 으로 환산
+
+ **************************************************************************/
+
+CREATE PROCEDURE [dbo].[SP_RPT_PRODUCTION_SELECT] 
+
+    @SITEID VARCHAR(40), @TYPES VARCHAR(40), @STARTDATE VARCHAR(40), @ENDDATE VARCHAR(40), @PROCESSTYPE VARCHAR(40)
+
+AS  
+
+--     DECLARE @SITEID VARCHAR(40) = &#x27;PL01&#x27;
+
+--         , @TYPES VARCHAR(10) = &#x27;D&#x27;  -- D / W / M
+
+--         , @STARTDATE VARCHAR(10) = &#x27;20240701&#x27; -- 2024.01~2024.05
+
+--         , @ENDDATE  VARCHAR(10)  = &#x27;20240731&#x27;
+
+--         , @PROCESSTYPE VARCHAR(40) = &#x27;&#x27;    -- &#x27;&#x27; : ALL, PREVPROCESS - 전처리, FIRPROCESS - 소성, LIPROCESS - Li, NCMPROCESS - NCM
+
+BEGIN 
+
+
+
+    SET @ENDDATE   = REPLACE(@ENDDATE, &#x27;-&#x27;, &#x27;&#x27;)
+
+    
+
+    
+
+    IF OBJECT_ID(&#x27;tempdb..#RPT_PRODUCTION_BASE&#x27;) IS NOT NULL
+
+    BEGIN    
+
+        DROP TABLE #RPT_PRODUCTION_BASE
+
+    END
+
+    
+
+    
+
+    -----------------------------
+
+    -- 1. TABLE 생성
+
+    -----------------------------
+
+--    DROP TABLE #RPT_PRODUCTION_BASE
+
+    --
+
+    -- 1.01 : 전처리 PLAN/RESULT 값 보관 임시 테이블
+
+    --
+
+    DECLARE @PREV_PRODUCTION_BASE TABLE
+
+    (
+
+        WORKDATE     VARCHAR(40)
+
+        , YEARMONTH  VARCHAR(40)
+
+        , YEARWEEK   VARCHAR(40)
+
+        , PLAN_BM_NORMAL_INPUT      FLOAT
+
+        , RESULT_BM_NORMAL_INPUT    FLOAT
+
+        , GAP_BM_NORMA_INPUT        FLOAT
+
+        , PLAN_BP_NORMAL_OUTPUT     FLOAT
+
+        , RESULT_BP_NORMAL_OUTPUT   FLOAT
+
+        , GAP_BP_NORMAL_OUTPUT      FLOAT
+
+        , PLAN_BP_NODISC_INPUT      FLOAT
+
+        , RESULT_BP_NODISC_INPUT    FLOAT
+
+        , GAP_BP_NODISC_INPUT       FLOAT
+
+        , PLAN_BP_NODISC_OUTPUT     FLOAT
+
+        , RESULT_BP_NODISC_OUTPUT   FLOAT
+
+        , GAP_BP_NODISC_OUTPUT      FLOAT
+
+        , PLAN_BP_TOTAL_INPUT       FLOAT
+
+        , RESULT_BP_TOTAL_INPUT     FLOAT
+
+        , GAP_BP_TOTAL_INPUT        FLOAT
+
+        , PLAN_BP_TOTAL_OUTPUT      FLOAT
+
+        , RESULT_BP_TOTAL_OUTPUT    FLOAT
+
+        , GAP_BP_TOTAL_OUTPUT       FLOAT
+
+    )
+
+    ;
+
+
+
+    --
+
+    -- 1.02 : 후처리 PLAN/RESULT 값 보관 임시 테이블
+
+    --    
+
+    DECLARE @NEXT_PRODUCTION_BASE TABLE 
+
+    (
+
+        WORKDATE     VARCHAR(40)    -- 일자 [ YYYYMMDD ]
+
+        , YEARMONTH  VARCHAR(40)    -- 년월 [ YYYYMM ]
+
+        , YEARWEEK   VARCHAR(40)    -- 년주 [ YYYYWW ]
+
+        --, PROCESSTYPE  VARCHAR(40)  -- Report Process Type [ all | PREVPROCESS - 전처리 | FIRPROCESS - 소성 | LIPROCESS - Li | NCMPROCESS - NCM ]
+
+        -- FIRPROCESS - 소성 계획
+
+        , PLAN_BM_SILO_INPUT  FLOAT -- BP 투입량
+
+        , PLAN_FIRING_INPUT   FLOAT -- 소성 투입량
+
+        , PLAN_FIRING_OUTPUT  FLOAT -- 소성 배출량
+
+        -- FIRPROCESS - 소성 결과
+
+        , RESULT_BM_SILO_INPUT FLOAT -- BP 투입량
+
+        , RESULT_FIRING_INPUT  FLOAT -- 소성 투입량
+
+        , RESULT_FIRING_OUTPUT FLOAT -- 소성 배출량    
+
+        -- LI 계획
+
+        , PLAN_PREMIX_INPUT   FLOAT -- Pre-Mixing 투입량 - LI
+
+        , PLAN_REACTOR_INPUT  FLOAT -- R-1401 투입량 - LI
+
+        , PLAN_DRY_INPUT      FLOAT -- 건조전 투입량 - LI
+
+        , PLAN_DRY_OUTPUT     FLOAT -- 건조후 배출량 - LI
+
+        , PLAN_LI2CO3_OUTPUT  FLOAT -- Li2CO3 배출량 - LI
+
+        , PLAN_LI3PO4_OUTPUT  FLOAT -- Li3PO4 배출량 - LI
+
+        -- LI 결과
+
+        , RESULT_PREMIX_INPUT  FLOAT -- Pre-Mixing 투입량 - LI
+
+        , RESULT_REACTOR_INPUT FLOAT -- R-1401 투입량 - LI
+
+        , RESULT_DRY_INPUT     FLOAT -- 건조전 투입량 - LI
+
+        , RESULT_DRY_OUTPUT    FLOAT -- 건조후 배출량 - LI
+
+        , RESULT_LI2CO3_OUTPUT FLOAT -- Li2CO3 배출량 - LI
+
+        , RESULT_LI3PO4_OUTPUT FLOAT -- Li3PO4 배출량 - LI    
+
+        -- NCM 계획
+
+        , PLAN_PK1501_INPUT   FLOAT -- PK-1501 투입량 - NCM
+
+        , PLAN_PK1502_INPUT   FLOAT -- PK-1502 투입량 - NCM
+
+        , PLAN_PK1503_INPUT FLOAT -- PK-1503 투입량 - NCM
+
+        , PLAN_PK1504_INPUT   FLOAT -- PK-1504 투입량 - NCM
+
+        , PLAN_CO_EXT_OUTPUT  FLOAT -- Co Sol&#x27; Ext Box 배출량  - NCM
+
+        , PLAN_NI_EXT_OUTPUT  FLOAT -- Ni Sol&#x27; Ext Box  배출량 - NCM
+
+        , PLAN_NI3SO4_OUTPUT  FLOAT -- NI3SO4 배출량 - NCM
+
+        -- NCM 결과
+
+        , RESULT_PK1501_INPUT  FLOAT -- PK-1501 투입량 - NCM
+
+        , RESULT_PK1502_INPUT  FLOAT -- PK-1502 투입량 - NCM
+
+        , RESULT_PK1503_INPUT  FLOAT -- PK-1503 투입량 - NCM
+
+        , RESULT_PK1504_INPUT  FLOAT -- PK-1504 투입량 - NCM
+
+        , RESULT_CO_EXT_OUTPUT FLOAT -- Co Sol&#x27; Ext Box 배출량  - NCM
+
+        , RESULT_NI_EXT_OUTPUT FLOAT -- Ni Sol&#x27; Ext Box  배출량 - NCM
+
+        , RESULT_NI3SO4_OUTPUT FLOAT -- NI3SO4 배출량 - NCM
+
+        --############ 추가 #######################
+
+        -- LI 계획/결과
+
+        , PLAN_PREMIX_OUTPUT    FLOAT   -- Pre-Mixing 배출량 - LI
+
+        , PLAN_REACTOR_OUTPUT   FLOAT   -- R-1401 배출량 - LI
+
+        , RESULT_PREMIX_OUTPUT  FLOAT   -- Pre-Mixing 배출량 - LI
+
+        , RESULT_REACTOR_OUTPUT FLOAT   -- R-1401 배출량 - LI
+
+        -- NCM 계획/결과
+
+        , PLAN_V1517NCM_SULFATE_INPUT   FLOAT   -- Ni/Co/Mg Sulfate     - NCM
+
+        , PLAN_V1523NM_SULFATE_INPUT    FLOAT   -- Ni/Mg Sulfate(V1523) - NCM
+
+        , PLAN_V1526N_SULFATE_INPUT     FLOAT   -- Ni Sulfate(V1526)    - NCM
+
+        , PLAN_V1531N_SULFATE_INPUT     FLOAT   -- Ni Sulfate(V1531)    - NCM
+
+        , PLAN_CR_FEEDTANK_INPUT        FLOAT   -- CR FEED TANK         - NCM
+
+        , PLAN_CR_NIFEED_INPUT          FLOAT   -- CR Ni Feed Flow      - NCM
+
+        , RESULT_V1517NCM_SULFATE_INPUT FLOAT   -- Ni/Co/Mg Sulfate     - NCM
+
+        , RESULT_V1523NM_SULFATE_INPUT  FLOAT   -- Ni/Mg Sulfate(V1523) - NCM
+
+        , RESULT_V1526N_SULFATE_INPUT   FLOAT   -- Ni Sulfate(V1526)    - NCM
+
+        , RESULT_V1531N_SULFATE_INPUT   FLOAT   -- Ni Sulfate(V1531)    - NCM
+
+        , RESULT_CR_FEEDTANK_INPUT      FLOAT   -- CR FEED TANK         - NCM
+
+        --, RESULT_CR_NIFEED_INPUT        FLOAT   -- CR Ni Feed Flow      - NCM
+
+        --#######################################   
+
+    )
+
+    ;
+
+    
+
+
+
+    --
+
+    -- 1.03 : 조회 결과 취합 임시 테이블
+
+    --       
+
+    CREATE TABLE #RPT_PRODUCTION_BASE
+
+    (
+
+        RPTDATE         VARCHAR(40) COLLATE Korean_100_CS_AI_KS_WS_SC_UTF8 
+
+        , PROCESSTYPE   VARCHAR(40) COLLATE Korean_100_CS_AI_KS_WS_SC_UTF8 
+
+        , TOPICS        NVARCHAR(100) COLLATE Korean_100_CS_AI_KS_WS_SC_UTF8 
+
+        , SUBTOPICS     NVARCHAR(100) COLLATE Korean_100_CS_AI_KS_WS_SC_UTF8 
+
+        , UNITID        VARCHAR(10)   COLLATE Korean_100_CS_AI_KS_WS_SC_UTF8 
+
+        , PLANQTY       FLOAT
+
+        , RESULTQTY     FLOAT
+
+        , GAPQTY        FLOAT
+
+        , ORDERNO       SMALLINT
+
+        , TYPES         VARCHAR(4)   COLLATE Korean_100_CS_AI_KS_WS_SC_UTF8 
+
+    );
+
+    
+
+    
+
+    -----------------------------
+
+    -- 2. TEMP TABLE INSERT 
+
+    -----------------------------
+
+
+
+    --
+
+    -- 2.01 : 전처리 조회 부분
+
+    --
+
+
+
+    IF @PROCESSTYPE = &#x27;&#x27; OR @PROCESSTYPE = &#x27;PREVPROCESS&#x27;
+
+    BEGIN
+
+        
+
+--        PRINT &#x27;PREVPROCESS : [&#x27; + @PROCESSTYPE  + &#x27;]&#x27;
+
+        
+
+        -- 전처리 PLAN/RESULT 값
+
+        INSERT INTO @PREV_PRODUCTION_BASE --TEMP_PREV_PRODUCTION_BASE --@PREV_PRODUCTION_BASE
+
+        (   WORKDATE, YEARMONTH, YEARWEEK
+
+            , PLAN_BM_NORMAL_INPUT,  RESULT_BM_NORMAL_INPUT,  GAP_BM_NORMA_INPUT
+
+            , PLAN_BP_NORMAL_OUTPUT, RESULT_BP_NORMAL_OUTPUT, GAP_BP_NORMAL_OUTPUT
+
+            , PLAN_BP_NODISC_INPUT,  RESULT_BP_NODISC_INPUT,  GAP_BP_NODISC_INPUT
+
+            , PLAN_BP_NODISC_OUTPUT, RESULT_BP_NODISC_OUTPUT, GAP_BP_NODISC_OUTPUT
+
+            , PLAN_BP_TOTAL_INPUT,   RESULT_BP_TOTAL_INPUT,   GAP_BP_TOTAL_INPUT
+
+            , PLAN_BP_TOTAL_OUTPUT,  RESULT_BP_TOTAL_OUTPUT,  GAP_BP_TOTAL_OUTPUT
+
+        )
+
+        SELECT 
+
+   M.WORKDATE
+
+            , M.YEARMONTH
+
+            , M.YEARWEEK
+
+            , ISNULL(M.PLAN_BM_NORMAL_INPUT,   0) AS PLAN_BM_NORMAL_INPUT
+
+            , ISNULL(M.RESULT_BM_NORMAL_INPUT, 0) AS RESULT_BM_NORMAL_INPUT
+
+            , ISNULL(M.GAP_BM_NORMA_INPUT,     0) AS GAP_BM_NORMA_INPUT
+
+            , ISNULL(M.PLAN_BP_NORMAL_OUTPUT,  0) AS PLAN_BP_NORMAL_OUTPUT
+
+            , ISNULL(M.RESULT_BP_NORMAL_OUTPUT,0) AS RESULT_BP_NORMAL_OUTPUT
+
+            , ISNULL(M.GAP_BP_NORMAL_OUTPUT,   0) AS GAP_BP_NORMAL_OUTPUT
+
+            , ISNULL(M.PLAN_BP_NODISC_INPUT,   0) AS PLAN_BP_NODISC_INPUT
+
+            , ISNULL(M.RESULT_BP_NODISC_INPUT, 0) AS RESULT_BP_NODISC_INPUT
+
+            , ISNULL(M.GAP_BP_NODISC_INPUT,    0) AS GAP_BP_NODISC_INPUT
+
+            , ISNULL(M.PLAN_BP_NODISC_OUTPUT,  0) AS PLAN_BP_NODISC_OUTPUT
+
+            , ISNULL(M.RESULT_BP_NODISC_OUTPUT,0) AS RESULT_BP_NODISC_OUTPUT
+
+            , ISNULL(M.GAP_BP_NODISC_OUTPUT,   0) AS GAP_BP_NODISC_OUTPUT
+
+            , ISNULL(M.PLAN_BP_TOTAL_INPUT,    0) AS PLAN_BP_TOTAL_INPUT
+
+            , ISNULL(M.RESULT_BP_TOTAL_INPUT,  0) AS RESULT_BP_TOTAL_INPUT
+
+            , ISNULL(M.GAP_BP_TOTAL_INPUT,     0) AS GAP_BP_TOTAL_INPUT
+
+            , ISNULL(M.PLAN_BP_TOTAL_OUTPUT,   0) AS PLAN_BP_TOTAL_OUTPUT
+
+            , ISNULL(M.RESULT_BP_TOTAL_OUTPUT, 0) AS RESULT_BP_TOTAL_OUTPUT
+
+            , ISNULL(M.GAP_BP_TOTAL_OUTPUT,    0) AS GAP_BP_TOTAL_OUTPUT
+
+        FROM 
+
+        (
+
+            SELECT 
+
+                M.WORKDATE
+
+                , M.YEARMONTH
+
+                , M.YEARWEEK
+
+                ---
+
+               , PV.PLAN_BM_NORMAL_INPUT       -- CELL 투입량 계획
+
+                , PV.RESULT_BM_NORMAL_INPUT     -- CELL 투입량 결과
+
+                , ( PV.RESULT_BM_NORMAL_INPUT - PV.PLAN_BM_NORMAL_INPUT ) AS GAP_BM_NORMA_INPUT -- CELL 투입량 GAP
+
+                ---
+
+                , PV.PLAN_BP_NORMAL_OUTPUT      -- BM생산(모듈 파쇄) 배출량 계획
+
+                , PV.RESULT_BP_NORMAL_OUTPUT    -- BM생산(모듈 파쇄) 배출량 결과
+
+                , ( PV.RESULT_BP_NORMAL_OUTPUT - PV.PLAN_BP_NORMAL_OUTPUT ) AS GAP_BP_NORMAL_OUTPUT -- BM생산(모듈 파쇄) 배출량 GAP
+
+                ---
+
+                , PV.PLAN_BP_NODISC_INPUT       -- CELL BM생산 (무방전) 투입량 계획
+
+                , PV.RESULT_BP_NODISC_INPUT     -- CELL BM생산 (무방전) 투입량 결과
+
+                , ( PV.RESULT_BP_NODISC_INPUT - PV.PLAN_BP_NODISC_INPUT ) AS GAP_BP_NODISC_INPUT    -- BM생산 (무방전) 투입량 GAP
+
+                ---
+
+                , PV.PLAN_BP_NODISC_OUTPUT      -- BM생산 (무방전) 배출량 계획
+
+                , PV.RESULT_BP_NODISC_OUTPUT    -- BM생산 (무방전) 배출량 결과
+
+                , ( PV.RESULT_BP_NODISC_OUTPUT - PV.PLAN_BP_NODISC_OUTPUT ) AS GAP_BP_NODISC_OUTPUT  -- BM생산 (무방전) 배출량 GAP
+
+                ---
+
+                , PV.PLAN_BM_NORMAL_INPUT + PV.PLAN_BP_NODISC_INPUT  AS PLAN_BP_TOTAL_INPUT  --TOTAL CELL투입량 계획
+
+                , PV.RESULT_BM_NORMAL_INPUT + PV.RESULT_BP_NODISC_INPUT AS RESULT_BP_TOTAL_INPUT -- TOTAL CELL투입량 실적
+
+                , ( PV.RESULT_BM_NORMAL_INPUT + PV.RESULT_BP_NODISC_INPUT ) - ( PV.PLAN_BM_NORMAL_INPUT + PV.PLAN_BP_NODISC_INPUT ) AS GAP_BP_TOTAL_INPUT
+
+                ---
+
+                , PV.PLAN_BP_NORMAL_OUTPUT + PV.PLAN_BP_NODISC_OUTPUT AS PLAN_BP_TOTAL_OUTPUT  -- TOTAL BP 투입량 계획
+
+                , PV.RESULT_BP_NORMAL_OUTPUT + PV.RESULT_BP_NODISC_OUTPUT AS RESULT_BP_TOTAL_OUTPUT  -- TOTAL BP 투입량 실적 
+
+                , ( PV.RESULT_BP_NORMAL_OUTPUT + PV.RESULT_BP_NODISC_OUTPUT ) - ( PV.PLAN_BP_NORMAL_OUTPUT + PV.PLAN_BP_NODISC_OUTPUT ) AS GAP_BP_TOTAL_OUTPUT  -- TOTAL BP 투입량 GAP
+
+            FROM dbo.FN_RPT_DAY_WEEK_MONTH( @TYPES, @STARTDATE, @ENDDATE) M 
+
+                LEFT OUTER JOIN RPT_PRODUCTION_PREV_PLAN_RESULT PV
+
+                    ON  M.WORKDATE = PV.WORKDATE
+
+        ) M
+
+    END 
+
+    -- 2.01 : 전처리 조회 부분 END
+
+
+
+
+
+    --
+
+    -- 2.02 : 후처리 조회 부분
+
+    -- 
+
+    IF @PROCESSTYPE = &#x27;&#x27; OR @PROCESSTYPE &lt;&gt; &#x27;PREVPROCESS&#x27;
+
+    BEGIN
+
+        
+
+--        PRINT &#x27;NOT PREVPROCESS : [&#x27; + @PROCESSTYPE  + &#x27;]&#x27;
+
+        
+
+        INSERT INTO @NEXT_PRODUCTION_BASE --TEMP_NEXT_PRODUCTION_BASE --@NEXT_PRODUCTION_BASE
+
+        (
+
+            WORKDATE, YEARMONTH, YEARWEEK
+
+            , PLAN_BM_SILO_INPUT,   PLAN_FIRING_INPUT,    PLAN_FIRING_OUTPUT
+
+            , RESULT_BM_SILO_INPUT, RESULT_FIRING_INPUT,  RESULT_FIRING_OUTPUT
+
+            , PLAN_PREMIX_INPUT,    PLAN_REACTOR_INPUT,   PLAN_DRY_INPUT,      PLAN_DRY_OUTPUT,     PLAN_LI2CO3_OUTPUT,   PLAN_LI3PO4_OUTPUT
+
+            , RESULT_PREMIX_INPUT,  RESULT_REACTOR_INPUT, RESULT_DRY_INPUT,    RESULT_DRY_OUTPUT,   RESULT_LI2CO3_OUTPUT, RESULT_LI3PO4_OUTPUT
+
+            , PLAN_PK1501_INPUT,    PLAN_PK1502_INPUT,    PLAN_PK1503_INPUT,   PLAN_PK1504_INPUT,   PLAN_CO_EXT_OUTPUT,   PLAN_NI_EXT_OUTPUT,   PLAN_NI3SO4_OUTPUT
+
+            , RESULT_PK1501_INPUT,  RESULT_PK1502_INPUT,  RESULT_PK1503_INPUT, RESULT_PK1504_INPUT, RESULT_CO_EXT_OUTPUT, RESULT_NI_EXT_OUTPUT, RESULT_NI3SO4_OUTPUT
+
+            -------------
+
+            , PLAN_PREMIX_OUTPUT,   PLAN_REACTOR_OUTPUT
+
+            , RESULT_PREMIX_OUTPUT, RESULT_REACTOR_OUTPUT
+
+            , PLAN_V1517NCM_SULFATE_INPUT, PLAN_V1523NM_SULFATE_INPUT, PLAN_V1526N_SULFATE_INPUT, PLAN_V1531N_SULFATE_INPUT, PLAN_CR_FEEDTANK_INPUT --, PLAN_CR_NIFEED_INPUT
+
+            , RESULT_V1517NCM_SULFATE_INPUT, RESULT_V1523NM_SULFATE_INPUT, RESULT_V1526N_SULFATE_INPUT, RESULT_V1531N_SULFATE_INPUT, RESULT_CR_FEEDTANK_INPUT --, RESULT_CR_NIFEED_INPUT
+
+        )
+
+        SELECT 
+
+            M.WORKDATE
+
+            , M.YEARMONTH
+
+            , M.YEARWEEK
+
+            , ISNULL( PL.PLAN_BM_SILO_INPUT   , 0) AS PLAN_BM_SILO_INPUT
+
+            , ISNULL( PL.PLAN_FIRING_INPUT    , 0) AS PLAN_FIRING_INPUT
+
+            , ISNULL( PL.PLAN_FIRING_OUTPUT   , 0) AS PLAN_FIRING_OUTPUT
+
+            , ISNULL( PR.RESULT_BM_SILO_INPUT , 0) AS RESULT_BM_SILO_INPUT
+
+            , ISNULL( PR.RESULT_FIRING_INPUT  , 0) AS RESULT_FIRING_INPUT
+
+            , ISNULL( PR.RESULT_FIRING_OUTPUT , 0) AS RESULT_FIRING_OUTPUT
+
+            , ISNULL( PL.PLAN_PREMIX_INPUT    , 0) AS PLAN_PREMIX_INPUT
+
+            , ISNULL( PL.PLAN_REACTOR_INPUT   , 0) AS PLAN_REACTOR_INPUT
+
+            , ISNULL( PL.PLAN_DRY_INPUT       , 0) AS PLAN_DRY_INPUT
+
+            , ISNULL( PL.PLAN_DRY_OUTPUT      , 0) AS PLAN_DRY_OUTPUT
+
+            , ISNULL( PL.PLAN_LI2CO3_OUTPUT   , 0) AS PLAN_LI2CO3_OUTPUT
+
+            , ISNULL( PL.PLAN_LI3PO4_OUTPUT   , 0) AS PLAN_LI3PO4_OUTPUT
+
+            , ISNULL( PR.RESULT_PREMIX_INPUT  , 0) AS RESULT_PREMIX_INPUT
+
+            , ISNULL( PR.RESULT_REACTOR_INPUT , 0) AS RESULT_REACTOR_INPUT
+
+            , ISNULL( PR.RESULT_DRY_INPUT     , 0) AS RESULT_DRY_INPUT
+
+            , ISNULL( PR.RESULT_DRY_OUTPUT    , 0) AS RESULT_DRY_OUTPUT
+
+            , ISNULL( PR.RESULT_LI2CO3_OUTPUT , 0) AS RESULT_LI2CO3_OUTPUT
+
+            , ISNULL( PR.RESULT_LI3PO4_OUTPUT , 0) AS RESULT_LI3PO4_OUTPUT
+
+            , ISNULL( PL.PLAN_PK1501_INPUT    , 0) AS PLAN_PK1501_INPUT
+
+            , ISNULL( PL.PLAN_PK1502_INPUT    , 0) AS PLAN_PK1502_INPUT
+
+            , ISNULL( PL.PLAN_PK1503_INPUT    , 0) AS PLAN_PK1503_INPUT
+
+            , ISNULL( PL.PLAN_PK1504_INPUT    , 0) AS PLAN_PK1504_INPUT
+
+            , ISNULL( PL.PLAN_CO_EXT_OUTPUT   , 0) AS PLAN_CO_EXT_OUTPUT
+
+            , ISNULL( PL.PLAN_NI_EXT_OUTPUT   , 0) AS PLAN_NI_EXT_OUTPUT
+
+            , ISNULL( PL.PLAN_NI3SO4_OUTPUT   , 0) AS PLAN_NI3SO4_OUTPUT
+
+            , ISNULL( PR.RESULT_PK1501_INPUT  , 0) AS RESULT_PK1501_INPUT
+
+            , ISNULL( PR.RESULT_PK1502_INPUT  , 0) AS RESULT_PK1502_INPUT
+
+            , ISNULL( PR.RESULT_PK1503_INPUT  , 0) AS RESULT_PK1503_INPUT
+
+            , ISNULL( PR.RESULT_PK1504_INPUT  , 0) AS RESULT_PK1504_INPUT
+
+            , ISNULL( PR.RESULT_CO_EXT_OUTPUT , 0) AS RESULT_CO_EXT_OUTPUT
+
+            , ISNULL( PR.RESULT_NI_EXT_OUTPUT , 0) AS RESULT_NI_EXT_OUTPUT
+
+            , ISNULL( PR.RESULT_NI3SO4_OUTPUT , 0) AS RESULT_NI3SO4_OUTPUT
+
+            ------- 추가 -----------
+
+            -- LI
+
+            , ISNULL(PLAN_PREMIX_OUTPUT         , 0) AS PLAN_PREMIX_OUTPUT
+
+            , ISNULL(PLAN_REACTOR_OUTPUT          , 0) AS PLAN_REACTOR_OUTPUT
+
+            , ISNULL(RESULT_PREMIX_OUTPUT         , 0) AS RESULT_PREMIX_OUTPUT
+
+            , ISNULL(RESULT_REACTOR_OUTPUT        , 0) AS RESULT_REACTOR_OUTPUT
+
+            -- MCM 
+
+            , ISNULL(PLAN_V1517NCM_SULFATE_INPUT  , 0) AS PLAN_V1517NCM_SULFATE_INPUT
+
+            , ISNULL(PLAN_V1523NM_SULFATE_INPUT   , 0) AS PLAN_V1523NM_SULFATE_INPUT
+
+            , ISNULL(PLAN_V1526N_SULFATE_INPUT    , 0) AS PLAN_V1526N_SULFATE_INPUT
+
+            , ISNULL(PLAN_V1531N_SULFATE_INPUT    , 0) AS PLAN_V1531N_SULFATE_INPUT
+
+            , ISNULL(PLAN_CR_FEEDTANK_INPUT       , 0) AS PLAN_CR_FEEDTANK_INPUT
+
+            , ISNULL(RESULT_V1517NCM_SULFATE_INPUT, 0) AS RESULT_V1517NCM_SULFATE_INPUT
+
+            , ISNULL(RESULT_V1523NM_SULFATE_INPUT , 0) AS RESULT_V1523NM_SULFATE_INPUT
+
+            , ISNULL(RESULT_V1526N_SULFATE_INPUT  , 0) AS RESULT_V1526N_SULFATE_INPUT
+
+            , ISNULL(RESULT_V1531N_SULFATE_INPUT  , 0) AS RESULT_V1531N_SULFATE_INPUT
+
+            , ISNULL(RESULT_CR_FEEDTANK_INPUT     , 0) AS RESULT_CR_FEEDTANK_INPUT
+
+            ----------------------------------------------------------------------
+
+        FROM dbo.FN_RPT_DAY_WEEK_MONTH( @TYPES, @STARTDATE, @ENDDATE) M
+
+            LEFT JOIN RPT_PRODUCTION_PLAN PL
+
+                ON  M.WORKDATE = PL.WORKDATE
+
+            LEFT OUTER JOIN RPT_PRODUCTION_RESULT PR
+
+                ON M.WORKDATE = PR.WORKDATE 
+
+    END 
+
+    -- 2.02 : 후처리 조회 부분 END
+
+ 
+
+
+
+
+
+    -----------------------------
+
+    -- 3. RESULT DATA 생성 (최종 TEMP TABLE)
+
+    -----------------------------  
+
+    
+
+    --
+
+    -- 3.01 : 전처리 RESULT DATA 
+
+    --
+
+    IF @PROCESSTYPE = &#x27;PREVPROCESS&#x27; OR @PROCESSTYPE = &#x27;&#x27; -- 전처리
+
+    BEGIN
+
+    
+
+--        PRINT &#x27;NOT PREVPROCESS : [&#x27; + @PROCESSTYPE  + &#x27;]&#x27;
+
+        
+
+        INSERT INTO #RPT_PRODUCTION_BASE
+
+        ( RPTDATE, PROCESSTYPE, TOPICS, SUBTOPICS, UNITID, PLANQTY, RESULTQTY, GAPQTY, ORDERNO, TYPES )
+
+        -- BM생산(모듈 파쇄) 투입량
+
+        SELECT 
+
+            CASE WHEN @TYPES = &#x27;D&#x27; THEN PB.WORKDATE
+
+                 WHEN @TYPES = &#x27;W&#x27; THEN PB.YEARWEEK
+
+                 ELSE PB.YEARMONTH 
+
+            END AS RPTDATE
+
+            , &#x27;PREVPROCESS&#x27; AS PROCESSTYPE
+
+            , &#x27;BM_NORMAL_INPUT&#x27; AS TOPICS
+
+            , &#x27;CELL&#x27; AS SUBTOPICS  -- Cell 투입량
+
+            , &#x27;Ton&#x27; AS UNITID
+
+            , SUM(PB.PLAN_BM_NORMAL_INPUT) AS PLANQTY
+
+            , SUM(PB.RESULT_BM_NORMAL_INPUT) AS RESULTQTY
+
+            , SUM(PB.GAP_BM_NORMA_INPUT) AS GAPQTY
+
+            , 11 AS ORDERNO
+
+            , @TYPES AS TYPES
+
+        FROM  @PREV_PRODUCTION_BASE PB
+
+        GROUP BY CASE WHEN @TYPES = &#x27;D&#x27; THEN PB.WORKDATE WHEN @TYPES = &#x27;W&#x27; THEN PB.YEARWEEK ELSE PB.YEARMONTH END 
+
+        UNION ALL
+
+        -- BM생산(모듈 파쇄) 배출량
+
+        SELECT 
+
+            CASE WHEN @TYPES = &#x27;D&#x27; THEN PB.WORKDATE
+
+                 WHEN @TYPES = &#x27;W&#x27; THEN PB.YEARWEEK
+
+                 ELSE PB.YEARMONTH 
+
+            END AS RPTDATE
+
+            , &#x27;PREVPROCESS&#x27; AS PROCESSTYPE
+
+            , &#x27;BP_NORMAL_OUTPUT&#x27; AS TOPICS
+
+            , &#x27;TONBAG&#x27; AS SUBTOPICS  -- Ton Bag 무게
+
+            , &#x27;Ton&#x27; AS UNITID
+
+            , SUM(PB.PLAN_BP_NORMAL_OUTPUT)   AS PLANQTY
+
+            , SUM(PB.RESULT_BP_NORMAL_OUTPUT) AS RESULTQTY
+
+            , SUM(PB.GAP_BP_NORMAL_OUTPUT)    AS GAPQTY            
+
+            , 12 AS ORDERNO
+
+            , @TYPES AS TYPES
+
+        FROM  @PREV_PRODUCTION_BASE PB --TEMP_PREV_PRODUCTION_BASE PB
+
+        GROUP BY CASE WHEN @TYPES = &#x27;D&#x27; THEN PB.WORKDATE WHEN @TYPES = &#x27;W&#x27; THEN PB.YEARWEEK ELSE PB.YEARMONTH END 
+
+        UNION ALL
+
+        -- BM생산 (무방전) 투입량
+
+        SELECT 
+
+            CASE WHEN @TYPES = &#x27;D&#x27; THEN PB.WORKDATE
+
+                 WHEN @TYPES = &#x27;W&#x27; THEN PB.YEARWEEK
+
+                 ELSE PB.YEARMONTH 
+
+            END AS RPTDATE
+
+            , &#x27;PREVPROCESS&#x27; AS PROCESSTYPE
+
+            , &#x27;BP_NODISC_INPUT&#x27; AS TOPICS
+
+            , &#x27;CELL&#x27; AS SUBTOPICS  -- Cell 투입량
+
+   , &#x27;Ton&#x27; AS UNITID    
+
+            , SUM(PB.PLAN_BP_NODISC_INPUT) AS PLANQTY
+
+            , SUM(PB.RESULT_BP_NODISC_INPUT) AS RESULTQTY
+
+            , SUM(PB.GAP_BP_NODISC_INPUT) AS GAPQTY
+
+            , 13 AS ORDERNO
+
+            , @TYPES AS TYPES
+
+        FROM  @PREV_PRODUCTION_BASE PB --TEMP_PREV_PRODUCTION_BASE PB
+
+        GROUP BY CASE WHEN @TYPES = &#x27;D&#x27; THEN PB.WORKDATE WHEN @TYPES = &#x27;W&#x27; THEN PB.YEARWEEK ELSE PB.YEARMONTH END
+
+        UNION ALL
+
+        -- BM생산 (무방전) 배출량
+
+        SELECT 
+
+            CASE WHEN @TYPES = &#x27;D&#x27; THEN PB.WORKDATE
+
+                 WHEN @TYPES = &#x27;W&#x27; THEN PB.YEARWEEK
+
+                 ELSE PB.YEARMONTH 
+
+            END AS RPTDATE
+
+            , &#x27;PREVPROCESS&#x27; AS PROCESSTYPE
+
+            , &#x27;BP_NODISC_OUTPUT&#x27; AS TOPICS
+
+            , &#x27;TONBAG&#x27; AS SUBTOPICS  -- Ton Bag 무게
+
+            , &#x27;Ton&#x27; AS UNITID
+
+            , SUM(PB.PLAN_BP_NODISC_OUTPUT)   AS PLANQTY
+
+            , SUM(PB.RESULT_BP_NODISC_OUTPUT) AS RESULTQTY
+
+            , SUM(PB.GAP_BP_NODISC_OUTPUT)    AS GAPQTY            
+
+            , 14 AS ORDERNO
+
+            , @TYPES AS TYPES
+
+        FROM  @PREV_PRODUCTION_BASE PB --TEMP_PREV_PRODUCTION_BASE PB
+
+        GROUP BY CASE WHEN @TYPES = &#x27;D&#x27; THEN PB.WORKDATE WHEN @TYPES = &#x27;W&#x27; THEN PB.YEARWEEK ELSE PB.YEARMONTH END
+
+        UNION ALL
+
+        -- BM생산 Total 투입량
+
+        SELECT 
+
+            CASE WHEN @TYPES = &#x27;D&#x27; THEN PB.WORKDATE
+
+                 WHEN @TYPES = &#x27;W&#x27; THEN PB.YEARWEEK
+
+                 ELSE PB.YEARMONTH 
+
+            END AS RPTDATE
+
+            , &#x27;PREVPROCESS&#x27; AS PROCESSTYPE
+
+            , &#x27;BP_TOTAL_INPUT&#x27; AS TOPICS
+
+            , &#x27;CELL&#x27; AS SUBTOPICS   -- Cell 투입량
+
+            , &#x27;Ton&#x27; AS UNITID
+
+            , SUM(PB.PLAN_BP_TOTAL_INPUT) AS PLANQTY
+
+            , SUM(PB.RESULT_BP_TOTAL_INPUT) AS RESULTQTY
+
+            , SUM(PB.GAP_BP_TOTAL_INPUT) AS GAPQTY
+
+            , 15 AS ORDERNO
+
+            , @TYPES AS TYPES
+
+        FROM  @PREV_PRODUCTION_BASE PB --TEMP_PREV_PRODUCTION_BASE PB
+
+        GROUP BY CASE WHEN @TYPES = &#x27;D&#x27; THEN PB.WORKDATE WHEN @TYPES = &#x27;W&#x27; THEN PB.YEARWEEK ELSE PB.YEARMONTH END
+
+        UNION ALL
+
+        -- BM생산 Total 배출량
+
+        SELECT 
+
+            CASE WHEN @TYPES = &#x27;D&#x27; THEN PB.WORKDATE
+
+                 WHEN @TYPES = &#x27;W&#x27; THEN PB.YEARWEEK
+
+                 ELSE PB.YEARMONTH 
+
+            END AS RPTDATE
+
+            , &#x27;PREVPROCESS&#x27; AS PROCESSTYPE
+
+            , &#x27;BP_TOTAL_OUTPUT&#x27; AS TOPICS
+
+            , &#x27;TONBAG&#x27; AS SUBTOPICS  -- Ton Bag 무게
+
+            , &#x27;Ton&#x27; AS UNITID
+
+            , SUM(PB.PLAN_BP_TOTAL_INPUT)    AS PLANQTY
+
+            , SUM(PB.RESULT_BP_TOTAL_OUTPUT) AS RESULTQTY
+
+            , SUM(PB.GAP_BP_TOTAL_OUTPUT)    AS GAPQTY            
+
+            , 16 AS ORDERNO
+
+            , @TYPES AS TYPES
+
+        FROM  @PREV_PRODUCTION_BASE PB --TEMP_PREV_PRODUCTION_BASE PB
+
+        GROUP BY CASE WHEN @TYPES = &#x27;D&#x27; THEN PB.WORKDATE WHEN @TYPES = &#x27;W&#x27; THEN PB.YEARWEEK ELSE PB.YEARMONTH END
+
+        ORDER BY 1, ORDERNO        
+
+        
+
+        
+
+--        PRINT &#x27;NOT PREVPROCESS : [&#x27; + @PROCESSTYPE  + &#x27;]&#x27;
+
+        
+
+    END  
+
+    --
+
+    -- 3.01 : 전처리 RESULT DATA  END
+
+    --
+
+    
+
+    --
+
+    -- 3.02 : 소성 RESULT DATA
+
+    --
+
+    IF @PROCESSTYPE = &#x27;FIRPROCESS&#x27; OR @PROCESSTYPE = &#x27;&#x27; -- 소성
+
+    BEGIN
+
+        
+
+--        PRINT &#x27;FIRPROCESS : [&#x27; + @PROCESSTYPE  + &#x27;]&#x27;
+
+        
+
+        INSERT INTO #RPT_PRODUCTION_BASE -- TEMP_RPT_PRODUCTION_BASE -- @RPT_PRODUCTION_BASE
+
+        ( RPTDATE, PROCESSTYPE, TOPICS, SUBTOPICS, UNITID, PLANQTY, RESULTQTY, GAPQTY, ORDERNO, TYPES )
+
+        SELECT 
+
+            CASE WHEN @TYPES = &#x27;D&#x27; THEN NB.WORKDATE
+
+                 WHEN @TYPES = &#x27;W&#x27; THEN NB.YEARWEEK
+
+                 ELSE NB.YEARMONTH 
+
+            END AS RPTDATE
+
+            , &#x27;FIRPROCESS&#x27; AS PROCESSTYPE   -- 소성
+
+            , &#x27;BM_SILO_INPUT&#x27; AS TOPICS     -- BP 투입량
+
+            , &#x27;TONBAG&#x27; AS SUBTOPICS         -- Cell 투입량
+
+            , &#x27;Ton&#x27; AS UNITID
+
+            , SUM(NB.PLAN_BM_SILO_INPUT)  AS PLANQTY
+
+            , SUM(NB.RESULT_BM_SILO_INPUT) / 1000.0 AS RESULTQTY
+
+            , SUM((NB.RESULT_BM_SILO_INPUT / 1000.0) - NB.PLAN_BM_SILO_INPUT)  AS GAPQTY            
+
+            , 21 AS ORDERNO
+
+            , @TYPES AS TYPES
+
+        FROM @NEXT_PRODUCTION_BASE NB
+
+        GROUP BY CASE WHEN @TYPES = &#x27;D&#x27; THEN NB.WORKDATE WHEN @TYPES = &#x27;W&#x27; THEN NB.YEARWEEK ELSE NB.YEARMONTH END 
+
+        UNION ALL 
+
+        -- 소성 투입량   
+
+        SELECT 
+
+            CASE WHEN @TYPES = &#x27;D&#x27; THEN NB.WORKDATE
+
+                 WHEN @TYPES = &#x27;W&#x27; THEN NB.YEARWEEK
+
+                 ELSE NB.YEARMONTH 
+
+            END AS RPTDATE
+
+            , &#x27;FIRPROCESS&#x27; AS PROCESSTYPE   -- 소성
+
+            , &#x27;FIRING_INPUT&#x27; AS TOPICS      -- 소성 투입량
+
+            , &#x27;FIR_IN&#x27; AS SUBTOPICS         -- 소성 투입 무게
+
+            , &#x27;Ton&#x27; AS UNITID
+
+            , SUM(NB.PLAN_FIRING_INPUT)   AS PLANQTY
+
+            , SUM(NB.RESULT_FIRING_INPUT) / 1000.0 AS RESULTQTY
+
+            , SUM((NB.RESULT_FIRING_INPUT / 1000.0) - NB.PLAN_FIRING_INPUT)  AS GAPQTY            
+
+            , 22 AS ORDERNO
+
+            , @TYPES AS TYPES
+
+        FROM @NEXT_PRODUCTION_BASE NB
+
+        GROUP BY CASE WHEN @TYPES = &#x27;D&#x27; THEN NB.WORKDATE WHEN @TYPES = &#x27;W&#x27; THEN NB.YEARWEEK ELSE NB.YEARMONTH END 
+
+        UNION ALL 
+
+        -- 소성 배출량
+
+        SELECT 
+
+            CASE WHEN @TYPES = &#x27;D&#x27; THEN NB.WORKDATE
+
+                 WHEN @TYPES = &#x27;W&#x27; THEN NB.YEARWEEK
+
+                 ELSE NB.YEARMONTH 
+
+            END AS RPTDATE
+
+            , &#x27;FIRPROCESS&#x27; AS PROCESSTYPE   -- 소성
+
+            , &#x27;FIRING_OUTPUT&#x27; AS TOPICS     -- 소성 배출량
+
+            , &#x27;FIR_OUT&#x27; AS SUBTOPICS        -- 소성 배출 무게
+
+            , &#x27;Ton&#x27; AS UNITID
+
+            , SUM(NB.PLAN_FIRING_OUTPUT)    AS PLANQTY
+
+            , SUM((NB.RESULT_FIRING_OUTPUT / 1000.0))  AS RESULTQTY
+
+            , SUM((NB.RESULT_FIRING_OUTPUT / 1000.0) - NB.PLAN_FIRING_OUTPUT)  AS GAPQTY            
+
+            , 23 AS ORDERNO
+
+            , @TYPES AS TYPES
+
+        FROM @NEXT_PRODUCTION_BASE NB
+
+        GROUP BY CASE WHEN @TYPES = &#x27;D&#x27; THEN NB.WORKDATE WHEN @TYPES = &#x27;W&#x27; THEN NB.YEARWEEK ELSE NB.YEARMONTH END 
+
+        ORDER BY 1, ORDERNO
+
+        
+
+    END  
+
+    --
+
+    -- 3.02 : 소성 RESULT DATA  END
+
+    --
+
+    
+
+    
+
+    --
+
+    -- 3.03 : LI RESULT DATA
+
+    --
+
+    IF @PROCESSTYPE = &#x27;LIPROCESS&#x27;  OR @PROCESSTYPE = &#x27;&#x27; -- LI
+
+    BEGIN
+
+        
+
+        INSERT INTO #RPT_PRODUCTION_BASE -- TEMP_RPT_PRODUCTION_BASE -- @RPT_PRODUCTION_BASE
+
+        ( RPTDATE, PROCESSTYPE, TOPICS, SUBTOPICS, UNITID, PLANQTY, RESULTQTY, GAPQTY, ORDERNO, TYPES )
+
+        -- Pre-Mixing 투입량 
+
+        SELECT 
+
+            CASE WHEN @TYPES = &#x27;D&#x27; THEN NB.WORKDATE
+
+                 WHEN @TYPES = &#x27;W&#x27; THEN NB.YEARWEEK
+
+                 ELSE NB.YEARMONTH 
+
+            END AS RPTDATE
+
+            , &#x27;LIPROCESS&#x27; AS PROCESSTYPE   -- LI 공정
+
+            , &#x27;PREMIX_INPUT&#x27; AS TOPICS     -- Pre-Mixing 투입량    
+
+            , &#x27;BP_IN&#x27; AS SUBTOPICS         -- BP 투입량
+
+            , &#x27;Ton&#x27; AS UNITID
+
+            , SUM(NB.PLAN_PREMIX_INPUT)    AS PLANQTY
+
+            , SUM(NB.RESULT_PREMIX_INPUT) / 1000.0 AS RESULTQTY
+
+            , SUM((NB.RESULT_PREMIX_INPUT / 1000.0 ) - NB.PLAN_PREMIX_INPUT)  AS GAPQTY            
+
+            , 310 AS ORDERNO
+
+            , @TYPES AS TYPES
+
+        FROM @NEXT_PRODUCTION_BASE NB
+
+        GROUP BY CASE WHEN @TYPES = &#x27;D&#x27; THEN NB.WORKDATE WHEN @TYPES = &#x27;W&#x27; THEN NB.YEARWEEK ELSE NB.YEARMONTH END 
+
+        
+
+        UNION ALL
+
+        -- [추가] Pre-Mixing 배출량 
+
+        SELECT 
+
+            CASE WHEN @TYPES = &#x27;D&#x27; THEN NB.WORKDATE
+
+                 WHEN @TYPES = &#x27;W&#x27; THEN NB.YEARWEEK
+
+                 ELSE NB.YEARMONTH 
+
+            END AS RPTDATE
+
+            , &#x27;LIPROCESS&#x27; AS PROCESSTYPE   -- LI 공정
+
+            , &#x27;PREMIX_OUTPUT&#x27; AS TOPICS     -- Pre-Mixing 배출량    
+
+            , &#x27;BP_IN&#x27; AS SUBTOPICS         -- BP 투입량
+
+            , &#x27;Ton&#x27; AS UNITID
+
+            , SUM(NB.PLAN_PREMIX_OUTPUT)    AS PLANQTY
+
+            , SUM(NB.RESULT_PREMIX_OUTPUT) / 1000.0 AS RESULTQTY
+
+     , SUM((NB.RESULT_PREMIX_OUTPUT / 1000.0 ) - NB.PLAN_PREMIX_OUTPUT) AS GAPQTY            
+
+            , 320 AS ORDERNO
+
+            , @TYPES AS TYPES
+
+        FROM @NEXT_PRODUCTION_BASE NB
+
+        GROUP BY CASE WHEN @TYPES = &#x27;D&#x27; THEN NB.WORKDATE WHEN @TYPES = &#x27;W&#x27; THEN NB.YEARWEEK ELSE NB.YEARMONTH END         
+
+        
+
+        UNION ALL
+
+        -- R-1401 투입량
+
+        SELECT 
+
+            CASE WHEN @TYPES = &#x27;D&#x27; THEN NB.WORKDATE
+
+                 WHEN @TYPES = &#x27;W&#x27; THEN NB.YEARWEEK
+
+                 ELSE NB.YEARMONTH 
+
+            END AS RPTDATE
+
+            , &#x27;LIPROCESS&#x27; AS PROCESSTYPE    -- LI 공정
+
+            , &#x27;REACTOR_INPUT&#x27; AS TOPICS     -- R-1401 투입량    
+
+            , &#x27;BP_IN&#x27; AS SUBTOPICS          -- BP 투입량
+
+            , &#x27;Ton&#x27; AS UNITID
+
+            , SUM(NB.PLAN_REACTOR_INPUT)   AS PLANQTY
+
+            , SUM(NB.RESULT_REACTOR_INPUT) / 1000.0 AS RESULTQTY
+
+            , SUM((NB.RESULT_REACTOR_INPUT / 1000.0) - NB.PLAN_REACTOR_INPUT)  AS GAPQTY            
+
+            , 330 AS ORDERNO
+
+            , @TYPES AS TYPES
+
+        FROM @NEXT_PRODUCTION_BASE NB
+
+        GROUP BY CASE WHEN @TYPES = &#x27;D&#x27; THEN NB.WORKDATE WHEN @TYPES = &#x27;W&#x27; THEN NB.YEARWEEK ELSE NB.YEARMONTH END 
+
+        
+
+        UNION ALL
+
+        -- [추가] R-1401 배출량
+
+        SELECT 
+
+            CASE WHEN @TYPES = &#x27;D&#x27; THEN NB.WORKDATE
+
+                 WHEN @TYPES = &#x27;W&#x27; THEN NB.YEARWEEK
+
+                 ELSE NB.YEARMONTH 
+
+            END AS RPTDATE
+
+            , &#x27;LIPROCESS&#x27; AS PROCESSTYPE    -- LI 공정
+
+            , &#x27;REACTOR_OUTPUT&#x27; AS TOPICS     -- R-1401 배출량    
+
+            , &#x27;BP_IN&#x27; AS SUBTOPICS          -- BP 투입량
+
+            , &#x27;Ton&#x27; AS UNITID
+
+            , SUM(NB.PLAN_REACTOR_OUTPUT)   AS PLANQTY
+
+            , SUM(NB.RESULT_REACTOR_OUTPUT) / 1000.0 AS RESULTQTY
+
+            , SUM((NB.RESULT_REACTOR_OUTPUT / 1000.0) - NB.PLAN_REACTOR_OUTPUT)  AS GAPQTY
+
+            , 340 AS ORDERNO
+
+            , @TYPES AS TYPES
+
+        FROM @NEXT_PRODUCTION_BASE NB
+
+        GROUP BY CASE WHEN @TYPES = &#x27;D&#x27; THEN NB.WORKDATE WHEN @TYPES = &#x27;W&#x27; THEN NB.YEARWEEK ELSE NB.YEARMONTH END         
+
+        
+
+        UNION ALL
+
+        -- 건조 투입량
+
+        SELECT 
+
+            CASE WHEN @TYPES = &#x27;D&#x27; THEN NB.WORKDATE
+
+                 WHEN @TYPES = &#x27;W&#x27; THEN NB.YEARWEEK
+
+                 ELSE NB.YEARMONTH 
+
+            END AS RPTDATE
+
+            , &#x27;LIPROCESS&#x27; AS PROCESSTYPE   -- LI 공정
+
+            , &#x27;DRY_INPUT&#x27; AS TOPICS        -- 건조 투입량
+
+            , &#x27;DRY&#x27; AS SUBTOPICS           -- 건조 무게
+
+            , &#x27;Ton&#x27; AS UNITID
+
+            , SUM(NB.PLAN_DRY_INPUT)   AS PLANQTY
+
+            , SUM(NB.RESULT_DRY_INPUT) / 1000.0 AS RESULTQTY
+
+            , SUM((NB.RESULT_DRY_INPUT / 1000.0 ) - NB.PLAN_DRY_INPUT)  AS GAPQTY
+
+            , 350 AS ORDERNO
+
+            , @TYPES AS TYPES
+
+        FROM @NEXT_PRODUCTION_BASE NB
+
+        GROUP BY CASE WHEN @TYPES = &#x27;D&#x27; THEN NB.WORKDATE WHEN @TYPES = &#x27;W&#x27; THEN NB.YEARWEEK ELSE NB.YEARMONTH END 
+
+        UNION ALL
+
+        -- 건조 배출량
+
+        SELECT 
+
+            CASE WHEN @TYPES = &#x27;D&#x27; THEN NB.WORKDATE
+
+                 WHEN @TYPES = &#x27;W&#x27; THEN NB.YEARWEEK
+
+                 ELSE NB.YEARMONTH 
+
+            END AS RPTDATE
+
+            , &#x27;LIPROCESS&#x27; AS PROCESSTYPE   -- LI 공정
+
+            , &#x27;DRY_OUTPUT&#x27; AS TOPICS       -- 건조 배출량    
+
+            , &#x27;FIR_OUT&#x27; AS SUBTOPICS       -- 건조 무게
+
+            , &#x27;Ton&#x27; AS UNITID
+
+            , SUM(NB.PLAN_DRY_OUTPUT)   AS PLANQTY
+
+            , SUM(NB.RESULT_DRY_OUTPUT) / 1000.0 AS RESULTQTY
+
+            , SUM((NB.RESULT_DRY_OUTPUT / 1000.0 ) - NB.PLAN_DRY_OUTPUT) AS GAPQTY            
+
+            , 360 AS ORDERNO
+
+            , @TYPES AS TYPES
+
+        FROM @NEXT_PRODUCTION_BASE NB
+
+        GROUP BY CASE WHEN @TYPES = &#x27;D&#x27; THEN NB.WORKDATE WHEN @TYPES = &#x27;W&#x27; THEN NB.YEARWEEK ELSE NB.YEARMONTH END 
+
+        UNION ALL
+
+        -- Li2CO3 배출량
+
+        SELECT 
+
+            CASE WHEN @TYPES = &#x27;D&#x27; THEN NB.WORKDATE
+
+                 WHEN @TYPES = &#x27;W&#x27; THEN NB.YEARWEEK
+
+                 ELSE NB.YEARMONTH 
+
+            END AS RPTDATE
+
+ , &#x27;LIPROCESS&#x27; AS PROCESSTYPE   -- LI 공정
+
+            , &#x27;LI2CO3_OUTPUT&#x27; AS TOPICS    -- Pre-Mixing 투입량    
+
+            , &#x27;TONBAG&#x27; AS SUBTOPICS        -- Ton Bag 무게 
+
+            , &#x27;Ton&#x27; AS UNITID
+
+            , SUM(NB.PLAN_LI2CO3_OUTPUT)   AS PLANQTY
+
+            , SUM(NB.RESULT_LI2CO3_OUTPUT) / 1000.0 AS RESULTQTY
+
+            , SUM((NB.RESULT_LI2CO3_OUTPUT / 1000.0 ) - NB.PLAN_LI2CO3_OUTPUT) AS GAPQTY            
+
+            , 370 AS ORDERNO
+
+            , @TYPES AS TYPES
+
+        FROM @NEXT_PRODUCTION_BASE NB
+
+        GROUP BY CASE WHEN @TYPES = &#x27;D&#x27; THEN NB.WORKDATE WHEN @TYPES = &#x27;W&#x27; THEN NB.YEARWEEK ELSE NB.YEARMONTH END 
+
+        UNION ALL
+
+        -- Li3PO4 배출량
+
+        SELECT 
+
+            CASE WHEN @TYPES = &#x27;D&#x27; THEN NB.WORKDATE
+
+                 WHEN @TYPES = &#x27;W&#x27; THEN NB.YEARWEEK
+
+                 ELSE NB.YEARMONTH 
+
+            END AS RPTDATE
+
+            , &#x27;LIPROCESS&#x27; AS PROCESSTYPE   -- LI 공정
+
+            , &#x27;LI3PO4_OUTPUT&#x27; AS TOPICS    -- Pre-Mixing 투입량    
+
+            , &#x27;TONBAG&#x27; AS SUBTOPICS        -- Ton Bag 무게 
+
+            , &#x27;Ton&#x27; AS UNITID
+
+            , SUM(NB.PLAN_LI3PO4_OUTPUT)    AS PLANQTY
+
+            , SUM(NB.RESULT_LI3PO4_OUTPUT) / 1000.0 AS RESULTQTY
+
+            , SUM((NB.RESULT_LI3PO4_OUTPUT / 1000.0 )- NB.PLAN_LI3PO4_OUTPUT)  AS GAPQTY            
+
+            , 380 AS ORDERNO
+
+            , @TYPES AS TYPES
+
+        FROM @NEXT_PRODUCTION_BASE NB
+
+        GROUP BY CASE WHEN @TYPES = &#x27;D&#x27; THEN NB.WORKDATE WHEN @TYPES = &#x27;W&#x27; THEN NB.YEARWEEK ELSE NB.YEARMONTH END 
+
+        ORDER BY 1, ORDERNO
+
+
+
+    END    
+
+    --
+
+    -- 3.03 : LI RESULT DATA  END
+
+    --
+
+    
+
+    
+
+    --
+
+    -- 3.04 : NCM RESULT DATA 
+
+    --
+
+    IF @PROCESSTYPE = &#x27;NCMPROCESS&#x27; OR @PROCESSTYPE = &#x27;&#x27; -- NCM
+
+    BEGIN
+
+        
+
+        INSERT INTO #RPT_PRODUCTION_BASE -- TEMP_RPT_PRODUCTION_BASE -- @RPT_PRODUCTION_BASE
+
+        ( RPTDATE, PROCESSTYPE, TOPICS, SUBTOPICS, UNITID, PLANQTY, RESULTQTY, GAPQTY, ORDERNO, TYPES )
+
+        -- PK-1501 투입량
+
+        SELECT 
+
+            CASE WHEN @TYPES = &#x27;D&#x27; THEN NB.WORKDATE
+
+                 WHEN @TYPES = &#x27;W&#x27; THEN NB.YEARWEEK
+
+                 ELSE NB.YEARMONTH 
+
+            END AS RPTDATE
+
+            , &#x27;NCMPROCESS&#x27; AS PROCESSTYPE  -- NCM 공정
+
+            , &#x27;PK1501_INPUT&#x27; AS TOPICS     -- PK-1501 투입량   
+
+            , &#x27;FQI&#x27; AS SUBTOPICS         -- 
+
+            , &#x27;m³&#x27; AS UNITID
+
+            , SUM(NB.PLAN_PK1501_INPUT) AS PLANQTY
+
+            , SUM(NB.RESULT_PK1501_INPUT) AS RESULTQTY
+
+            , SUM(NB.RESULT_PK1501_INPUT - NB.PLAN_PK1501_INPUT) AS GAPQTY
+
+            , 410 AS ORDERNO
+
+            , @TYPES AS TYPES
+
+        FROM @NEXT_PRODUCTION_BASE NB
+
+        GROUP BY CASE WHEN @TYPES = &#x27;D&#x27; THEN NB.WORKDATE WHEN @TYPES = &#x27;W&#x27; THEN NB.YEARWEEK ELSE NB.YEARMONTH END 
+
+        
+
+        UNION ALL
+
+        -- [추가] Ni/Co/Mg Sulfate
+
+        SELECT 
+
+            CASE WHEN @TYPES = &#x27;D&#x27; THEN NB.WORKDATE
+
+                 WHEN @TYPES = &#x27;W&#x27; THEN NB.YEARWEEK
+
+                 ELSE NB.YEARMONTH 
+
+            END AS RPTDATE
+
+            , &#x27;NCMPROCESS&#x27; AS PROCESSTYPE           -- NCM 공정
+
+            , &#x27;V1517NCM_SULFATE_INPUT&#x27; AS TOPICS    -- Ni/Co/Mg Sulfate TANK LT   
+
+            , &#x27;FQI&#x27; AS SUBTOPICS                    -- 적산량
+
+            , &#x27;m³&#x27; AS UNITID
+
+            , SUM(NB.PLAN_V1517NCM_SULFATE_INPUT) AS PLANQTY
+
+            , SUM(NB.RESULT_V1517NCM_SULFATE_INPUT) AS RESULTQTY
+
+            , SUM(NB.RESULT_V1517NCM_SULFATE_INPUT - NB.PLAN_V1517NCM_SULFATE_INPUT) AS GAPQTY
+
+            , 420 AS ORDERNO
+
+            , @TYPES AS TYPES
+
+        FROM @NEXT_PRODUCTION_BASE NB
+
+        GROUP BY CASE WHEN @TYPES = &#x27;D&#x27; THEN NB.WORKDATE WHEN @TYPES = &#x27;W&#x27; THEN NB.YEARWEEK ELSE NB.YEARMONTH END         
+
+        
+
+        UNION ALL
+
+        -- PK-1502 투입량
+
+        SELECT 
+
+            CASE WHEN @TYPES = &#x27;D&#x27; THEN NB.WORKDATE
+
+                 WHEN @TYPES = &#x27;W&#x27; THEN NB.YEARWEEK
+
+                 ELSE NB.YEARMONTH 
+
+            END AS RPTDATE
+
+            , &#x27;NCMPROCESS&#x27; AS PROCESSTYPE  -- NCM 공정
+
+  , &#x27;PK1502_INPUT&#x27; AS TOPICS     -- PK-1502 투입량   
+
+            , &#x27;FQI&#x27; AS SUBTOPICS         -- 
+
+            , &#x27;m³&#x27; AS UNITID
+
+            , SUM(NB.PLAN_PK1502_INPUT) AS PLANQTY
+
+            , SUM(NB.RESULT_PK1502_INPUT) AS RESULTQTY
+
+            , SUM(NB.RESULT_PK1502_INPUT - NB.PLAN_PK1502_INPUT) AS GAPQTY
+
+            , 430 AS ORDERNO
+
+            , @TYPES AS TYPES
+
+        FROM @NEXT_PRODUCTION_BASE NB
+
+        GROUP BY CASE WHEN @TYPES = &#x27;D&#x27; THEN NB.WORKDATE WHEN @TYPES = &#x27;W&#x27; THEN NB.YEARWEEK ELSE NB.YEARMONTH END 
+
+        
+
+        UNION ALL
+
+        -- [추가] Ni/Mg Sulfate(V1523)
+
+        SELECT 
+
+            CASE WHEN @TYPES = &#x27;D&#x27; THEN NB.WORKDATE
+
+                 WHEN @TYPES = &#x27;W&#x27; THEN NB.YEARWEEK
+
+                 ELSE NB.YEARMONTH 
+
+            END AS RPTDATE
+
+            , &#x27;NCMPROCESS&#x27; AS PROCESSTYPE          -- NCM 공정
+
+            , &#x27;V1523NM_SULFATE_INPUT&#x27; AS TOPICS    -- Ni/Mg Sulfate TANK LT     
+
+            , &#x27;FQI&#x27; AS SUBTOPICS                   -- 적산량
+
+            , &#x27;m³&#x27; AS UNITID
+
+            , SUM(NB.PLAN_V1523NM_SULFATE_INPUT) AS PLANQTY
+
+            , SUM(NB.RESULT_V1523NM_SULFATE_INPUT) AS RESULTQTY
+
+            , SUM(NB.RESULT_V1523NM_SULFATE_INPUT - NB.PLAN_V1523NM_SULFATE_INPUT) AS GAPQTY
+
+            , 440 AS ORDERNO
+
+            , @TYPES AS TYPES
+
+        FROM @NEXT_PRODUCTION_BASE NB
+
+        GROUP BY CASE WHEN @TYPES = &#x27;D&#x27; THEN NB.WORKDATE WHEN @TYPES = &#x27;W&#x27; THEN NB.YEARWEEK ELSE NB.YEARMONTH END         
+
+                        
+
+        UNION ALL
+
+        -- PK-1503 투입량
+
+        SELECT 
+
+            CASE WHEN @TYPES = &#x27;D&#x27; THEN NB.WORKDATE
+
+                 WHEN @TYPES = &#x27;W&#x27; THEN NB.YEARWEEK
+
+                 ELSE NB.YEARMONTH 
+
+            END AS RPTDATE
+
+            , &#x27;NCMPROCESS&#x27; AS PROCESSTYPE  -- NCM 공정
+
+            , &#x27;PK1503_INPUT&#x27; AS TOPICS     -- PK-1503 투입량   
+
+            , &#x27;FQI&#x27; AS SUBTOPICS         -- 
+
+            , &#x27;m³&#x27; AS UNITID
+
+            , SUM(NB.PLAN_PK1503_INPUT) AS PLANQTY
+
+            , SUM(NB.RESULT_PK1503_INPUT) AS RESULTQTY
+
+            , SUM(NB.RESULT_PK1503_INPUT - NB.PLAN_PK1503_INPUT) AS GAPQTY
+
+            , 450 AS ORDERNO
+
+            , @TYPES AS TYPES
+
+        FROM @NEXT_PRODUCTION_BASE NB
+
+        GROUP BY CASE WHEN @TYPES = &#x27;D&#x27; THEN NB.WORKDATE WHEN @TYPES = &#x27;W&#x27; THEN NB.YEARWEEK ELSE NB.YEARMONTH END 
+
+        
+
+        UNION ALL
+
+        -- [추가] Ni Sulfate(V1526)
+
+        SELECT 
+
+            CASE WHEN @TYPES = &#x27;D&#x27; THEN NB.WORKDATE
+
+                 WHEN @TYPES = &#x27;W&#x27; THEN NB.YEARWEEK
+
+                 ELSE NB.YEARMONTH 
+
+            END AS RPTDATE
+
+            , &#x27;NCMPROCESS&#x27; AS PROCESSTYPE          -- NCM 공정
+
+            , &#x27;V1526N_SULFATE_INPUT&#x27; AS TOPICS     -- Ni Sulfate TANK LT     
+
+            , &#x27;FQI&#x27; AS SUBTOPICS                   -- 적산량
+
+            , &#x27;m³&#x27; AS UNITID
+
+            , SUM(NB.PLAN_V1526N_SULFATE_INPUT) AS PLANQTY
+
+            , SUM(NB.RESULT_V1526N_SULFATE_INPUT) AS RESULTQTY
+
+            , SUM(NB.RESULT_V1526N_SULFATE_INPUT - NB.PLAN_V1526N_SULFATE_INPUT) AS GAPQTY
+
+            , 460 AS ORDERNO
+
+            , @TYPES AS TYPES
+
+        FROM @NEXT_PRODUCTION_BASE NB
+
+        GROUP BY CASE WHEN @TYPES = &#x27;D&#x27; THEN NB.WORKDATE WHEN @TYPES = &#x27;W&#x27; THEN NB.YEARWEEK ELSE NB.YEARMONTH END            
+
+        
+
+        UNION ALL
+
+        -- PK-1504 투입량
+
+        SELECT 
+
+            CASE WHEN @TYPES = &#x27;D&#x27; THEN NB.WORKDATE
+
+                 WHEN @TYPES = &#x27;W&#x27; THEN NB.YEARWEEK
+
+                 ELSE NB.YEARMONTH 
+
+            END AS RPTDATE
+
+            , &#x27;NCMPROCESS&#x27; AS PROCESSTYPE  -- NCM 공정
+
+            , &#x27;PK1504_INPUT&#x27; AS TOPICS     -- PK-1504 투입량   
+
+            , &#x27;FQI&#x27; AS SUBTOPICS         -- 
+
+            , &#x27;m³&#x27; AS UNITID
+
+            , SUM(NB.PLAN_PK1504_INPUT) AS PLANQTY
+
+            , SUM(NB.RESULT_PK1504_INPUT) AS RESULTQTY
+
+            , SUM(NB.RESULT_PK1504_INPUT - NB.PLAN_PK1504_INPUT) AS GAPQTY
+
+            , 470 AS ORDERNO
+
+            , @TYPES AS TYPES
+
+        FROM @NEXT_PRODUCTION_BASE NB
+
+        GROUP BY CASE WHEN @TYPES = &#x27;D&#x27; THEN NB.WORKDATE WHEN @TYPES = &#x27;W&#x27; THEN NB.YEARWEEK ELSE NB.YEARMONTH END 
+
+        
+
+        UNION ALL
+
+        -- [추가] Ni Sulfate(V1531)
+
+        SELECT 
+
+            CASE WHEN @TYPES = &#x27;D&#x27; THEN NB.WORKDATE
+
+                 WHEN @TYPES = &#x27;W&#x27; THEN NB.YEARWEEK
+
+                 ELSE NB.YEARMONTH 
+
+            END AS RPTDATE
+
+            , &#x27;NCMPROCESS&#x27; AS PROCESSTYPE          -- NCM 공정
+
+            , &#x27;V1531N_SULFATE_INPUT&#x27; AS TOPICS     -- Ni Sulfate TANK LT     
+
+            , &#x27;FQI&#x27; AS SUBTOPICS                   -- 적산량
+
+            , &#x27;m³&#x27; AS UNITID
+
+            , SUM(NB.PLAN_V1531N_SULFATE_INPUT) AS PLANQTY
+
+            , SUM(NB.RESULT_V1531N_SULFATE_INPUT) AS RESULTQTY
+
+            , SUM(NB.RESULT_V1531N_SULFATE_INPUT - NB.PLAN_V1531N_SULFATE_INPUT) AS GAPQTY
+
+            , 480 AS ORDERNO
+
+            , @TYPES AS TYPES
+
+        FROM @NEXT_PRODUCTION_BASE NB
+
+        GROUP BY CASE WHEN @TYPES = &#x27;D&#x27; THEN NB.WORKDATE WHEN @TYPES = &#x27;W&#x27; THEN NB.YEARWEEK ELSE NB.YEARMONTH END          
+
+
+
+        UNION ALL
+
+        -- [추가] CR FEED TANK
+
+        SELECT 
+
+            CASE WHEN @TYPES = &#x27;D&#x27; THEN NB.WORKDATE
+
+                 WHEN @TYPES = &#x27;W&#x27; THEN NB.YEARWEEK
+
+                 ELSE NB.YEARMONTH 
+
+            END AS RPTDATE
+
+            , &#x27;NCMPROCESS&#x27; AS PROCESSTYPE          -- NCM 공정
+
+            , &#x27;CR_FEEDTANK_INPUT&#x27; AS TOPICS        -- CR Feed Tank
+
+            , &#x27;FQI&#x27; AS SUBTOPICS                   -- 적산량
+
+            , &#x27;m³&#x27; AS UNITID
+
+            , SUM(NB.PLAN_CR_FEEDTANK_INPUT) AS PLANQTY
+
+            , SUM(NB.RESULT_CR_FEEDTANK_INPUT) AS RESULTQTY
+
+            , SUM(NB.RESULT_CR_FEEDTANK_INPUT - NB.PLAN_CR_FEEDTANK_INPUT) AS GAPQTY
+
+            , 490 AS ORDERNO
+
+            , @TYPES AS TYPES
+
+        FROM @NEXT_PRODUCTION_BASE NB
+
+        GROUP BY CASE WHEN @TYPES = &#x27;D&#x27; THEN NB.WORKDATE WHEN @TYPES = &#x27;W&#x27; THEN NB.YEARWEEK ELSE NB.YEARMONTH END      
+
+
+
+        UNION ALL
+
+        -- Co Sol&#x27; Ext Box 배출량
+
+        SELECT 
+
+            CASE WHEN @TYPES = &#x27;D&#x27; THEN NB.WORKDATE
+
+                 WHEN @TYPES = &#x27;W&#x27; THEN NB.YEARWEEK
+
+                 ELSE NB.YEARMONTH 
+
+            END AS RPTDATE
+
+            , &#x27;NCMPROCESS&#x27; AS PROCESSTYPE  -- NCM 공정
+
+            , &#x27;CO_EXT_OUTPUT&#x27; AS TOPICS    -- Co Sol&#x27; Ext Box 배출량  
+
+            , &#x27;FQI&#x27; AS SUBTOPICS         -- 
+
+            , &#x27;m³&#x27; AS UNITID
+
+            , SUM(NB.PLAN_CO_EXT_OUTPUT) AS PLANQTY
+
+            , SUM(NB.RESULT_CO_EXT_OUTPUT) AS RESULTQTY
+
+            , SUM(NB.RESULT_CO_EXT_OUTPUT - NB.PLAN_CO_EXT_OUTPUT) AS GAPQTY
+
+            , 510 AS ORDERNO
+
+            , @TYPES AS TYPES
+
+        FROM @NEXT_PRODUCTION_BASE NB
+
+        GROUP BY CASE WHEN @TYPES = &#x27;D&#x27; THEN NB.WORKDATE WHEN @TYPES = &#x27;W&#x27; THEN NB.YEARWEEK ELSE NB.YEARMONTH END 
+
+        UNION ALL
+
+        -- Ni Sol&#x27; Ext Box  배출량
+
+        SELECT 
+
+            CASE WHEN @TYPES = &#x27;D&#x27; THEN NB.WORKDATE
+
+                 WHEN @TYPES = &#x27;W&#x27; THEN NB.YEARWEEK
+
+                 ELSE NB.YEARMONTH 
+
+            END AS RPTDATE
+
+            , &#x27;NCMPROCESS&#x27; AS PROCESSTYPE  -- NCM 공정
+
+            , &#x27;NI_EXT_OUTPUT&#x27; AS TOPICS    -- Ni Sol&#x27; Ext Box  배출량  
+
+            , &#x27;TONBAG&#x27; AS SUBTOPICS         -- 
+
+            , &#x27;Ton&#x27; AS UNITID
+
+            , SUM(NB.PLAN_NI_EXT_OUTPUT) AS PLANQTY
+
+            , SUM(NB.RESULT_NI_EXT_OUTPUT) / 1000.0 AS RESULTQTY
+
+            , SUM((NB.RESULT_NI_EXT_OUTPUT / 1000.0 ) - NB.PLAN_NI_EXT_OUTPUT) AS GAPQTY
+
+            , 520 AS ORDERNO
+
+            , @TYPES AS TYPES
+
+        FROM @NEXT_PRODUCTION_BASE NB
+
+        GROUP BY CASE WHEN @TYPES = &#x27;D&#x27; THEN NB.WORKDATE WHEN @TYPES = &#x27;W&#x27; THEN NB.YEARWEEK ELSE NB.YEARMONTH END 
+
+        UNION ALL
+
+        -- Ni Sol&#x27; Ext Box  배출량
+
+        SELECT 
+
+            CASE WHEN @TYPES = &#x27;D&#x27; THEN NB.WORKDATE
+
+                 WHEN @TYPES = &#x27;W&#x27; THEN NB.YEARWEEK
+
+                 ELSE NB.YEARMONTH 
+
+            END AS RPTDATE
+
+            , &#x27;NCMPROCESS&#x27; AS PROCESSTYPE  -- NCM 공정
+
+            , &#x27;NI3SO4_OUTPUT&#x27; AS TOPICS    -- NI3SO4 배출량     
+
+            , &#x27;TONBAG&#x27; AS SUBTOPICS     -- 
+
+, &#x27;Ton&#x27; AS UNITID            
+
+            , SUM(NB.PLAN_NI3SO4_OUTPUT)    AS PLANQTY
+
+            , SUM(NB.RESULT_NI3SO4_OUTPUT) / 1000.0 AS RESULTQTY
+
+            , SUM(( NB.RESULT_NI3SO4_OUTPUT / 1000.0) - NB.PLAN_NI3SO4_OUTPUT)  AS GAPQTY            
+
+            , 530 AS ORDERNO
+
+            , @TYPES AS TYPES
+
+        FROM @NEXT_PRODUCTION_BASE NB
+
+        GROUP BY CASE WHEN @TYPES = &#x27;D&#x27; THEN NB.WORKDATE WHEN @TYPES = &#x27;W&#x27; THEN NB.YEARWEEK ELSE NB.YEARMONTH END 
+
+        ORDER BY 1, ORDERNO
+
+        
+
+    END    
+
+    
+
+    --
+
+    -- 3.04 : NCM RESULT DATA  END
+
+    --
+
+    
+
+    -----------------------------
+
+    -- 4. 조회 쿼리
+
+    -----------------------------      
+
+    
+
+    --
+
+    -- 4.01 : PIVOT COLUMN(HEADER) 구하기
+
+    --
+
+    DECLARE @PV_HEADERS VARCHAR(MAX)
+
+         ,  @GRID_HEADERS VARCHAR(MAX)
+
+         ,  @UNION_HEADERS VARCHAR(MAX)
+
+    ;
+
+ 
+
+    SELECT 
+
+        @PV_HEADERS = STRING_AGG(&#x27;[&#x27; + RPTDATE + &#x27;]&#x27;, &#x27;, &#x27;) WITHIN GROUP ( ORDER BY M.RPTDATE )
+
+        , @GRID_HEADERS = STRING_AGG(&#x27;ISNULL([&#x27; + RPTDATE + &#x27;], 0) AS [&#x27; + PV_HEADER +&#x27;]&#x27;, &#x27;, &#x27;) WITHIN GROUP ( ORDER BY M.RPTDATE )
+
+        , @UNION_HEADERS = STRING_AGG(PV_HEADER, &#x27;, &#x27;) WITHIN GROUP ( ORDER BY M.RPTDATE ) 
+
+    FROM 
+
+    (
+
+        SELECT RPTDATE, TYPES
+
+            , CASE WHEN TYPES = &#x27;D&#x27; THEN LEFT(RPTDATE, 4) + &#x27;-&#x27; + SUBSTRING(RPTDATE, 5, 2) + &#x27;-&#x27; + RIGHT(RPTDATE, 2)
+
+                   WHEN TYPES = &#x27;W&#x27; THEN LEFT(RPTDATE, 4) + &#x27;-&#x27;  + RIGHT(RPTDATE, 2) + TYPES         
+
+                   ELSE LEFT(RPTDATE, 4) + &#x27;-&#x27;  + RIGHT(RPTDATE, 2) 
+
+              END AS PV_HEADER
+
+        FROM #RPT_PRODUCTION_BASE 
+
+        GROUP BY RPTDATE, TYPES
+
+    ) M
+
+
+
+    /*
+
+    SELECT       
+
+    &#x27;공정&#x27; AS PROCESSTYPE
+
+    , &#x27;관리항목&#x27; AS MANAGEITEM
+
+    , &#x27;세부항목&#x27; AS SUBMANAGEITEM
+
+    , &#x27;구분&#x27; AS ITEMTYPE
+
+    , &#x27;SUMMARY&#x27; AS SUMMARY
+
+*/
+
+    
+
+    --
+
+    -- 4.02 : 실행 쿼리 만들기
+
+    --
+
+    DECLARE @STRSQL VARCHAR(MAX);
+
+
+
+    SET @STRSQL = 
+
+       &#x27;WITH RPT_BASE_DATA AS 
+
+        (
+
+            SELECT 
+
+                RPTDATE,PROCESSTYPE,TOPICS,SUBTOPICS,UNITID,ORDERNO,PLANQTY,RESULTQTY,GAPQTY
+
+            FROM #RPT_PRODUCTION_BASE
+
+            UNION ALL
+
+            SELECT &#x27;&#x27;SUMMARY&#x27;&#x27; AS RPTDATE,PROCESSTYPE,TOPICS,SUBTOPICS,UNITID,ORDERNO, SUM(PLANQTY) AS PLANQTY, SUM(RESULTQTY) AS RESULTQTY, SUM(GAPQTY) AS GAPQTY
+
+            FROM #RPT_PRODUCTION_BASE
+
+            GROUP BY PROCESSTYPE,TOPICS,SUBTOPICS,UNITID,ORDERNO
+
+        )
+
+        SELECT 
+
+            CA.CODENAME AS PROCESSTYPE    -- P.PROCESSTYPE
+
+            , CB.CODENAME AS MANAGEITEM   -- P.TOPICS 
+
+            , CC.CODENAME + &#x27;&#x27;(&#x27;&#x27; + P.UNITID + &#x27;&#x27;)&#x27;&#x27; AS SUBMANAGEITEM   -- P.SUBTOPICS
+
+            , CASE WHEN P.SUBORDERNO = 1  THEN &#x27;&#x27;계획&#x27;&#x27;
+
+                   WHEN P.SUBORDERNO = 2  THEN &#x27;&#x27;실적&#x27;&#x27;
+
+                   ELSE &#x27;&#x27;GAP&#x27;&#x27;
+
+              END AS ITEMTYPE
+
+            , [SUMMARY],&#x27; 
+
+            + @GRID_HEADERS +
+
+      &#x27; FROM 
+
+        (
+
+            SELECT 
+
+                UNP.RPTDATE
+
+                , UNP.PROCESSTYPE
+
+                , UNP.TOPICS
+
+                , UNP.SUBTOPICS
+
+                , UNP.UNITID
+
+                , UNP.ORDERNO
+
+                , CASE WHEN UNP.ITEMTYPE = &#x27;&#x27;PLANQTY&#x27;&#x27; THEN 1 
+
+                       WHEN UNP.ITEMTYPE = &#x27;&#x27;RESULTQTY&#x27;&#x27; THEN 2
+
+                       WHEN UNP.ITEMTYPE = &#x27;&#x27;GAPQTY&#x27;&#x27; THEN 3
+
+                       ELSE 4
+
+                  END SUBORDERNO
+
+                , UNP.ITEMTYPE
+
+                , UNP.UP_VALUE
+
+            FROM RPT_BASE_DATA RD
+
+            UNPIVOT( UP_VALUE FOR ITEMTYPE IN ( PLANQTY, RESULTQTY, GAPQTY)) UNP
+
+        ) UP
+
+        PIVOT 
+
+        (
+
+            MAX(UP_VALUE) FOR RPTDATE IN ( [SUMMARY], &#x27; + @PV_HEADERS + &#x27; )
+
+        ) P
+
+        LEFT OUTER JOIN CIM_CODE CA
+
+            ON  P.PROCESSTYPE = CA.CODEID
+
+            AND CA.CODECLASSID = &#x27;&#x27;RPT_PROCESS&#x27;&#x27;
+
+            AND CA.SITEID = &#x27;&#x27;PL01&#x27;&#x27;
+
+        LEFT OUTER JOIN CIM_CODE CB
+
+            ON  P.TOPICS = CB.CODEID
+
+            AND CB.CODECLASSID = &#x27;&#x27;RPT_MANAGEMENTITEM&#x27;&#x27;
+
+ AND CB.SITEID = &#x27;&#x27;PL01&#x27;&#x27;
+
+        LEFT OUTER JOIN CIM_CODE CC
+
+            ON  P.SUBTOPICS = CC.CODEID
+
+            AND CC.CODECLASSID = &#x27;&#x27;RPT_MANAGEMENTSUBITEM&#x27;&#x27;
+
+            AND CC.SITEID = &#x27;&#x27;PL01&#x27;&#x27;
+
+        ORDER BY P.ORDERNO, P.SUBORDERNO&#x27;;
+
+    
+
+    --
+
+    -- 4.03 : 조회 쿼리 실행 ( EXEC (SQL) )
+
+    --
+
+--    PRINT @STRSQL + &#x27;;&#x27;;
+
+    EXEC (@STRSQL);
+
+
+
+END</pre></details><details class="sql"><summary>테이블 반환 함수 FN_RPT_DAY_WEEK_MONTH 정의 보기</summary><pre>-------------------------------------------------------------
+
+-- REPORT 용 조회 기간 일자/주차/월 생성
+
+--  SELECT * FROM dbo.FN_RPT_DAY_WEEK_MONTH(&#x27;D&#x27;, &#x27;20240101&#x27;, &#x27;20241231&#x27;)
+
+--  PARAM :
+
+--     @TYPES : 일,주,월 [ D | W | M ]
+
+--     @STARTDATE  : 시작일,주,월  [ 20241231 | 202453 | 202412 ]
+
+--     @ENDDATE  : 시작일,주,월  [ 20241231 | 202453 | 202412 ]
+
+-------------------------------------------------------------
+
+CREATE FUNCTION [dbo].[FN_RPT_DAY_WEEK_MONTH]
+
+(
+
+    @TYPES VARCHAR(40)
+
+    , @STARTDATE VARCHAR(40)
+
+    , @ENDDATE VARCHAR(40)
+
+)
+
+RETURNS @RETARRAY TABLE
+
+(
+
+    WORKDATE    VARCHAR(8)
+
+    , YEARS     VARCHAR(4)
+
+    , YEARMONTH VARCHAR(6)
+
+    , YEARWEEK  VARCHAR(6)
+
+)
+
+AS  
+
+BEGIN  
+
+    
+
+    INSERT @RETARRAY( WORKDATE,YEARS,YEARMONTH,YEARWEEK)
+
+    SELECT 
+
+        WORKDATE,YEARS,YEARMONTH,YEARWEEK
+
+    FROM 
+
+    (
+
+        SELECT 
+
+            CONVERT(VARCHAR(8), WORKDATE, 112) AS WORKDATE
+
+            , CONVERT(VARCHAR(4), WORKDATE, 112) AS YEARS
+
+            , CONVERT(VARCHAR(6), WORKDATE, 112) AS YEARMONTH
+
+            , CONVERT(VARCHAR(4), WORKDATE, 112) + FORMAT(DATEPART(WEEK, WORKDATE), &#x27;00&#x27;) AS YEARWEEK
+
+        FROM 
+
+        (
+
+            SELECT 
+
+                DATEADD(DAY, NUMBER, CONVERT(DATETIME, LEFT(@STARTDATE, 4) + &#x27;-01-01&#x27;)) AS WORKDATE
+
+            FROM master..spt_values 
+
+            WHERE TYPE = &#x27;P&#x27;
+
+            AND   NUMBER &lt; DATEDIFF(DAY, CONVERT(DATETIME, LEFT(@STARTDATE, 4) + &#x27;-01-01&#x27;), CONVERT(DATETIME, LEFT(@ENDDATE, 4) + &#x27;-12-31&#x27;))
+
+        ) M
+
+    ) P
+
+    WHERE  
+
+        ( 
+
+            (
+
+                ( @TYPES = &#x27;D&#x27; ) AND P.WORKDATE BETWEEN @STARTDATE AND @ENDDATE
+
+            )
+
+            OR 
+
+            (
+
+                ( @TYPES = &#x27;W&#x27; ) AND P.YEARWEEK BETWEEN @STARTDATE AND @ENDDATE
+
+            )
+
+            OR 
+
+            (
+
+                ( @TYPES = &#x27;M&#x27; ) AND P.YEARMONTH BETWEEN @STARTDATE AND @ENDDATE
+
+            )
+
+        )
+
+    ;
+
+
+
+    RETURN
+
+END</pre></details></details><details id="svc-2" class="svc"><summary><b>#2</b> Query <code>CDS_Code_200</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-2">#2 검색조건 콤보 - LINEID (LINEID)</a> <a class="chip" href="#fn-3">#3 검색조건 콤보 - TYPES (SEARCHCYCLE)</a> <a class="chip" href="#fn-4">#4 검색조건 콤보 - PROCESSTYPE (PROCESSSEGMENTID)</a></p><h4>Query (조회 서비스) : CDS_Code_200</h4><ul><li>ID 구성: <code>CDS_Code_200</code> / 클래스 <code>THiRA.MES.Modeler</code> / 버전 <code>00001</code></li><li>정의 위치: Modeler 내장 쿼리 (THiRAMES.Service.Modeler.MSSQL DLL)</li><li>쿼리 파라메터: <code>CODECLASSID</code> <code>SITEID</code></li><li>테이블(조회/쓰기 전체, 함수·SP 포함): <div><a class="tbl" href="../tables.html#CIM_CODE">CIM_CODE</a><span class="b m">메인</span><span class="b r">읽기</span></div></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 1 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 202 76" width="202" height="76" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="170" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_CODE</text><text x="26" y="52" class="t2">기준 테이블</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>SELECT CODEID AS CODE,
        CODENAME AS NAME,
        UISEQUENCE
 FROM CIM_CODE 

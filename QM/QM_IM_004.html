@@ -92,161 +92,318 @@ SELECT C.INSPREQNO,
    AND (:RECEPTDATETIME IS NULL OR C.RECEPTDATETIME BETWEEN TO_DATE(:FROMDATE, &#x27;YYYY-MM-DD&#x27;) AND TO_DATE(:TODATE, &#x27;YYYY-MM-DD&#x27;) + 0.99999)
    AND (:ISUSABLE IS NULL OR C.ISUSABLE = :ISUSABLE)
    AND C.SITEID = :SITEID
-ORDER BY C.INSPREQNO, C.REQDATETIME</pre></details><details class="sql"><summary>테이블 반환 함수 FN_MES_SPLIT 정의 보기</summary><pre>CREATE FUNCTION [dbo].[FN_MES_SPLIT]
-(
-  @I_STR     NVARCHAR(MAX),
-  @I_DELIM    NVARCHAR(40) = &#x27;,&#x27;
-)
-RETURNS @RETARRAY TABLE
-(
-	VALUE NVARCHAR(MAX)
-)
-AS  
-BEGIN  
-	DECLARE @VALUE			VARCHAR(8000)
-	DECLARE	@BCONTINUE		BIT
-	DECLARE @ISTRIKE		SMALLINT
-	DECLARE @IDELIMLENGTH	TINYINT
-   
-
-	SET @I_STR = LTRIM(RTRIM(@I_STR))  
-	SET @IDELIMLENGTH = LEN(@I_DELIM)  
-	SET @BCONTINUE = 1  
-
-	WHILE @BCONTINUE = 1  
-	BEGIN  
-		--텍스트에서 구분자를 발견하면, 첫 번째 요소를 반환하고  
-		--반환되는 테이블에 인덱스를 입력한다.  
-		IF CHARINDEX(@I_DELIM, @I_STR)&gt;0  
-		BEGIN  
-			-- 첫 번째 요소를 반환  
-			SET @VALUE = SUBSTRING(@I_STR,1, CHARINDEX(@I_DELIM,@I_STR)-1)  
-				
-			INSERT @RETARRAY (VALUE) VALUES (@VALUE)  
-
-			--다음 요소와 구분자를 문자열의 앞에서부터 제거하고,  
-			--INDEX를 증가시키고 반복작업(LOOP)을 이어간다.  
-			SET @ISTRIKE = LEN(@VALUE) + @IDELIMLENGTH  
-			SET @I_STR = LTRIM(RIGHT(@I_STR,LEN(@I_STR) - @ISTRIKE))  
-		END
-		ELSE  
-		BEGIN  
-			--만약 텍스트 안에서 구분자를 더 이상 찾을 수 없게 되면,   
-			--@I_STR가 @RETARRAY의 마지막 값이다.  
-			SET @VALUE = @I_STR  
-			-- 마지막 값도 구분자로 나누어져 있으뎐  
-			INSERT @RETARRAY (VALUE) VALUES (@VALUE)  
-
-			--WHILE 루프를 빠져 나온다.  
-			SET @BCONTINUE = 0  
-		END  
-	END 
-	
-	RETURN  
-END</pre></details><details class="sql"><summary>스칼라 함수 FN_USERNAME 정의 보기</summary><pre>CREATE FUNCTION [dbo].[FN_USERNAME](
-	@P_SITEID NVARCHAR(500),
-	@P_USERID NVARCHAR(500)
-) 
-RETURNS NVARCHAR(2000)
-AS
-BEGIN
-	DECLARE @V_RETURN NVARCHAR(100);
- 
-	SELECT @V_RETURN = ISNULL(U.USERNAME, &#x27;&#x27;) + &#x27;(&#x27; + ISNULL(U.USERID, &#x27;&#x27;) + &#x27;)&#x27; FROM CIM_USER U
-	WHERE U.SITEID  = @P_SITEID
-		AND U.USERID = @P_USERID
-	RETURN @V_RETURN
-END</pre></details></details><details id="svc-2" class="svc" open><summary><b>#2</b> Query <code>SelectInspReqLotList4Master</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-2">#2 조회 - 그리드 QM_IM_0042 (검사접수2_검사의뢰항목목록)</a></p><h4>Query (조회 서비스) : SelectInspReqLotList4Master</h4><ul><li>ID 구성: <code>SelectInspReqLotList4Master</code> / 클래스 <code>THiRAMES.Service.UI</code> / 버전 <code>00001</code></li><li>정의 위치: DB 저장 쿼리 (CIM_STOREDQUERY)</li><li>쿼리 파라메터: <code>INSPREQNO</code> <code>INSPTARGET</code> <code>INSPLOTID</code> <code>REPEATCOUNT</code> <code>SHEETID</code> <code>BATCHID</code> <code>EQUIPMENTID</code> <code>INSPDATETIME</code> <code>FROMDATE</code> <code>TODATE</code> <code>JUDGE</code> <code>ISUSABLE</code> <code>SITEID</code></li><li>테이블(조회/쓰기 전체, 함수·SP 포함): <div><a class="tbl" href="../tables.html#CIM_INSPREQLOT">CIM_INSPREQLOT</a><span class="b m">메인</span><span class="b r">읽기</span></div><div><small class="muted">└ 스칼라 함수 FN_USERNAME :</small> <a class="tbl" href="../tables.html#CIM_USER">CIM_USER</a><span class="b m">메인</span><span class="b r">읽기</span></div></li><li>함수/SP: <code>FN_USERNAME</code></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 1 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 202 76" width="202" height="76" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="170" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_INSPREQLOT</text><text x="26" y="52" class="t2">alias C</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small></div></details><details class="joinviz" open><summary><b>스칼라 함수 <code>FN_USERNAME</code> 의 조인 구조도</b> <small class="muted">테이블 1 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 202 76" width="202" height="76" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="170" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_USER</text><text x="26" y="52" class="t2">alias U</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>------------------------------------
--- SelectInspReqLotList4Master = 검사의뢰LOT 조회문 = QMS_InspReqLot_100
-------------------------------------
--- INPUT = SITEID, ISUSABLE, COPERATOR, MATERIALCLASSID, ITEMID, INSPTYPE
-SELECT C.*, (SELECT FN_USERNAME(C.SITEID, C.CREATOR) FROM DUAL) AS CREATOR2, (SELECT FN_USERNAME(C.SITEID, C.MODIFIER) FROM DUAL) AS MODIFIER2
-  FROM CIM_INSPREQLOT C
- WHERE (:INSPREQNO IS NULL OR INSPREQNO LIKE :INSPREQNO || &#x27;%&#x27;)
-   AND (:INSPTARGET IS NULL OR C.INSPTARGET = :INSPTARGET)
-   AND (:INSPLOTID IS NULL OR C.INSPLOTID = :INSPLOTID)
-   AND (:REPEATCOUNT IS NULL OR C.REPEATCOUNT = :REPEATCOUNT)
-   AND (:SHEETID IS NULL OR C.SHEETID = :SHEETID)
-   AND (:BATCHID IS NULL OR C.BATCHID = :BATCHID)
-   AND (:EQUIPMENTID IS NULL OR C.EQUIPMENTID = :EQUIPMENTID)
-   AND (:INSPDATETIME IS NULL OR C.INSPDATETIME BETWEEN TO_DATE(:FROMDATE, &#x27;YYYY-MM-DD&#x27;) AND TO_DATE(:TODATE, &#x27;YYYY-MM-DD&#x27;) + 0.99999)
-   AND (:JUDGE IS NULL OR C.JUDGE = :JUDGE)
-   AND (:ISUSABLE IS NULL OR C.ISUSABLE = :ISUSABLE)
-   AND C.SITEID = :SITEID
-ORDER BY INSPREQNO, INSPLOTID, REPEATCOUNT</pre></details><details class="sql"><summary>스칼라 함수 FN_USERNAME 정의 보기</summary><pre>CREATE FUNCTION [dbo].[FN_USERNAME](
-	@P_SITEID NVARCHAR(500),
-	@P_USERID NVARCHAR(500)
-) 
-RETURNS NVARCHAR(2000)
-AS
-BEGIN
-	DECLARE @V_RETURN NVARCHAR(100);
- 
-	SELECT @V_RETURN = ISNULL(U.USERNAME, &#x27;&#x27;) + &#x27;(&#x27; + ISNULL(U.USERID, &#x27;&#x27;) + &#x27;)&#x27; FROM CIM_USER U
-	WHERE U.SITEID  = @P_SITEID
-		AND U.USERID = @P_USERID
-	RETURN @V_RETURN
-END</pre></details></details><details id="svc-3" class="svc" open><summary><b>#3</b> Query <code>SelectCboCodeList</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-3">#3 검색조건 콤보 - INSPTYPE (INSPTYPE)</a></p><h4>Query (조회 서비스) : SelectCboCodeList</h4><ul><li>ID 구성: <code>SelectCboCodeList</code> / 클래스 <code>THiRAMES.Service.UI</code> / 버전 <code>00001</code></li><li>정의 위치: DB 저장 쿼리 (CIM_STOREDQUERY)</li><li>쿼리 파라메터: <code>CODECLASSID</code> <code>SITEID</code></li><li>테이블(조회/쓰기 전체, 함수·SP 포함): <div><a class="tbl" href="../tables.html#CIM_CODE">CIM_CODE</a><span class="b m">메인</span><span class="b r">읽기</span></div></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 1 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 202 76" width="202" height="76" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="170" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_CODE</text><text x="26" y="52" class="t2">기준 테이블</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>SELECT CODEID AS CODE,
-	   CODENAME AS NAME,
-	   UISEQUENCE 
-FROM CIM_CODE
-WHERE CODECLASSID = :CODECLASSID   
-  AND SITEID = :SITEID      
-  AND ISUSABLE= &#x27;Usable&#x27;       
-ORDER BY UISEQUENCE</pre></details></details><details id="svc-4" class="svc" open><summary><b>#4</b> Query <code>SelectCboStateList</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-4">#4 검색조건 콤보 - STATE (STATE)</a></p><h4>Query (조회 서비스) : SelectCboStateList</h4><ul><li>ID 구성: <code>SelectCboStateList</code> / 클래스 <code>THiRAMES.Service.UI</code> / 버전 <code>00001</code></li><li>정의 위치: DB 저장 쿼리 (CIM_STOREDQUERY)</li><li>쿼리 파라메터: <code>STATEMODELID</code> <code>SITEID</code></li><li>테이블(조회/쓰기 전체, 함수·SP 포함): <div><a class="tbl" href="../tables.html#CIM_STATE">CIM_STATE</a><span class="b m">메인</span><span class="b r">읽기</span></div></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 1 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 202 76" width="202" height="76" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="170" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_STATE</text><text x="26" y="52" class="t2">기준 테이블</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>SELECT STATEID AS CODE
-       ,STATENAME AS NAME
-       ,UISEQUENCE   
-FROM CIM_STATE
-WHERE (:STATEMODELID IS NULL OR STATEMODELID = :STATEMODELID)
-      AND ISUSABLE= &#x27;Usable&#x27; 
-      AND SITEID = :SITEID
-ORDER BY UISEQUENCE</pre></details></details><details id="svc-5" class="svc" open><summary><b>#5</b> Query <code>SelectCboCodeList4OQCInspSpec</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-5">#5 검색조건 콤보 - INSPSPEC (INSPSPEC)</a></p><h4>Query (조회 서비스) : SelectCboCodeList4OQCInspSpec</h4><ul><li>ID 구성: <code>SelectCboCodeList4OQCInspSpec</code> / 클래스 <code>THiRAMES.Service.UI</code> / 버전 <code>00001</code></li><li>정의 위치: DB 저장 쿼리 (CIM_STOREDQUERY)</li><li>쿼리 파라메터: <code>SITEID</code></li><li>테이블(조회/쓰기 전체, 함수·SP 포함): <div><a class="tbl" href="../tables.html#CIM_CODE">CIM_CODE</a><span class="b m">메인</span><span class="b r">읽기</span></div></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 1 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 202 76" width="202" height="76" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="170" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_CODE</text><text x="26" y="52" class="t2">기준 테이블</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>SELECT CODEID AS CODE,
-	   CODENAME AS NAME,
-	   UISEQUENCE 
-FROM CIM_CODE
-WHERE 1=1   
-  AND SITEID = :SITEID    
-  AND ISUSABLE= &#x27;Usable&#x27;
-  AND PARENTID = &#x27;OQC&#x27;
-ORDER BY UISEQUENCE</pre></details></details><details id="svc-6" class="svc" open><summary><b>#6</b> Query <code>SelectCboCustomerList4Insp</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-6">#6 검색조건 콤보 - COPERATOR (COPERATOR)</a></p><h4>Query (조회 서비스) : SelectCboCustomerList4Insp</h4><ul><li>ID 구성: <code>SelectCboCustomerList4Insp</code> / 클래스 <code>THiRAMES.Service.UI</code> / 버전 <code>00001</code></li><li>정의 위치: DB 저장 쿼리 (CIM_STOREDQUERY)</li><li>쿼리 파라메터: <code>SITEID</code> <code>INSPTYPE</code></li><li>테이블(조회/쓰기 전체, 함수·SP 포함): <div><a class="tbl" href="../tables.html#CIM_CUSTOMER">CIM_CUSTOMER</a><span class="b m">메인</span><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_VENDOR">CIM_VENDOR</a><span class="b r">읽기</span></div></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 2 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 202 150" width="202" height="150" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="170" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_CUSTOMER</text><text x="26" y="52" class="t2">기준 테이블</text></g><g class="node"><rect x="16" y="90" width="170" height="44" rx="7"/><text x="26" y="109" class="t1">CIM_VENDOR</text><text x="26" y="126" class="t2"></text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>SELECT A.CODE,
-	   A.NAME
-  FROM (
-  	    SELECT &#x27;PQC,OQC&#x27; AS INSPTYPE,
-  	    	   CUSTOMERID AS CODE,
-	   		   CUSTOMERNAME AS NAME
-		  FROM CIM_CUSTOMER
-		 WHERE ISUSABLE=&#x27;Usable&#x27; 
-		   AND SITEID = :SITEID
-		UNION ALL  
-		SELECT &#x27;IQC&#x27; AS INSPTYPE,
-			   VENDORID AS CODE,
-			   VENDORNAME AS NAME
-		  FROM CIM_VENDOR
-		 WHERE ISUSABLE =&#x27;Usable&#x27; 
-		   AND SITEID = :SITEID
-	   ) A
- WHERE 1=1
-   AND (:INSPTYPE IS NULL OR A.INSPTYPE LIKE &#x27;%&#x27; || :INSPTYPE || &#x27;%&#x27;)</pre></details></details><details id="svc-7" class="svc" open><summary><b>#7</b> Rule <code>ReceptInspection</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-7">#7 #requestRecept click</a></p><h4>Rule (저장/실행 서비스) : ReceptInspection</h4><ul><li>구현 위치: C# 소스 (THiRAMES.Business.Quality) - <code>THiRAMES.Business.Quality/003.검사접수/ReceptInspection.cs</code></li><li>입력 파라메터(WEBDATA): <code>INSPREQNO</code> <code>SITEID</code></li><li>관련 테이블(코드 분석 기반): <br><a class="tbl" href="../tables.html#CIM_INSPDEFINITIONITEMSPEC">CIM_INSPDEFINITIONITEMSPEC</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_INSPREQ">CIM_INSPREQ</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_INSPREQLOT">CIM_INSPREQLOT</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_INSPRESULT">CIM_INSPRESULT</a><span class="b w">쓰기</span><span class="b r">읽기</span></li><li>내부 호출 쿼리: <code>SelectInspDefinitionItemSpecListByInspDefSysId</code></li><li>C# 코드 내 SQL 문자열: 3건</li><li>호출 체인(Service 메서드): <small>QUALITYManager.InspRecept_Proc, ManagerExtenstions.SelectInspReq, QUALITYManager.MakeInspreq_Recept, MesEisRuleBiz.SetCommonData, QUALITYManager.CheckInsprResultExist, ManagerExtenstions.SelectInspResultListByRepeatcount, QUALITYManager.MakeInspresultByInspReq, ManagerExtenstions.SelectInspReqLotListByRepeatcount, QUALITYManager.SelectInspDefinitionItemSpecList, QUALITYManager.CreateInspresult, ManagerExtenstions.CreateInspresultList, QUALITYManager.InspRecept, ManagerExtenstions.ChangeInspReqState</small></li></ul><details class="svc" open><summary>Rule 내부 호출 쿼리 <code>SelectInspDefinitionItemSpecListByInspDefSysId</code> <small class="muted">(DB 저장 쿼리 (CIM_STOREDQUERY) · 테이블 2)</small></summary><p>쿼리 파라메터: <code>INSPDEFINITIONSYSID</code> <code>ISUSABLE</code> <code>SITEID</code></p><ul><li>테이블: <div><a class="tbl" href="../tables.html#CIM_INSPDEFINITIONITEMSPEC">CIM_INSPDEFINITIONITEMSPEC</a><span class="b m">메인</span><span class="b r">읽기</span></div><div><small class="muted">└ 스칼라 함수 FN_USERNAME :</small> <a class="tbl" href="../tables.html#CIM_USER">CIM_USER</a><span class="b m">메인</span><span class="b r">읽기</span></div></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 1 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 248 76" width="248" height="76" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="216" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_INSPDEFINITIONITEMSPEC</text><text x="26" y="52" class="t2">alias C</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small></div></details><details class="joinviz" open><summary><b>스칼라 함수 <code>FN_USERNAME</code> 의 조인 구조도</b> <small class="muted">테이블 1 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 202 76" width="202" height="76" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="170" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_USER</text><text x="26" y="52" class="t2">alias U</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>------------------------------------
--- SelectInspDefinitionItemSpecListByInspDefSysId 검사항목스펙 조회문 = QMS_InspdefinitionItemSpec_100
-------------------------------------
--- INPUT : SITEID, ISUSABLE, COPERATOR, MATERIALCLASSID, ITEMID, INSPTYPE
-SELECT C.*, (SELECT FN_USERNAME(C.SITEID, C.CREATOR) FROM DUAL) AS CREATOR2, (SELECT FN_USERNAME(C.SITEID, C.MODIFIER) FROM DUAL) AS MODIFIER2
-  FROM CIM_INSPDEFINITIONITEMSPEC C
- WHERE 1=1
-   AND (:INSPDEFINITIONSYSID IS NULL OR C.INSPDEFINITIONSYSID = :INSPDEFINITIONSYSID)
-   AND (:ISUSABLE IS NULL OR C.ISUSABLE = :ISUSABLE)
-   AND C.SITEID = :SITEID
-ORDER BY C.INSPDEFINITIONSYSID, C.UISEQUENCE</pre></details><details class="sql"><summary>스칼라 함수 FN_USERNAME 정의 보기</summary><pre>CREATE FUNCTION [dbo].[FN_USERNAME](
-	@P_SITEID NVARCHAR(500),
-	@P_USERID NVARCHAR(500)
-) 
-RETURNS NVARCHAR(2000)
-AS
-BEGIN
-	DECLARE @V_RETURN NVARCHAR(100);
- 
-	SELECT @V_RETURN = ISNULL(U.USERNAME, &#x27;&#x27;) + &#x27;(&#x27; + ISNULL(U.USERID, &#x27;&#x27;) + &#x27;)&#x27; FROM CIM_USER U
-	WHERE U.SITEID  = @P_SITEID
-		AND U.USERID = @P_USERID
-	RETURN @V_RETURN
-END</pre></details></details><details class="svc"><summary>Rule 코드 내 단순 SQL(단일 테이블) 3건 <small class="muted">- 펼쳐서 확인</small></summary><details class="svc"><summary>Rule 코드 내 SQL #1 <small class="muted">(INSPREQ.SelectInspReq4Update (CIM.MES.API 프레임워크) · 테이블 1)</small></summary><ul><li>테이블: <div><a class="tbl" href="../tables.html#CIM_INSPREQ">CIM_INSPREQ</a><span class="b m">메인</span><span class="b r">읽기</span></div></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 1 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 202 76" width="202" height="76" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="170" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_INSPREQ</text><text x="26" y="52" class="t2">기준 테이블</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>SELECT * FROM CIM_INSPREQ WITH(UPDLOCK) WHERE INSPREQNO=@INSPREQNO AND SITEID=@SITEID AND ISUSABLE=&#x27;Usable&#x27;</pre></details></details><details class="svc"><summary>Rule 코드 내 SQL #2 <small class="muted">(INSPRESULT.SelectInspResultListByRepeatcount (CIM.MES.API 프레임워크) · 테이블 1)</small></summary><ul><li>테이블: <div><a class="tbl" href="../tables.html#CIM_INSPRESULT">CIM_INSPRESULT</a><span class="b m">메인</span><span class="b r">읽기</span></div></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 1 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 202 76" width="202" height="76" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="170" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_INSPRESULT</text><text x="26" y="52" class="t2">기준 테이블</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>SELECT * FROM CIM_INSPRESULT WHERE INSPREQNO=@INSPREQNO AND REPEATCOUNT=@REPEATCOUNT AND SITEID=@SITEID AND ISUSABLE=&#x27;Usable&#x27;</pre></details></details><details class="svc"><summary>Rule 코드 내 SQL #3 <small class="muted">(INSPREQLOT.SelectInspReqLotListByRepeatcount (CIM.MES.API 프레임워크) · 테이블 1)</small></summary><ul><li>테이블: <div><a class="tbl" href="../tables.html#CIM_INSPREQLOT">CIM_INSPREQLOT</a><span class="b m">메인</span><span class="b r">읽기</span></div></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 1 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 202 76" width="202" height="76" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="170" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_INSPREQLOT</text><text x="26" y="52" class="t2">기준 테이블</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>SELECT * FROM CIM_INSPREQLOT WHERE INSPREQNO=@INSPREQNO AND REPEATCOUNT=@REPEATCOUNT AND SITEID=@SITEID AND ISUSABLE=&#x27;Usable&#x27;</pre></details></details></details></details><details id="svc-8" class="svc" open><summary><b>#8</b> Rule <code>CancelReqInspection</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-8">#8 #requestCancle click</a> <a class="chip" href="#fn-9">#9 popUpSaveCallBack</a></p><h4>Rule (저장/실행 서비스) : CancelReqInspection</h4><ul><li>구현 위치: C# 소스 (THiRAMES.Business.Quality) - <code>THiRAMES.Business.Quality/002.검사의뢰취소/CancelReqInspection.cs</code></li><li>입력 파라메터(WEBDATA): <code>INSPREQNO</code> <code>SITEID</code></li><li>관련 테이블(코드 분석 기반): <br><a class="tbl" href="../tables.html#CIM_INSPREQ">CIM_INSPREQ</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_LOT">CIM_LOT</a><span class="b w">쓰기</span><br><a class="tbl" href="../tables.html#CIM_MATERIALLOT">CIM_MATERIALLOT</a><span class="b u">참조</span><br><a class="tbl" href="../tables.html#CST_MATERIALLOT">CST_MATERIALLOT</a><span class="b u">참조</span></li><li>C# 코드 내 SQL 문자열: 1건</li><li>호출 체인(Service 메서드): <small>QUALITYManager.CancelInspReq_Proc, QUALITYManager.LoadInspReq, ManagerExtenstions.SelectInspReq, MATERIALManager_Quality.InspReq_Cancel_After, MesEisRuleBiz.SetCommonData, ManagerExtenstions.MoveMaterialLotLocation, PRODUCTIONManager.InspReq_Cancel_After, PRODUCTIONManager.InspReq_Cancel_OQC, PRODUCTIONManager.InspReq_Cancel_PQC</small></li></ul><details class="svc"><summary>Rule 코드 내 단순 SQL(단일 테이블) 1건 <small class="muted">- 펼쳐서 확인</small></summary><details class="svc"><summary>Rule 코드 내 SQL #1 <small class="muted">(INSPREQ.SelectInspReq4Update (CIM.MES.API 프레임워크) · 테이블 1)</small></summary><ul><li>테이블: <div><a class="tbl" href="../tables.html#CIM_INSPREQ">CIM_INSPREQ</a><span class="b m">메인</span><span class="b r">읽기</span></div></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 1 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 202 76" width="202" height="76" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="170" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_INSPREQ</text><text x="26" y="52" class="t2">기준 테이블</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>SELECT * FROM CIM_INSPREQ WITH(UPDLOCK) WHERE INSPREQNO=@INSPREQNO AND SITEID=@SITEID AND ISUSABLE=&#x27;Usable&#x27;</pre></details></details></details></details><h2>3. 그리드 / 검색조건 정의</h2><details><summary><b>QM_IM_0041</b> 검사접수1_검사의뢰목록 — 컬럼 29, 검색조건 4</summary><p>actionId: <code class="wrapc">THiRAMES.Service.UI$RuleMultiInquiry$THiRAMES.Service.UI$SelectInspReqList4Master$00001</code></p><h4>검색조건</h4><table class="grid sm"><thead><tr><th>필드</th><th>유형</th><th>표시명</th><th>표시명(한글)</th><th>콤보 서비스</th></tr></thead><tbody><tr><td><code>INSPTYPE</code></td><td>FILTER</td><td>INSPTYPE</td><td><b>검사종류</b></td><td class="wrapc">THiRAMES.Service.UI$RuleMultiInquiry$THiRAMES.Service.UI$SelectCboCodeList$00001?SITEID=0100&amp;CODECLASSID=INSPTYPE</td></tr><tr><td><code>STATE</code></td><td>FILTER</td><td>STATE</td><td><b>현재상태</b></td><td class="wrapc">THiRAMES.Service.UI$RuleMultiInquiry$THiRAMES.Service.UI$SelectCboStateList$00001?SITEID=0100&amp;STATEMODELID=InspReqState&amp;STATEID=Request,Recept</td></tr><tr><td><code>INSPSPEC</code></td><td>FILTER</td><td>INSPSPEC</td><td><b>표준구분</b></td><td class="wrapc">THiRAMES.Service.UI$RuleMultiInquiry$THiRAMES.Service.UI$SelectCboCodeList4OQCInspSpec$00001?SITEID=0100</td></tr><tr><td><code>COPERATOR</code></td><td>FILTER</td><td>COPERATOR</td><td><b>업체</b></td><td class="wrapc">THiRAMES.Service.UI$RuleMultiInquiry$THiRAMES.Service.UI$SelectCboCustomerList4Insp$00001?SITEID=0100&amp;INSPTYPE=</td></tr></tbody></table><p class="muted">조회 쿼리의 메인 테이블 <a class="tbl" href="../tables.html#CIM_INSPREQ">CIM_INSPREQ</a> 에서 오는 컬럼은 <span class="mainmark">강조</span> 표시됩니다 (23개 / 29개)</p><h4>컬럼</h4><table class="grid sm"><thead><tr><th>필드</th><th>표시명</th><th>표시명(한글)</th><th>편집</th><th>필수</th><th>콤보 서비스</th></tr></thead><tbody><tr class="mainc"><td><code>INSPREQNO</code> <span class="b m">메인</span></td><td>INSPREQNO</td><td><b>의뢰번호</b></td><td></td><td>Y</td><td class="wrapc"></td></tr><tr class="mainc"><td><code>SITEID</code> <span class="b m">메인</span></td><td>SITEID</td><td><b>사이트</b></td><td></td><td>Y</td><td class="wrapc"></td></tr><tr class="mainc"><td><code>INSPDEFINITIONSYSID</code> <span class="b m">메인</span></td><td>INSPDEFINITIONSYSID</td><td><b>검사사양ID</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>COPERATOR</code> <span class="b m">메인</span></td><td>COPERATOR</td><td><b>업체</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>INSPSPEC</code> <span class="b m">메인</span></td><td>INSPSPEC</td><td><b>표준구분</b></td><td></td><td></td><td class="wrapc"></td></tr><tr><td><code>COPERATORNAME</code></td><td>COPERATORNAME</td><td><b>업체명</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>ITEMID</code> <span class="b m">메인</span></td><td>ITEMID</td><td><b>품목코드</b></td><td></td><td></td><td class="wrapc"></td></tr><tr><td><code>ITEMNAME</code></td><td>ITEMNAME</td><td><b>품목명</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>INSPTYPE</code> <span class="b m">메인</span></td><td>INSPTYPE</td><td><b>검사종류</b></td><td></td><td></td><td class="wrapc"></td></tr><tr><td><code>INSPTYPENAME</code></td><td>INSPTYPENAME</td><td><b>검사종류</b></td><td></td><td></td><td class="wrapc"></td></tr><tr><td><code>INSPSPECNAME</code></td><td>INSPSPECNAME</td><td><b>표준구분</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>REV</code> <span class="b m">메인</span></td><td>REV</td><td><b>버전</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>PROCESSNODEID</code> <span class="b m">메인</span></td><td>PROCESSNODEID</td><td><b>프로세스Node</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>PROCESSDEFINITIONID</code> <span class="b m">메인</span></td><td>PROCESSDEFINITIONID</td><td><b>프로세스</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>PROCESSSEGMENTID</code> <span class="b m">메인</span></td><td>PROCESSSEGMENTID</td><td><b>공정</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>STATE</code> <span class="b m">메인</span></td><td>STATE</td><td><b>현재상태</b></td><td></td><td></td><td class="wrapc"></td></tr><tr><td><code>STATENAME</code></td><td>STATENAME</td><td><b>상태명</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>INSPMETHOD</code> <span class="b m">메인</span></td><td>INSPMETHOD</td><td><b>검사방법</b></td><td></td><td></td><td class="wrapc"></td></tr><tr><td><code>INSPMETHODNAME</code></td><td>INSPMETHODNAME</td><td><b>검사방법명</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>REPEATCOUNT</code> <span class="b m">메인</span></td><td>REPEATCOUNT</td><td><b>검사횟수</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>CURRENTCOUNT</code> <span class="b m">메인</span></td><td>현재진행차수</td><td><b>현재진행차수</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>REQDATETIME</code> <span class="b m">메인</span></td><td>REQDATETIME</td><td><b>검사요청일시</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>RECEPTDATETIME</code> <span class="b m">메인</span></td><td>RECEPTDATETIME</td><td><b>접수일시</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>FINALDATETIME</code> <span class="b m">메인</span></td><td>검사최종완료일시</td><td><b>확정일시</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>FINALJUDGE</code> <span class="b m">메인</span></td><td>최종검사결과</td><td><b>검사 결과</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>ISUSABLE</code> <span class="b m">메인</span></td><td>ISUSABLE</td><td><b>사용여부</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>DESCRIPTION</code> <span class="b m">메인</span></td><td>DESCRIPTION</td><td><b>설명</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>REASONCODE</code> <span class="b m">메인</span></td><td>REASONCODE</td><td><b>사유코드</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>COMMENTS</code> <span class="b m">메인</span></td><td>COMMENTS</td><td><b>비고</b></td><td></td><td></td><td class="wrapc"></td></tr></tbody></table></details><details><summary><b>QM_IM_0042</b> 검사접수2_검사의뢰항목목록 — 컬럼 20, 검색조건 0</summary><p>actionId: <code class="wrapc">THiRAMES.Service.UI$RuleMultiInquiry$THiRAMES.Service.UI$SelectInspReqLotList4Master$00001</code></p><p class="muted">조회 쿼리의 메인 테이블 <a class="tbl" href="../tables.html#CIM_INSPREQLOT">CIM_INSPREQLOT</a> 에서 오는 컬럼은 <span class="mainmark">강조</span> 표시됩니다 (20개 / 20개)</p><h4>컬럼</h4><table class="grid sm"><thead><tr><th>필드</th><th>표시명</th><th>표시명(한글)</th><th>편집</th><th>필수</th><th>콤보 서비스</th></tr></thead><tbody><tr class="mainc"><td><code>INSPTARGET</code> <span class="b m">메인</span></td><td>의뢰대상구분</td><td><b>의뢰대상구분</b></td><td></td><td>Y</td><td class="wrapc"></td></tr><tr class="mainc"><td><code>INSPLOTID</code> <span class="b m">메인</span></td><td>INSPLOTID</td><td><b>검사LOT</b></td><td></td><td>Y</td><td class="wrapc"></td></tr><tr class="mainc"><td><code>REPEATCOUNT</code> <span class="b m">메인</span></td><td>REPEATCOUNT</td><td><b>검사횟수</b></td><td></td><td>Y</td><td class="wrapc"></td></tr><tr class="mainc"><td><code>INSPREQNO</code> <span class="b m">메인</span></td><td>INSPREQNO</td><td><b>의뢰번호</b></td><td></td><td>Y</td><td class="wrapc"></td></tr><tr class="mainc"><td><code>SITEID</code> <span class="b m">메인</span></td><td>SITEID</td><td><b>사이트</b></td><td></td><td>Y</td><td class="wrapc"></td></tr><tr class="mainc"><td><code>QTY</code> <span class="b m">메인</span></td><td>LOTQTY</td><td><b>LOT수량</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>REQQTY</code> <span class="b m">메인</span></td><td>REQQTY</td><td><b>샘플수량</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>REFLOTID</code> <span class="b m">메인</span></td><td>레퍼런스LOT</td><td><b></b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>SHEETID</code> <span class="b m">메인</span></td><td>작업번호</td><td><b>가입고번호</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>BATCHID</code> <span class="b m">메인</span></td><td>BATCHID</td><td><b>Batch</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>EQUIPMENTID</code> <span class="b m">메인</span></td><td>EQUIPMENTID</td><td><b>설비</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>GOODQTY</code> <span class="b m">메인</span></td><td>양품수량</td><td><b>양품수</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>NGQTY</code> <span class="b m">메인</span></td><td>불량수량</td><td><b>불량수</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>LOSSQTY</code> <span class="b m">메인</span></td><td>로스수량</td><td><b>손실량</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>INSPDATETIME</code> <span class="b m">메인</span></td><td>검사일시</td><td><b>포장일시</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>JUDGE</code> <span class="b m">메인</span></td><td>검사결과</td><td><b>판정값</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>ISUSABLE</code> <span class="b m">메인</span></td><td>사용여부</td><td><b>사용여부</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>DESCRIPTION</code> <span class="b m">메인</span></td><td>설명</td><td><b>설명</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>REASONCODE</code> <span class="b m">메인</span></td><td>사유코드</td><td><b>사유코드</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>COMMENTS</code> <span class="b m">메인</span></td><td>COMMENTS</td><td><b>비고</b></td><td></td><td></td><td class="wrapc"></td></tr></tbody></table></details><footer>자동 생성 문서 · DB: EM_MES_DEV (10.130.11.100) · 소스: THiRAMES_UI / THiRAMES_Service · "추정"/"코드 분석 기반" 표기는 정적 분석 결과이므로 실제 동작과 다를 수 있습니다.</footer></main></body></html>
+ORDER BY C.INSPREQNO, C.REQDATETIME</pre></details><details class="sql"><summary>테이블 반환 함수 FN_MES_SPLIT 정의 보기</summary><pre>CREATE FUNCTION [dbo].[FN_MES_SPLIT]
+
+(
+
+  @I_STR     NVARCHAR(MAX),
+
+  @I_DELIM    NVARCHAR(40) = &#x27;,&#x27;
+
+)
+
+RETURNS @RETARRAY TABLE
+
+(
+
+	VALUE NVARCHAR(MAX)
+
+)
+
+AS  
+
+BEGIN  
+
+	DECLARE @VALUE			VARCHAR(8000)
+
+	DECLARE	@BCONTINUE		BIT
+
+	DECLARE @ISTRIKE		SMALLINT
+
+	DECLARE @IDELIMLENGTH	TINYINT
+
+   
+
+
+
+	SET @I_STR = LTRIM(RTRIM(@I_STR))  
+
+	SET @IDELIMLENGTH = LEN(@I_DELIM)  
+
+	SET @BCONTINUE = 1  
+
+
+
+	WHILE @BCONTINUE = 1  
+
+	BEGIN  
+
+		--텍스트에서 구분자를 발견하면, 첫 번째 요소를 반환하고  
+
+		--반환되는 테이블에 인덱스를 입력한다.  
+
+		IF CHARINDEX(@I_DELIM, @I_STR)&gt;0  
+
+		BEGIN  
+
+			-- 첫 번째 요소를 반환  
+
+			SET @VALUE = SUBSTRING(@I_STR,1, CHARINDEX(@I_DELIM,@I_STR)-1)  
+
+				
+
+			INSERT @RETARRAY (VALUE) VALUES (@VALUE)  
+
+
+
+			--다음 요소와 구분자를 문자열의 앞에서부터 제거하고,  
+
+			--INDEX를 증가시키고 반복작업(LOOP)을 이어간다.  
+
+			SET @ISTRIKE = LEN(@VALUE) + @IDELIMLENGTH  
+
+			SET @I_STR = LTRIM(RIGHT(@I_STR,LEN(@I_STR) - @ISTRIKE))  
+
+		END
+
+		ELSE  
+
+		BEGIN  
+
+			--만약 텍스트 안에서 구분자를 더 이상 찾을 수 없게 되면,   
+
+			--@I_STR가 @RETARRAY의 마지막 값이다.  
+
+			SET @VALUE = @I_STR  
+
+			-- 마지막 값도 구분자로 나누어져 있으뎐  
+
+			INSERT @RETARRAY (VALUE) VALUES (@VALUE)  
+
+
+
+			--WHILE 루프를 빠져 나온다.  
+
+			SET @BCONTINUE = 0  
+
+		END  
+
+	END 
+
+	
+
+	RETURN  
+
+END</pre></details><details class="sql"><summary>스칼라 함수 FN_USERNAME 정의 보기</summary><pre>CREATE FUNCTION [dbo].[FN_USERNAME](
+
+	@P_SITEID NVARCHAR(500),
+
+	@P_USERID NVARCHAR(500)
+
+) 
+
+RETURNS NVARCHAR(2000)
+
+AS
+
+BEGIN
+
+	DECLARE @V_RETURN NVARCHAR(100);
+
+ 
+
+	SELECT @V_RETURN = ISNULL(U.USERNAME, &#x27;&#x27;) + &#x27;(&#x27; + ISNULL(U.USERID, &#x27;&#x27;) + &#x27;)&#x27; FROM CIM_USER U
+
+	WHERE U.SITEID  = @P_SITEID
+
+		AND U.USERID = @P_USERID
+
+	RETURN @V_RETURN
+
+END</pre></details></details><details id="svc-2" class="svc" open><summary><b>#2</b> Query <code>SelectInspReqLotList4Master</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-2">#2 조회 - 그리드 QM_IM_0042 (검사접수2_검사의뢰항목목록)</a></p><h4>Query (조회 서비스) : SelectInspReqLotList4Master</h4><ul><li>ID 구성: <code>SelectInspReqLotList4Master</code> / 클래스 <code>THiRAMES.Service.UI</code> / 버전 <code>00001</code></li><li>정의 위치: DB 저장 쿼리 (CIM_STOREDQUERY)</li><li>쿼리 파라메터: <code>INSPREQNO</code> <code>INSPTARGET</code> <code>INSPLOTID</code> <code>REPEATCOUNT</code> <code>SHEETID</code> <code>BATCHID</code> <code>EQUIPMENTID</code> <code>INSPDATETIME</code> <code>FROMDATE</code> <code>TODATE</code> <code>JUDGE</code> <code>ISUSABLE</code> <code>SITEID</code></li><li>테이블(조회/쓰기 전체, 함수·SP 포함): <div><a class="tbl" href="../tables.html#CIM_INSPREQLOT">CIM_INSPREQLOT</a><span class="b m">메인</span><span class="b r">읽기</span></div><div><small class="muted">└ 스칼라 함수 FN_USERNAME :</small> <a class="tbl" href="../tables.html#CIM_USER">CIM_USER</a><span class="b m">메인</span><span class="b r">읽기</span></div></li><li>함수/SP: <code>FN_USERNAME</code></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 1 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 202 76" width="202" height="76" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="170" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_INSPREQLOT</text><text x="26" y="52" class="t2">alias C</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small></div></details><details class="joinviz" open><summary><b>스칼라 함수 <code>FN_USERNAME</code> 의 조인 구조도</b> <small class="muted">테이블 1 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 202 76" width="202" height="76" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="170" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_USER</text><text x="26" y="52" class="t2">alias U</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>------------------------------------
+
+-- SelectInspReqLotList4Master = 검사의뢰LOT 조회문 = QMS_InspReqLot_100
+
+------------------------------------
+
+-- INPUT = SITEID, ISUSABLE, COPERATOR, MATERIALCLASSID, ITEMID, INSPTYPE
+
+SELECT C.*, (SELECT FN_USERNAME(C.SITEID, C.CREATOR) FROM DUAL) AS CREATOR2, (SELECT FN_USERNAME(C.SITEID, C.MODIFIER) FROM DUAL) AS MODIFIER2
+
+  FROM CIM_INSPREQLOT C
+
+ WHERE (:INSPREQNO IS NULL OR INSPREQNO LIKE :INSPREQNO || &#x27;%&#x27;)
+
+   AND (:INSPTARGET IS NULL OR C.INSPTARGET = :INSPTARGET)
+
+   AND (:INSPLOTID IS NULL OR C.INSPLOTID = :INSPLOTID)
+
+   AND (:REPEATCOUNT IS NULL OR C.REPEATCOUNT = :REPEATCOUNT)
+
+   AND (:SHEETID IS NULL OR C.SHEETID = :SHEETID)
+
+   AND (:BATCHID IS NULL OR C.BATCHID = :BATCHID)
+
+   AND (:EQUIPMENTID IS NULL OR C.EQUIPMENTID = :EQUIPMENTID)
+
+   AND (:INSPDATETIME IS NULL OR C.INSPDATETIME BETWEEN TO_DATE(:FROMDATE, &#x27;YYYY-MM-DD&#x27;) AND TO_DATE(:TODATE, &#x27;YYYY-MM-DD&#x27;) + 0.99999)
+
+   AND (:JUDGE IS NULL OR C.JUDGE = :JUDGE)
+
+   AND (:ISUSABLE IS NULL OR C.ISUSABLE = :ISUSABLE)
+
+   AND C.SITEID = :SITEID
+
+ORDER BY INSPREQNO, INSPLOTID, REPEATCOUNT</pre></details><details class="sql"><summary>스칼라 함수 FN_USERNAME 정의 보기</summary><pre>CREATE FUNCTION [dbo].[FN_USERNAME](
+
+	@P_SITEID NVARCHAR(500),
+
+	@P_USERID NVARCHAR(500)
+
+) 
+
+RETURNS NVARCHAR(2000)
+
+AS
+
+BEGIN
+
+	DECLARE @V_RETURN NVARCHAR(100);
+
+ 
+
+	SELECT @V_RETURN = ISNULL(U.USERNAME, &#x27;&#x27;) + &#x27;(&#x27; + ISNULL(U.USERID, &#x27;&#x27;) + &#x27;)&#x27; FROM CIM_USER U
+
+	WHERE U.SITEID  = @P_SITEID
+
+		AND U.USERID = @P_USERID
+
+	RETURN @V_RETURN
+
+END</pre></details></details><details id="svc-3" class="svc"><summary><b>#3</b> Query <code>SelectCboCodeList</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-3">#3 검색조건 콤보 - INSPTYPE (INSPTYPE)</a></p><h4>Query (조회 서비스) : SelectCboCodeList</h4><ul><li>ID 구성: <code>SelectCboCodeList</code> / 클래스 <code>THiRAMES.Service.UI</code> / 버전 <code>00001</code></li><li>정의 위치: DB 저장 쿼리 (CIM_STOREDQUERY)</li><li>쿼리 파라메터: <code>CODECLASSID</code> <code>SITEID</code></li><li>테이블(조회/쓰기 전체, 함수·SP 포함): <div><a class="tbl" href="../tables.html#CIM_CODE">CIM_CODE</a><span class="b m">메인</span><span class="b r">읽기</span></div></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 1 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 202 76" width="202" height="76" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="170" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_CODE</text><text x="26" y="52" class="t2">기준 테이블</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>SELECT CODEID AS CODE,
+
+	   CODENAME AS NAME,
+
+	   UISEQUENCE 
+
+FROM CIM_CODE
+
+WHERE CODECLASSID = :CODECLASSID   
+
+  AND SITEID = :SITEID      
+
+  AND ISUSABLE= &#x27;Usable&#x27;       
+
+ORDER BY UISEQUENCE</pre></details></details><details id="svc-4" class="svc"><summary><b>#4</b> Query <code>SelectCboStateList</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-4">#4 검색조건 콤보 - STATE (STATE)</a></p><h4>Query (조회 서비스) : SelectCboStateList</h4><ul><li>ID 구성: <code>SelectCboStateList</code> / 클래스 <code>THiRAMES.Service.UI</code> / 버전 <code>00001</code></li><li>정의 위치: DB 저장 쿼리 (CIM_STOREDQUERY)</li><li>쿼리 파라메터: <code>STATEMODELID</code> <code>SITEID</code></li><li>테이블(조회/쓰기 전체, 함수·SP 포함): <div><a class="tbl" href="../tables.html#CIM_STATE">CIM_STATE</a><span class="b m">메인</span><span class="b r">읽기</span></div></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 1 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 202 76" width="202" height="76" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="170" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_STATE</text><text x="26" y="52" class="t2">기준 테이블</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>SELECT STATEID AS CODE
+
+       ,STATENAME AS NAME
+
+       ,UISEQUENCE   
+
+FROM CIM_STATE
+
+WHERE (:STATEMODELID IS NULL OR STATEMODELID = :STATEMODELID)
+
+      AND ISUSABLE= &#x27;Usable&#x27; 
+
+      AND SITEID = :SITEID
+
+ORDER BY UISEQUENCE</pre></details></details><details id="svc-5" class="svc"><summary><b>#5</b> Query <code>SelectCboCodeList4OQCInspSpec</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-5">#5 검색조건 콤보 - INSPSPEC (INSPSPEC)</a></p><h4>Query (조회 서비스) : SelectCboCodeList4OQCInspSpec</h4><ul><li>ID 구성: <code>SelectCboCodeList4OQCInspSpec</code> / 클래스 <code>THiRAMES.Service.UI</code> / 버전 <code>00001</code></li><li>정의 위치: DB 저장 쿼리 (CIM_STOREDQUERY)</li><li>쿼리 파라메터: <code>SITEID</code></li><li>테이블(조회/쓰기 전체, 함수·SP 포함): <div><a class="tbl" href="../tables.html#CIM_CODE">CIM_CODE</a><span class="b m">메인</span><span class="b r">읽기</span></div></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 1 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 202 76" width="202" height="76" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="170" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_CODE</text><text x="26" y="52" class="t2">기준 테이블</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>SELECT CODEID AS CODE,
+
+	   CODENAME AS NAME,
+
+	   UISEQUENCE 
+
+FROM CIM_CODE
+
+WHERE 1=1   
+
+  AND SITEID = :SITEID    
+
+  AND ISUSABLE= &#x27;Usable&#x27;
+
+  AND PARENTID = &#x27;OQC&#x27;
+
+ORDER BY UISEQUENCE</pre></details></details><details id="svc-6" class="svc"><summary><b>#6</b> Query <code>SelectCboCustomerList4Insp</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-6">#6 검색조건 콤보 - COPERATOR (COPERATOR)</a></p><h4>Query (조회 서비스) : SelectCboCustomerList4Insp</h4><ul><li>ID 구성: <code>SelectCboCustomerList4Insp</code> / 클래스 <code>THiRAMES.Service.UI</code> / 버전 <code>00001</code></li><li>정의 위치: DB 저장 쿼리 (CIM_STOREDQUERY)</li><li>쿼리 파라메터: <code>SITEID</code> <code>INSPTYPE</code></li><li>테이블(조회/쓰기 전체, 함수·SP 포함): <div><a class="tbl" href="../tables.html#CIM_CUSTOMER">CIM_CUSTOMER</a><span class="b m">메인</span><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_VENDOR">CIM_VENDOR</a><span class="b r">읽기</span></div></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 2 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 202 150" width="202" height="150" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="170" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_CUSTOMER</text><text x="26" y="52" class="t2">기준 테이블</text></g><g class="node"><rect x="16" y="90" width="170" height="44" rx="7"/><text x="26" y="109" class="t1">CIM_VENDOR</text><text x="26" y="126" class="t2"></text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>SELECT A.CODE,
+
+	   A.NAME
+
+  FROM (
+
+  	    SELECT &#x27;PQC,OQC&#x27; AS INSPTYPE,
+
+  	    	   CUSTOMERID AS CODE,
+
+	   		   CUSTOMERNAME AS NAME
+
+		  FROM CIM_CUSTOMER
+
+		 WHERE ISUSABLE=&#x27;Usable&#x27; 
+
+		   AND SITEID = :SITEID
+
+		UNION ALL  
+
+		SELECT &#x27;IQC&#x27; AS INSPTYPE,
+
+			   VENDORID AS CODE,
+
+			   VENDORNAME AS NAME
+
+		  FROM CIM_VENDOR
+
+		 WHERE ISUSABLE =&#x27;Usable&#x27; 
+
+		   AND SITEID = :SITEID
+
+	   ) A
+
+ WHERE 1=1
+
+   AND (:INSPTYPE IS NULL OR A.INSPTYPE LIKE &#x27;%&#x27; || :INSPTYPE || &#x27;%&#x27;)</pre></details></details><details id="svc-7" class="svc"><summary><b>#7</b> Rule <code>ReceptInspection</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-7">#7 #requestRecept click</a></p><h4>Rule (저장/실행 서비스) : ReceptInspection</h4><ul><li>구현 위치: C# 소스 (THiRAMES.Business.Quality) - <code>THiRAMES.Business.Quality/003.검사접수/ReceptInspection.cs</code></li><li>입력 파라메터(WEBDATA): <code>INSPREQNO</code> <code>SITEID</code></li><li>관련 테이블(코드 분석 기반): <br><a class="tbl" href="../tables.html#CIM_INSPDEFINITIONITEMSPEC">CIM_INSPDEFINITIONITEMSPEC</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_INSPREQ">CIM_INSPREQ</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_INSPREQLOT">CIM_INSPREQLOT</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_INSPRESULT">CIM_INSPRESULT</a><span class="b w">쓰기</span><span class="b r">읽기</span></li><li>내부 호출 쿼리: <code>SelectInspDefinitionItemSpecListByInspDefSysId</code></li><li>C# 코드 내 SQL 문자열: 3건</li><li>호출 체인(Service 메서드): <small>QUALITYManager.InspRecept_Proc, ManagerExtenstions.SelectInspReq, QUALITYManager.MakeInspreq_Recept, MesEisRuleBiz.SetCommonData, QUALITYManager.CheckInsprResultExist, ManagerExtenstions.SelectInspResultListByRepeatcount, QUALITYManager.MakeInspresultByInspReq, ManagerExtenstions.SelectInspReqLotListByRepeatcount, QUALITYManager.SelectInspDefinitionItemSpecList, QUALITYManager.CreateInspresult, ManagerExtenstions.CreateInspresultList, QUALITYManager.InspRecept, ManagerExtenstions.ChangeInspReqState</small></li></ul><details class="svc"><summary>Rule 내부 호출 쿼리 <code>SelectInspDefinitionItemSpecListByInspDefSysId</code> <small class="muted">(DB 저장 쿼리 (CIM_STOREDQUERY) · 테이블 2)</small></summary><p>쿼리 파라메터: <code>INSPDEFINITIONSYSID</code> <code>ISUSABLE</code> <code>SITEID</code></p><ul><li>테이블: <div><a class="tbl" href="../tables.html#CIM_INSPDEFINITIONITEMSPEC">CIM_INSPDEFINITIONITEMSPEC</a><span class="b m">메인</span><span class="b r">읽기</span></div><div><small class="muted">└ 스칼라 함수 FN_USERNAME :</small> <a class="tbl" href="../tables.html#CIM_USER">CIM_USER</a><span class="b m">메인</span><span class="b r">읽기</span></div></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 1 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 248 76" width="248" height="76" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="216" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_INSPDEFINITIONITEMSPEC</text><text x="26" y="52" class="t2">alias C</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small></div></details><details class="joinviz" open><summary><b>스칼라 함수 <code>FN_USERNAME</code> 의 조인 구조도</b> <small class="muted">테이블 1 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 202 76" width="202" height="76" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="170" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_USER</text><text x="26" y="52" class="t2">alias U</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>------------------------------------
+
+-- SelectInspDefinitionItemSpecListByInspDefSysId 검사항목스펙 조회문 = QMS_InspdefinitionItemSpec_100
+
+------------------------------------
+
+-- INPUT : SITEID, ISUSABLE, COPERATOR, MATERIALCLASSID, ITEMID, INSPTYPE
+
+SELECT C.*, (SELECT FN_USERNAME(C.SITEID, C.CREATOR) FROM DUAL) AS CREATOR2, (SELECT FN_USERNAME(C.SITEID, C.MODIFIER) FROM DUAL) AS MODIFIER2
+
+  FROM CIM_INSPDEFINITIONITEMSPEC C
+
+ WHERE 1=1
+
+   AND (:INSPDEFINITIONSYSID IS NULL OR C.INSPDEFINITIONSYSID = :INSPDEFINITIONSYSID)
+
+   AND (:ISUSABLE IS NULL OR C.ISUSABLE = :ISUSABLE)
+
+   AND C.SITEID = :SITEID
+
+ORDER BY C.INSPDEFINITIONSYSID, C.UISEQUENCE</pre></details><details class="sql"><summary>스칼라 함수 FN_USERNAME 정의 보기</summary><pre>CREATE FUNCTION [dbo].[FN_USERNAME](
+
+	@P_SITEID NVARCHAR(500),
+
+	@P_USERID NVARCHAR(500)
+
+) 
+
+RETURNS NVARCHAR(2000)
+
+AS
+
+BEGIN
+
+	DECLARE @V_RETURN NVARCHAR(100);
+
+ 
+
+	SELECT @V_RETURN = ISNULL(U.USERNAME, &#x27;&#x27;) + &#x27;(&#x27; + ISNULL(U.USERID, &#x27;&#x27;) + &#x27;)&#x27; FROM CIM_USER U
+
+	WHERE U.SITEID  = @P_SITEID
+
+		AND U.USERID = @P_USERID
+
+	RETURN @V_RETURN
+
+END</pre></details></details><details class="svc"><summary>Rule 코드 내 단순 SQL(단일 테이블) 3건 <small class="muted">- 펼쳐서 확인</small></summary><details class="svc"><summary>Rule 코드 내 SQL #1 <small class="muted">(INSPREQ.SelectInspReq4Update (CIM.MES.API 프레임워크) · 테이블 1)</small></summary><ul><li>테이블: <div><a class="tbl" href="../tables.html#CIM_INSPREQ">CIM_INSPREQ</a><span class="b m">메인</span><span class="b r">읽기</span></div></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 1 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 202 76" width="202" height="76" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="170" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_INSPREQ</text><text x="26" y="52" class="t2">기준 테이블</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>SELECT * FROM CIM_INSPREQ WITH(UPDLOCK) WHERE INSPREQNO=@INSPREQNO AND SITEID=@SITEID AND ISUSABLE=&#x27;Usable&#x27;</pre></details></details><details class="svc"><summary>Rule 코드 내 SQL #2 <small class="muted">(INSPRESULT.SelectInspResultListByRepeatcount (CIM.MES.API 프레임워크) · 테이블 1)</small></summary><ul><li>테이블: <div><a class="tbl" href="../tables.html#CIM_INSPRESULT">CIM_INSPRESULT</a><span class="b m">메인</span><span class="b r">읽기</span></div></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 1 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 202 76" width="202" height="76" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="170" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_INSPRESULT</text><text x="26" y="52" class="t2">기준 테이블</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>SELECT * FROM CIM_INSPRESULT WHERE INSPREQNO=@INSPREQNO AND REPEATCOUNT=@REPEATCOUNT AND SITEID=@SITEID AND ISUSABLE=&#x27;Usable&#x27;</pre></details></details><details class="svc"><summary>Rule 코드 내 SQL #3 <small class="muted">(INSPREQLOT.SelectInspReqLotListByRepeatcount (CIM.MES.API 프레임워크) · 테이블 1)</small></summary><ul><li>테이블: <div><a class="tbl" href="../tables.html#CIM_INSPREQLOT">CIM_INSPREQLOT</a><span class="b m">메인</span><span class="b r">읽기</span></div></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 1 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 202 76" width="202" height="76" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="170" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_INSPREQLOT</text><text x="26" y="52" class="t2">기준 테이블</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>SELECT * FROM CIM_INSPREQLOT WHERE INSPREQNO=@INSPREQNO AND REPEATCOUNT=@REPEATCOUNT AND SITEID=@SITEID AND ISUSABLE=&#x27;Usable&#x27;</pre></details></details></details></details><details id="svc-8" class="svc"><summary><b>#8</b> Rule <code>CancelReqInspection</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-8">#8 #requestCancle click</a> <a class="chip" href="#fn-9">#9 popUpSaveCallBack</a></p><h4>Rule (저장/실행 서비스) : CancelReqInspection</h4><ul><li>구현 위치: C# 소스 (THiRAMES.Business.Quality) - <code>THiRAMES.Business.Quality/002.검사의뢰취소/CancelReqInspection.cs</code></li><li>입력 파라메터(WEBDATA): <code>INSPREQNO</code> <code>SITEID</code></li><li>관련 테이블(코드 분석 기반): <br><a class="tbl" href="../tables.html#CIM_INSPREQ">CIM_INSPREQ</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_LOT">CIM_LOT</a><span class="b w">쓰기</span><br><a class="tbl" href="../tables.html#CIM_MATERIALLOT">CIM_MATERIALLOT</a><span class="b u">참조</span><br><a class="tbl" href="../tables.html#CST_MATERIALLOT">CST_MATERIALLOT</a><span class="b u">참조</span></li><li>C# 코드 내 SQL 문자열: 1건</li><li>호출 체인(Service 메서드): <small>QUALITYManager.CancelInspReq_Proc, QUALITYManager.LoadInspReq, ManagerExtenstions.SelectInspReq, MATERIALManager_Quality.InspReq_Cancel_After, MesEisRuleBiz.SetCommonData, ManagerExtenstions.MoveMaterialLotLocation, PRODUCTIONManager.InspReq_Cancel_After, PRODUCTIONManager.InspReq_Cancel_OQC, PRODUCTIONManager.InspReq_Cancel_PQC</small></li></ul><details class="svc"><summary>Rule 코드 내 단순 SQL(단일 테이블) 1건 <small class="muted">- 펼쳐서 확인</small></summary><details class="svc"><summary>Rule 코드 내 SQL #1 <small class="muted">(INSPREQ.SelectInspReq4Update (CIM.MES.API 프레임워크) · 테이블 1)</small></summary><ul><li>테이블: <div><a class="tbl" href="../tables.html#CIM_INSPREQ">CIM_INSPREQ</a><span class="b m">메인</span><span class="b r">읽기</span></div></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 1 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 202 76" width="202" height="76" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="170" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_INSPREQ</text><text x="26" y="52" class="t2">기준 테이블</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>SELECT * FROM CIM_INSPREQ WITH(UPDLOCK) WHERE INSPREQNO=@INSPREQNO AND SITEID=@SITEID AND ISUSABLE=&#x27;Usable&#x27;</pre></details></details></details></details><h2>3. 그리드 / 검색조건 정의</h2><details><summary><b>QM_IM_0041</b> 검사접수1_검사의뢰목록 — 컬럼 29, 검색조건 4</summary><p>actionId: <code class="wrapc">THiRAMES.Service.UI$RuleMultiInquiry$THiRAMES.Service.UI$SelectInspReqList4Master$00001</code></p><h4>검색조건</h4><table class="grid sm"><thead><tr><th>필드</th><th>유형</th><th>표시명</th><th>표시명(한글)</th><th>콤보 서비스</th></tr></thead><tbody><tr><td><code>INSPTYPE</code></td><td>FILTER</td><td>INSPTYPE</td><td><b>검사종류</b></td><td class="wrapc">THiRAMES.Service.UI$RuleMultiInquiry$THiRAMES.Service.UI$SelectCboCodeList$00001?SITEID=0100&amp;CODECLASSID=INSPTYPE</td></tr><tr><td><code>STATE</code></td><td>FILTER</td><td>STATE</td><td><b>현재상태</b></td><td class="wrapc">THiRAMES.Service.UI$RuleMultiInquiry$THiRAMES.Service.UI$SelectCboStateList$00001?SITEID=0100&amp;STATEMODELID=InspReqState&amp;STATEID=Request,Recept</td></tr><tr><td><code>INSPSPEC</code></td><td>FILTER</td><td>INSPSPEC</td><td><b>표준구분</b></td><td class="wrapc">THiRAMES.Service.UI$RuleMultiInquiry$THiRAMES.Service.UI$SelectCboCodeList4OQCInspSpec$00001?SITEID=0100</td></tr><tr><td><code>COPERATOR</code></td><td>FILTER</td><td>COPERATOR</td><td><b>업체</b></td><td class="wrapc">THiRAMES.Service.UI$RuleMultiInquiry$THiRAMES.Service.UI$SelectCboCustomerList4Insp$00001?SITEID=0100&amp;INSPTYPE=</td></tr></tbody></table><p class="muted">조회 쿼리의 메인 테이블 <a class="tbl" href="../tables.html#CIM_INSPREQ">CIM_INSPREQ</a> 에서 오는 컬럼은 <span class="mainmark">강조</span> 표시됩니다 (23개 / 29개)</p><h4>컬럼</h4><table class="grid sm"><thead><tr><th>필드</th><th>표시명</th><th>표시명(한글)</th><th>편집</th><th>필수</th><th>콤보 서비스</th></tr></thead><tbody><tr class="mainc"><td><code>INSPREQNO</code> <span class="b m">메인</span></td><td>INSPREQNO</td><td><b>의뢰번호</b></td><td></td><td>Y</td><td class="wrapc"></td></tr><tr class="mainc"><td><code>SITEID</code> <span class="b m">메인</span></td><td>SITEID</td><td><b>사이트</b></td><td></td><td>Y</td><td class="wrapc"></td></tr><tr class="mainc"><td><code>INSPDEFINITIONSYSID</code> <span class="b m">메인</span></td><td>INSPDEFINITIONSYSID</td><td><b>검사사양ID</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>COPERATOR</code> <span class="b m">메인</span></td><td>COPERATOR</td><td><b>업체</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>INSPSPEC</code> <span class="b m">메인</span></td><td>INSPSPEC</td><td><b>표준구분</b></td><td></td><td></td><td class="wrapc"></td></tr><tr><td><code>COPERATORNAME</code></td><td>COPERATORNAME</td><td><b>업체명</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>ITEMID</code> <span class="b m">메인</span></td><td>ITEMID</td><td><b>품목코드</b></td><td></td><td></td><td class="wrapc"></td></tr><tr><td><code>ITEMNAME</code></td><td>ITEMNAME</td><td><b>품목명</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>INSPTYPE</code> <span class="b m">메인</span></td><td>INSPTYPE</td><td><b>검사종류</b></td><td></td><td></td><td class="wrapc"></td></tr><tr><td><code>INSPTYPENAME</code></td><td>INSPTYPENAME</td><td><b>검사종류</b></td><td></td><td></td><td class="wrapc"></td></tr><tr><td><code>INSPSPECNAME</code></td><td>INSPSPECNAME</td><td><b>표준구분</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>REV</code> <span class="b m">메인</span></td><td>REV</td><td><b>버전</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>PROCESSNODEID</code> <span class="b m">메인</span></td><td>PROCESSNODEID</td><td><b>프로세스Node</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>PROCESSDEFINITIONID</code> <span class="b m">메인</span></td><td>PROCESSDEFINITIONID</td><td><b>프로세스</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>PROCESSSEGMENTID</code> <span class="b m">메인</span></td><td>PROCESSSEGMENTID</td><td><b>공정</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>STATE</code> <span class="b m">메인</span></td><td>STATE</td><td><b>현재상태</b></td><td></td><td></td><td class="wrapc"></td></tr><tr><td><code>STATENAME</code></td><td>STATENAME</td><td><b>상태명</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>INSPMETHOD</code> <span class="b m">메인</span></td><td>INSPMETHOD</td><td><b>검사방법</b></td><td></td><td></td><td class="wrapc"></td></tr><tr><td><code>INSPMETHODNAME</code></td><td>INSPMETHODNAME</td><td><b>검사방법명</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>REPEATCOUNT</code> <span class="b m">메인</span></td><td>REPEATCOUNT</td><td><b>검사횟수</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>CURRENTCOUNT</code> <span class="b m">메인</span></td><td>현재진행차수</td><td><b>현재진행차수</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>REQDATETIME</code> <span class="b m">메인</span></td><td>REQDATETIME</td><td><b>검사요청일시</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>RECEPTDATETIME</code> <span class="b m">메인</span></td><td>RECEPTDATETIME</td><td><b>접수일시</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>FINALDATETIME</code> <span class="b m">메인</span></td><td>검사최종완료일시</td><td><b>확정일시</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>FINALJUDGE</code> <span class="b m">메인</span></td><td>최종검사결과</td><td><b>검사 결과</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>ISUSABLE</code> <span class="b m">메인</span></td><td>ISUSABLE</td><td><b>사용여부</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>DESCRIPTION</code> <span class="b m">메인</span></td><td>DESCRIPTION</td><td><b>설명</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>REASONCODE</code> <span class="b m">메인</span></td><td>REASONCODE</td><td><b>사유코드</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>COMMENTS</code> <span class="b m">메인</span></td><td>COMMENTS</td><td><b>비고</b></td><td></td><td></td><td class="wrapc"></td></tr></tbody></table></details><details><summary><b>QM_IM_0042</b> 검사접수2_검사의뢰항목목록 — 컬럼 20, 검색조건 0</summary><p>actionId: <code class="wrapc">THiRAMES.Service.UI$RuleMultiInquiry$THiRAMES.Service.UI$SelectInspReqLotList4Master$00001</code></p><p class="muted">조회 쿼리의 메인 테이블 <a class="tbl" href="../tables.html#CIM_INSPREQLOT">CIM_INSPREQLOT</a> 에서 오는 컬럼은 <span class="mainmark">강조</span> 표시됩니다 (20개 / 20개)</p><h4>컬럼</h4><table class="grid sm"><thead><tr><th>필드</th><th>표시명</th><th>표시명(한글)</th><th>편집</th><th>필수</th><th>콤보 서비스</th></tr></thead><tbody><tr class="mainc"><td><code>INSPTARGET</code> <span class="b m">메인</span></td><td>의뢰대상구분</td><td><b>의뢰대상구분</b></td><td></td><td>Y</td><td class="wrapc"></td></tr><tr class="mainc"><td><code>INSPLOTID</code> <span class="b m">메인</span></td><td>INSPLOTID</td><td><b>검사LOT</b></td><td></td><td>Y</td><td class="wrapc"></td></tr><tr class="mainc"><td><code>REPEATCOUNT</code> <span class="b m">메인</span></td><td>REPEATCOUNT</td><td><b>검사횟수</b></td><td></td><td>Y</td><td class="wrapc"></td></tr><tr class="mainc"><td><code>INSPREQNO</code> <span class="b m">메인</span></td><td>INSPREQNO</td><td><b>의뢰번호</b></td><td></td><td>Y</td><td class="wrapc"></td></tr><tr class="mainc"><td><code>SITEID</code> <span class="b m">메인</span></td><td>SITEID</td><td><b>사이트</b></td><td></td><td>Y</td><td class="wrapc"></td></tr><tr class="mainc"><td><code>QTY</code> <span class="b m">메인</span></td><td>LOTQTY</td><td><b>LOT수량</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>REQQTY</code> <span class="b m">메인</span></td><td>REQQTY</td><td><b>샘플수량</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>REFLOTID</code> <span class="b m">메인</span></td><td>레퍼런스LOT</td><td><b></b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>SHEETID</code> <span class="b m">메인</span></td><td>작업번호</td><td><b>가입고번호</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>BATCHID</code> <span class="b m">메인</span></td><td>BATCHID</td><td><b>Batch</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>EQUIPMENTID</code> <span class="b m">메인</span></td><td>EQUIPMENTID</td><td><b>설비</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>GOODQTY</code> <span class="b m">메인</span></td><td>양품수량</td><td><b>양품수</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>NGQTY</code> <span class="b m">메인</span></td><td>불량수량</td><td><b>불량수</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>LOSSQTY</code> <span class="b m">메인</span></td><td>로스수량</td><td><b>손실량</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>INSPDATETIME</code> <span class="b m">메인</span></td><td>검사일시</td><td><b>포장일시</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>JUDGE</code> <span class="b m">메인</span></td><td>검사결과</td><td><b>판정값</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>ISUSABLE</code> <span class="b m">메인</span></td><td>사용여부</td><td><b>사용여부</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>DESCRIPTION</code> <span class="b m">메인</span></td><td>설명</td><td><b>설명</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>REASONCODE</code> <span class="b m">메인</span></td><td>사유코드</td><td><b>사유코드</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>COMMENTS</code> <span class="b m">메인</span></td><td>COMMENTS</td><td><b>비고</b></td><td></td><td></td><td class="wrapc"></td></tr></tbody></table></details><footer>자동 생성 문서 · DB: EM_MES_DEV (10.130.11.100) · 소스: THiRAMES_UI / THiRAMES_Service · "추정"/"코드 분석 기반" 표기는 정적 분석 결과이므로 실제 동작과 다를 수 있습니다.</footer></main></body></html>

@@ -9,80 +9,149 @@
   FROM CUS_PRODUCTCAPACITYREL A
  WHERE A.SITEID = :SITEID 
    AND A.PRODUCTDEFINITIONID = :PRODUCTDEFINITIONID 
-   AND A.ISUSABLE = &#x27;Usable&#x27;</pre></details></details><details id="svc-2" class="svc" open><summary><b>#2</b> Query <code>SelectProductClassList</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-2">#2 검색조건 콤보 - PRODUCTCLASSID (PRODUCTCLASSID)</a></p><h4>Query (조회 서비스) : SelectProductClassList</h4><ul><li>ID 구성: <code>SelectProductClassList</code> / 클래스 <code>THiRAMES.Service.UI</code> / 버전 <code>00001</code></li><li>정의 위치: DB 저장 쿼리 (CIM_STOREDQUERY)</li><li>쿼리 파라메터: <code>SITEID</code></li><li>테이블(조회/쓰기 전체, 함수·SP 포함): <div><a class="tbl" href="../tables.html#CIM_PRODUCTCLASS">CIM_PRODUCTCLASS</a><span class="b m">메인</span><span class="b r">읽기</span></div></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 1 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 202 76" width="202" height="76" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="170" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_PRODUCTCLASS</text><text x="26" y="52" class="t2">alias A</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>SELECT
-	A.PRODUCTCLASSID AS CODE ,
-	A.PRODUCTCLASSNAME AS NAME  
-  FROM CIM_PRODUCTCLASS A
- WHERE A.SITEID = :SITEID 
-   AND A.ISUSABLE = &#x27;Usable&#x27;</pre></details></details><details id="svc-3" class="svc" open><summary><b>#3</b> Query <code>SelectProductDefinitionListByProductClass</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-3">#3 검색조건 콤보 - PRODUCTDEFINITIONID (PRODUCTDEFINITIONID)</a></p><h4>Query (조회 서비스) : SelectProductDefinitionListByProductClass</h4><ul><li>ID 구성: <code>SelectProductDefinitionListByProductClass</code> / 클래스 <code>THiRAMES.Service.UI</code> / 버전 <code>00001</code></li><li>정의 위치: DB 저장 쿼리 (CIM_STOREDQUERY)</li><li>쿼리 파라메터: <code>SITEID</code> <code>PRODUCTCLASSID</code></li><li>테이블(조회/쓰기 전체, 함수·SP 포함): <div><a class="tbl" href="../tables.html#CIM_PRODUCTDEFINITION">CIM_PRODUCTDEFINITION</a><span class="b m">메인</span><span class="b r">읽기</span></div></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 1 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 211 76" width="211" height="76" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="179" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_PRODUCTDEFINITION</text><text x="26" y="52" class="t2">alias A</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>SELECT
+   AND A.ISUSABLE = &#x27;Usable&#x27;</pre></details></details><details id="svc-2" class="svc"><summary><b>#2</b> Query <code>SelectProductClassList</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-2">#2 검색조건 콤보 - PRODUCTCLASSID (PRODUCTCLASSID)</a></p><h4>Query (조회 서비스) : SelectProductClassList</h4><ul><li>ID 구성: <code>SelectProductClassList</code> / 클래스 <code>THiRAMES.Service.UI</code> / 버전 <code>00001</code></li><li>정의 위치: DB 저장 쿼리 (CIM_STOREDQUERY)</li><li>쿼리 파라메터: <code>SITEID</code></li><li>테이블(조회/쓰기 전체, 함수·SP 포함): <div><a class="tbl" href="../tables.html#CIM_PRODUCTCLASS">CIM_PRODUCTCLASS</a><span class="b m">메인</span><span class="b r">읽기</span></div></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 1 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 202 76" width="202" height="76" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="170" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_PRODUCTCLASS</text><text x="26" y="52" class="t2">alias A</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>SELECT
+
+	A.PRODUCTCLASSID AS CODE ,
+
+	A.PRODUCTCLASSNAME AS NAME  
+
+  FROM CIM_PRODUCTCLASS A
+
+ WHERE A.SITEID = :SITEID 
+
+   AND A.ISUSABLE = &#x27;Usable&#x27;</pre></details></details><details id="svc-3" class="svc"><summary><b>#3</b> Query <code>SelectProductDefinitionListByProductClass</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-3">#3 검색조건 콤보 - PRODUCTDEFINITIONID (PRODUCTDEFINITIONID)</a></p><h4>Query (조회 서비스) : SelectProductDefinitionListByProductClass</h4><ul><li>ID 구성: <code>SelectProductDefinitionListByProductClass</code> / 클래스 <code>THiRAMES.Service.UI</code> / 버전 <code>00001</code></li><li>정의 위치: DB 저장 쿼리 (CIM_STOREDQUERY)</li><li>쿼리 파라메터: <code>SITEID</code> <code>PRODUCTCLASSID</code></li><li>테이블(조회/쓰기 전체, 함수·SP 포함): <div><a class="tbl" href="../tables.html#CIM_PRODUCTDEFINITION">CIM_PRODUCTDEFINITION</a><span class="b m">메인</span><span class="b r">읽기</span></div></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 1 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 211 76" width="211" height="76" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="179" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_PRODUCTDEFINITION</text><text x="26" y="52" class="t2">alias A</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>SELECT
  		A.PRODUCTDEFINITIONID AS CODE,
  		--A.PRODUCTDEFINITIONNAME AS NAME
                  A.PRODUCTDEFINITIONID AS NAME 
  	  FROM CIM_PRODUCTDEFINITION A
 	 WHERE A.SITEID = :SITEID 
    	   AND A.ISUSABLE = &#x27;Usable&#x27;
-   	   AND A.PRODUCTCLASSID = :PRODUCTCLASSID</pre></details></details><details id="svc-4" class="svc" open><summary><b>#4</b> Query <code>SelectPlantListForWo</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-4">#4 검색조건 콤보 - PLANTID (PLANTID)</a></p><h4>Query (조회 서비스) : SelectPlantListForWo</h4><ul><li>ID 구성: <code>SelectPlantListForWo</code> / 클래스 <code>THiRAMES.Service.UI</code> / 버전 <code>00001</code></li><li>정의 위치: DB 저장 쿼리 (CIM_STOREDQUERY)</li><li>쿼리 파라메터: <code>SITEID</code> <code>PRODUCTDEFINITIONID</code></li><li>테이블(조회/쓰기 전체, 함수·SP 포함): <div><a class="tbl" href="../tables.html#CIM_PRODUCTDEFINITION">CIM_PRODUCTDEFINITION</a><span class="b m">메인</span><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_PRODUCTPROCESSREL">CIM_PRODUCTPROCESSREL</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_PROCESSNODE">CIM_PROCESSNODE</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_PROCESSSEGMENTEQUIPMENTREL">CIM_PROCESSSEGMENTEQUIPMENTREL</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_EQUIPMENT">CIM_EQUIPMENT</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_FACILITY">CIM_FACILITY</a><span class="b r">읽기</span></div></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 5 · 조인 3</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 1469 150" width="1469" height="150" role="img" aria-label="조인 구조도"><path class="edge e-inner" d="M195 38 C240 38 240 38 285 38"/><text class="elab" x="240" y="34" text-anchor="middle">INNER</text><path class="edge e-inner" d="M628 38 C673 38 673 38 718 38"/><text class="elab" x="673" y="34" text-anchor="middle">INNER</text><path class="edge e-inner" d="M1061 38 C1106 38 1106 38 1151 38"/><text class="elab" x="1106" y="34" text-anchor="middle">INNER</text><g class="node base"><rect x="16" y="16" width="179" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_PRODUCTDEFINITION</text><text x="26" y="52" class="t2">alias PD</text></g><g class="node"><rect x="285" y="16" width="343" height="104" rx="7"/><text x="295" y="35" class="t1">CIM_PRODUCTPROCESSREL</text><text x="295" y="52" class="t2">alias PW</text><text x="295" y="67" class="t2 jt">INNER</text><text x="313" y="82" class="t3">SITEID = PD.SITEID</text><text x="313" y="97" class="t3">ISUSABLE = PD.ISUSABLE</text><text x="313" y="112" class="t3">PRODUCTDEFINITIONID = PD.PRODUCTDEFINITIONID</text></g><g class="node"><rect x="718" y="16" width="343" height="104" rx="7"/><text x="728" y="35" class="t1">CIM_PROCESSNODE</text><text x="728" y="52" class="t2">alias PN</text><text x="728" y="67" class="t2 jt">INNER</text><text x="746" y="82" class="t3">SITEID = PW.SITEID</text><text x="746" y="97" class="t3">ISUSABLE = PW.ISUSABLE</text><text x="746" y="112" class="t3">PROCESSDEFINITIONID = PW.PROCESSDEFINITIONID</text></g><g class="node"><rect x="1151" y="16" width="302" height="104" rx="7"/><text x="1161" y="35" class="t1">CIM_PROCESSSEGMENTEQUIPMENTREL</text><text x="1161" y="52" class="t2">alias EL</text><text x="1161" y="67" class="t2 jt">INNER</text><text x="1179" y="82" class="t3">SITEID = PN.SITEID</text><text x="1179" y="97" class="t3">ISUSABLE = PN.ISUSABLE</text><text x="1179" y="112" class="t3">PROCESSSEGMENTID = PN.PROCESSSEGMENTID</text></g><g class="node"><rect x="16" y="90" width="170" height="44" rx="7"/><text x="26" y="109" class="t1">CIM_FACILITY</text><text x="26" y="126" class="t2">alias CF</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small><br><small class="muted">마스터/명칭 조회용 조인 제외(기준 테이블 제외): CIM_EQUIPMENT</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>------------ WO 플랜트 콤보박스 쿼리
-SELECT DISTINCT
-    EQ.PLANTID AS CODE,
-    CF.FACILITYNAME AS NAME
-  FROM CIM_PRODUCTDEFINITION PD
- INNER JOIN CIM_PRODUCTPROCESSREL PW 
-    ON PW.SITEID = PD.SITEID 
-   AND PW.ISUSABLE = PD.ISUSABLE
-   AND PW.PRODUCTDEFINITIONID = PD.PRODUCTDEFINITIONID
- INNER JOIN CIM_PROCESSNODE PN 
-    ON PN.SITEID = PW.SITEID 
-   AND PN.ISUSABLE = PW.ISUSABLE
-   AND PN.PROCESSDEFINITIONID = PW.PROCESSDEFINITIONID
-   AND PN.ISSTARTNODE = &#x27;Y&#x27;
- INNER JOIN CIM_PROCESSSEGMENTEQUIPMENTREL EL 
-    ON EL.SITEID = PN.SITEID 
-   AND EL.ISUSABLE = PN.ISUSABLE
-   AND EL.PROCESSSEGMENTID = PN.PROCESSSEGMENTID
- INNER JOIN CIM_EQUIPMENT EQ 
-    ON EQ.SITEID = EL.SITEID 
-   AND EQ.ISUSABLE = EL.ISUSABLE
-   AND EQ.EQUIPMENTID = EL.EQUIPMENTID
-  LEFT OUTER JOIN CIM_FACILITY CF 
-    ON CF.SITEID = EQ.SITEID
-   AND CF.FACILITYID = EQ.PLANTID
- WHERE 1=1
-   AND PD.SITEID = :SITEID 
-   AND PD.ISUSABLE = &#x27;Usable&#x27;
-   AND PD.PRODUCTDEFINITIONID = :PRODUCTDEFINITIONID</pre></details></details><details id="svc-5" class="svc" open><summary><b>#5</b> Query <code>SelectLineListForWo</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-5">#5 검색조건 콤보 - LINEID (LINEID)</a></p><h4>Query (조회 서비스) : SelectLineListForWo</h4><ul><li>ID 구성: <code>SelectLineListForWo</code> / 클래스 <code>THiRAMES.Service.UI</code> / 버전 <code>00001</code></li><li>정의 위치: DB 저장 쿼리 (CIM_STOREDQUERY)</li><li>쿼리 파라메터: <code>SITEID</code> <code>PRODUCTDEFINITIONID</code> <code>PLANTID</code></li><li>테이블(조회/쓰기 전체, 함수·SP 포함): <div><a class="tbl" href="../tables.html#CIM_PRODUCTDEFINITION">CIM_PRODUCTDEFINITION</a><span class="b m">메인</span><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_PRODUCTPROCESSREL">CIM_PRODUCTPROCESSREL</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_PROCESSNODE">CIM_PROCESSNODE</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_PROCESSSEGMENTEQUIPMENTREL">CIM_PROCESSSEGMENTEQUIPMENTREL</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_EQUIPMENT">CIM_EQUIPMENT</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_FACILITY">CIM_FACILITY</a><span class="b r">읽기</span></div></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 5 · 조인 3</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 1469 150" width="1469" height="150" role="img" aria-label="조인 구조도"><path class="edge e-inner" d="M195 38 C240 38 240 38 285 38"/><text class="elab" x="240" y="34" text-anchor="middle">INNER</text><path class="edge e-inner" d="M628 38 C673 38 673 38 718 38"/><text class="elab" x="673" y="34" text-anchor="middle">INNER</text><path class="edge e-inner" d="M1061 38 C1106 38 1106 38 1151 38"/><text class="elab" x="1106" y="34" text-anchor="middle">INNER</text><g class="node base"><rect x="16" y="16" width="179" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_PRODUCTDEFINITION</text><text x="26" y="52" class="t2">alias PD</text></g><g class="node"><rect x="285" y="16" width="343" height="104" rx="7"/><text x="295" y="35" class="t1">CIM_PRODUCTPROCESSREL</text><text x="295" y="52" class="t2">alias PW</text><text x="295" y="67" class="t2 jt">INNER</text><text x="313" y="82" class="t3">SITEID = PD.SITEID</text><text x="313" y="97" class="t3">ISUSABLE = PD.ISUSABLE</text><text x="313" y="112" class="t3">PRODUCTDEFINITIONID = PD.PRODUCTDEFINITIONID</text></g><g class="node"><rect x="718" y="16" width="343" height="104" rx="7"/><text x="728" y="35" class="t1">CIM_PROCESSNODE</text><text x="728" y="52" class="t2">alias PN</text><text x="728" y="67" class="t2 jt">INNER</text><text x="746" y="82" class="t3">SITEID = PW.SITEID</text><text x="746" y="97" class="t3">ISUSABLE = PW.ISUSABLE</text><text x="746" y="112" class="t3">PROCESSDEFINITIONID = PW.PROCESSDEFINITIONID</text></g><g class="node"><rect x="1151" y="16" width="302" height="104" rx="7"/><text x="1161" y="35" class="t1">CIM_PROCESSSEGMENTEQUIPMENTREL</text><text x="1161" y="52" class="t2">alias EL</text><text x="1161" y="67" class="t2 jt">INNER</text><text x="1179" y="82" class="t3">SITEID = PN.SITEID</text><text x="1179" y="97" class="t3">ISUSABLE = PN.ISUSABLE</text><text x="1179" y="112" class="t3">PROCESSSEGMENTID = PN.PROCESSSEGMENTID</text></g><g class="node"><rect x="16" y="90" width="170" height="44" rx="7"/><text x="26" y="109" class="t1">CIM_FACILITY</text><text x="26" y="126" class="t2">alias CF</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small><br><small class="muted">마스터/명칭 조회용 조인 제외(기준 테이블 제외): CIM_EQUIPMENT</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>------------ WO Line 콤보박스 쿼리
-SELECT DISTINCT
-	EQ.LINEID  AS CODE,
-	CF.FACILITYNAME AS NAME
-  FROM CIM_PRODUCTDEFINITION PD
- INNER JOIN CIM_PRODUCTPROCESSREL PW 
-    ON PW.SITEID = PD.SITEID 
-   AND PW.ISUSABLE = PD.ISUSABLE
-   AND PW.PRODUCTDEFINITIONID = PD.PRODUCTDEFINITIONID
- INNER JOIN CIM_PROCESSNODE PN 
-    ON PN.SITEID = PW.SITEID 
-   AND PN.ISUSABLE = PW.ISUSABLE
-   AND PN.PROCESSDEFINITIONID = PW.PROCESSDEFINITIONID
-   AND PN.ISSTARTNODE = &#x27;Y&#x27;
- INNER JOIN CIM_PROCESSSEGMENTEQUIPMENTREL EL 
-    ON EL.SITEID = PN.SITEID 
-   AND EL.ISUSABLE = PN.ISUSABLE
-   AND EL.PROCESSSEGMENTID = PN.PROCESSSEGMENTID
- INNER JOIN CIM_EQUIPMENT EQ 
-    ON EQ.SITEID = EL.SITEID 
-   AND EQ.ISUSABLE = EL.ISUSABLE
-   AND EQ.EQUIPMENTID = EL.EQUIPMENTID
-  LEFT OUTER JOIN CIM_FACILITY CF 
-    ON CF.SITEID = EQ.SITEID
-   AND CF.FACILITYID = EQ.LINEID
- WHERE 1=1
-   AND PD.SITEID = :SITEID 
-   AND PD.ISUSABLE = &#x27;Usable&#x27;
-   AND PD.PRODUCTDEFINITIONID = :PRODUCTDEFINITIONID
-   AND EQ.PLANTID = :PLANTID</pre></details></details><details id="svc-6" class="svc" open><summary><b>#6</b> Query <code>SelectCboCodeList</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-6">#6 컬럼 콤보/코드 - SCHEDULEUNIT (SCHEDULEUNIT)</a></p><h4>Query (조회 서비스) : SelectCboCodeList</h4><ul><li>ID 구성: <code>SelectCboCodeList</code> / 클래스 <code>THiRAMES.Service.UI</code> / 버전 <code>00001</code></li><li>정의 위치: DB 저장 쿼리 (CIM_STOREDQUERY)</li><li>쿼리 파라메터: <code>CODECLASSID</code> <code>SITEID</code></li><li>테이블(조회/쓰기 전체, 함수·SP 포함): <div><a class="tbl" href="../tables.html#CIM_CODE">CIM_CODE</a><span class="b m">메인</span><span class="b r">읽기</span></div></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 1 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 202 76" width="202" height="76" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="170" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_CODE</text><text x="26" y="52" class="t2">기준 테이블</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>SELECT CODEID AS CODE,
-	   CODENAME AS NAME,
-	   UISEQUENCE 
-FROM CIM_CODE
-WHERE CODECLASSID = :CODECLASSID   
-  AND SITEID = :SITEID      
-  AND ISUSABLE= &#x27;Usable&#x27;       
-ORDER BY UISEQUENCE</pre></details></details><details id="svc-7" class="svc" open><summary><b>#7</b> Rule <code>UpsertProductCapacityRel</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-7">#7 #saveBtn click</a> <a class="chip" href="#fn-8">#8 #addBottomBtn1 click</a></p><h4>Rule (저장/실행 서비스) : UpsertProductCapacityRel</h4><ul><li>구현 위치: 구현 미확인 (소스/배포 DLL에서 정의를 찾지 못함 - 미사용·삭제된 서비스이거나 외부 모듈일 수 있음)</li></ul></details><details id="svc-8" class="svc" open><summary><b>#8</b> Rule <code>_</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-9">#9 기타 참조 (JS 문자열)</a></p><h4>Rule (저장/실행 서비스) : _</h4><ul><li>구현 위치: 구현 미확인 (소스/배포 DLL에서 정의를 찾지 못함 - 미사용·삭제된 서비스이거나 외부 모듈일 수 있음)</li></ul></details><h2>3. 그리드 / 검색조건 정의</h2><details><summary><b>PP_WO_0031</b> 제품생산단위CAPA관리1_제품생산단위CAPA목록 — 컬럼 5, 검색조건 4</summary><p>actionId: <code class="wrapc">THiRAMES.Service.UI$RuleMultiInquiry$THiRAMES.Service.UI$SelectProductCapacityRelList$00001</code></p><h4>검색조건</h4><table class="grid sm"><thead><tr><th>필드</th><th>유형</th><th>표시명</th><th>표시명(한글)</th><th>콤보 서비스</th></tr></thead><tbody><tr><td><code>PRODUCTCLASSID</code></td><td>FILTER</td><td>PRODUCTCLASSID</td><td><b>제품그룹</b></td><td class="wrapc">THiRAMES.Service.UI$RuleMultiInquiry$THiRAMES.Service.UI$SelectProductClassList$00001?SITEID=0100</td></tr><tr><td><code>PRODUCTDEFINITIONID</code></td><td>FILTER</td><td>PRODUCTDEFINITIONID</td><td><b>제품코드</b></td><td class="wrapc">THiRAMES.Service.UI$RuleMultiInquiry$THiRAMES.Service.UI$SelectProductDefinitionListByProductClass$00001</td></tr><tr><td><code>PLANTID</code></td><td>FILTER</td><td>PLANTID</td><td><b>PLANT</b></td><td class="wrapc">THiRAMES.Service.UI$RuleMultiInquiry$THiRAMES.Service.UI$SelectPlantListForWo$00001</td></tr><tr><td><code>LINEID</code></td><td>FILTER</td><td>LINEID</td><td><b>라인</b></td><td class="wrapc">THiRAMES.Service.UI$RuleMultiInquiry$THiRAMES.Service.UI$SelectLineListForWo$00001</td></tr></tbody></table><p class="muted">조회 쿼리의 메인 테이블 <a class="tbl" href="../tables.html#CUS_PRODUCTCAPACITYREL">CUS_PRODUCTCAPACITYREL</a> 에서 오는 컬럼은 <span class="mainmark">강조</span> 표시됩니다 (5개 / 5개)</p><h4>컬럼</h4><table class="grid sm"><thead><tr><th>필드</th><th>표시명</th><th>표시명(한글)</th><th>편집</th><th>필수</th><th>콤보 서비스</th></tr></thead><tbody><tr class="mainc"><td><code>SITEID</code> <span class="b m">메인</span></td><td>SITEID</td><td><b>사이트</b></td><td></td><td>Y</td><td class="wrapc"></td></tr><tr class="mainc"><td><code>SCHEDULEUNIT</code> <span class="b m">메인</span></td><td>SCHEDULEUNIT</td><td><b>주기단위</b></td><td>Y</td><td>Y</td><td class="wrapc">THiRAMES.Service.UI$RuleMultiInquiry$THiRAMES.Service.UI$SelectCboCodeList$00001?CODECLASSID=SCHEDULEUNIT&amp;SITEID=0100</td></tr><tr class="mainc"><td><code>MAXBATCHPERDAY</code> <span class="b m">메인</span></td><td>MAXBATCHPERDAY</td><td><b>일일 최대 BATCH 수량</b></td><td>Y</td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>MAXLOTPERBATCH</code> <span class="b m">메인</span></td><td>MAXLOTPERBATCH</td><td><b>BATCH 당 최대 LOT 수량</b></td><td>Y</td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>MAXLOTPERDAY</code> <span class="b m">메인</span></td><td>MAXLOTPERDAY</td><td><b>일일 최대 LOT 수량</b></td><td>Y</td><td></td><td class="wrapc"></td></tr></tbody></table></details><footer>자동 생성 문서 · DB: EM_MES_DEV (10.130.11.100) · 소스: THiRAMES_UI / THiRAMES_Service · "추정"/"코드 분석 기반" 표기는 정적 분석 결과이므로 실제 동작과 다를 수 있습니다.</footer></main></body></html>
+   	   AND A.PRODUCTCLASSID = :PRODUCTCLASSID</pre></details></details><details id="svc-4" class="svc"><summary><b>#4</b> Query <code>SelectPlantListForWo</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-4">#4 검색조건 콤보 - PLANTID (PLANTID)</a></p><h4>Query (조회 서비스) : SelectPlantListForWo</h4><ul><li>ID 구성: <code>SelectPlantListForWo</code> / 클래스 <code>THiRAMES.Service.UI</code> / 버전 <code>00001</code></li><li>정의 위치: DB 저장 쿼리 (CIM_STOREDQUERY)</li><li>쿼리 파라메터: <code>SITEID</code> <code>PRODUCTDEFINITIONID</code></li><li>테이블(조회/쓰기 전체, 함수·SP 포함): <div><a class="tbl" href="../tables.html#CIM_PRODUCTDEFINITION">CIM_PRODUCTDEFINITION</a><span class="b m">메인</span><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_PRODUCTPROCESSREL">CIM_PRODUCTPROCESSREL</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_PROCESSNODE">CIM_PROCESSNODE</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_PROCESSSEGMENTEQUIPMENTREL">CIM_PROCESSSEGMENTEQUIPMENTREL</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_EQUIPMENT">CIM_EQUIPMENT</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_FACILITY">CIM_FACILITY</a><span class="b r">읽기</span></div></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 5 · 조인 3</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 1469 150" width="1469" height="150" role="img" aria-label="조인 구조도"><path class="edge e-inner" d="M195 38 C240 38 240 38 285 38"/><text class="elab" x="240" y="34" text-anchor="middle">INNER</text><path class="edge e-inner" d="M628 38 C673 38 673 38 718 38"/><text class="elab" x="673" y="34" text-anchor="middle">INNER</text><path class="edge e-inner" d="M1061 38 C1106 38 1106 38 1151 38"/><text class="elab" x="1106" y="34" text-anchor="middle">INNER</text><g class="node base"><rect x="16" y="16" width="179" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_PRODUCTDEFINITION</text><text x="26" y="52" class="t2">alias PD</text></g><g class="node"><rect x="285" y="16" width="343" height="104" rx="7"/><text x="295" y="35" class="t1">CIM_PRODUCTPROCESSREL</text><text x="295" y="52" class="t2">alias PW</text><text x="295" y="67" class="t2 jt">INNER</text><text x="313" y="82" class="t3">SITEID = PD.SITEID</text><text x="313" y="97" class="t3">ISUSABLE = PD.ISUSABLE</text><text x="313" y="112" class="t3">PRODUCTDEFINITIONID = PD.PRODUCTDEFINITIONID</text></g><g class="node"><rect x="718" y="16" width="343" height="104" rx="7"/><text x="728" y="35" class="t1">CIM_PROCESSNODE</text><text x="728" y="52" class="t2">alias PN</text><text x="728" y="67" class="t2 jt">INNER</text><text x="746" y="82" class="t3">SITEID = PW.SITEID</text><text x="746" y="97" class="t3">ISUSABLE = PW.ISUSABLE</text><text x="746" y="112" class="t3">PROCESSDEFINITIONID = PW.PROCESSDEFINITIONID</text></g><g class="node"><rect x="1151" y="16" width="302" height="104" rx="7"/><text x="1161" y="35" class="t1">CIM_PROCESSSEGMENTEQUIPMENTREL</text><text x="1161" y="52" class="t2">alias EL</text><text x="1161" y="67" class="t2 jt">INNER</text><text x="1179" y="82" class="t3">SITEID = PN.SITEID</text><text x="1179" y="97" class="t3">ISUSABLE = PN.ISUSABLE</text><text x="1179" y="112" class="t3">PROCESSSEGMENTID = PN.PROCESSSEGMENTID</text></g><g class="node"><rect x="16" y="90" width="170" height="44" rx="7"/><text x="26" y="109" class="t1">CIM_FACILITY</text><text x="26" y="126" class="t2">alias CF</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small><br><small class="muted">마스터/명칭 조회용 조인 제외(기준 테이블 제외): CIM_EQUIPMENT</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>------------ WO 플랜트 콤보박스 쿼리
+
+SELECT DISTINCT
+
+    EQ.PLANTID AS CODE,
+
+    CF.FACILITYNAME AS NAME
+
+  FROM CIM_PRODUCTDEFINITION PD
+
+ INNER JOIN CIM_PRODUCTPROCESSREL PW 
+
+    ON PW.SITEID = PD.SITEID 
+
+   AND PW.ISUSABLE = PD.ISUSABLE
+
+   AND PW.PRODUCTDEFINITIONID = PD.PRODUCTDEFINITIONID
+
+ INNER JOIN CIM_PROCESSNODE PN 
+
+    ON PN.SITEID = PW.SITEID 
+
+   AND PN.ISUSABLE = PW.ISUSABLE
+
+   AND PN.PROCESSDEFINITIONID = PW.PROCESSDEFINITIONID
+
+   AND PN.ISSTARTNODE = &#x27;Y&#x27;
+
+ INNER JOIN CIM_PROCESSSEGMENTEQUIPMENTREL EL 
+
+    ON EL.SITEID = PN.SITEID 
+
+   AND EL.ISUSABLE = PN.ISUSABLE
+
+   AND EL.PROCESSSEGMENTID = PN.PROCESSSEGMENTID
+
+ INNER JOIN CIM_EQUIPMENT EQ 
+
+    ON EQ.SITEID = EL.SITEID 
+
+   AND EQ.ISUSABLE = EL.ISUSABLE
+
+   AND EQ.EQUIPMENTID = EL.EQUIPMENTID
+
+  LEFT OUTER JOIN CIM_FACILITY CF 
+
+    ON CF.SITEID = EQ.SITEID
+
+   AND CF.FACILITYID = EQ.PLANTID
+
+ WHERE 1=1
+
+   AND PD.SITEID = :SITEID 
+
+   AND PD.ISUSABLE = &#x27;Usable&#x27;
+
+   AND PD.PRODUCTDEFINITIONID = :PRODUCTDEFINITIONID</pre></details></details><details id="svc-5" class="svc"><summary><b>#5</b> Query <code>SelectLineListForWo</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-5">#5 검색조건 콤보 - LINEID (LINEID)</a></p><h4>Query (조회 서비스) : SelectLineListForWo</h4><ul><li>ID 구성: <code>SelectLineListForWo</code> / 클래스 <code>THiRAMES.Service.UI</code> / 버전 <code>00001</code></li><li>정의 위치: DB 저장 쿼리 (CIM_STOREDQUERY)</li><li>쿼리 파라메터: <code>SITEID</code> <code>PRODUCTDEFINITIONID</code> <code>PLANTID</code></li><li>테이블(조회/쓰기 전체, 함수·SP 포함): <div><a class="tbl" href="../tables.html#CIM_PRODUCTDEFINITION">CIM_PRODUCTDEFINITION</a><span class="b m">메인</span><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_PRODUCTPROCESSREL">CIM_PRODUCTPROCESSREL</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_PROCESSNODE">CIM_PROCESSNODE</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_PROCESSSEGMENTEQUIPMENTREL">CIM_PROCESSSEGMENTEQUIPMENTREL</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_EQUIPMENT">CIM_EQUIPMENT</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_FACILITY">CIM_FACILITY</a><span class="b r">읽기</span></div></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 5 · 조인 3</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 1469 150" width="1469" height="150" role="img" aria-label="조인 구조도"><path class="edge e-inner" d="M195 38 C240 38 240 38 285 38"/><text class="elab" x="240" y="34" text-anchor="middle">INNER</text><path class="edge e-inner" d="M628 38 C673 38 673 38 718 38"/><text class="elab" x="673" y="34" text-anchor="middle">INNER</text><path class="edge e-inner" d="M1061 38 C1106 38 1106 38 1151 38"/><text class="elab" x="1106" y="34" text-anchor="middle">INNER</text><g class="node base"><rect x="16" y="16" width="179" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_PRODUCTDEFINITION</text><text x="26" y="52" class="t2">alias PD</text></g><g class="node"><rect x="285" y="16" width="343" height="104" rx="7"/><text x="295" y="35" class="t1">CIM_PRODUCTPROCESSREL</text><text x="295" y="52" class="t2">alias PW</text><text x="295" y="67" class="t2 jt">INNER</text><text x="313" y="82" class="t3">SITEID = PD.SITEID</text><text x="313" y="97" class="t3">ISUSABLE = PD.ISUSABLE</text><text x="313" y="112" class="t3">PRODUCTDEFINITIONID = PD.PRODUCTDEFINITIONID</text></g><g class="node"><rect x="718" y="16" width="343" height="104" rx="7"/><text x="728" y="35" class="t1">CIM_PROCESSNODE</text><text x="728" y="52" class="t2">alias PN</text><text x="728" y="67" class="t2 jt">INNER</text><text x="746" y="82" class="t3">SITEID = PW.SITEID</text><text x="746" y="97" class="t3">ISUSABLE = PW.ISUSABLE</text><text x="746" y="112" class="t3">PROCESSDEFINITIONID = PW.PROCESSDEFINITIONID</text></g><g class="node"><rect x="1151" y="16" width="302" height="104" rx="7"/><text x="1161" y="35" class="t1">CIM_PROCESSSEGMENTEQUIPMENTREL</text><text x="1161" y="52" class="t2">alias EL</text><text x="1161" y="67" class="t2 jt">INNER</text><text x="1179" y="82" class="t3">SITEID = PN.SITEID</text><text x="1179" y="97" class="t3">ISUSABLE = PN.ISUSABLE</text><text x="1179" y="112" class="t3">PROCESSSEGMENTID = PN.PROCESSSEGMENTID</text></g><g class="node"><rect x="16" y="90" width="170" height="44" rx="7"/><text x="26" y="109" class="t1">CIM_FACILITY</text><text x="26" y="126" class="t2">alias CF</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small><br><small class="muted">마스터/명칭 조회용 조인 제외(기준 테이블 제외): CIM_EQUIPMENT</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>------------ WO Line 콤보박스 쿼리
+
+SELECT DISTINCT
+
+	EQ.LINEID  AS CODE,
+
+	CF.FACILITYNAME AS NAME
+
+  FROM CIM_PRODUCTDEFINITION PD
+
+ INNER JOIN CIM_PRODUCTPROCESSREL PW 
+
+    ON PW.SITEID = PD.SITEID 
+
+   AND PW.ISUSABLE = PD.ISUSABLE
+
+   AND PW.PRODUCTDEFINITIONID = PD.PRODUCTDEFINITIONID
+
+ INNER JOIN CIM_PROCESSNODE PN 
+
+    ON PN.SITEID = PW.SITEID 
+
+   AND PN.ISUSABLE = PW.ISUSABLE
+
+   AND PN.PROCESSDEFINITIONID = PW.PROCESSDEFINITIONID
+
+   AND PN.ISSTARTNODE = &#x27;Y&#x27;
+
+ INNER JOIN CIM_PROCESSSEGMENTEQUIPMENTREL EL 
+
+    ON EL.SITEID = PN.SITEID 
+
+   AND EL.ISUSABLE = PN.ISUSABLE
+
+   AND EL.PROCESSSEGMENTID = PN.PROCESSSEGMENTID
+
+ INNER JOIN CIM_EQUIPMENT EQ 
+
+    ON EQ.SITEID = EL.SITEID 
+
+   AND EQ.ISUSABLE = EL.ISUSABLE
+
+   AND EQ.EQUIPMENTID = EL.EQUIPMENTID
+
+  LEFT OUTER JOIN CIM_FACILITY CF 
+
+    ON CF.SITEID = EQ.SITEID
+
+   AND CF.FACILITYID = EQ.LINEID
+
+ WHERE 1=1
+
+   AND PD.SITEID = :SITEID 
+
+   AND PD.ISUSABLE = &#x27;Usable&#x27;
+
+   AND PD.PRODUCTDEFINITIONID = :PRODUCTDEFINITIONID
+
+   AND EQ.PLANTID = :PLANTID</pre></details></details><details id="svc-6" class="svc"><summary><b>#6</b> Query <code>SelectCboCodeList</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-6">#6 컬럼 콤보/코드 - SCHEDULEUNIT (SCHEDULEUNIT)</a></p><h4>Query (조회 서비스) : SelectCboCodeList</h4><ul><li>ID 구성: <code>SelectCboCodeList</code> / 클래스 <code>THiRAMES.Service.UI</code> / 버전 <code>00001</code></li><li>정의 위치: DB 저장 쿼리 (CIM_STOREDQUERY)</li><li>쿼리 파라메터: <code>CODECLASSID</code> <code>SITEID</code></li><li>테이블(조회/쓰기 전체, 함수·SP 포함): <div><a class="tbl" href="../tables.html#CIM_CODE">CIM_CODE</a><span class="b m">메인</span><span class="b r">읽기</span></div></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 1 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 202 76" width="202" height="76" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="170" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_CODE</text><text x="26" y="52" class="t2">기준 테이블</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>SELECT CODEID AS CODE,
+
+	   CODENAME AS NAME,
+
+	   UISEQUENCE 
+
+FROM CIM_CODE
+
+WHERE CODECLASSID = :CODECLASSID   
+
+  AND SITEID = :SITEID      
+
+  AND ISUSABLE= &#x27;Usable&#x27;       
+
+ORDER BY UISEQUENCE</pre></details></details><details id="svc-7" class="svc"><summary><b>#7</b> Rule <code>UpsertProductCapacityRel</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-7">#7 #saveBtn click</a> <a class="chip" href="#fn-8">#8 #addBottomBtn1 click</a></p><h4>Rule (저장/실행 서비스) : UpsertProductCapacityRel</h4><ul><li>구현 위치: 구현 미확인 (소스/배포 DLL에서 정의를 찾지 못함 - 미사용·삭제된 서비스이거나 외부 모듈일 수 있음)</li></ul></details><details id="svc-8" class="svc"><summary><b>#8</b> Rule <code>_</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-9">#9 기타 참조 (JS 문자열)</a></p><h4>Rule (저장/실행 서비스) : _</h4><ul><li>구현 위치: 구현 미확인 (소스/배포 DLL에서 정의를 찾지 못함 - 미사용·삭제된 서비스이거나 외부 모듈일 수 있음)</li></ul></details><h2>3. 그리드 / 검색조건 정의</h2><details><summary><b>PP_WO_0031</b> 제품생산단위CAPA관리1_제품생산단위CAPA목록 — 컬럼 5, 검색조건 4</summary><p>actionId: <code class="wrapc">THiRAMES.Service.UI$RuleMultiInquiry$THiRAMES.Service.UI$SelectProductCapacityRelList$00001</code></p><h4>검색조건</h4><table class="grid sm"><thead><tr><th>필드</th><th>유형</th><th>표시명</th><th>표시명(한글)</th><th>콤보 서비스</th></tr></thead><tbody><tr><td><code>PRODUCTCLASSID</code></td><td>FILTER</td><td>PRODUCTCLASSID</td><td><b>제품그룹</b></td><td class="wrapc">THiRAMES.Service.UI$RuleMultiInquiry$THiRAMES.Service.UI$SelectProductClassList$00001?SITEID=0100</td></tr><tr><td><code>PRODUCTDEFINITIONID</code></td><td>FILTER</td><td>PRODUCTDEFINITIONID</td><td><b>제품코드</b></td><td class="wrapc">THiRAMES.Service.UI$RuleMultiInquiry$THiRAMES.Service.UI$SelectProductDefinitionListByProductClass$00001</td></tr><tr><td><code>PLANTID</code></td><td>FILTER</td><td>PLANTID</td><td><b>PLANT</b></td><td class="wrapc">THiRAMES.Service.UI$RuleMultiInquiry$THiRAMES.Service.UI$SelectPlantListForWo$00001</td></tr><tr><td><code>LINEID</code></td><td>FILTER</td><td>LINEID</td><td><b>라인</b></td><td class="wrapc">THiRAMES.Service.UI$RuleMultiInquiry$THiRAMES.Service.UI$SelectLineListForWo$00001</td></tr></tbody></table><p class="muted">조회 쿼리의 메인 테이블 <a class="tbl" href="../tables.html#CUS_PRODUCTCAPACITYREL">CUS_PRODUCTCAPACITYREL</a> 에서 오는 컬럼은 <span class="mainmark">강조</span> 표시됩니다 (5개 / 5개)</p><h4>컬럼</h4><table class="grid sm"><thead><tr><th>필드</th><th>표시명</th><th>표시명(한글)</th><th>편집</th><th>필수</th><th>콤보 서비스</th></tr></thead><tbody><tr class="mainc"><td><code>SITEID</code> <span class="b m">메인</span></td><td>SITEID</td><td><b>사이트</b></td><td></td><td>Y</td><td class="wrapc"></td></tr><tr class="mainc"><td><code>SCHEDULEUNIT</code> <span class="b m">메인</span></td><td>SCHEDULEUNIT</td><td><b>주기단위</b></td><td>Y</td><td>Y</td><td class="wrapc">THiRAMES.Service.UI$RuleMultiInquiry$THiRAMES.Service.UI$SelectCboCodeList$00001?CODECLASSID=SCHEDULEUNIT&amp;SITEID=0100</td></tr><tr class="mainc"><td><code>MAXBATCHPERDAY</code> <span class="b m">메인</span></td><td>MAXBATCHPERDAY</td><td><b>일일 최대 BATCH 수량</b></td><td>Y</td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>MAXLOTPERBATCH</code> <span class="b m">메인</span></td><td>MAXLOTPERBATCH</td><td><b>BATCH 당 최대 LOT 수량</b></td><td>Y</td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>MAXLOTPERDAY</code> <span class="b m">메인</span></td><td>MAXLOTPERDAY</td><td><b>일일 최대 LOT 수량</b></td><td>Y</td><td></td><td class="wrapc"></td></tr></tbody></table></details><footer>자동 생성 문서 · DB: EM_MES_DEV (10.130.11.100) · 소스: THiRAMES_UI / THiRAMES_Service · "추정"/"코드 분석 기반" 표기는 정적 분석 결과이므로 실제 동작과 다를 수 있습니다.</footer></main></body></html>

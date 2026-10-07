@@ -4,17 +4,30 @@ WHERE (:MATERIALDEFINITIONID = &#x27;&#x27; OR MATERIALDEFINITIONID LIKE :MATERI
       AND (:MATERIALDEFINITIONNAME = &#x27;&#x27; OR MATERIALDEFINITIONNAME LIKE :MATERIALDEFINITIONNAME + &#x27;%&#x27;)
       AND (:MATERIALCLASSID = &#x27;&#x27; OR MATERIALCLASSID LIKE :MATERIALCLASSID + &#x27;%&#x27;)
       AND (:ISUSABLE = &#x27;&#x27; OR ISUSABLE = :ISUSABLE)
-      AND SITEID = :SITEID</pre></details><details class="sql"><summary>스칼라 함수 FN_USERNAME 정의 보기</summary><pre>CREATE FUNCTION [dbo].[FN_USERNAME](
-	@P_SITEID NVARCHAR(500),
-	@P_USERID NVARCHAR(500)
-) 
-RETURNS NVARCHAR(2000)
-AS
-BEGIN
-	DECLARE @V_RETURN NVARCHAR(100);
- 
-	SELECT @V_RETURN = ISNULL(U.USERNAME, &#x27;&#x27;) + &#x27;(&#x27; + ISNULL(U.USERID, &#x27;&#x27;) + &#x27;)&#x27; FROM CIM_USER U
-	WHERE U.SITEID  = @P_SITEID
-		AND U.USERID = @P_USERID
-	RETURN @V_RETURN
+      AND SITEID = :SITEID</pre></details><details class="sql"><summary>스칼라 함수 FN_USERNAME 정의 보기</summary><pre>CREATE FUNCTION [dbo].[FN_USERNAME](
+
+	@P_SITEID NVARCHAR(500),
+
+	@P_USERID NVARCHAR(500)
+
+) 
+
+RETURNS NVARCHAR(2000)
+
+AS
+
+BEGIN
+
+	DECLARE @V_RETURN NVARCHAR(100);
+
+ 
+
+	SELECT @V_RETURN = ISNULL(U.USERNAME, &#x27;&#x27;) + &#x27;(&#x27; + ISNULL(U.USERID, &#x27;&#x27;) + &#x27;)&#x27; FROM CIM_USER U
+
+	WHERE U.SITEID  = @P_SITEID
+
+		AND U.USERID = @P_USERID
+
+	RETURN @V_RETURN
+
 END</pre></details></details><h2>3. 그리드 / 검색조건 정의</h2><details><summary><b>MES_CM_010_0201</b> 자재조회 팝업 — 컬럼 11, 검색조건 3</summary><p>actionId: <code class="wrapc">THiRA.MES.Modeler$RuleMultiInquiry$THiRA.MES.Modeler$RDS_MaterialDefinition_100$00001?ISUSABLE=</code></p><h4>검색조건</h4><table class="grid sm"><thead><tr><th>필드</th><th>유형</th><th>표시명</th><th>표시명(한글)</th><th>콤보 서비스</th></tr></thead><tbody><tr><td><code>MATERIALCLASSID</code></td><td>FILTER</td><td>MATERIALCLASSID</td><td><b>자재그룹</b></td><td class="wrapc"></td></tr><tr><td><code>MATERIALDEFINITIONID</code></td><td>FILTER</td><td>MATERIALDEFINITIONID</td><td><b>자재코드</b></td><td class="wrapc"></td></tr><tr><td><code>MATERIALDEFINITIONNAME</code></td><td>FILTER</td><td>MATERIALDEFINITIONNAME</td><td><b>자재명</b></td><td class="wrapc"></td></tr></tbody></table><p class="muted">조회 쿼리의 메인 테이블 <a class="tbl" href="../tables.html#CIM_MATERIALDEFINITION">CIM_MATERIALDEFINITION</a> 에서 오는 컬럼은 <span class="mainmark">강조</span> 표시됩니다 (10개 / 11개)</p><h4>컬럼</h4><table class="grid sm"><thead><tr><th>필드</th><th>표시명</th><th>표시명(한글)</th><th>편집</th><th>필수</th><th>콤보 서비스</th></tr></thead><tbody><tr><td><code>checkBtn</code></td><td></td><td><b>선택</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>SITEID</code> <span class="b m">메인</span></td><td>MES_CM_010_020_1_SITEID</td><td><b>사이트</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>MATERIALCLASSID</code> <span class="b m">메인</span></td><td>MES_CM_010_020_1_MATERIALCLASSID</td><td><b>자재그룹</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>MATERIALDEFINITIONID</code> <span class="b m">메인</span></td><td>MES_CM_010_020_1_MATERIALDEFINITIONID</td><td><b>자재</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>MATERIALDEFINITIONNAME</code> <span class="b m">메인</span></td><td>MES_CM_010_020_1_MATERIALDEFINITIONNAME</td><td><b>자재명</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>MATERIALTYPE</code> <span class="b m">메인</span></td><td>MES_CM_010_020_1_MATERIALTYPE</td><td><b>자재타입</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>DESCRIPTION</code> <span class="b m">메인</span></td><td>MES_CM_010_020_1_DESCRIPTION</td><td><b>설명</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>CREATOR</code> <span class="b m">메인</span></td><td>MES_CM_010_020_1_CREATOR</td><td><b>생성자</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>CREATETIME</code> <span class="b m">메인</span></td><td>MES_CM_010_020_1_CREATETIME</td><td><b>생성시간</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>MODIFIER</code> <span class="b m">메인</span></td><td>MES_CM_010_020_1_MODIFIER</td><td><b>수정자</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>MODIFYTIME</code> <span class="b m">메인</span></td><td>MES_CM_010_020_1_MODIFYTIME</td><td><b>수정시간</b></td><td></td><td></td><td class="wrapc"></td></tr></tbody></table></details><footer>자동 생성 문서 · DB: EM_MES_DEV (10.130.11.100) · 소스: THiRAMES_UI / THiRAMES_Service · "추정"/"코드 분석 기반" 표기는 정적 분석 결과이므로 실제 동작과 다를 수 있습니다.</footer></main></body></html>

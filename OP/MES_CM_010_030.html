@@ -32,17 +32,30 @@ WHERE (:PRODUCTDEFINITIONID = &#x27;&#x27; OR MATERIALDEFINITIONID LIKE :PRODUCT
   AND (:PRODUCTDEFINITIONNAME = &#x27;&#x27; OR MATERIALDEFINITIONNAME LIKE :PRODUCTDEFINITIONNAME + &#x27;%&#x27;)
   AND (:PRODUCTCLASSID = &#x27;&#x27; OR MATERIALCLASSID LIKE :PRODUCTCLASSID + &#x27;%&#x27;)
   AND ISUSABLE = &#x27;Usable&#x27;
-  AND SITEID = :SITEID</pre></details><details class="sql"><summary>스칼라 함수 FN_USERNAME 정의 보기</summary><pre>CREATE FUNCTION [dbo].[FN_USERNAME](
-	@P_SITEID NVARCHAR(500),
-	@P_USERID NVARCHAR(500)
-) 
-RETURNS NVARCHAR(2000)
-AS
-BEGIN
-	DECLARE @V_RETURN NVARCHAR(100);
- 
-	SELECT @V_RETURN = ISNULL(U.USERNAME, &#x27;&#x27;) + &#x27;(&#x27; + ISNULL(U.USERID, &#x27;&#x27;) + &#x27;)&#x27; FROM CIM_USER U
-	WHERE U.SITEID  = @P_SITEID
-		AND U.USERID = @P_USERID
-	RETURN @V_RETURN
-END</pre></details></details><h2>3. 그리드 / 검색조건 정의</h2><details><summary><b>MES_CM_010_0301</b> 공통팝업_제품자재조회1_제품자재목록 — 컬럼 11, 검색조건 3</summary><p>actionId: <code class="wrapc">THiRA.MES.Modeler$RuleMultiInquiry$THiRA.MES.Modeler$PPS_ProductDefinition_102$00001?SITEID=0100&amp;STATEMODELID=ProductOrderState</code></p><h4>검색조건</h4><table class="grid sm"><thead><tr><th>필드</th><th>유형</th><th>표시명</th><th>표시명(한글)</th><th>콤보 서비스</th></tr></thead><tbody><tr><td><code>ITEMCLASSID</code></td><td>FILTER</td><td>ITEMCLASSID</td><td><b>품목그룹코드</b></td><td class="wrapc"></td></tr><tr><td><code>ITEMDEFINITIONID</code></td><td>FILTER</td><td>ITEMDEFINITIONID</td><td><b></b></td><td class="wrapc"></td></tr><tr><td><code>ITEMDEFINITIONNAME</code></td><td>FILTER</td><td>ITEMDEFINITIONNAME</td><td><b></b></td><td class="wrapc"></td></tr></tbody></table><p class="muted">조회 쿼리의 메인 테이블 <a class="tbl" href="../tables.html#CIM_PRODUCTDEFINITION">CIM_PRODUCTDEFINITION</a> 에서 오는 컬럼은 <span class="mainmark">강조</span> 표시됩니다 (0개 / 11개)</p><h4>컬럼</h4><table class="grid sm"><thead><tr><th>필드</th><th>표시명</th><th>표시명(한글)</th><th>편집</th><th>필수</th><th>콤보 서비스</th></tr></thead><tbody><tr><td><code>checkBtn</code></td><td></td><td><b>선택</b></td><td></td><td></td><td class="wrapc"></td></tr><tr><td><code>ITEMCLASSID</code></td><td>제품그룹</td><td><b>품목그룹코드</b></td><td></td><td></td><td class="wrapc"></td></tr><tr><td><code>ITEMCLASSNAME</code></td><td>제품그룹명</td><td><b>품목그룹명</b></td><td></td><td></td><td class="wrapc"></td></tr><tr><td><code>ITEMDEFINITIONID</code></td><td>아이템 ID</td><td><b></b></td><td></td><td></td><td class="wrapc"></td></tr><tr><td><code>ITEMDEFINITIONNAME</code></td><td>아이템명</td><td><b></b></td><td></td><td></td><td class="wrapc"></td></tr><tr><td><code>ITEMTYPE</code></td><td>아이템타입</td><td><b></b></td><td></td><td></td><td class="wrapc"></td></tr><tr><td><code>DESCRIPTION</code></td><td>설명</td><td><b>설명</b></td><td></td><td></td><td class="wrapc"></td></tr><tr><td><code>CREATOR</code></td><td>생성자</td><td><b>등록자</b></td><td></td><td></td><td class="wrapc"></td></tr><tr><td><code>CREATETIME</code></td><td>생성일시</td><td><b>등록일시</b></td><td></td><td></td><td class="wrapc"></td></tr><tr><td><code>MODIFIER</code></td><td>수정자</td><td><b>수정자</b></td><td></td><td></td><td class="wrapc"></td></tr><tr><td><code>MODIFYTIME</code></td><td>수정일시</td><td><b>수정일시</b></td><td></td><td></td><td class="wrapc"></td></tr></tbody></table></details><footer>자동 생성 문서 · DB: EM_MES_DEV (10.130.11.100) · 소스: THiRAMES_UI / THiRAMES_Service · "추정"/"코드 분석 기반" 표기는 정적 분석 결과이므로 실제 동작과 다를 수 있습니다.</footer></main></body></html>
+  AND SITEID = :SITEID</pre></details><details class="sql"><summary>스칼라 함수 FN_USERNAME 정의 보기</summary><pre>CREATE FUNCTION [dbo].[FN_USERNAME](
+
+	@P_SITEID NVARCHAR(500),
+
+	@P_USERID NVARCHAR(500)
+
+) 
+
+RETURNS NVARCHAR(2000)
+
+AS
+
+BEGIN
+
+	DECLARE @V_RETURN NVARCHAR(100);
+
+ 
+
+	SELECT @V_RETURN = ISNULL(U.USERNAME, &#x27;&#x27;) + &#x27;(&#x27; + ISNULL(U.USERID, &#x27;&#x27;) + &#x27;)&#x27; FROM CIM_USER U
+
+	WHERE U.SITEID  = @P_SITEID
+
+		AND U.USERID = @P_USERID
+
+	RETURN @V_RETURN
+
+END</pre></details></details><h2>3. 그리드 / 검색조건 정의</h2><details><summary><b>MES_CM_010_0301</b> 공통팝업_제품자재조회1_제품자재목록 — 컬럼 11, 검색조건 3</summary><p>actionId: <code class="wrapc">THiRA.MES.Modeler$RuleMultiInquiry$THiRA.MES.Modeler$PPS_ProductDefinition_102$00001?SITEID=0100&amp;STATEMODELID=ProductOrderState</code></p><h4>검색조건</h4><table class="grid sm"><thead><tr><th>필드</th><th>유형</th><th>표시명</th><th>표시명(한글)</th><th>콤보 서비스</th></tr></thead><tbody><tr><td><code>ITEMCLASSID</code></td><td>FILTER</td><td>ITEMCLASSID</td><td><b>품목그룹코드</b></td><td class="wrapc"></td></tr><tr><td><code>ITEMDEFINITIONID</code></td><td>FILTER</td><td>ITEMDEFINITIONID</td><td><b></b></td><td class="wrapc"></td></tr><tr><td><code>ITEMDEFINITIONNAME</code></td><td>FILTER</td><td>ITEMDEFINITIONNAME</td><td><b></b></td><td class="wrapc"></td></tr></tbody></table><p class="muted">조회 쿼리의 메인 테이블 <a class="tbl" href="../tables.html#CIM_PRODUCTDEFINITION">CIM_PRODUCTDEFINITION</a> 에서 오는 컬럼은 <span class="mainmark">강조</span> 표시됩니다 (4개 / 11개)</p><h4>컬럼</h4><table class="grid sm"><thead><tr><th>필드</th><th>표시명</th><th>표시명(한글)</th><th>편집</th><th>필수</th><th>콤보 서비스</th></tr></thead><tbody><tr><td><code>checkBtn</code></td><td></td><td><b>선택</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>ITEMCLASSID</code> <span class="b m">메인</span></td><td>제품그룹</td><td><b>품목그룹코드</b></td><td></td><td></td><td class="wrapc"></td></tr><tr><td><code>ITEMCLASSNAME</code></td><td>제품그룹명</td><td><b>품목그룹명</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>ITEMDEFINITIONID</code> <span class="b m">메인</span></td><td>아이템 ID</td><td><b></b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>ITEMDEFINITIONNAME</code> <span class="b m">메인</span></td><td>아이템명</td><td><b></b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>ITEMTYPE</code> <span class="b m">메인</span></td><td>아이템타입</td><td><b></b></td><td></td><td></td><td class="wrapc"></td></tr><tr><td><code>DESCRIPTION</code></td><td>설명</td><td><b>설명</b></td><td></td><td></td><td class="wrapc"></td></tr><tr><td><code>CREATOR</code></td><td>생성자</td><td><b>등록자</b></td><td></td><td></td><td class="wrapc"></td></tr><tr><td><code>CREATETIME</code></td><td>생성일시</td><td><b>등록일시</b></td><td></td><td></td><td class="wrapc"></td></tr><tr><td><code>MODIFIER</code></td><td>수정자</td><td><b>수정자</b></td><td></td><td></td><td class="wrapc"></td></tr><tr><td><code>MODIFYTIME</code></td><td>수정일시</td><td><b>수정일시</b></td><td></td><td></td><td class="wrapc"></td></tr></tbody></table></details><footer>자동 생성 문서 · DB: EM_MES_DEV (10.130.11.100) · 소스: THiRAMES_UI / THiRAMES_Service · "추정"/"코드 분석 기반" 표기는 정적 분석 결과이므로 실제 동작과 다를 수 있습니다.</footer></main></body></html>

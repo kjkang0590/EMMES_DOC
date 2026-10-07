@@ -1,32 +1,63 @@
-<!DOCTYPE html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>INSPECITEMDEFINITION - 검사 정의 조회</title><link rel="stylesheet" href="../style.css"></head><body><header class="top"><a href="../index.html">← 전체 목록</a><a href="../tables.html">테이블 색인</a></header><main><h1>검사 정의 조회 <small>INSPECITEMDEFINITION</small></h1><table class="kv"><tr><th>화면 경로</th><td><code>THiRAMES_UI/wwwroot/view/ngs/mes/common/INSPECITEMDEFINITION.html</code></td></tr><tr><th>화면 구분</th><td>공통 팝업/컴포넌트</td></tr><tr><th>위젯(Grid)</th><td><code>INSPECITEMDEFINITION1</code></td></tr><tr><th>화면 버튼</th><td><span class="chip">findBtn1 · 조회</span></td></tr></table><h2>1. 기능별 호출 서비스 / 파라메터 / 테이블</h2><div class="wrap"><table class="grid"><thead><tr><th>#</th><th>기능</th><th>구분</th><th>호출 서비스</th><th>파라메터</th><th>DB 테이블</th></tr></thead><tbody><tr id="fn-1"><td>1</td><td>조회 - 그리드 INSPECITEMDEFINITION1 (검사 정의 조회)<br><small class="muted">조회 버튼(findBtn)/마스터-디테일 행선택 시 호출</small></td><td>R 조회</td><td><a href="#svc-1"><span class="tag q">Query</span> <code>SelectInspDefinitionListByInspItem</code></a> <small>THiRAMES.Service.UI</small></td><td class="params"><code>INSPITEMID</code> <code>SITEID</code></td><td><a class="tbl" href="../tables.html#CIM_INSPDEFINITION">CIM_INSPDEFINITION</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_INSPDEFINITIONITEMSPEC">CIM_INSPDEFINITIONITEMSPEC</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_INSPITEM">CIM_INSPITEM</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_USER">CIM_USER</a><span class="b r">읽기</span></td></tr></tbody></table></div><h2>2. 서비스 상세</h2><details id="svc-1" class="svc" open><summary><b>#1</b> Query <code>SelectInspDefinitionListByInspItem</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-1">#1 조회 - 그리드 INSPECITEMDEFINITION1 (검사 정의 조회)</a></p><h4>Query (조회 서비스) : SelectInspDefinitionListByInspItem</h4><ul><li>ID 구성: <code>SelectInspDefinitionListByInspItem</code> / 클래스 <code>THiRAMES.Service.UI</code> / 버전 <code>00001</code></li><li>정의 위치: DB 저장 쿼리 (CIM_STOREDQUERY)</li><li>쿼리 파라메터: <code>INSPITEMID</code> <code>SITEID</code></li><li>테이블(조회/쓰기 전체, 함수·SP 포함): <div><a class="tbl" href="../tables.html#CIM_INSPDEFINITION">CIM_INSPDEFINITION</a><span class="b m">메인</span><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_INSPDEFINITIONITEMSPEC">CIM_INSPDEFINITIONITEMSPEC</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_INSPITEM">CIM_INSPITEM</a><span class="b r">읽기</span></div><div><small class="muted">└ 스칼라 함수 FN_USERNAME :</small> <a class="tbl" href="../tables.html#CIM_USER">CIM_USER</a><span class="b m">메인</span><span class="b r">읽기</span></div></li><li>함수/SP: <code>FN_USERNAME</code></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 2 · 조인 1</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 508 166" width="508" height="166" role="img" aria-label="조인 구조도"><path class="edge e-inner" d="M186 38 C231 38 231 38 276 38"/><text class="elab" x="231" y="34" text-anchor="middle">INNER</text><g class="node base"><rect x="16" y="16" width="170" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_INSPDEFINITION</text><text x="26" y="52" class="t2">alias C</text></g><g class="node"><rect x="276" y="16" width="216" height="134" rx="7"/><text x="286" y="35" class="t1">CIM_INSPDEFINITIONITEMSPEC</text><text x="286" y="52" class="t2">alias S</text><text x="286" y="67" class="t2 jt">INNER</text><text x="304" y="82" class="t3">SITEID = C.SITEID</text><text x="304" y="97" class="t3">COPERATOR = C.COPERATOR</text><text x="304" y="112" class="t3">ITEMID = C.ITEMID</text><text x="304" y="127" class="t3">INSPTYPE = C.INSPTYPE</text><text x="304" y="142" class="t3">REV = C.REV</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small><br><small class="muted">마스터/명칭 조회용 조인 제외(기준 테이블 제외): CIM_INSPITEM</small></div></details><details class="joinviz" open><summary><b>스칼라 함수 <code>FN_USERNAME</code> 의 조인 구조도</b> <small class="muted">테이블 1 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 202 76" width="202" height="76" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="170" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_USER</text><text x="26" y="52" class="t2">alias U</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>------------------------------------
--- SelectInspDefinitionListByInspItem 검사표준 조회문(검사항목으로) = QMS_Inspdefinition_101
-------------------------------------
--- INPUT = SITEID, ISUSABLE, INSPITEMCLASSID, INSPITEMCLASSNAME
-SELECT C.*, 
-	   (SELECT FN_USERNAME(C.SITEID, C.CREATOR) FROM DUAL) AS CREATOR2, 
-	   (SELECT FN_USERNAME(C.SITEID, C.MODIFIER) FROM DUAL) AS MODIFIER2
-  FROM CIM_INSPDEFINITION C 
-  	INNER JOIN CIM_INSPDEFINITIONITEMSPEC S ON C.SITEID = S.SITEID
-  										   AND C.COPERATOR = S.COPERATOR
-  										   AND C.ITEMID = S.ITEMID
-  										   AND C.INSPTYPE = S.INSPTYPE
-  										   AND C.REV = S.REV
-	INNER JOIN CIM_INSPITEM I ON C.SITEID = I.SITEID 
-							 AND S.INSPITEMID = I.INSPITEMID
- WHERE 1=1
-   AND (:INSPITEMID IS NULL OR I.INSPITEMID = :INSPITEMID)
-   AND C.SITEID = :SITEID
-ORDER BY C.INSPDEFINITIONSYSID</pre></details><details class="sql"><summary>스칼라 함수 FN_USERNAME 정의 보기</summary><pre>CREATE FUNCTION [dbo].[FN_USERNAME](
-	@P_SITEID NVARCHAR(500),
-	@P_USERID NVARCHAR(500)
-) 
-RETURNS NVARCHAR(2000)
-AS
-BEGIN
-	DECLARE @V_RETURN NVARCHAR(100);
- 
-	SELECT @V_RETURN = ISNULL(U.USERNAME, &#x27;&#x27;) + &#x27;(&#x27; + ISNULL(U.USERID, &#x27;&#x27;) + &#x27;)&#x27; FROM CIM_USER U
-	WHERE U.SITEID  = @P_SITEID
-		AND U.USERID = @P_USERID
-	RETURN @V_RETURN
+<!DOCTYPE html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>INSPECITEMDEFINITION - 검사 정의 조회</title><link rel="stylesheet" href="../style.css"></head><body><header class="top"><a href="../index.html">← 전체 목록</a><a href="../tables.html">테이블 색인</a></header><main><h1>검사 정의 조회 <small>INSPECITEMDEFINITION</small></h1><table class="kv"><tr><th>화면 경로</th><td><code>THiRAMES_UI/wwwroot/view/ngs/mes/common/INSPECITEMDEFINITION.html</code></td></tr><tr><th>화면 구분</th><td>공통 팝업/컴포넌트</td></tr><tr><th>위젯(Grid)</th><td><code>INSPECITEMDEFINITION1</code></td></tr><tr><th>화면 버튼</th><td><span class="chip">findBtn1 · 조회</span></td></tr></table><h2>1. 기능별 호출 서비스 / 파라메터 / 테이블</h2><div class="wrap"><table class="grid"><thead><tr><th>#</th><th>기능</th><th>구분</th><th>호출 서비스</th><th>파라메터</th><th>DB 테이블</th></tr></thead><tbody><tr id="fn-1"><td>1</td><td>조회 - 그리드 INSPECITEMDEFINITION1 (검사 정의 조회)<br><small class="muted">조회 버튼(findBtn)/마스터-디테일 행선택 시 호출</small></td><td>R 조회</td><td><a href="#svc-1"><span class="tag q">Query</span> <code>SelectInspDefinitionListByInspItem</code></a> <small>THiRAMES.Service.UI</small></td><td class="params"><code>INSPITEMID</code> <code>SITEID</code></td><td><a class="tbl" href="../tables.html#CIM_INSPDEFINITION">CIM_INSPDEFINITION</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_INSPDEFINITIONITEMSPEC">CIM_INSPDEFINITIONITEMSPEC</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_INSPITEM">CIM_INSPITEM</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_USER">CIM_USER</a><span class="b r">읽기</span></td></tr></tbody></table></div><h2>2. 서비스 상세</h2><details id="svc-1" class="svc" open><summary><b>#1</b> Query <code>SelectInspDefinitionListByInspItem</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-1">#1 조회 - 그리드 INSPECITEMDEFINITION1 (검사 정의 조회)</a></p><h4>Query (조회 서비스) : SelectInspDefinitionListByInspItem</h4><ul><li>ID 구성: <code>SelectInspDefinitionListByInspItem</code> / 클래스 <code>THiRAMES.Service.UI</code> / 버전 <code>00001</code></li><li>정의 위치: DB 저장 쿼리 (CIM_STOREDQUERY)</li><li>쿼리 파라메터: <code>INSPITEMID</code> <code>SITEID</code></li><li>테이블(조회/쓰기 전체, 함수·SP 포함): <div><a class="tbl" href="../tables.html#CIM_INSPDEFINITION">CIM_INSPDEFINITION</a><span class="b m">메인</span><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_INSPDEFINITIONITEMSPEC">CIM_INSPDEFINITIONITEMSPEC</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_INSPITEM">CIM_INSPITEM</a><span class="b r">읽기</span></div><div><small class="muted">└ 스칼라 함수 FN_USERNAME :</small> <a class="tbl" href="../tables.html#CIM_USER">CIM_USER</a><span class="b m">메인</span><span class="b r">읽기</span></div></li><li>함수/SP: <code>FN_USERNAME</code></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 2 · 조인 1</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 508 166" width="508" height="166" role="img" aria-label="조인 구조도"><path class="edge e-inner" d="M186 38 C231 38 231 38 276 38"/><text class="elab" x="231" y="34" text-anchor="middle">INNER</text><g class="node base"><rect x="16" y="16" width="170" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_INSPDEFINITION</text><text x="26" y="52" class="t2">alias C</text></g><g class="node"><rect x="276" y="16" width="216" height="134" rx="7"/><text x="286" y="35" class="t1">CIM_INSPDEFINITIONITEMSPEC</text><text x="286" y="52" class="t2">alias S</text><text x="286" y="67" class="t2 jt">INNER</text><text x="304" y="82" class="t3">SITEID = C.SITEID</text><text x="304" y="97" class="t3">COPERATOR = C.COPERATOR</text><text x="304" y="112" class="t3">ITEMID = C.ITEMID</text><text x="304" y="127" class="t3">INSPTYPE = C.INSPTYPE</text><text x="304" y="142" class="t3">REV = C.REV</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small><br><small class="muted">마스터/명칭 조회용 조인 제외(기준 테이블 제외): CIM_INSPITEM</small></div></details><details class="joinviz" open><summary><b>스칼라 함수 <code>FN_USERNAME</code> 의 조인 구조도</b> <small class="muted">테이블 1 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 202 76" width="202" height="76" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="170" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_USER</text><text x="26" y="52" class="t2">alias U</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>------------------------------------
+
+-- SelectInspDefinitionListByInspItem 검사표준 조회문(검사항목으로) = QMS_Inspdefinition_101
+
+------------------------------------
+
+-- INPUT = SITEID, ISUSABLE, INSPITEMCLASSID, INSPITEMCLASSNAME
+
+SELECT C.*, 
+
+	   (SELECT FN_USERNAME(C.SITEID, C.CREATOR) FROM DUAL) AS CREATOR2, 
+
+	   (SELECT FN_USERNAME(C.SITEID, C.MODIFIER) FROM DUAL) AS MODIFIER2
+
+  FROM CIM_INSPDEFINITION C 
+
+  	INNER JOIN CIM_INSPDEFINITIONITEMSPEC S ON C.SITEID = S.SITEID
+
+  										   AND C.COPERATOR = S.COPERATOR
+
+  										   AND C.ITEMID = S.ITEMID
+
+  										   AND C.INSPTYPE = S.INSPTYPE
+
+  										   AND C.REV = S.REV
+
+	INNER JOIN CIM_INSPITEM I ON C.SITEID = I.SITEID 
+
+							 AND S.INSPITEMID = I.INSPITEMID
+
+ WHERE 1=1
+
+   AND (:INSPITEMID IS NULL OR I.INSPITEMID = :INSPITEMID)
+
+   AND C.SITEID = :SITEID
+
+ORDER BY C.INSPDEFINITIONSYSID</pre></details><details class="sql"><summary>스칼라 함수 FN_USERNAME 정의 보기</summary><pre>CREATE FUNCTION [dbo].[FN_USERNAME](
+
+	@P_SITEID NVARCHAR(500),
+
+	@P_USERID NVARCHAR(500)
+
+) 
+
+RETURNS NVARCHAR(2000)
+
+AS
+
+BEGIN
+
+	DECLARE @V_RETURN NVARCHAR(100);
+
+ 
+
+	SELECT @V_RETURN = ISNULL(U.USERNAME, &#x27;&#x27;) + &#x27;(&#x27; + ISNULL(U.USERID, &#x27;&#x27;) + &#x27;)&#x27; FROM CIM_USER U
+
+	WHERE U.SITEID  = @P_SITEID
+
+		AND U.USERID = @P_USERID
+
+	RETURN @V_RETURN
+
 END</pre></details></details><h2>3. 그리드 / 검색조건 정의</h2><details><summary><b>INSPECITEMDEFINITION1</b> 검사 정의 조회 — 컬럼 12, 검색조건 0</summary><p>actionId: <code class="wrapc">THiRAMES.Service.UI$RuleMultiInquiry$THiRAMES.Service.UI$SelectInspDefinitionListByInspItem$00001</code></p><p class="muted">조회 쿼리의 메인 테이블 <a class="tbl" href="../tables.html#CIM_INSPDEFINITION">CIM_INSPDEFINITION</a> 에서 오는 컬럼은 <span class="mainmark">강조</span> 표시됩니다 (12개 / 12개)</p><h4>컬럼</h4><table class="grid sm"><thead><tr><th>필드</th><th>표시명</th><th>표시명(한글)</th><th>편집</th><th>필수</th><th>콤보 서비스</th></tr></thead><tbody><tr class="mainc"><td><code>COPERATOR</code> <span class="b m">메인</span></td><td>COPERATOR</td><td><b>업체</b></td><td></td><td>Y</td><td class="wrapc"></td></tr><tr class="mainc"><td><code>SITEID</code> <span class="b m">메인</span></td><td>SITEID</td><td><b>사이트</b></td><td></td><td>Y</td><td class="wrapc"></td></tr><tr class="mainc"><td><code>ITEMID</code> <span class="b m">메인</span></td><td>ITEMID</td><td><b>품목코드</b></td><td></td><td>Y</td><td class="wrapc"></td></tr><tr class="mainc"><td><code>INSPTYPE</code> <span class="b m">메인</span></td><td>INSPTYPE</td><td><b>검사종류</b></td><td></td><td>Y</td><td class="wrapc"></td></tr><tr class="mainc"><td><code>REV</code> <span class="b m">메인</span></td><td>REV</td><td><b>버전</b></td><td></td><td>Y</td><td class="wrapc"></td></tr><tr class="mainc"><td><code>INSPDEFINITIONNAME</code> <span class="b m">메인</span></td><td>INSPDEFINITIONNAME</td><td><b>검사사양</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>SHORTNAME</code> <span class="b m">메인</span></td><td>SHORTNAME</td><td><b>약어</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>INSPMETHOD</code> <span class="b m">메인</span></td><td>INSPMETHOD</td><td><b>검사방법</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>REPEATCOUNT</code> <span class="b m">메인</span></td><td>REPEATCOUNT</td><td><b>검사횟수</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>STATE</code> <span class="b m">메인</span></td><td>STATE</td><td><b>현재상태</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>ISUSABLE</code> <span class="b m">메인</span></td><td>ISUSABLE</td><td><b>사용여부</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>COMMENTS</code> <span class="b m">메인</span></td><td>COMMENTS</td><td><b>비고</b></td><td></td><td></td><td class="wrapc"></td></tr></tbody></table></details><footer>자동 생성 문서 · DB: EM_MES_DEV (10.130.11.100) · 소스: THiRAMES_UI / THiRAMES_Service · "추정"/"코드 분석 기반" 표기는 정적 분석 결과이므로 실제 동작과 다를 수 있습니다.</footer></main></body></html>

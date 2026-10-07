@@ -3,127 +3,248 @@
 --SelectLPAInputValueList
 --Param : SITEID, FROMDATE, TODATE, ISVIEWUSERNAME, LPAGROUP, LPATYPE, INSPMANAGER
 ------------------------------------------
-EXEC SP_PM_PB_014_SELECTLPAINPUTVALUELIST @SITEID, @FROMDATE, @TODATE, @ISVIEWUSERNAME, @LPAGROUP, @LPATYPE, @INSPMANAGER;</pre></details><details class="sql"><summary>Stored Procedure SP_PM_PB_014_SELECTLPAINPUTVALUELIST 정의 보기</summary><pre>CREATE PROCEDURE [dbo].[SP_PM_PB_014_SELECTLPAINPUTVALUELIST]
-@SITEID VARCHAR(40), @FROMDATE VARCHAR(40), @TODATE VARCHAR(40), @ISVIEWUSERNAME VARCHAR(10)
-, @LPAGROUP VARCHAR(40), @LPATYPE VARCHAR(40), @INSPMANAGER VARCHAR(40)
-AS 
-
---	DECLARE @SITEID VARCHAR(40) = &#x27;PL01&#x27;;
---	DECLARE @FROMDATE VARCHAR(40) = &#x27;2024-07-01&#x27;
---	DECLARE @TODATE VARCHAR(40) = &#x27;2024-07-30&#x27;
---	DECLARE @LPAGROUP VARCHAR(40) = &#x27;PRODUCT&#x27;; --PRODUCT, QUALITY, TECHNICAL
---	DECLARE @LPATYPE VARCHAR(40) = &#x27;DAY&#x27;; --DAY, WEEK, MONTH
---	DECLARE @INSPMANAGER VARCHAR(40) = &#x27;OPERATOR&#x27;; -- OPERATOR, TEAM_LEADER, TEAM_MEMBER
---	DECLARE @ISVIEWUSERNAME VARCHAR(40) = &#x27;N&#x27;; -- Y, N
-	
-	DECLARE @COLUMNS NVARCHAR(MAX) = &#x27;&#x27;
-	DECLARE @PARAMCOLUMNS NVARCHAR(MAX) = &#x27;&#x27;
-	DECLARE @SQL NVARCHAR(MAX) = &#x27;&#x27;
-	
-	SELECT @COLUMNS = @COLUMNS + &#x27;ISNULL([&#x27; + W.WORKDATE + &#x27;], &#x27;&#x27;-&#x27;&#x27;) AS [&#x27; + W.WORKDATE + &#x27;],&#x27;
-	     , @PARAMCOLUMNS = @PARAMCOLUMNS + &#x27;[&#x27; + W.WORKDATE + &#x27;],&#x27;
-	  FROM (
-	         SELECT DISTINCT WORKDATE
-	           FROM CST_LPARESULT
-	          WHERE WORKDATE BETWEEN @FROMDATE AND @TODATE
-	       ) AS W
-	 ORDER BY WORKDATE
-
-	IF (@COLUMNS = &#x27;&#x27;)
-		BEGIN
-			SET @COLUMNS = NULL
-		END
-	ELSE
-		BEGIN
-			SET @COLUMNS = LEFT(@COLUMNS, LEN(@COLUMNS) - 1)
-			SET @PARAMCOLUMNS = LEFT(@PARAMCOLUMNS, LEN(@PARAMCOLUMNS) - 1)
-			PRINT @COLUMNS
-			PRINT @PARAMCOLUMNS
-		END
-
-    IF (@COLUMNS IS NOT NULL)
-    	BEGIN
-			SET @SQL = &#x27;
-			    SELECT P.LPAGROUP
-			         , P.LPAGROUPNAME
-			         , P.LPAITEMID
-			         , P.LPAITEMNAME
-			         , P.LPATYPE
-			         , P.LPATYPENAME
-			         , P.PROCESSSEGMENTTYPE
-			         , P.PROCESSSEGMENTTYPENAME
-			         , P.LPADIVISION
-			         , P.LPADIVISIONNAME
-			         , P.INSPMANAGER
-			         , P.INSPMANAGERNAME
-			         , P.UISEQUENCE
-			         , &#x27; + @COLUMNS + &#x27;
-			      FROM (
-			            SELECT V.WORKDATE
-			                 , V.LPAGROUP
-			                 , A.CODENAME AS LPAGROUPNAME
-			                 , I.LPAITEMID
-			                 , I.LPAITEMNAME
-			                 , I.LPATYPE
-			                 , B.CODENAME AS LPATYPENAME
-			                 , I.PROCESSSEGMENTTYPE
-			                 , C.CODENAME AS PROCESSSEGMENTTYPENAME
-			                 , I.LPADIVISION
-			                 , D.CODENAME AS LPADIVISIONNAME
-			                 , I.INSPMANAGER
-			                 , E.CODENAME AS INSPMANAGERNAME
-			                 , I.UISEQUENCE&#x27;
-			         
-					IF @ISVIEWUSERNAME = &#x27;Y&#x27;
-						BEGIN 
-			              SET @SQL = @SQL + &#x27; , CASE WHEN V.ITEMVALUE = &#x27;&#x27;NA&#x27;&#x27; THEN V.ITEMVALUE
-                                                     ELSE CONCAT(V.ITEMVALUE, &#x27;&#x27; / &#x27;&#x27;, F.USERNAME)
-                                                 END AS ITEMVALUE&#x27;
-						END
-					ELSE
-						BEGIN
-			              SET @SQL = @SQL + &#x27; , V.ITEMVALUE&#x27;
-						END
-						
-			SET @SQL = @SQL + &#x27;		
-			              FROM CST_LPARESULTITEM V WITH(NOLOCK)
-			              LEFT JOIN CST_LPAITEM I WITH(NOLOCK) ON I.SITEID = V.SITEID AND I.LPAGROUP = V.LPAGROUP AND I.LPAITEMID = V.LPAITEMID
-			              LEFT JOIN CIM_CODE A WITH(NOLOCK) ON A.SITEID = V.SITEID AND A.CODEID = V.LPAGROUP AND A.CODECLASSID = &#x27;&#x27;LPAGROUP&#x27;&#x27; 
-			              LEFT JOIN CIM_CODE B WITH(NOLOCK) ON B.SITEID = I.SITEID AND B.CODEID = I.LPATYPE AND B.CODECLASSID = &#x27;&#x27;LPATYPE&#x27;&#x27;
-			              LEFT JOIN CIM_CODE C WITH(NOLOCK) ON C.SITEID = I.SITEID AND C.CODEID = I.PROCESSSEGMENTTYPE AND C.CODECLASSID = &#x27;&#x27;PROCESSSEGMENTTYPE&#x27;&#x27;
-			              LEFT JOIN CIM_CODE D WITH(NOLOCK) ON D.SITEID = I.SITEID AND D.CODEID = I.LPADIVISION AND D.CODECLASSID = &#x27;&#x27;LPADIVISION&#x27;&#x27;
-			              LEFT JOIN CIM_CODE E WITH(NOLOCK) ON E.SITEID = I.SITEID AND E.CODEID = I.INSPMANAGER AND E.CODECLASSID = &#x27;&#x27;INSPMANAGER&#x27;&#x27;
-			              LEFT JOIN CIM_USER F WITH(NOLOCK) ON F.SITEID = V.SITEID AND F.USERID = V.INSPUSER
-			             WHERE V.SITEID = &#x27;&#x27;&#x27; + @SITEID + &#x27;&#x27;&#x27;
-			               AND V.WORKDATE BETWEEN &#x27;&#x27;&#x27; + @FROMDATE + &#x27;&#x27;&#x27; AND &#x27;&#x27;&#x27; + @TODATE + &#x27;&#x27;&#x27;&#x27;
-			               
-					IF @LPAGROUP &lt;&gt; &#x27;&#x27;
-						BEGIN
-			              SET @SQL = @SQL + &#x27; AND V.LPAGROUP = &#x27;&#x27;&#x27; + @LPAGROUP + &#x27;&#x27;&#x27;&#x27;
-						END
-					IF @LPATYPE &lt;&gt; &#x27;&#x27;
-						BEGIN
-			              SET @SQL = @SQL + &#x27; AND I.LPATYPE = &#x27;&#x27;&#x27; + @LPATYPE + &#x27;&#x27;&#x27;&#x27;
-						END
-					IF @INSPMANAGER &lt;&gt; &#x27;&#x27;
-						BEGIN
-			              SET @SQL = @SQL + &#x27; AND I.INSPMANAGER = &#x27;&#x27;&#x27; + @INSPMANAGER + &#x27;&#x27;&#x27;&#x27;
-						END
-						
-			SET @SQL = @SQL + &#x27;
-			            ) AS R
-			      PIVOT ( 
-			              MAX(ITEMVALUE) 
-			              FOR WORKDATE IN (&#x27; + @PARAMCOLUMNS + &#x27;) 
-			            ) AS P 
-			      ORDER BY P.LPAGROUP, P.UISEQUENCE
-			&#x27;
-  	  		EXEC (@SQL)
-		END
-	ELSE
-		BEGIN
-			SET @SQL = &#x27;SELECT &#x27;&#x27;S&#x27;&#x27; AS ERRORCODE&#x27; 
-  	  		EXEC (@SQL)
+EXEC SP_PM_PB_014_SELECTLPAINPUTVALUELIST @SITEID, @FROMDATE, @TODATE, @ISVIEWUSERNAME, @LPAGROUP, @LPATYPE, @INSPMANAGER;</pre></details><details class="sql"><summary>Stored Procedure SP_PM_PB_014_SELECTLPAINPUTVALUELIST 정의 보기</summary><pre>CREATE PROCEDURE [dbo].[SP_PM_PB_014_SELECTLPAINPUTVALUELIST]
+
+@SITEID VARCHAR(40), @FROMDATE VARCHAR(40), @TODATE VARCHAR(40), @ISVIEWUSERNAME VARCHAR(10)
+
+, @LPAGROUP VARCHAR(40), @LPATYPE VARCHAR(40), @INSPMANAGER VARCHAR(40)
+
+AS 
+
+
+
+--	DECLARE @SITEID VARCHAR(40) = &#x27;PL01&#x27;;
+
+--	DECLARE @FROMDATE VARCHAR(40) = &#x27;2024-07-01&#x27;
+
+--	DECLARE @TODATE VARCHAR(40) = &#x27;2024-07-30&#x27;
+
+--	DECLARE @LPAGROUP VARCHAR(40) = &#x27;PRODUCT&#x27;; --PRODUCT, QUALITY, TECHNICAL
+
+--	DECLARE @LPATYPE VARCHAR(40) = &#x27;DAY&#x27;; --DAY, WEEK, MONTH
+
+--	DECLARE @INSPMANAGER VARCHAR(40) = &#x27;OPERATOR&#x27;; -- OPERATOR, TEAM_LEADER, TEAM_MEMBER
+
+--	DECLARE @ISVIEWUSERNAME VARCHAR(40) = &#x27;N&#x27;; -- Y, N
+
+	
+
+	DECLARE @COLUMNS NVARCHAR(MAX) = &#x27;&#x27;
+
+	DECLARE @PARAMCOLUMNS NVARCHAR(MAX) = &#x27;&#x27;
+
+	DECLARE @SQL NVARCHAR(MAX) = &#x27;&#x27;
+
+	
+
+	SELECT @COLUMNS = @COLUMNS + &#x27;ISNULL([&#x27; + W.WORKDATE + &#x27;], &#x27;&#x27;-&#x27;&#x27;) AS [&#x27; + W.WORKDATE + &#x27;],&#x27;
+
+	     , @PARAMCOLUMNS = @PARAMCOLUMNS + &#x27;[&#x27; + W.WORKDATE + &#x27;],&#x27;
+
+	  FROM (
+
+	         SELECT DISTINCT WORKDATE
+
+	           FROM CST_LPARESULT
+
+	          WHERE WORKDATE BETWEEN @FROMDATE AND @TODATE
+
+	       ) AS W
+
+	 ORDER BY WORKDATE
+
+
+
+	IF (@COLUMNS = &#x27;&#x27;)
+
+		BEGIN
+
+			SET @COLUMNS = NULL
+
+		END
+
+	ELSE
+
+		BEGIN
+
+			SET @COLUMNS = LEFT(@COLUMNS, LEN(@COLUMNS) - 1)
+
+			SET @PARAMCOLUMNS = LEFT(@PARAMCOLUMNS, LEN(@PARAMCOLUMNS) - 1)
+
+			PRINT @COLUMNS
+
+			PRINT @PARAMCOLUMNS
+
+		END
+
+
+
+    IF (@COLUMNS IS NOT NULL)
+
+    	BEGIN
+
+			SET @SQL = &#x27;
+
+			    SELECT P.LPAGROUP
+
+			         , P.LPAGROUPNAME
+
+			         , P.LPAITEMID
+
+			         , P.LPAITEMNAME
+
+			         , P.LPATYPE
+
+			         , P.LPATYPENAME
+
+			         , P.PROCESSSEGMENTTYPE
+
+			         , P.PROCESSSEGMENTTYPENAME
+
+			         , P.LPADIVISION
+
+			         , P.LPADIVISIONNAME
+
+			         , P.INSPMANAGER
+
+			         , P.INSPMANAGERNAME
+
+			         , P.UISEQUENCE
+
+			         , &#x27; + @COLUMNS + &#x27;
+
+			      FROM (
+
+			            SELECT V.WORKDATE
+
+			                 , V.LPAGROUP
+
+			                 , A.CODENAME AS LPAGROUPNAME
+
+			                 , I.LPAITEMID
+
+			                 , I.LPAITEMNAME
+
+			                 , I.LPATYPE
+
+			                 , B.CODENAME AS LPATYPENAME
+
+			                 , I.PROCESSSEGMENTTYPE
+
+			                 , C.CODENAME AS PROCESSSEGMENTTYPENAME
+
+			                 , I.LPADIVISION
+
+			                 , D.CODENAME AS LPADIVISIONNAME
+
+			                 , I.INSPMANAGER
+
+			                 , E.CODENAME AS INSPMANAGERNAME
+
+			                 , I.UISEQUENCE&#x27;
+
+			         
+
+					IF @ISVIEWUSERNAME = &#x27;Y&#x27;
+
+						BEGIN 
+
+			              SET @SQL = @SQL + &#x27; , CASE WHEN V.ITEMVALUE = &#x27;&#x27;NA&#x27;&#x27; THEN V.ITEMVALUE
+
+                                                     ELSE CONCAT(V.ITEMVALUE, &#x27;&#x27; / &#x27;&#x27;, F.USERNAME)
+
+                                                 END AS ITEMVALUE&#x27;
+
+						END
+
+					ELSE
+
+						BEGIN
+
+			              SET @SQL = @SQL + &#x27; , V.ITEMVALUE&#x27;
+
+						END
+
+						
+
+			SET @SQL = @SQL + &#x27;		
+
+			              FROM CST_LPARESULTITEM V WITH(NOLOCK)
+
+			              LEFT JOIN CST_LPAITEM I WITH(NOLOCK) ON I.SITEID = V.SITEID AND I.LPAGROUP = V.LPAGROUP AND I.LPAITEMID = V.LPAITEMID
+
+			              LEFT JOIN CIM_CODE A WITH(NOLOCK) ON A.SITEID = V.SITEID AND A.CODEID = V.LPAGROUP AND A.CODECLASSID = &#x27;&#x27;LPAGROUP&#x27;&#x27; 
+
+			              LEFT JOIN CIM_CODE B WITH(NOLOCK) ON B.SITEID = I.SITEID AND B.CODEID = I.LPATYPE AND B.CODECLASSID = &#x27;&#x27;LPATYPE&#x27;&#x27;
+
+			              LEFT JOIN CIM_CODE C WITH(NOLOCK) ON C.SITEID = I.SITEID AND C.CODEID = I.PROCESSSEGMENTTYPE AND C.CODECLASSID = &#x27;&#x27;PROCESSSEGMENTTYPE&#x27;&#x27;
+
+			              LEFT JOIN CIM_CODE D WITH(NOLOCK) ON D.SITEID = I.SITEID AND D.CODEID = I.LPADIVISION AND D.CODECLASSID = &#x27;&#x27;LPADIVISION&#x27;&#x27;
+
+			              LEFT JOIN CIM_CODE E WITH(NOLOCK) ON E.SITEID = I.SITEID AND E.CODEID = I.INSPMANAGER AND E.CODECLASSID = &#x27;&#x27;INSPMANAGER&#x27;&#x27;
+
+			              LEFT JOIN CIM_USER F WITH(NOLOCK) ON F.SITEID = V.SITEID AND F.USERID = V.INSPUSER
+
+			             WHERE V.SITEID = &#x27;&#x27;&#x27; + @SITEID + &#x27;&#x27;&#x27;
+
+			               AND V.WORKDATE BETWEEN &#x27;&#x27;&#x27; + @FROMDATE + &#x27;&#x27;&#x27; AND &#x27;&#x27;&#x27; + @TODATE + &#x27;&#x27;&#x27;&#x27;
+
+			               
+
+					IF @LPAGROUP &lt;&gt; &#x27;&#x27;
+
+						BEGIN
+
+			              SET @SQL = @SQL + &#x27; AND V.LPAGROUP = &#x27;&#x27;&#x27; + @LPAGROUP + &#x27;&#x27;&#x27;&#x27;
+
+						END
+
+					IF @LPATYPE &lt;&gt; &#x27;&#x27;
+
+						BEGIN
+
+			              SET @SQL = @SQL + &#x27; AND I.LPATYPE = &#x27;&#x27;&#x27; + @LPATYPE + &#x27;&#x27;&#x27;&#x27;
+
+						END
+
+					IF @INSPMANAGER &lt;&gt; &#x27;&#x27;
+
+						BEGIN
+
+			              SET @SQL = @SQL + &#x27; AND I.INSPMANAGER = &#x27;&#x27;&#x27; + @INSPMANAGER + &#x27;&#x27;&#x27;&#x27;
+
+						END
+
+						
+
+			SET @SQL = @SQL + &#x27;
+
+			            ) AS R
+
+			      PIVOT ( 
+
+			              MAX(ITEMVALUE) 
+
+			              FOR WORKDATE IN (&#x27; + @PARAMCOLUMNS + &#x27;) 
+
+			            ) AS P 
+
+			      ORDER BY P.LPAGROUP, P.UISEQUENCE
+
+			&#x27;
+
+  	  		EXEC (@SQL)
+
+		END
+
+	ELSE
+
+		BEGIN
+
+			SET @SQL = &#x27;SELECT &#x27;&#x27;S&#x27;&#x27; AS ERRORCODE&#x27; 
+
+  	  		EXEC (@SQL)
+
 		END;</pre></details></details><details id="svc-2" class="svc" open><summary><b>#2</b> Query <code>SelectLPACommentsList</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-2">#2 조회 - 그리드 PM_PB_0142 (자주검사조회2_특이사항)</a> <a class="chip" href="#fn-3">#3 조회 - 그리드 PM_PB_0143 (자주검사조회3_부적합세부내용)</a></p><h4>Query (조회 서비스) : SelectLPACommentsList</h4><ul><li>ID 구성: <code>SelectLPACommentsList</code> / 클래스 <code>THiRAMES.Service.UI</code> / 버전 <code>00001</code></li><li>정의 위치: DB 저장 쿼리 (CIM_STOREDQUERY)</li><li>쿼리명: PM_PB_014_자주검사조회</li><li>쿼리 파라메터: <code>SITEID</code> <code>LINEID</code> <code>FROMDATE</code> <code>TODATE</code> <code>LPAGROUP</code></li><li>테이블(조회/쓰기 전체, 함수·SP 포함): <div><a class="tbl" href="../tables.html#CST_LPARESULT">CST_LPARESULT</a><span class="b m">메인</span><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_CODE">CIM_CODE</a><span class="b r">읽기</span></div></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 1 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 202 76" width="202" height="76" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="170" height="44" rx="7"/><text x="26" y="35" class="t1">CST_LPARESULT</text><text x="26" y="52" class="t2">alias L</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small><br><small class="muted">마스터/명칭 조회용 조인 제외(기준 테이블 제외): CIM_CODE</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>------------------------------------------
 --PM_PB_014_자주검사조회 - 하단 특이사항, 부적합 세부 내용 조회 쿼리
 --SelectLPACommentsList
@@ -139,7 +260,7 @@ SELECT L.WORKDATE
    AND L.LINEID = @LINEID
    AND L.WORKDATE BETWEEN @FROMDATE AND @TODATE
    AND (@LPAGROUP = &#x27;&#x27; OR L.LPAGROUP = @LPAGROUP)
- ORDER BY L.WORKDATE, L.LPAGROUP</pre></details></details><details id="svc-3" class="svc" open><summary><b>#3</b> Query <code>CDS_Code_200</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-4">#4 검색조건 콤보 - LINEID (LINEID)</a> <a class="chip" href="#fn-5">#5 검색조건 콤보 - LPAGROUP (DEPT)</a> <a class="chip" href="#fn-6">#6 검색조건 콤보 - LPATYPE (SEARCHCYCLE)</a> <a class="chip" href="#fn-7">#7 검색조건 콤보 - INSPMANAGER (INSPUSER)</a></p><h4>Query (조회 서비스) : CDS_Code_200</h4><ul><li>ID 구성: <code>CDS_Code_200</code> / 클래스 <code>THiRA.MES.Modeler</code> / 버전 <code>00001</code></li><li>정의 위치: Modeler 내장 쿼리 (THiRAMES.Service.Modeler.MSSQL DLL)</li><li>쿼리 파라메터: <code>CODECLASSID</code> <code>SITEID</code></li><li>테이블(조회/쓰기 전체, 함수·SP 포함): <div><a class="tbl" href="../tables.html#CIM_CODE">CIM_CODE</a><span class="b m">메인</span><span class="b r">읽기</span></div></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 1 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 202 76" width="202" height="76" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="170" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_CODE</text><text x="26" y="52" class="t2">기준 테이블</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>SELECT CODEID AS CODE,
+ ORDER BY L.WORKDATE, L.LPAGROUP</pre></details></details><details id="svc-3" class="svc"><summary><b>#3</b> Query <code>CDS_Code_200</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-4">#4 검색조건 콤보 - LINEID (LINEID)</a> <a class="chip" href="#fn-5">#5 검색조건 콤보 - LPAGROUP (DEPT)</a> <a class="chip" href="#fn-6">#6 검색조건 콤보 - LPATYPE (SEARCHCYCLE)</a> <a class="chip" href="#fn-7">#7 검색조건 콤보 - INSPMANAGER (INSPUSER)</a></p><h4>Query (조회 서비스) : CDS_Code_200</h4><ul><li>ID 구성: <code>CDS_Code_200</code> / 클래스 <code>THiRA.MES.Modeler</code> / 버전 <code>00001</code></li><li>정의 위치: Modeler 내장 쿼리 (THiRAMES.Service.Modeler.MSSQL DLL)</li><li>쿼리 파라메터: <code>CODECLASSID</code> <code>SITEID</code></li><li>테이블(조회/쓰기 전체, 함수·SP 포함): <div><a class="tbl" href="../tables.html#CIM_CODE">CIM_CODE</a><span class="b m">메인</span><span class="b r">읽기</span></div></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 1 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 202 76" width="202" height="76" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="170" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_CODE</text><text x="26" y="52" class="t2">기준 테이블</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>SELECT CODEID AS CODE,
        CODENAME AS NAME,
        UISEQUENCE
 FROM CIM_CODE 

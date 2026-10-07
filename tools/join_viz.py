@@ -344,16 +344,95 @@ def _select_list(s):
             return s[i:j]
     return s[i:]
 
+SYS_TBL = re.compile(r'(CIM|CUS|CST|RPT|V)_', re.I)
+
+def _outer_from_source(s, sel_end):
+    """최상위 FROM 대상이 파생 테이블 '( SELECT .. ) alias' 또는 함수 호출 'fn(..) alias' 인 경우
+    returns (kind, name_or_innersql, alias, rest_after) / 아니면 None"""
+    m = re.compile(r'\s*\bFROM\s+', re.I).match(s, sel_end)
+    if not m:
+        return None
+    i = m.end()
+    fm = re.compile(r'([\w\.\[\]]+)\s*\(').match(s, i)
+    if s[i:i + 1] == '(':
+        kind, start, name = 'sub', i, None
+    elif fm:
+        kind, start, name = 'func', fm.end() - 1, A.clean_name(fm.group(1))
+    else:
+        return None
+    depth = 0
+    for j in range(start, len(s)):
+        if s[j] == '(':
+            depth += 1
+        elif s[j] == ')':
+            depth -= 1
+            if depth == 0:
+                break
+    else:
+        return None
+    am = re.compile(r'\s*(?:AS\s+)?(\w+)', re.I).match(s, j + 1)
+    alias = am.group(1) if am and am.group(1).upper() not in KW else None
+    rest = s[am.end():] if am and alias else s[j + 1:]
+    inner = s[start + 1:j] if kind == 'sub' else name
+    return kind, inner, alias, rest
+
 def main_info(sql):
     """그리드 컬럼 강조용: 쿼리 SELECT 결과 중 메인(기준) 테이블에서 오는 출력 컬럼명 집합.
     returns (table, set(UPPER names)) or None"""
     nodes, order, edges, s = parse_joins(sql)
     if not order:
         return None
-    base = next((a for a in order if nodes[a] in A.TABLES), order[0])   # 시스템 테이블(spt_values 등)은 메인에서 제외
+    sel = _select_list(s)
+    sel = re.sub(r'^\s*(?:DISTINCT|ALL)\b|^\s*TOP\s*\(?\d+\)?(?:\s+PERCENT)?', '', sel.strip(), flags=re.I)
+    sm = re.search(r'\bSELECT\b', s, re.I)
+    src = _outer_from_source(s, sm.end() + len(_select_list(s))) if sm else None
+    if src and (src[2] or src[0] == 'sub'):
+        kind, inner, dalias, rest = src
+        if kind == 'sub':
+            im = main_info(inner)
+            if im:
+                table, innames = im
+            else:
+                table, innames = None, None
+        else:
+            table, innames = inner, None          # 함수: 별칭 컬럼 전부 메인 취급
+        if table:
+            names = set()
+            joined = bool(re.search(r'\bJOIN\b', rest, re.I))
+            for item in _split_top(sel):
+                it = item.strip()
+                if not it:
+                    continue
+                if re.fullmatch(r'(?:\*|%s\.\*)' % re.escape(dalias or '#NONE#'), it, re.I):
+                    if innames:
+                        names |= innames
+                    continue
+                m1 = re.fullmatch(r'(?:(\w+)\.)?(\w+)(?:\s+(?:AS\s+)?\[?(\w+)\]?)?', it, re.I)
+                if not m1 or (m1.group(1) is None and joined):
+                    continue
+                if m1.group(1) is not None and (dalias is None or m1.group(1) != dalias):
+                    continue
+                if m1.group(1) is None and m1.group(3) is None and m1.group(2).upper() in KW:
+                    continue
+                col = m1.group(2).upper()
+                if innames is None or col in innames:
+                    names.add((m1.group(3) or m1.group(2)).upper())
+            return table, names
+    cands = []
+    for pred in (lambda t: t in A.TABLES or SYS_TBL.match(t), lambda t: t in A.TABLES):   # 시스템 테이블(spt_values 등)은 메인에서 제외
+        c = next((a for a in order if pred(nodes[a])), None)
+        if c and c not in cands:
+            cands.append(c)
+    res = None
+    for base in cands or [order[0]]:
+        res = _main_cols(nodes, base, sel)
+        if res[1]:
+            break
+    return res
+
+def _main_cols(nodes, base, sel):
     table = nodes[base]
     cols = {c[0].upper() for c in A.COLS.get(table, [])}   # DB에 없는 테이블이면 비어 있음(별칭 기준으로만 판정)
-    sel = _select_list(s)
     names = set()
     single = len(nodes) == 1
     for item in _split_top(sel):
@@ -382,11 +461,11 @@ def main_info(sql):
         if refs:
             if aliases == {base}:
                 names.add(out.upper())
-        elif re.fullmatch(r'\w+', it) and it.upper() in cols:
+        elif (re.fullmatch(r'\w+', it) or (not refs and am and re.fullmatch(r'\w+\s+(?:AS\s+)?\[?\w+\]?', it, re.I))) and it.split()[0].upper() in cols:
             others = set()
             for a_, t_ in nodes.items():
                 if a_ != base and t_ in A.TABLES:
                     others |= {c[0].upper() for c in A.COLS.get(t_, [])}
-            if single or it.upper() not in others:
+            if single or it.split()[0].upper() not in others:
                 names.add(out.upper())
     return table, names

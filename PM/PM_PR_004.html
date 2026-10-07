@@ -1,282 +1,560 @@
-<!DOCTYPE html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>PM_PR_004 - 생산일보</title><link rel="stylesheet" href="../style.css"></head><body><header class="top"><a href="../index.html">← 전체 목록</a><a href="../tables.html">테이블 색인</a></header><main><h1>생산일보 <small>PM_PR_004</small></h1><table class="kv"><tr><th>화면 경로</th><td><code>THiRAMES_UI/wwwroot/view/ngs/mes/PM/PM_PR_004.html</code></td></tr><tr><th>화면 구분</th><td>PM 생산관리</td></tr><tr><th>위젯(Grid)</th><td><code>PM_PR_0041</code>, <code>PM_PR_0042</code>, <code>PM_PR_0043</code></td></tr><tr><th>화면 버튼</th><td><span class="chip">findBtn1 · 조회</span> <span class="chip">findBtn2 · 조회</span> <span class="chip">findBtn3 · 조회</span> <span class="chip">excelGridDownBtn1 · EXCEL</span> <span class="chip">excelGridDownBtn2 · EXCEL</span> <span class="chip">excelGridDownBtn3 · EXCEL</span></td></tr></table><h2>1. 기능별 호출 서비스 / 파라메터 / 테이블</h2><div class="wrap"><table class="grid"><thead><tr><th>#</th><th>기능</th><th>구분</th><th>호출 서비스</th><th>파라메터</th><th>DB 테이블</th></tr></thead><tbody><tr id="fn-1"><td>1</td><td>조회 - 그리드 PM_PR_0041 (생산일보1_생산일보)<br><small class="muted">조회 버튼(findBtn)/마스터-디테일 행선택 시 호출</small></td><td>R 조회</td><td><a href="#svc-1"><span class="tag q">Query</span> <code>SelectProductDailyReport</code></a> <small>THiRAMES.Service.UI</small></td><td class="params"><code>STARTDATE</code> <code>ENDDATE</code><br><span class="muted">UI 전달:</span> <code class="ui">SITEID</code> <code class="ui">LINEID</code> <code class="ui">STOREDATE</code></td><td><a class="tbl" href="../tables.html#CIM_LOT">CIM_LOT</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_PRODUCTDEFINITION">CIM_PRODUCTDEFINITION</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CST_MATERIALLOT">CST_MATERIALLOT</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CST_RPT_TANKPRODUCE_DAY">CST_RPT_TANKPRODUCE_DAY</a><span class="b r">읽기</span></td></tr><tr id="fn-2"><td>2</td><td>조회 - 그리드 PM_PR_0042 (생산일보2_생산일보)<br><small class="muted">조회 버튼(findBtn)/마스터-디테일 행선택 시 호출</small></td><td>R 조회</td><td><a href="#svc-2"><span class="tag q">Query</span> <code>SelectProductDailyReport2</code></a> <small>THiRAMES.Service.UI</small></td><td class="params"><code>STARTDATE</code> <code>ENDDATE</code><br><span class="muted">UI 전달:</span> <code class="ui">SITEID</code> <code class="ui">LINEID</code></td><td><a class="tbl" href="../tables.html#CST_RPT_TANKPRODUCE_DAY">CST_RPT_TANKPRODUCE_DAY</a><span class="b r">읽기</span></td></tr><tr id="fn-3"><td>3</td><td>조회 - 그리드 PM_PR_0043 (생산일보3_생산일보)<br><small class="muted">조회 버튼(findBtn)/마스터-디테일 행선택 시 호출</small></td><td>R 조회</td><td><a href="#svc-3"><span class="tag q">Query</span> <code>SelectProductDailyReport3</code></a> <small>THiRAMES.Service.UI</small></td><td class="params"><code>STARTDATE</code> <code>ENDDATE</code><br><span class="muted">UI 전달:</span> <code class="ui">SITEID</code> <code class="ui">LINEID</code></td><td><a class="tbl" href="../tables.html#CIM_EQUIPMENT">CIM_EQUIPMENT</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CST_RPT_TANKPRODUCE_DAY">CST_RPT_TANKPRODUCE_DAY</a><span class="b r">읽기</span></td></tr><tr id="fn-4"><td>4</td><td>검색조건 콤보 - LINEID (LINEID)</td><td>R 조회</td><td><a href="#svc-4"><span class="tag q">Query</span> <code>CDS_Code_200</code></a> <small>THiRA.MES.Modeler</small></td><td class="params"><code>CODECLASSID</code> <code>SITEID</code></td><td><a class="tbl" href="../tables.html#CIM_CODE">CIM_CODE</a><span class="b r">읽기</span></td></tr></tbody></table></div><h2>2. 서비스 상세</h2><details id="svc-1" class="svc" open><summary><b>#1</b> Query <code>SelectProductDailyReport</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-1">#1 조회 - 그리드 PM_PR_0041 (생산일보1_생산일보)</a></p><h4>Query (조회 서비스) : SelectProductDailyReport</h4><ul><li>ID 구성: <code>SelectProductDailyReport</code> / 클래스 <code>THiRAMES.Service.UI</code> / 버전 <code>00001</code></li><li>정의 위치: DB 저장 쿼리 (CIM_STOREDQUERY)</li><li>쿼리명: PM_PR_004 생산일보 상단 그리드 조회 프로시저</li><li>쿼리 파라메터: <code>STARTDATE</code> <code>ENDDATE</code></li><li>테이블(조회/쓰기 전체, 함수·SP 포함): <div><small class="muted">└ Stored Procedure SP_PM_PB_004_SELECTPRODUCTDAILYREPORT :</small> <a class="tbl" href="../tables.html#SPT_VALUES">SPT_VALUES</a><span class="b m">메인</span><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CST_MATERIALLOT">CST_MATERIALLOT</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CST_RPT_TANKPRODUCE_DAY">CST_RPT_TANKPRODUCE_DAY</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_LOT">CIM_LOT</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#BASE_DATE">BASE_DATE</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#BP_TB_IN_TBL">BP_TB_IN_TBL</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#KILN_IN_OUT_TBL">KILN_IN_OUT_TBL</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#PRIMIX_IN_TBL">PRIMIX_IN_TBL</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#PROD_QTY_TBL">PROD_QTY_TBL</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_PRODUCTDEFINITION">CIM_PRODUCTDEFINITION</a><span class="b r">읽기</span></div></li><li>함수/SP: <code>EXEC SP_PM_PB_004_SELECTPRODUCTDAILYREPORT</code></li></ul><details class="joinviz" open><summary><b>Stored Procedure <code>SP_PM_PB_004_SELECTPRODUCTDAILYREPORT</code> 의 조인 구조도</b> <small class="muted">테이블 9 · 조인 5</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 652 492" width="652" height="492" role="img" aria-label="조인 구조도"><path class="edge e-inner" d="M442 38 C397 38 397 186 352 186"/><text class="elab" x="397" y="108" text-anchor="middle">INNER</text><path class="edge e-left" d="M186 305 C314 305 314 112 442 112"/><text class="elab" x="314" y="204" text-anchor="middle">LEFT</text><path class="edge e-left" d="M186 305 C314 305 314 216 442 216"/><text class="elab" x="314" y="256" text-anchor="middle">LEFT</text><path class="edge e-left" d="M186 305 C314 305 314 320 442 320"/><text class="elab" x="314" y="308" text-anchor="middle">LEFT</text><path class="edge e-left" d="M186 305 C314 305 314 424 442 424"/><text class="elab" x="314" y="360" text-anchor="middle">LEFT</text><g class="node base unk"><rect x="16" y="16" width="170" height="44" rx="7"/><text x="26" y="35" class="t1">SPT_VALUES</text><text x="26" y="52" class="t2">기준 테이블</text></g><g class="node"><rect x="16" y="90" width="170" height="44" rx="7"/><text x="26" y="109" class="t1">CST_MATERIALLOT</text><text x="26" y="126" class="t2">alias ML</text></g><g class="node"><rect x="16" y="164" width="336" height="89" rx="7"/><text x="26" y="183" class="t1">CST_RPT_TANKPRODUCE_DAY</text><text x="26" y="200" class="t2">alias PD</text><text x="26" y="215" class="t2 jt">INNER</text><text x="44" y="230" class="t3">PRODUCTDEFINITIONID = L.PRODUCTDEFINITIONID</text><text x="44" y="245" class="t3">SITEID = L.SITEID</text></g><g class="node"><rect x="442" y="16" width="170" height="44" rx="7"/><text x="452" y="35" class="t1">CIM_LOT</text><text x="452" y="52" class="t2">alias L</text></g><g class="node unk"><rect x="16" y="283" width="170" height="44" rx="7"/><text x="26" y="302" class="t1">BASE_DATE</text><text x="26" y="319" class="t2">alias BD</text></g><g class="node unk"><rect x="442" y="90" width="194" height="74" rx="7"/><text x="452" y="109" class="t1">BP_TB_IN_TBL</text><text x="452" y="126" class="t2">alias BT</text><text x="452" y="141" class="t2 jt">LEFT</text><text x="470" y="156" class="t3">WORKDATE = BD.WORKDATE</text></g><g class="node unk"><rect x="442" y="194" width="194" height="74" rx="7"/><text x="452" y="213" class="t1">KILN_IN_OUT_TBL</text><text x="452" y="230" class="t2">alias KT</text><text x="452" y="245" class="t2 jt">LEFT</text><text x="470" y="260" class="t3">WORKDATE = BD.WORKDATE</text></g><g class="node unk"><rect x="442" y="298" width="194" height="74" rx="7"/><text x="452" y="317" class="t1">PRIMIX_IN_TBL</text><text x="452" y="334" class="t2">alias PT</text><text x="452" y="349" class="t2 jt">LEFT</text><text x="470" y="364" class="t3">WORKDATE = BD.WORKDATE</text></g><g class="node unk"><rect x="442" y="402" width="194" height="74" rx="7"/><text x="452" y="421" class="t1">PROD_QTY_TBL</text><text x="452" y="438" class="t2">alias PRDT</text><text x="452" y="453" class="t2 jt">LEFT</text><text x="470" y="468" class="t3">WORKDATE = BD.WORKDATE</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>EXEC SP_PM_PB_004_SELECTPRODUCTDAILYREPORT @STARTDATE, @ENDDATE</pre></details><details class="sql"><summary>Stored Procedure SP_PM_PB_004_SELECTPRODUCTDAILYREPORT 정의 보기</summary><pre>CREATE PROCEDURE dbo.SP_PM_PB_004_SELECTPRODUCTDAILYREPORT
-	@STARTDATE VARCHAR(8), @ENDDATE VARCHAR(8)
-AS	
-BEGIN
-	SET @ENDDATE = (SELECT CASE WHEN CONVERT(DATE, REPLACE(GETDATE(), &#x27;-&#x27;, &#x27;&#x27;)) &lt; CONVERT(DATE, @ENDDATE) THEN REPLACE(CONVERT(DATE, GETDATE()), &#x27;-&#x27;, &#x27;&#x27;)
-       	    					ELSE @ENDDATE END); --AS ENDDATE
-	
-	WITH BASE_DATE AS
-	(
-	    ------------------------------------
-	    -- 일자
-	    ------------------------------------
-	    SELECT CONVERT(VARCHAR(8), DATEADD(DAY, NUMBER-1, @STARTDATE), 112) AS WORKDATE
-	    FROM MASTER..SPT_VALUES
-	    WHERE TYPE = &#x27;P&#x27;
-	    AND   NUMBER BETWEEN 1 AND DATEDIFF(D, @STARTDATE, @ENDDATE)+1
-	)
-	, BP_TB_IN_TBL AS
-	(
-	    ------------------------------------
-	    -- BP : BP 투입량(라벨기준)
-	    ------------------------------------
-	   /*
-	    SELECT CONVERT(VARCHAR(8), DATEADD(HOUR, -7, ML.KITTINGTIME), 112) AS WORKDATE
-	         , SUM(ML.ORIGINALQTY - ML.QTY ) AS BP_TB_QTY -- BP 톤백 QTY
-	    FROM CST_MATERIALLOT ML WITH(NOLOCK)
-	    WHERE ML.KITTINGTIME  BETWEEN CONVERT(DATETIME, @STARTDATE + &#x27; 07:00:00&#x27;) AND DATEADD(DAY, 1, CONVERT(DATETIME, @ENDDATE + &#x27; 07:00:00&#x27;))
-	    AND   ML.ISKITTING = &#x27;Y&#x27;
-	    AND   ML.STATE &lt;&gt; &#x27;Transfer&#x27;
-	    AND   ML.ORIGINALQTY &lt;&gt; ML.QTY
-	    GROUP BY CONVERT(VARCHAR(8), DATEADD(HOUR, -7, ML.KITTINGTIME), 112)
-	   */
-        SELECT CONVERT(VARCHAR(8), DATEADD(HOUR, -7, ML.KITTINGTIME), 112) AS WORKDATE
-             --, SUM(ML.ORIGINALQTY - ML.QTY ) AS BP_TB_QTY -- BP 톤백 QTY
-            , SUM( CASE WHEN ML.STATE = &#x27;Active&#x27; AND ML.ORIGINALQTY = ML.QTY THEN ML.QTY
-                   WHEN ML.STATE = &#x27;Active&#x27; AND ML.ORIGINALQTY &gt; ML.QTY THEN ML.ORIGINALQTY - ML.QTY
-                   WHEN ML.STATE = &#x27;Consumed&#x27; THEN ML.ORIGINALQTY
-                   ELSE 0
-              END ) AS BP_TB_QTY        
-        FROM CST_MATERIALLOT ML WITH(NOLOCK)
-        WHERE ML.KITTINGTIME  BETWEEN CONVERT(DATETIME, @STARTDATE + &#x27; 07:00:00&#x27;) AND DATEADD(DAY, 1, CONVERT(DATETIME, @ENDDATE + &#x27; 07:00:00&#x27;))
-        AND   ML.ISKITTING = &#x27;Y&#x27;
-        AND   ML.STATE &lt;&gt; &#x27;Transfer&#x27;
-        GROUP BY CONVERT(VARCHAR(8), DATEADD(HOUR, -7, ML.KITTINGTIME), 112)
-	)
-	, KILN_IN_OUT_TBL AS
-	(
-	    ------------------------------------
-	    -- BP : BP 투입 후 실무게 / kiln 총 투입량 / KILN 후 무게
-	    ------------------------------------
-	    SELECT M.WORKDATE
-	         , SUM(BP_IN_SILO) AS BP_IN_SILO -- 투입후 실무게
-	         , SUM(BP_IN_KILN) AS BP_IN_KILN -- KILN 투입량
-	         , SUM(BP_OUT_KILN) AS BP_OUT_KILN -- KILN(소성) 후 무게
-	    FROM
-	    (
-	        SELECT PD.WORKDATE
-	             --, CASE WHEN PD.TAGID = &#x27;DCS.Unit14.Global.PLC_PK1102[10]&#x27; THEN PD.EOH ELSE 0 END AS BP_IN_SILO  -- 투입후 실무게
-	             , CASE WHEN PD.TAGID = &#x27;DCS.Unit14.Global.PLC_PK1102[10]&#x27; THEN PD.INPUTVALUE ELSE 0 END AS BP_IN_SILO  -- 투입후 실무게
-	             , CASE WHEN PD.TAGID = &#x27;DCS.Unit14.Global.PLC_PK1102[10]&#x27; THEN PD.OUTPUTVALUE ELSE 0 END AS BP_IN_KILN -- KILN 투입량
-	             , CASE WHEN PD.TAGID IN ( &#x27;DCS.Unit14.Global.PLC_PK1102[11]&#x27;, &#x27;DCS.Unit14.Global.PLC_PK1102[12]&#x27;) THEN PD.INPUTVALUE ELSE 0 END AS BP_OUT_KILN -- 소성 후 총 무게
-	        FROM CST_RPT_TANKPRODUCE_DAY PD WITH(NOLOCK)
-	        WHERE EQUIPMENTID = &#x27;PK-1102&#x27;
-	        AND   WORKDATE BETWEEN @STARTDATE AND @ENDDATE
-	        AND   TAGID IN ( &#x27;DCS.Unit14.Global.PLC_PK1102[10]&#x27;, &#x27;DCS.Unit14.Global.PLC_PK1102[11]&#x27;,&#x27;DCS.Unit14.Global.PLC_PK1102[12]&#x27;)
-	    ) M
-	    GROUP BY M.WORKDATE
-	)
-	, PRIMIX_IN_TBL AS
-	(
-	    ------------------------------------
-	    -- V-1401 투입량 -- 반응 공정 투입 정보로 변경 (진행전)
-	    ------------------------------------
-	   /*
-	    SELECT PM.WORKDATE
-	         , SUM(PM.INPUTVALUE) AS PRIMX_IN_QTY
-	    FROM CST_RPT_TANKPRODUCE_DAY PM WITH(NOLOCK)
-	    WHERE EQUIPMENTID IN (&#x27;V-1401-1&#x27;, &#x27;V-1401-2&#x27;)
-	    AND   WORKDATE BETWEEN @STARTDATE AND @ENDDATE
-	    GROUP BY PM.WORKDATE
-	   */
-    	SELECT 
-            CONVERT(VARCHAR(8), DATEADD(HOUR, -7, L.TRACKINTIME), 112) AS WORKDATE
-            , SUM( L.MATERIALQTY ) AS PRIMX_IN_QTY
-        FROM CIM_LOT L
-        WHERE L.TRACKINTIME BETWEEN  CONVERT(DATETIME, @STARTDATE + &#x27; 07:00:00&#x27;) AND DATEADD(DAY, 1, CONVERT(DATETIME, @ENDDATE + &#x27; 07:00:00&#x27;))
-        AND   L.PROCESSSEGMENTID = &#x27;P2020&#x27;
-        GROUP BY CONVERT(VARCHAR(8), DATEADD(HOUR, -7, L.TRACKINTIME), 112)
-	)
-	, PROD_QTY_TBL AS
-	(
-	    ------------------------------------
-	    -- 생산량
-	    ------------------------------------
-	    SELECT PV.WORKDATE
-	         , ISNULL(PV.LI, 0) AS LI
-	         , ISNULL(PV.CO, 0) AS CO
-	         , ISNULL(PV.NI, 0) AS NI
-	    FROM
-	    (
-	        SELECT CONVERT(VARCHAR(8), DATEADD(HOUR, -7, L.LOTFINISHEDTIME), 112) AS WORKDATE
-	             , CASE WHEN L.PROCESSSEGMENTID = &#x27;P2060&#x27; THEN &#x27;LI&#x27;
-	                    WHEN L.PROCESSSEGMENTID = &#x27;P2070&#x27; THEN &#x27;CO&#x27;
-	                    WHEN L.PROCESSSEGMENTID = &#x27;P2080&#x27; THEN &#x27;NI&#x27;
-	               END AS PRODUCTTYPE
-	             , SUM( L.QTY ) AS QTY
-	        FROM CIM_LOT L WITH(NOLOCK)
-	        INNER JOIN CIM_PRODUCTDEFINITION PD WITH(NOLOCK)
-	        ON  L.PRODUCTDEFINITIONID = PD.PRODUCTDEFINITIONID
-	        AND L.SITEID = PD.SITEID
-	        AND PD.PRODUCTCLASSID IN ( &#x27;METAL&#x27;, &#x27;LIQUID&#x27;, &#x27;POWDER&#x27;)
-	        WHERE L.STATE = &#x27;Shipped&#x27;   
-	        AND   L.LOTFINISHEDTIME BETWEEN CONVERT(DATETIME, @STARTDATE + &#x27; 07:00:00&#x27;) AND DATEADD(DAY, 1, CONVERT(DATETIME, @ENDDATE + &#x27; 07:00:00&#x27;))
-	        GROUP BY CONVERT(VARCHAR(8), DATEADD(HOUR, -7, L.LOTFINISHEDTIME), 112), L.PROCESSSEGMENTID
-	    ) P
-	    PIVOT
-	    (
-	        SUM(QTY) FOR PRODUCTTYPE IN ( LI, CO, NI )
-	    ) PV
-	)
-	SELECT BD.WORKDATE
-	     , ISNULL(BT.BP_TB_QTY, 0) AS BP_TB_QTY
-	     , ISNULL(KT.BP_IN_SILO, 0) AS BP_IN_SILO
-	     , ISNULL(KT.BP_IN_KILN, 0) AS BP_IN_KILN
-	     , ISNULL(KT.BP_OUT_KILN, 0) AS BP_OUT_KILN
-	     , ISNULL(PT.PRIMX_IN_QTY, 0) AS PRIMX_IN_QTY
-	     , ISNULL(PRDT.LI, 0) AS LI
-	     , ISNULL(PRDT.CO, 0) AS CO
-	     , ISNULL(PRDT.NI, 0) AS NI
-	FROM BASE_DATE BD
-	LEFT OUTER JOIN BP_TB_IN_TBL BT
-	  ON BD.WORKDATE = BT.WORKDATE
-	LEFT OUTER JOIN KILN_IN_OUT_TBL KT
-	  ON BD.WORKDATE = KT.WORKDATE
-	LEFT OUTER JOIN PRIMIX_IN_TBL PT
-	  ON BD.WORKDATE = PT.WORKDATE
-	LEFT OUTER JOIN PROD_QTY_TBL PRDT
-	  ON BD.WORKDATE = PRDT.WORKDATE
-	;
-END</pre></details></details><details id="svc-2" class="svc" open><summary><b>#2</b> Query <code>SelectProductDailyReport2</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-2">#2 조회 - 그리드 PM_PR_0042 (생산일보2_생산일보)</a></p><h4>Query (조회 서비스) : SelectProductDailyReport2</h4><ul><li>ID 구성: <code>SelectProductDailyReport2</code> / 클래스 <code>THiRAMES.Service.UI</code> / 버전 <code>00001</code></li><li>정의 위치: DB 저장 쿼리 (CIM_STOREDQUERY)</li><li>쿼리명: PM_PR_004 생산일보 좌측 하단 그리드 조회 프로시저</li><li>쿼리 파라메터: <code>STARTDATE</code> <code>ENDDATE</code></li><li>테이블(조회/쓰기 전체, 함수·SP 포함): <div><small class="muted">└ Stored Procedure SP_PM_PB_004_SELECTPRODUCTDAILYREPORT2 :</small> <a class="tbl" href="../tables.html#CST_RPT_TANKPRODUCE_DAY">CST_RPT_TANKPRODUCE_DAY</a><span class="b m">메인</span><span class="b r">읽기</span></div></li><li>함수/SP: <code>EXEC SP_PM_PB_004_SELECTPRODUCTDAILYREPORT2</code></li></ul><details class="joinviz" open><summary><b>Stored Procedure <code>SP_PM_PB_004_SELECTPRODUCTDAILYREPORT2</code> 의 조인 구조도</b> <small class="muted">테이블 1 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 226 76" width="226" height="76" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="194" height="44" rx="7"/><text x="26" y="35" class="t1">CST_RPT_TANKPRODUCE_DAY</text><text x="26" y="52" class="t2">alias PD</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>EXEC SP_PM_PB_004_SELECTPRODUCTDAILYREPORT2 @STARTDATE, @ENDDATE</pre></details><details class="sql"><summary>Stored Procedure SP_PM_PB_004_SELECTPRODUCTDAILYREPORT2 정의 보기</summary><pre>CREATE PROCEDURE dbo.SP_PM_PB_004_SELECTPRODUCTDAILYREPORT2
-	@STARTDATE VARCHAR(8), @ENDDATE VARCHAR(8)
-AS	
-BEGIN
-	SET @ENDDATE = (SELECT CASE WHEN REPLACE(CONVERT(VARCHAR, DATEADD(HOUR, -7, GETDATE()), 112), &#x27;-&#x27;, &#x27;&#x27;) &lt; CONVERT(DATE, @ENDDATE) 
-								THEN REPLACE(CONVERT(VARCHAR, DATEADD(HOUR, -7, GETDATE()), 112), &#x27;-&#x27;, &#x27;&#x27;)
-								ELSE @ENDDATE END)
-	
-    --[ 생산일보 - 하단/좌측 그리드 ] 	    					
-    SELECT 
-        CASE WHEN M.SILONAME = &#x27;A_RAW_BP_SILO&#x27; THEN &#x27;Raw B.P Silo&#x27;
-             WHEN M.SILONAME = &#x27;B_A_BP_SILO&#x27; THEN &#x27;Calcined B.P Silo A&#x27;
-             WHEN M.SILONAME = &#x27;C_B_BP_SILO&#x27; THEN &#x27;Calcined B.P Silo B&#x27;
-             ELSE &#x27;&#x27;
-        END AS SILONAME
-        , ISNULL(QTY, 0) AS QTY
-    FROM 
-    (
-        SELECT &#x27;A_RAW_BP_SILO&#x27; AS SILONAME UNION
-        SELECT &#x27;B_A_BP_SILO&#x27; AS SILONAME UNION
-        SELECT &#x27;C_B_BP_SILO&#x27; AS SILONAME 
-    ) M
-    LEFT OUTER JOIN 
-    (
-        SELECT
-            SILONAME
-            , ROW_NUMBER() OVER(ORDER BY SILONAME ASC) AS ROW_NO
-            , QTY
-        FROM
-        (
-            SELECT
-                SUM(CASE WHEN PD.TAGID = &#x27;DCS.Unit14.Global.PLC_PK1102[10]&#x27; THEN PD.EOH ELSE 0 END) AS A_RAW_BP_SILO  -- 투입후 실무게
-                , SUM(CASE WHEN PD.TAGID = &#x27;DCS.Unit14.Global.PLC_PK1102[11]&#x27; THEN PD.EOH ELSE 0 END) AS B_A_BP_SILO -- KILN 투입량
-                , SUM(CASE WHEN PD.TAGID = &#x27;DCS.Unit14.Global.PLC_PK1102[12]&#x27; THEN PD.EOH ELSE 0 END) AS C_B_BP_SILO -- 소성 후 총 무게
-            FROM CST_RPT_TANKPRODUCE_DAY PD WITH(NOLOCK)
-            WHERE EQUIPMENTID = &#x27;PK-1102&#x27;
-            AND   WORKDATE = ( CASE WHEN @ENDDATE &gt; CONVERT(VARCHAR(8), DATEADD(HOUR, -7, GETDATE()) , 112)
-                                        THEN CONVERT(VARCHAR(8), DATEADD(HOUR, -7, GETDATE()) , 112)
-                                    ELSE @ENDDATE END )
-            AND   TAGID IN ( &#x27;DCS.Unit14.Global.PLC_PK1102[10]&#x27;, &#x27;DCS.Unit14.Global.PLC_PK1102[11]&#x27;,&#x27;DCS.Unit14.Global.PLC_PK1102[12]&#x27;)
-            GROUP BY PD.WORKDATE
-        ) M
-        UNPIVOT
-        (
-            QTY FOR SILONAME IN ( [A_RAW_BP_SILO], [B_A_BP_SILO], [C_B_BP_SILO] )
-        ) A
-    ) P
-    ON M.SILONAME = P.SILONAME    					
-       	    					
-	
---	SELECT
---	    CASE WHEN SILONAME = &#x27;RAW_BP_SILO&#x27; THEN &#x27;Raw B.P Silo&#x27;
---	         WHEN SILONAME = &#x27;A_BP_SILO&#x27; THEN &#x27;Calcined B.P Silo A&#x27;
---	         WHEN SILONAME = &#x27;B_BP_SILO&#x27; THEN &#x27;Calcined B.P Silo B&#x27;
---	         ELSE &#x27;&#x27;
---	    END AS SILONAME
---	    , QTY
---	FROM
---	(
---	    SELECT
---	        SUM(CASE WHEN PD.TAGID = &#x27;DCS.Unit14.Global.PLC_PK1102[10]&#x27; THEN PD.EOH ELSE 0 END) AS RAW_BP_SILO  -- 투입후 실무게
---	        , SUM(CASE WHEN PD.TAGID = &#x27;DCS.Unit14.Global.PLC_PK1102[11]&#x27; THEN PD.EOH ELSE 0 END) AS A_BP_SILO -- KILN 투입량
---	        , SUM(CASE WHEN PD.TAGID = &#x27;DCS.Unit14.Global.PLC_PK1102[12]&#x27; THEN PD.EOH ELSE 0 END) AS B_BP_SILO -- 소성 후 총 무게
---	    FROM CST_RPT_TANKPRODUCE_DAY PD WITH(NOLOCK)
---	    WHERE EQUIPMENTID = &#x27;PK-1102&#x27;
---	    AND   WORKDATE = @ENDDATE
---	    AND   TAGID IN ( &#x27;DCS.Unit14.Global.PLC_PK1102[10]&#x27;, &#x27;DCS.Unit14.Global.PLC_PK1102[11]&#x27;,&#x27;DCS.Unit14.Global.PLC_PK1102[12]&#x27;)
---	    GROUP BY PD.WORKDATE
---	) M
---	UNPIVOT
---	(
---	    QTY FOR SILONAME IN ( [RAW_BP_SILO], [A_BP_SILO], [B_BP_SILO] )
---	) A
-END</pre></details></details><details id="svc-3" class="svc" open><summary><b>#3</b> Query <code>SelectProductDailyReport3</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-3">#3 조회 - 그리드 PM_PR_0043 (생산일보3_생산일보)</a></p><h4>Query (조회 서비스) : SelectProductDailyReport3</h4><ul><li>ID 구성: <code>SelectProductDailyReport3</code> / 클래스 <code>THiRAMES.Service.UI</code> / 버전 <code>00001</code></li><li>정의 위치: DB 저장 쿼리 (CIM_STOREDQUERY)</li><li>쿼리명: PM_PR_004 생산일보 우측 하단 그리드 조회 프로시저</li><li>쿼리 파라메터: <code>STARTDATE</code> <code>ENDDATE</code></li><li>테이블(조회/쓰기 전체, 함수·SP 포함): <div><small class="muted">└ Stored Procedure SP_PM_PB_004_SELECTPRODUCTDAILYREPORT3 :</small> <a class="tbl" href="../tables.html#CST_RPT_TANKPRODUCE_DAY">CST_RPT_TANKPRODUCE_DAY</a><span class="b m">메인</span><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_EQUIPMENT">CIM_EQUIPMENT</a><span class="b r">읽기</span></div></li><li>함수/SP: <code>EXEC SP_PM_PB_004_SELECTPRODUCTDAILYREPORT3</code></li></ul><details class="joinviz" open><summary><b>Stored Procedure <code>SP_PM_PB_004_SELECTPRODUCTDAILYREPORT3</code> 의 조인 구조도</b> <small class="muted">테이블 1 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 226 76" width="226" height="76" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="194" height="44" rx="7"/><text x="26" y="35" class="t1">CST_RPT_TANKPRODUCE_DAY</text><text x="26" y="52" class="t2">alias TD</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small><br><small class="muted">마스터/명칭 조회용 조인 제외(기준 테이블 제외): CIM_EQUIPMENT</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>EXEC SP_PM_PB_004_SELECTPRODUCTDAILYREPORT3 @STARTDATE, @ENDDATE</pre></details><details class="sql"><summary>Stored Procedure SP_PM_PB_004_SELECTPRODUCTDAILYREPORT3 정의 보기</summary><pre>CREATE PROCEDURE dbo.SP_PM_PB_004_SELECTPRODUCTDAILYREPORT3
-	@STARTDATE VARCHAR(8), @ENDDATE VARCHAR(8)
-AS	
-BEGIN
-	SET @ENDDATE = (SELECT CASE WHEN REPLACE(CONVERT(VARCHAR, DATEADD(HOUR, -7, GETDATE()), 112), &#x27;-&#x27;, &#x27;&#x27;) &lt; CONVERT(DATE, @ENDDATE) 
-								THEN REPLACE(CONVERT(VARCHAR, DATEADD(HOUR, -7, GETDATE()), 112), &#x27;-&#x27;, &#x27;&#x27;)
-								ELSE @ENDDATE END)
-	
-	--+++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	-- 생산일보 하단 그리드 우측 부자재 QUERY
-	--+++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	------------------------------------
-	-- Chemical 
-	-- H2SO4       4A0101  황산                 V-1706A SULFURIC ACID TANK (V-1706A LEVEL)                  [ DCS.Unit17_9x.Global.LI1006A.Val ]
-	--                                         V-1706B SULFURIC ACID TANK (V-1706B LEVEL)                  [ DCS.Unit17_9x.Global.LI1006B.Val ]
-	-- additive                                V-1426  ADDITIVE TANK (LT-141326 LT-141326  V-1426 LEVEL)   [ DCS.Unit14.Global.CCW_02_Data.HoldRegisters_4xxx[46] ]
-	-- Na2CO3      4A0501  탄산나트륨, 소다회 (Kg)  PK-1406 POWDER HANDLING SYSTEM FOR SODIUM CARBONATE (PK-1406-H001 SODIUM CARBONATE SILO)    [ DCS.Unit14.Global.CCW_02_Data.HoldRegisters_4xxx[46] ]
-	-- Na3PO4      5A0601  제삼인산나트륨 (Kg)     PK-1407 POWDER HANDLING SYSTEM FOR TRISODIUM PHOSPHATE (PK-1407-V02 FEEDHOPPER 1403)        [ DCS.Unit14.Global.PLC_PK140678[16] ]
-	-- NaOH        4A0201  가성소다              V-1701A LIQUID CAUSTIC SODA STORAGE TANK (V-1701A LEVEL)    [ DCS.Unit17_9x.Global.LI1001A.Val ]
-	--                                         V-1701B LIQUID CAUSTIC SODA STORAGE TANK (V-1701B LEVEL)    [ DCS.Unit17_9x.Global.LI1001B.Val ]
-	-- H2O2        4A0401  과산화수소             V-1704  HYDROGEN PEROXIDE TANK (V-1704 LEVEL)               [ DCS.Unit17_9x.Global.LI1004.Val ]
-	-- HCI(20%)    4A0301  염산                 V-1703  20wt% (6.2N) HYDROCHLORIC ACID TANK  (V-1703 LEVEL) [ DCS.Unit17_9x.Global.LI1003.Val ]
-	------------------------------------
-	SELECT 
-	    M.CHEMICAL_NO
-	    , SUM(M.INPUTQTY) AS INPUTQTY
-	    , SUM(M.OUTPUTQTY) AS OUTPUTQTY
-	    , SUM(M.EOH) AS EOH
-	FROM 
-	(
-	    SELECT 
-	        CASE WHEN TD.EQUIPMENTID IN (&#x27;V-1706A&#x27;, &#x27;V-1706B&#x27;) THEN &#x27;H2SO4&#x27;
-	             WHEN TD.EQUIPMENTID = &#x27;V-1426&#x27; THEN &#x27;Additive&#x27;
-	             WHEN TD.EQUIPMENTID = &#x27;PK-1406&#x27; THEN &#x27;Na2CO3&#x27;
-	             WHEN TD.EQUIPMENTID = &#x27;PK-1407&#x27; THEN &#x27;Na3PO4&#x27;
-	             WHEN TD.EQUIPMENTID IN (&#x27;V-1701A&#x27;, &#x27;V-1701B&#x27;) THEN &#x27;NaOH&#x27;
-	             WHEN TD.EQUIPMENTID = &#x27;V-1704&#x27; THEN &#x27;H2O2&#x27;
-	             WHEN TD.EQUIPMENTID = &#x27;V-1703&#x27; THEN &#x27;HCI(20%)&#x27;
-	             ELSE TD.EQUIPMENTID
-	         END AS CHEMICAL_NO
-	        , SUM( CASE WHEN TD.EQUIPMENTID LIKE &#x27;PK%&#x27; THEN TD.INPUTVALUE 
-	                    WHEN TD.EQUIPMENTID LIKE &#x27;V%&#x27; THEN TD.INPUT_M3
-	               ELSE 0
-	          END ) AS INPUTQTY  -- 입고        
-	        , SUM( CASE WHEN TD.EQUIPMENTID LIKE &#x27;PK%&#x27; THEN TD.OUTPUTVALUE 
-	               WHEN TD.EQUIPMENTID LIKE &#x27;V%&#x27; THEN TD.OUTPUT_M3
-	               ELSE 0
-	          END ) AS OUTPUTQTY  -- 사용        
-	        , SUM( CASE WHEN TD.WORKDATE = @ENDDATE AND TD.EQUIPMENTID LIKE &#x27;PK%&#x27; THEN TD.EOH 
-	               WHEN TD.WORKDATE = @ENDDATE AND TD.EQUIPMENTID LIKE &#x27;V%&#x27; THEN TD.EOH_M3
-	               ELSE 0
-	          END ) AS EOH  -- 재공량    
-	    FROM CST_RPT_TANKPRODUCE_DAY TD
-	        INNER JOIN CIM_EQUIPMENT E 
-	            ON  TD.EQUIPMENTID = E.EQUIPMENTID 
-	            AND TD.SITEID = E.SITEID 
-	            AND E.TANKTYPE IN ( &#x27;MATERIAL&#x27;, &#x27;PROD&#x27; )
-	    WHERE TD.EQUIPMENTID IN (
-	        &#x27;V-1706A&#x27;, &#x27;V-1706B&#x27;, &#x27;V-1426&#x27;, 
-	        &#x27;V-1701A&#x27;, &#x27;V-1701B&#x27;, &#x27;V-1704&#x27;, &#x27;V-1703&#x27;,
-	        &#x27;PK-1406&#x27;, &#x27;PK-1407&#x27; )
-	    AND  TD.WORKDATE BETWEEN @STARTDATE AND @ENDDATE
-	    GROUP BY TD.EQUIPMENTID
-	) M
-	GROUP BY CHEMICAL_NO
-	;
-END</pre></details></details><details id="svc-4" class="svc" open><summary><b>#4</b> Query <code>CDS_Code_200</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-4">#4 검색조건 콤보 - LINEID (LINEID)</a></p><h4>Query (조회 서비스) : CDS_Code_200</h4><ul><li>ID 구성: <code>CDS_Code_200</code> / 클래스 <code>THiRA.MES.Modeler</code> / 버전 <code>00001</code></li><li>정의 위치: Modeler 내장 쿼리 (THiRAMES.Service.Modeler.MSSQL DLL)</li><li>쿼리 파라메터: <code>CODECLASSID</code> <code>SITEID</code></li><li>테이블(조회/쓰기 전체, 함수·SP 포함): <div><a class="tbl" href="../tables.html#CIM_CODE">CIM_CODE</a><span class="b m">메인</span><span class="b r">읽기</span></div></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 1 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 202 76" width="202" height="76" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="170" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_CODE</text><text x="26" y="52" class="t2">기준 테이블</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>SELECT CODEID AS CODE,
+<!DOCTYPE html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>PM_PR_004 - 생산일보</title><link rel="stylesheet" href="../style.css"></head><body><header class="top"><a href="../index.html">← 전체 목록</a><a href="../tables.html">테이블 색인</a></header><main><h1>생산일보 <small>PM_PR_004</small></h1><table class="kv"><tr><th>화면 경로</th><td><code>THiRAMES_UI/wwwroot/view/ngs/mes/PM/PM_PR_004.html</code></td></tr><tr><th>화면 구분</th><td>PM 생산관리</td></tr><tr><th>위젯(Grid)</th><td><code>PM_PR_0041</code>, <code>PM_PR_0042</code>, <code>PM_PR_0043</code></td></tr><tr><th>화면 버튼</th><td><span class="chip">findBtn1 · 조회</span> <span class="chip">findBtn2 · 조회</span> <span class="chip">findBtn3 · 조회</span> <span class="chip">excelGridDownBtn1 · EXCEL</span> <span class="chip">excelGridDownBtn2 · EXCEL</span> <span class="chip">excelGridDownBtn3 · EXCEL</span></td></tr></table><h2>1. 기능별 호출 서비스 / 파라메터 / 테이블</h2><div class="wrap"><table class="grid"><thead><tr><th>#</th><th>기능</th><th>구분</th><th>호출 서비스</th><th>파라메터</th><th>DB 테이블</th></tr></thead><tbody><tr id="fn-1"><td>1</td><td>조회 - 그리드 PM_PR_0041 (생산일보1_생산일보)<br><small class="muted">조회 버튼(findBtn)/마스터-디테일 행선택 시 호출</small></td><td>R 조회</td><td><a href="#svc-1"><span class="tag q">Query</span> <code>SelectProductDailyReport</code></a> <small>THiRAMES.Service.UI</small></td><td class="params"><code>STARTDATE</code> <code>ENDDATE</code><br><span class="muted">UI 전달:</span> <code class="ui">SITEID</code> <code class="ui">LINEID</code> <code class="ui">STOREDATE</code></td><td><a class="tbl" href="../tables.html#CIM_LOT">CIM_LOT</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_PRODUCTDEFINITION">CIM_PRODUCTDEFINITION</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CST_MATERIALLOT">CST_MATERIALLOT</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CST_RPT_TANKPRODUCE_DAY">CST_RPT_TANKPRODUCE_DAY</a><span class="b r">읽기</span></td></tr><tr id="fn-2"><td>2</td><td>조회 - 그리드 PM_PR_0042 (생산일보2_생산일보)<br><small class="muted">조회 버튼(findBtn)/마스터-디테일 행선택 시 호출</small></td><td>R 조회</td><td><a href="#svc-2"><span class="tag q">Query</span> <code>SelectProductDailyReport2</code></a> <small>THiRAMES.Service.UI</small></td><td class="params"><code>STARTDATE</code> <code>ENDDATE</code><br><span class="muted">UI 전달:</span> <code class="ui">SITEID</code> <code class="ui">LINEID</code></td><td><a class="tbl" href="../tables.html#CST_RPT_TANKPRODUCE_DAY">CST_RPT_TANKPRODUCE_DAY</a><span class="b r">읽기</span></td></tr><tr id="fn-3"><td>3</td><td>조회 - 그리드 PM_PR_0043 (생산일보3_생산일보)<br><small class="muted">조회 버튼(findBtn)/마스터-디테일 행선택 시 호출</small></td><td>R 조회</td><td><a href="#svc-3"><span class="tag q">Query</span> <code>SelectProductDailyReport3</code></a> <small>THiRAMES.Service.UI</small></td><td class="params"><code>STARTDATE</code> <code>ENDDATE</code><br><span class="muted">UI 전달:</span> <code class="ui">SITEID</code> <code class="ui">LINEID</code></td><td><a class="tbl" href="../tables.html#CIM_EQUIPMENT">CIM_EQUIPMENT</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CST_RPT_TANKPRODUCE_DAY">CST_RPT_TANKPRODUCE_DAY</a><span class="b r">읽기</span></td></tr><tr id="fn-4"><td>4</td><td>검색조건 콤보 - LINEID (LINEID)</td><td>R 조회</td><td><a href="#svc-4"><span class="tag q">Query</span> <code>CDS_Code_200</code></a> <small>THiRA.MES.Modeler</small></td><td class="params"><code>CODECLASSID</code> <code>SITEID</code></td><td><a class="tbl" href="../tables.html#CIM_CODE">CIM_CODE</a><span class="b r">읽기</span></td></tr></tbody></table></div><h2>2. 서비스 상세</h2><details id="svc-1" class="svc" open><summary><b>#1</b> Query <code>SelectProductDailyReport</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-1">#1 조회 - 그리드 PM_PR_0041 (생산일보1_생산일보)</a></p><h4>Query (조회 서비스) : SelectProductDailyReport</h4><ul><li>ID 구성: <code>SelectProductDailyReport</code> / 클래스 <code>THiRAMES.Service.UI</code> / 버전 <code>00001</code></li><li>정의 위치: DB 저장 쿼리 (CIM_STOREDQUERY)</li><li>쿼리명: PM_PR_004 생산일보 상단 그리드 조회 프로시저</li><li>쿼리 파라메터: <code>STARTDATE</code> <code>ENDDATE</code></li><li>테이블(조회/쓰기 전체, 함수·SP 포함): <div><small class="muted">└ Stored Procedure SP_PM_PB_004_SELECTPRODUCTDAILYREPORT :</small> <a class="tbl" href="../tables.html#SPT_VALUES">SPT_VALUES</a><span class="b m">메인</span><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CST_MATERIALLOT">CST_MATERIALLOT</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CST_RPT_TANKPRODUCE_DAY">CST_RPT_TANKPRODUCE_DAY</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_LOT">CIM_LOT</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#BASE_DATE">BASE_DATE</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#BP_TB_IN_TBL">BP_TB_IN_TBL</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#KILN_IN_OUT_TBL">KILN_IN_OUT_TBL</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#PRIMIX_IN_TBL">PRIMIX_IN_TBL</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#PROD_QTY_TBL">PROD_QTY_TBL</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_PRODUCTDEFINITION">CIM_PRODUCTDEFINITION</a><span class="b r">읽기</span></div></li><li>함수/SP: <code>EXEC SP_PM_PB_004_SELECTPRODUCTDAILYREPORT</code></li></ul><details class="joinviz" open><summary><b>Stored Procedure <code>SP_PM_PB_004_SELECTPRODUCTDAILYREPORT</code> 의 조인 구조도</b> <small class="muted">테이블 9 · 조인 5</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 652 492" width="652" height="492" role="img" aria-label="조인 구조도"><path class="edge e-inner" d="M442 38 C397 38 397 186 352 186"/><text class="elab" x="397" y="108" text-anchor="middle">INNER</text><path class="edge e-left" d="M186 305 C314 305 314 112 442 112"/><text class="elab" x="314" y="204" text-anchor="middle">LEFT</text><path class="edge e-left" d="M186 305 C314 305 314 216 442 216"/><text class="elab" x="314" y="256" text-anchor="middle">LEFT</text><path class="edge e-left" d="M186 305 C314 305 314 320 442 320"/><text class="elab" x="314" y="308" text-anchor="middle">LEFT</text><path class="edge e-left" d="M186 305 C314 305 314 424 442 424"/><text class="elab" x="314" y="360" text-anchor="middle">LEFT</text><g class="node base unk"><rect x="16" y="16" width="170" height="44" rx="7"/><text x="26" y="35" class="t1">SPT_VALUES</text><text x="26" y="52" class="t2">기준 테이블</text></g><g class="node"><rect x="16" y="90" width="170" height="44" rx="7"/><text x="26" y="109" class="t1">CST_MATERIALLOT</text><text x="26" y="126" class="t2">alias ML</text></g><g class="node"><rect x="16" y="164" width="336" height="89" rx="7"/><text x="26" y="183" class="t1">CST_RPT_TANKPRODUCE_DAY</text><text x="26" y="200" class="t2">alias PD</text><text x="26" y="215" class="t2 jt">INNER</text><text x="44" y="230" class="t3">PRODUCTDEFINITIONID = L.PRODUCTDEFINITIONID</text><text x="44" y="245" class="t3">SITEID = L.SITEID</text></g><g class="node"><rect x="442" y="16" width="170" height="44" rx="7"/><text x="452" y="35" class="t1">CIM_LOT</text><text x="452" y="52" class="t2">alias L</text></g><g class="node unk"><rect x="16" y="283" width="170" height="44" rx="7"/><text x="26" y="302" class="t1">BASE_DATE</text><text x="26" y="319" class="t2">alias BD</text></g><g class="node unk"><rect x="442" y="90" width="194" height="74" rx="7"/><text x="452" y="109" class="t1">BP_TB_IN_TBL</text><text x="452" y="126" class="t2">alias BT</text><text x="452" y="141" class="t2 jt">LEFT</text><text x="470" y="156" class="t3">WORKDATE = BD.WORKDATE</text></g><g class="node unk"><rect x="442" y="194" width="194" height="74" rx="7"/><text x="452" y="213" class="t1">KILN_IN_OUT_TBL</text><text x="452" y="230" class="t2">alias KT</text><text x="452" y="245" class="t2 jt">LEFT</text><text x="470" y="260" class="t3">WORKDATE = BD.WORKDATE</text></g><g class="node unk"><rect x="442" y="298" width="194" height="74" rx="7"/><text x="452" y="317" class="t1">PRIMIX_IN_TBL</text><text x="452" y="334" class="t2">alias PT</text><text x="452" y="349" class="t2 jt">LEFT</text><text x="470" y="364" class="t3">WORKDATE = BD.WORKDATE</text></g><g class="node unk"><rect x="442" y="402" width="194" height="74" rx="7"/><text x="452" y="421" class="t1">PROD_QTY_TBL</text><text x="452" y="438" class="t2">alias PRDT</text><text x="452" y="453" class="t2 jt">LEFT</text><text x="470" y="468" class="t3">WORKDATE = BD.WORKDATE</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>EXEC SP_PM_PB_004_SELECTPRODUCTDAILYREPORT @STARTDATE, @ENDDATE</pre></details><details class="sql"><summary>Stored Procedure SP_PM_PB_004_SELECTPRODUCTDAILYREPORT 정의 보기</summary><pre>CREATE PROCEDURE dbo.SP_PM_PB_004_SELECTPRODUCTDAILYREPORT
+
+	@STARTDATE VARCHAR(8), @ENDDATE VARCHAR(8)
+
+AS	
+
+BEGIN
+
+	SET @ENDDATE = (SELECT CASE WHEN CONVERT(DATE, REPLACE(GETDATE(), &#x27;-&#x27;, &#x27;&#x27;)) &lt; CONVERT(DATE, @ENDDATE) THEN REPLACE(CONVERT(DATE, GETDATE()), &#x27;-&#x27;, &#x27;&#x27;)
+
+       	    					ELSE @ENDDATE END); --AS ENDDATE
+
+	
+
+	WITH BASE_DATE AS
+
+	(
+
+	    ------------------------------------
+
+	    -- 일자
+
+	    ------------------------------------
+
+	    SELECT CONVERT(VARCHAR(8), DATEADD(DAY, NUMBER-1, @STARTDATE), 112) AS WORKDATE
+
+	    FROM MASTER..SPT_VALUES
+
+	    WHERE TYPE = &#x27;P&#x27;
+
+	    AND   NUMBER BETWEEN 1 AND DATEDIFF(D, @STARTDATE, @ENDDATE)+1
+
+	)
+
+	, BP_TB_IN_TBL AS
+
+	(
+
+	    ------------------------------------
+
+	    -- BP : BP 투입량(라벨기준)
+
+	    ------------------------------------
+
+	   /*
+
+	    SELECT CONVERT(VARCHAR(8), DATEADD(HOUR, -7, ML.KITTINGTIME), 112) AS WORKDATE
+
+	         , SUM(ML.ORIGINALQTY - ML.QTY ) AS BP_TB_QTY -- BP 톤백 QTY
+
+	    FROM CST_MATERIALLOT ML WITH(NOLOCK)
+
+	    WHERE ML.KITTINGTIME  BETWEEN CONVERT(DATETIME, @STARTDATE + &#x27; 07:00:00&#x27;) AND DATEADD(DAY, 1, CONVERT(DATETIME, @ENDDATE + &#x27; 07:00:00&#x27;))
+
+	    AND   ML.ISKITTING = &#x27;Y&#x27;
+
+	    AND   ML.STATE &lt;&gt; &#x27;Transfer&#x27;
+
+	    AND   ML.ORIGINALQTY &lt;&gt; ML.QTY
+
+	    GROUP BY CONVERT(VARCHAR(8), DATEADD(HOUR, -7, ML.KITTINGTIME), 112)
+
+	   */
+
+        SELECT CONVERT(VARCHAR(8), DATEADD(HOUR, -7, ML.KITTINGTIME), 112) AS WORKDATE
+
+             --, SUM(ML.ORIGINALQTY - ML.QTY ) AS BP_TB_QTY -- BP 톤백 QTY
+
+            , SUM( CASE WHEN ML.STATE = &#x27;Active&#x27; AND ML.ORIGINALQTY = ML.QTY THEN ML.QTY
+
+                   WHEN ML.STATE = &#x27;Active&#x27; AND ML.ORIGINALQTY &gt; ML.QTY THEN ML.ORIGINALQTY - ML.QTY
+
+                   WHEN ML.STATE = &#x27;Consumed&#x27; THEN ML.ORIGINALQTY
+
+                   ELSE 0
+
+              END ) AS BP_TB_QTY        
+
+        FROM CST_MATERIALLOT ML WITH(NOLOCK)
+
+        WHERE ML.KITTINGTIME  BETWEEN CONVERT(DATETIME, @STARTDATE + &#x27; 07:00:00&#x27;) AND DATEADD(DAY, 1, CONVERT(DATETIME, @ENDDATE + &#x27; 07:00:00&#x27;))
+
+        AND   ML.ISKITTING = &#x27;Y&#x27;
+
+        AND   ML.STATE &lt;&gt; &#x27;Transfer&#x27;
+
+        GROUP BY CONVERT(VARCHAR(8), DATEADD(HOUR, -7, ML.KITTINGTIME), 112)
+
+	)
+
+	, KILN_IN_OUT_TBL AS
+
+	(
+
+	    ------------------------------------
+
+	    -- BP : BP 투입 후 실무게 / kiln 총 투입량 / KILN 후 무게
+
+	    ------------------------------------
+
+	    SELECT M.WORKDATE
+
+	         , SUM(BP_IN_SILO) AS BP_IN_SILO -- 투입후 실무게
+
+	         , SUM(BP_IN_KILN) AS BP_IN_KILN -- KILN 투입량
+
+	         , SUM(BP_OUT_KILN) AS BP_OUT_KILN -- KILN(소성) 후 무게
+
+	    FROM
+
+	    (
+
+	        SELECT PD.WORKDATE
+
+	             --, CASE WHEN PD.TAGID = &#x27;DCS.Unit14.Global.PLC_PK1102[10]&#x27; THEN PD.EOH ELSE 0 END AS BP_IN_SILO  -- 투입후 실무게
+
+	             , CASE WHEN PD.TAGID = &#x27;DCS.Unit14.Global.PLC_PK1102[10]&#x27; THEN PD.INPUTVALUE ELSE 0 END AS BP_IN_SILO  -- 투입후 실무게
+
+	             , CASE WHEN PD.TAGID = &#x27;DCS.Unit14.Global.PLC_PK1102[10]&#x27; THEN PD.OUTPUTVALUE ELSE 0 END AS BP_IN_KILN -- KILN 투입량
+
+	             , CASE WHEN PD.TAGID IN ( &#x27;DCS.Unit14.Global.PLC_PK1102[11]&#x27;, &#x27;DCS.Unit14.Global.PLC_PK1102[12]&#x27;) THEN PD.INPUTVALUE ELSE 0 END AS BP_OUT_KILN -- 소성 후 총 무게
+
+	        FROM CST_RPT_TANKPRODUCE_DAY PD WITH(NOLOCK)
+
+	        WHERE EQUIPMENTID = &#x27;PK-1102&#x27;
+
+	        AND   WORKDATE BETWEEN @STARTDATE AND @ENDDATE
+
+	        AND   TAGID IN ( &#x27;DCS.Unit14.Global.PLC_PK1102[10]&#x27;, &#x27;DCS.Unit14.Global.PLC_PK1102[11]&#x27;,&#x27;DCS.Unit14.Global.PLC_PK1102[12]&#x27;)
+
+	    ) M
+
+	    GROUP BY M.WORKDATE
+
+	)
+
+	, PRIMIX_IN_TBL AS
+
+	(
+
+	    ------------------------------------
+
+	    -- V-1401 투입량 -- 반응 공정 투입 정보로 변경 (진행전)
+
+	    ------------------------------------
+
+	   /*
+
+	    SELECT PM.WORKDATE
+
+	         , SUM(PM.INPUTVALUE) AS PRIMX_IN_QTY
+
+	    FROM CST_RPT_TANKPRODUCE_DAY PM WITH(NOLOCK)
+
+	    WHERE EQUIPMENTID IN (&#x27;V-1401-1&#x27;, &#x27;V-1401-2&#x27;)
+
+	    AND   WORKDATE BETWEEN @STARTDATE AND @ENDDATE
+
+	    GROUP BY PM.WORKDATE
+
+	   */
+
+    	SELECT 
+
+            CONVERT(VARCHAR(8), DATEADD(HOUR, -7, L.TRACKINTIME), 112) AS WORKDATE
+
+            , SUM( L.MATERIALQTY ) AS PRIMX_IN_QTY
+
+        FROM CIM_LOT L
+
+        WHERE L.TRACKINTIME BETWEEN  CONVERT(DATETIME, @STARTDATE + &#x27; 07:00:00&#x27;) AND DATEADD(DAY, 1, CONVERT(DATETIME, @ENDDATE + &#x27; 07:00:00&#x27;))
+
+        AND   L.PROCESSSEGMENTID = &#x27;P2020&#x27;
+
+        GROUP BY CONVERT(VARCHAR(8), DATEADD(HOUR, -7, L.TRACKINTIME), 112)
+
+	)
+
+	, PROD_QTY_TBL AS
+
+	(
+
+	    ------------------------------------
+
+	    -- 생산량
+
+	    ------------------------------------
+
+	    SELECT PV.WORKDATE
+
+	         , ISNULL(PV.LI, 0) AS LI
+
+	         , ISNULL(PV.CO, 0) AS CO
+
+	         , ISNULL(PV.NI, 0) AS NI
+
+	    FROM
+
+	    (
+
+	        SELECT CONVERT(VARCHAR(8), DATEADD(HOUR, -7, L.LOTFINISHEDTIME), 112) AS WORKDATE
+
+	             , CASE WHEN L.PROCESSSEGMENTID = &#x27;P2060&#x27; THEN &#x27;LI&#x27;
+
+	                    WHEN L.PROCESSSEGMENTID = &#x27;P2070&#x27; THEN &#x27;CO&#x27;
+
+	                    WHEN L.PROCESSSEGMENTID = &#x27;P2080&#x27; THEN &#x27;NI&#x27;
+
+	               END AS PRODUCTTYPE
+
+	             , SUM( L.QTY ) AS QTY
+
+	        FROM CIM_LOT L WITH(NOLOCK)
+
+	        INNER JOIN CIM_PRODUCTDEFINITION PD WITH(NOLOCK)
+
+	        ON  L.PRODUCTDEFINITIONID = PD.PRODUCTDEFINITIONID
+
+	        AND L.SITEID = PD.SITEID
+
+	        AND PD.PRODUCTCLASSID IN ( &#x27;METAL&#x27;, &#x27;LIQUID&#x27;, &#x27;POWDER&#x27;)
+
+	        WHERE L.STATE = &#x27;Shipped&#x27;   
+
+	        AND   L.LOTFINISHEDTIME BETWEEN CONVERT(DATETIME, @STARTDATE + &#x27; 07:00:00&#x27;) AND DATEADD(DAY, 1, CONVERT(DATETIME, @ENDDATE + &#x27; 07:00:00&#x27;))
+
+	        GROUP BY CONVERT(VARCHAR(8), DATEADD(HOUR, -7, L.LOTFINISHEDTIME), 112), L.PROCESSSEGMENTID
+
+	    ) P
+
+	    PIVOT
+
+	    (
+
+	        SUM(QTY) FOR PRODUCTTYPE IN ( LI, CO, NI )
+
+	    ) PV
+
+	)
+
+	SELECT BD.WORKDATE
+
+	     , ISNULL(BT.BP_TB_QTY, 0) AS BP_TB_QTY
+
+	     , ISNULL(KT.BP_IN_SILO, 0) AS BP_IN_SILO
+
+	     , ISNULL(KT.BP_IN_KILN, 0) AS BP_IN_KILN
+
+	     , ISNULL(KT.BP_OUT_KILN, 0) AS BP_OUT_KILN
+
+	     , ISNULL(PT.PRIMX_IN_QTY, 0) AS PRIMX_IN_QTY
+
+	     , ISNULL(PRDT.LI, 0) AS LI
+
+	     , ISNULL(PRDT.CO, 0) AS CO
+
+	     , ISNULL(PRDT.NI, 0) AS NI
+
+	FROM BASE_DATE BD
+
+	LEFT OUTER JOIN BP_TB_IN_TBL BT
+
+	  ON BD.WORKDATE = BT.WORKDATE
+
+	LEFT OUTER JOIN KILN_IN_OUT_TBL KT
+
+	  ON BD.WORKDATE = KT.WORKDATE
+
+	LEFT OUTER JOIN PRIMIX_IN_TBL PT
+
+	  ON BD.WORKDATE = PT.WORKDATE
+
+	LEFT OUTER JOIN PROD_QTY_TBL PRDT
+
+	  ON BD.WORKDATE = PRDT.WORKDATE
+
+	;
+
+END</pre></details></details><details id="svc-2" class="svc" open><summary><b>#2</b> Query <code>SelectProductDailyReport2</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-2">#2 조회 - 그리드 PM_PR_0042 (생산일보2_생산일보)</a></p><h4>Query (조회 서비스) : SelectProductDailyReport2</h4><ul><li>ID 구성: <code>SelectProductDailyReport2</code> / 클래스 <code>THiRAMES.Service.UI</code> / 버전 <code>00001</code></li><li>정의 위치: DB 저장 쿼리 (CIM_STOREDQUERY)</li><li>쿼리명: PM_PR_004 생산일보 좌측 하단 그리드 조회 프로시저</li><li>쿼리 파라메터: <code>STARTDATE</code> <code>ENDDATE</code></li><li>테이블(조회/쓰기 전체, 함수·SP 포함): <div><small class="muted">└ Stored Procedure SP_PM_PB_004_SELECTPRODUCTDAILYREPORT2 :</small> <a class="tbl" href="../tables.html#CST_RPT_TANKPRODUCE_DAY">CST_RPT_TANKPRODUCE_DAY</a><span class="b m">메인</span><span class="b r">읽기</span></div></li><li>함수/SP: <code>EXEC SP_PM_PB_004_SELECTPRODUCTDAILYREPORT2</code></li></ul><details class="joinviz" open><summary><b>Stored Procedure <code>SP_PM_PB_004_SELECTPRODUCTDAILYREPORT2</code> 의 조인 구조도</b> <small class="muted">테이블 1 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 226 76" width="226" height="76" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="194" height="44" rx="7"/><text x="26" y="35" class="t1">CST_RPT_TANKPRODUCE_DAY</text><text x="26" y="52" class="t2">alias PD</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>EXEC SP_PM_PB_004_SELECTPRODUCTDAILYREPORT2 @STARTDATE, @ENDDATE</pre></details><details class="sql"><summary>Stored Procedure SP_PM_PB_004_SELECTPRODUCTDAILYREPORT2 정의 보기</summary><pre>CREATE PROCEDURE dbo.SP_PM_PB_004_SELECTPRODUCTDAILYREPORT2
+
+	@STARTDATE VARCHAR(8), @ENDDATE VARCHAR(8)
+
+AS	
+
+BEGIN
+
+	SET @ENDDATE = (SELECT CASE WHEN REPLACE(CONVERT(VARCHAR, DATEADD(HOUR, -7, GETDATE()), 112), &#x27;-&#x27;, &#x27;&#x27;) &lt; CONVERT(DATE, @ENDDATE) 
+
+								THEN REPLACE(CONVERT(VARCHAR, DATEADD(HOUR, -7, GETDATE()), 112), &#x27;-&#x27;, &#x27;&#x27;)
+
+								ELSE @ENDDATE END)
+
+	
+
+    --[ 생산일보 - 하단/좌측 그리드 ] 	    					
+
+    SELECT 
+
+        CASE WHEN M.SILONAME = &#x27;A_RAW_BP_SILO&#x27; THEN &#x27;Raw B.P Silo&#x27;
+
+             WHEN M.SILONAME = &#x27;B_A_BP_SILO&#x27; THEN &#x27;Calcined B.P Silo A&#x27;
+
+             WHEN M.SILONAME = &#x27;C_B_BP_SILO&#x27; THEN &#x27;Calcined B.P Silo B&#x27;
+
+             ELSE &#x27;&#x27;
+
+        END AS SILONAME
+
+        , ISNULL(QTY, 0) AS QTY
+
+    FROM 
+
+    (
+
+        SELECT &#x27;A_RAW_BP_SILO&#x27; AS SILONAME UNION
+
+        SELECT &#x27;B_A_BP_SILO&#x27; AS SILONAME UNION
+
+        SELECT &#x27;C_B_BP_SILO&#x27; AS SILONAME 
+
+    ) M
+
+    LEFT OUTER JOIN 
+
+    (
+
+        SELECT
+
+            SILONAME
+
+            , ROW_NUMBER() OVER(ORDER BY SILONAME ASC) AS ROW_NO
+
+            , QTY
+
+        FROM
+
+        (
+
+            SELECT
+
+                SUM(CASE WHEN PD.TAGID = &#x27;DCS.Unit14.Global.PLC_PK1102[10]&#x27; THEN PD.EOH ELSE 0 END) AS A_RAW_BP_SILO  -- 투입후 실무게
+
+                , SUM(CASE WHEN PD.TAGID = &#x27;DCS.Unit14.Global.PLC_PK1102[11]&#x27; THEN PD.EOH ELSE 0 END) AS B_A_BP_SILO -- KILN 투입량
+
+                , SUM(CASE WHEN PD.TAGID = &#x27;DCS.Unit14.Global.PLC_PK1102[12]&#x27; THEN PD.EOH ELSE 0 END) AS C_B_BP_SILO -- 소성 후 총 무게
+
+            FROM CST_RPT_TANKPRODUCE_DAY PD WITH(NOLOCK)
+
+            WHERE EQUIPMENTID = &#x27;PK-1102&#x27;
+
+            AND   WORKDATE = ( CASE WHEN @ENDDATE &gt; CONVERT(VARCHAR(8), DATEADD(HOUR, -7, GETDATE()) , 112)
+
+                                        THEN CONVERT(VARCHAR(8), DATEADD(HOUR, -7, GETDATE()) , 112)
+
+                                    ELSE @ENDDATE END )
+
+            AND   TAGID IN ( &#x27;DCS.Unit14.Global.PLC_PK1102[10]&#x27;, &#x27;DCS.Unit14.Global.PLC_PK1102[11]&#x27;,&#x27;DCS.Unit14.Global.PLC_PK1102[12]&#x27;)
+
+            GROUP BY PD.WORKDATE
+
+        ) M
+
+        UNPIVOT
+
+        (
+
+            QTY FOR SILONAME IN ( [A_RAW_BP_SILO], [B_A_BP_SILO], [C_B_BP_SILO] )
+
+        ) A
+
+    ) P
+
+    ON M.SILONAME = P.SILONAME    					
+
+       	    					
+
+	
+
+--	SELECT
+
+--	    CASE WHEN SILONAME = &#x27;RAW_BP_SILO&#x27; THEN &#x27;Raw B.P Silo&#x27;
+
+--	         WHEN SILONAME = &#x27;A_BP_SILO&#x27; THEN &#x27;Calcined B.P Silo A&#x27;
+
+--	         WHEN SILONAME = &#x27;B_BP_SILO&#x27; THEN &#x27;Calcined B.P Silo B&#x27;
+
+--	         ELSE &#x27;&#x27;
+
+--	    END AS SILONAME
+
+--	    , QTY
+
+--	FROM
+
+--	(
+
+--	    SELECT
+
+--	        SUM(CASE WHEN PD.TAGID = &#x27;DCS.Unit14.Global.PLC_PK1102[10]&#x27; THEN PD.EOH ELSE 0 END) AS RAW_BP_SILO  -- 투입후 실무게
+
+--	        , SUM(CASE WHEN PD.TAGID = &#x27;DCS.Unit14.Global.PLC_PK1102[11]&#x27; THEN PD.EOH ELSE 0 END) AS A_BP_SILO -- KILN 투입량
+
+--	        , SUM(CASE WHEN PD.TAGID = &#x27;DCS.Unit14.Global.PLC_PK1102[12]&#x27; THEN PD.EOH ELSE 0 END) AS B_BP_SILO -- 소성 후 총 무게
+
+--	    FROM CST_RPT_TANKPRODUCE_DAY PD WITH(NOLOCK)
+
+--	    WHERE EQUIPMENTID = &#x27;PK-1102&#x27;
+
+--	    AND   WORKDATE = @ENDDATE
+
+--	    AND   TAGID IN ( &#x27;DCS.Unit14.Global.PLC_PK1102[10]&#x27;, &#x27;DCS.Unit14.Global.PLC_PK1102[11]&#x27;,&#x27;DCS.Unit14.Global.PLC_PK1102[12]&#x27;)
+
+--	    GROUP BY PD.WORKDATE
+
+--	) M
+
+--	UNPIVOT
+
+--	(
+
+--	    QTY FOR SILONAME IN ( [RAW_BP_SILO], [A_BP_SILO], [B_BP_SILO] )
+
+--	) A
+
+END</pre></details></details><details id="svc-3" class="svc" open><summary><b>#3</b> Query <code>SelectProductDailyReport3</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-3">#3 조회 - 그리드 PM_PR_0043 (생산일보3_생산일보)</a></p><h4>Query (조회 서비스) : SelectProductDailyReport3</h4><ul><li>ID 구성: <code>SelectProductDailyReport3</code> / 클래스 <code>THiRAMES.Service.UI</code> / 버전 <code>00001</code></li><li>정의 위치: DB 저장 쿼리 (CIM_STOREDQUERY)</li><li>쿼리명: PM_PR_004 생산일보 우측 하단 그리드 조회 프로시저</li><li>쿼리 파라메터: <code>STARTDATE</code> <code>ENDDATE</code></li><li>테이블(조회/쓰기 전체, 함수·SP 포함): <div><small class="muted">└ Stored Procedure SP_PM_PB_004_SELECTPRODUCTDAILYREPORT3 :</small> <a class="tbl" href="../tables.html#CST_RPT_TANKPRODUCE_DAY">CST_RPT_TANKPRODUCE_DAY</a><span class="b m">메인</span><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_EQUIPMENT">CIM_EQUIPMENT</a><span class="b r">읽기</span></div></li><li>함수/SP: <code>EXEC SP_PM_PB_004_SELECTPRODUCTDAILYREPORT3</code></li></ul><details class="joinviz" open><summary><b>Stored Procedure <code>SP_PM_PB_004_SELECTPRODUCTDAILYREPORT3</code> 의 조인 구조도</b> <small class="muted">테이블 1 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 226 76" width="226" height="76" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="194" height="44" rx="7"/><text x="26" y="35" class="t1">CST_RPT_TANKPRODUCE_DAY</text><text x="26" y="52" class="t2">alias TD</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small><br><small class="muted">마스터/명칭 조회용 조인 제외(기준 테이블 제외): CIM_EQUIPMENT</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>EXEC SP_PM_PB_004_SELECTPRODUCTDAILYREPORT3 @STARTDATE, @ENDDATE</pre></details><details class="sql"><summary>Stored Procedure SP_PM_PB_004_SELECTPRODUCTDAILYREPORT3 정의 보기</summary><pre>CREATE PROCEDURE dbo.SP_PM_PB_004_SELECTPRODUCTDAILYREPORT3
+
+	@STARTDATE VARCHAR(8), @ENDDATE VARCHAR(8)
+
+AS	
+
+BEGIN
+
+	SET @ENDDATE = (SELECT CASE WHEN REPLACE(CONVERT(VARCHAR, DATEADD(HOUR, -7, GETDATE()), 112), &#x27;-&#x27;, &#x27;&#x27;) &lt; CONVERT(DATE, @ENDDATE) 
+
+								THEN REPLACE(CONVERT(VARCHAR, DATEADD(HOUR, -7, GETDATE()), 112), &#x27;-&#x27;, &#x27;&#x27;)
+
+								ELSE @ENDDATE END)
+
+	
+
+	--+++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+	-- 생산일보 하단 그리드 우측 부자재 QUERY
+
+	--+++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+	------------------------------------
+
+	-- Chemical 
+
+	-- H2SO4       4A0101  황산                 V-1706A SULFURIC ACID TANK (V-1706A LEVEL)                  [ DCS.Unit17_9x.Global.LI1006A.Val ]
+
+	--                                         V-1706B SULFURIC ACID TANK (V-1706B LEVEL)                  [ DCS.Unit17_9x.Global.LI1006B.Val ]
+
+	-- additive                                V-1426  ADDITIVE TANK (LT-141326 LT-141326  V-1426 LEVEL)   [ DCS.Unit14.Global.CCW_02_Data.HoldRegisters_4xxx[46] ]
+
+	-- Na2CO3      4A0501  탄산나트륨, 소다회 (Kg)  PK-1406 POWDER HANDLING SYSTEM FOR SODIUM CARBONATE (PK-1406-H001 SODIUM CARBONATE SILO)    [ DCS.Unit14.Global.CCW_02_Data.HoldRegisters_4xxx[46] ]
+
+	-- Na3PO4      5A0601  제삼인산나트륨 (Kg)     PK-1407 POWDER HANDLING SYSTEM FOR TRISODIUM PHOSPHATE (PK-1407-V02 FEEDHOPPER 1403)        [ DCS.Unit14.Global.PLC_PK140678[16] ]
+
+	-- NaOH        4A0201  가성소다              V-1701A LIQUID CAUSTIC SODA STORAGE TANK (V-1701A LEVEL)    [ DCS.Unit17_9x.Global.LI1001A.Val ]
+
+	--                                         V-1701B LIQUID CAUSTIC SODA STORAGE TANK (V-1701B LEVEL)    [ DCS.Unit17_9x.Global.LI1001B.Val ]
+
+	-- H2O2        4A0401  과산화수소             V-1704  HYDROGEN PEROXIDE TANK (V-1704 LEVEL)               [ DCS.Unit17_9x.Global.LI1004.Val ]
+
+	-- HCI(20%)    4A0301  염산                 V-1703  20wt% (6.2N) HYDROCHLORIC ACID TANK  (V-1703 LEVEL) [ DCS.Unit17_9x.Global.LI1003.Val ]
+
+	------------------------------------
+
+	SELECT 
+
+	    M.CHEMICAL_NO
+
+	    , SUM(M.INPUTQTY) AS INPUTQTY
+
+	    , SUM(M.OUTPUTQTY) AS OUTPUTQTY
+
+	    , SUM(M.EOH) AS EOH
+
+	FROM 
+
+	(
+
+	    SELECT 
+
+	        CASE WHEN TD.EQUIPMENTID IN (&#x27;V-1706A&#x27;, &#x27;V-1706B&#x27;) THEN &#x27;H2SO4&#x27;
+
+	             WHEN TD.EQUIPMENTID = &#x27;V-1426&#x27; THEN &#x27;Additive&#x27;
+
+	             WHEN TD.EQUIPMENTID = &#x27;PK-1406&#x27; THEN &#x27;Na2CO3&#x27;
+
+	             WHEN TD.EQUIPMENTID = &#x27;PK-1407&#x27; THEN &#x27;Na3PO4&#x27;
+
+	             WHEN TD.EQUIPMENTID IN (&#x27;V-1701A&#x27;, &#x27;V-1701B&#x27;) THEN &#x27;NaOH&#x27;
+
+	             WHEN TD.EQUIPMENTID = &#x27;V-1704&#x27; THEN &#x27;H2O2&#x27;
+
+	             WHEN TD.EQUIPMENTID = &#x27;V-1703&#x27; THEN &#x27;HCI(20%)&#x27;
+
+	             ELSE TD.EQUIPMENTID
+
+	         END AS CHEMICAL_NO
+
+	        , SUM( CASE WHEN TD.EQUIPMENTID LIKE &#x27;PK%&#x27; THEN TD.INPUTVALUE 
+
+	                    WHEN TD.EQUIPMENTID LIKE &#x27;V%&#x27; THEN TD.INPUT_M3
+
+	               ELSE 0
+
+	          END ) AS INPUTQTY  -- 입고        
+
+	        , SUM( CASE WHEN TD.EQUIPMENTID LIKE &#x27;PK%&#x27; THEN TD.OUTPUTVALUE 
+
+	               WHEN TD.EQUIPMENTID LIKE &#x27;V%&#x27; THEN TD.OUTPUT_M3
+
+	               ELSE 0
+
+	          END ) AS OUTPUTQTY  -- 사용        
+
+	        , SUM( CASE WHEN TD.WORKDATE = @ENDDATE AND TD.EQUIPMENTID LIKE &#x27;PK%&#x27; THEN TD.EOH 
+
+	               WHEN TD.WORKDATE = @ENDDATE AND TD.EQUIPMENTID LIKE &#x27;V%&#x27; THEN TD.EOH_M3
+
+	               ELSE 0
+
+	          END ) AS EOH  -- 재공량    
+
+	    FROM CST_RPT_TANKPRODUCE_DAY TD
+
+	        INNER JOIN CIM_EQUIPMENT E 
+
+	            ON  TD.EQUIPMENTID = E.EQUIPMENTID 
+
+	            AND TD.SITEID = E.SITEID 
+
+	            AND E.TANKTYPE IN ( &#x27;MATERIAL&#x27;, &#x27;PROD&#x27; )
+
+	    WHERE TD.EQUIPMENTID IN (
+
+	        &#x27;V-1706A&#x27;, &#x27;V-1706B&#x27;, &#x27;V-1426&#x27;, 
+
+	        &#x27;V-1701A&#x27;, &#x27;V-1701B&#x27;, &#x27;V-1704&#x27;, &#x27;V-1703&#x27;,
+
+	        &#x27;PK-1406&#x27;, &#x27;PK-1407&#x27; )
+
+	    AND  TD.WORKDATE BETWEEN @STARTDATE AND @ENDDATE
+
+	    GROUP BY TD.EQUIPMENTID
+
+	) M
+
+	GROUP BY CHEMICAL_NO
+
+	;
+
+END</pre></details></details><details id="svc-4" class="svc"><summary><b>#4</b> Query <code>CDS_Code_200</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-4">#4 검색조건 콤보 - LINEID (LINEID)</a></p><h4>Query (조회 서비스) : CDS_Code_200</h4><ul><li>ID 구성: <code>CDS_Code_200</code> / 클래스 <code>THiRA.MES.Modeler</code> / 버전 <code>00001</code></li><li>정의 위치: Modeler 내장 쿼리 (THiRAMES.Service.Modeler.MSSQL DLL)</li><li>쿼리 파라메터: <code>CODECLASSID</code> <code>SITEID</code></li><li>테이블(조회/쓰기 전체, 함수·SP 포함): <div><a class="tbl" href="../tables.html#CIM_CODE">CIM_CODE</a><span class="b m">메인</span><span class="b r">읽기</span></div></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 1 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 202 76" width="202" height="76" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="170" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_CODE</text><text x="26" y="52" class="t2">기준 테이블</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>SELECT CODEID AS CODE,
        CODENAME AS NAME,
        UISEQUENCE
 FROM CIM_CODE 

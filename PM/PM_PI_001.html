@@ -1,336 +1,671 @@
-<!DOCTYPE html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>PM_PI_001 - Lot 재작업 관리</title><link rel="stylesheet" href="../style.css"></head><body><header class="top"><a href="../index.html">← 전체 목록</a><a href="../tables.html">테이블 색인</a></header><main><h1>Lot 재작업 관리 <small>PM_PI_001</small></h1><table class="kv"><tr><th>화면 경로</th><td><code>THiRAMES_UI/wwwroot/view/ngs/mes/PM/PM_PI_001.html</code></td></tr><tr><th>화면 구분</th><td>PM 생산관리</td></tr><tr><th>위젯(Grid)</th><td><code>PM_PI_0011</code>, <code>PM_PI_0012</code></td></tr><tr><th>화면 버튼</th><td><span class="chip">findBtn1 · 조회</span> <span class="chip">saveBtn · SAVE</span></td></tr></table><h2>1. 기능별 호출 서비스 / 파라메터 / 테이블</h2><div class="wrap"><table class="grid"><thead><tr><th>#</th><th>기능</th><th>구분</th><th>호출 서비스</th><th>파라메터</th><th>DB 테이블</th></tr></thead><tbody><tr id="fn-1"><td>1</td><td>조회 - 그리드 PM_PI_0011 (Lot재작업관리1_Lot목록)<br><small class="muted">조회 버튼(findBtn)/마스터-디테일 행선택 시 호출</small></td><td>R 조회</td><td><a href="#svc-1"><span class="tag q">Query</span> <code>SelectLotListForRework</code></a> <small>THiRAMES.Service.UI</small></td><td class="params"><code>SITEID</code> <code>PLANTID</code> <code>LINEID</code> <code>PROCESSSEGMENTID</code> <code>WORKORDERID</code> <code>BATCHID</code> <code>LOTID</code><br><span class="muted">UI 전달:</span> <code class="ui">period</code> <code class="ui">FROMDATE</code> <code class="ui">TODATE</code></td><td><a class="tbl" href="../tables.html#CIM_BATCH">CIM_BATCH</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_EQUIPMENT">CIM_EQUIPMENT</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_LOT">CIM_LOT</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_LOTBATCHREL">CIM_LOTBATCHREL</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_PROCESSSEGMENT">CIM_PROCESSSEGMENT</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_PRODUCTDEFINITION">CIM_PRODUCTDEFINITION</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_USER">CIM_USER</a><span class="b r">읽기</span></td></tr><tr id="fn-2"><td>2</td><td>검색조건 콤보 - PLANTID (PLANTID)</td><td>R 조회</td><td><a href="#svc-2"><span class="tag q">Query</span> <code>SelectPlantList</code></a> <small>THiRAMES.Service.UI</small></td><td class="params"><code>SITEID</code></td><td><a class="tbl" href="../tables.html#CIM_FACILITY">CIM_FACILITY</a><span class="b r">읽기</span></td></tr><tr id="fn-3"><td>3</td><td>검색조건 콤보 - LINEID (LINEID)</td><td>R 조회</td><td><a href="#svc-3"><span class="tag q">Query</span> <code>SelectLineListForRework</code></a> <small>THiRAMES.Service.UI</small></td><td class="params"><code>PLANTID</code> <code>SITEID</code></td><td><a class="tbl" href="../tables.html#CIM_EQUIPMENT">CIM_EQUIPMENT</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_FACILITY">CIM_FACILITY</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_PROCESSSEGMENT">CIM_PROCESSSEGMENT</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_PROCESSSEGMENTEQUIPMENTREL">CIM_PROCESSSEGMENTEQUIPMENTREL</a><span class="b r">읽기</span></td></tr><tr id="fn-4"><td>4</td><td>검색조건 콤보 - PROCESSSEGMENTID (PROCESSSEGMENTID)</td><td>R 조회</td><td><a href="#svc-4"><span class="tag q">Query</span> <code>SelectProcesssegmentListForRework</code></a> <small>THiRAMES.Service.UI</small></td><td class="params"><code>SITEID</code> <code>PLANTID</code> <code>LINEID</code></td><td><a class="tbl" href="../tables.html#CIM_EQUIPMENT">CIM_EQUIPMENT</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_PROCESSNODE">CIM_PROCESSNODE</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_PROCESSSEGMENT">CIM_PROCESSSEGMENT</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_PROCESSSEGMENTEQUIPMENTREL">CIM_PROCESSSEGMENTEQUIPMENTREL</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_PRODUCTPROCESSREL">CIM_PRODUCTPROCESSREL</a><span class="b r">읽기</span></td></tr><tr id="fn-5"><td>5</td><td>#saveBtn click<br><small class="muted">JS ngsWidget.ajax(C)</small></td><td>등록/실행</td><td><a href="#svc-5"><span class="tag rule">Rule</span> <code>RepositionLot</code></a></td><td class="params"><code>SITEID</code> <code>LOTID</code> <code>PROCESSNODEID</code><br><span class="muted">UI 전달:</span> <code class="ui">PLANTID</code> <code class="ui">LINEID</code></td><td><a class="tbl" href="../tables.html#CIM_LOT">CIM_LOT</a><span class="b u">참조</span><br><a class="tbl" href="../tables.html#CIM_PROCESSNODE">CIM_PROCESSNODE</a><span class="b r">읽기</span></td></tr><tr id="fn-6"><td>6</td><td>gridParam<br><small class="muted">JS ngsWidget.ajax(R)</small></td><td>조회 (변수 URL 추정)</td><td><a href="#svc-6"><span class="tag q">Query</span> <code>SelectSegmentListForReworkByLot</code></a> <small>THiRAMES.Service.UI</small></td><td class="params"><code>SITEID</code> <code>LOTID</code><br><span class="muted">UI 전달:</span> <code class="ui">FROMDATE</code> <code class="ui">TODATE</code> <code class="ui">WORKORDERID</code> <code class="ui">BATCHID</code></td><td><a class="tbl" href="../tables.html#CIM_LOT">CIM_LOT</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_PROCESSNODE">CIM_PROCESSNODE</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_PROCESSSEGMENT">CIM_PROCESSSEGMENT</a><span class="b r">읽기</span></td></tr></tbody></table></div><h2>2. 서비스 상세</h2><details id="svc-1" class="svc" open><summary><b>#1</b> Query <code>SelectLotListForRework</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-1">#1 조회 - 그리드 PM_PI_0011 (Lot재작업관리1_Lot목록)</a></p><h4>Query (조회 서비스) : SelectLotListForRework</h4><ul><li>ID 구성: <code>SelectLotListForRework</code> / 클래스 <code>THiRAMES.Service.UI</code> / 버전 <code>00001</code></li><li>정의 위치: DB 저장 쿼리 (CIM_STOREDQUERY)</li><li>쿼리 파라메터: <code>SITEID</code> <code>PLANTID</code> <code>LINEID</code> <code>PROCESSSEGMENTID</code> <code>WORKORDERID</code> <code>BATCHID</code> <code>LOTID</code></li><li>테이블(조회/쓰기 전체, 함수·SP 포함): <div><a class="tbl" href="../tables.html#CIM_LOT">CIM_LOT</a><span class="b m">메인</span><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_PRODUCTDEFINITION">CIM_PRODUCTDEFINITION</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_EQUIPMENT">CIM_EQUIPMENT</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_PROCESSSEGMENT">CIM_PROCESSSEGMENT</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_LOTBATCHREL">CIM_LOTBATCHREL</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_BATCH">CIM_BATCH</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#TABLE">TABLE</a><span class="b r">읽기</span></div><div><small class="muted">└ 스칼라 함수 FN_USERNAME :</small> <a class="tbl" href="../tables.html#CIM_USER">CIM_USER</a><span class="b m">메인</span><span class="b r">읽기</span></div></li><li>함수/SP: <code>FN_MES_SPLIT</code> <code>FN_USERNAME</code></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 4 · 조인 2</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 732 150" width="732" height="150" role="img" aria-label="조인 구조도"><path class="edge e-inner" d="M186 38 C231 38 231 38 276 38"/><text class="elab" x="231" y="34" text-anchor="middle">INNER</text><path class="edge e-inner" d="M446 38 C491 38 491 38 536 38"/><text class="elab" x="491" y="34" text-anchor="middle">INNER</text><g class="node base"><rect x="16" y="16" width="170" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_LOT</text><text x="26" y="52" class="t2">alias L</text></g><g class="node"><rect x="276" y="16" width="170" height="89" rx="7"/><text x="286" y="35" class="t1">CIM_LOTBATCHREL</text><text x="286" y="52" class="t2">alias LB</text><text x="286" y="67" class="t2 jt">INNER</text><text x="304" y="82" class="t3">SITEID = L.SITEID</text><text x="304" y="97" class="t3">LOTID = L.LOTID</text></g><g class="node"><rect x="536" y="16" width="180" height="89" rx="7"/><text x="546" y="35" class="t1">CIM_BATCH</text><text x="546" y="52" class="t2">alias B</text><text x="546" y="67" class="t2 jt">INNER</text><text x="564" y="82" class="t3">SITEID = LB.SITEID</text><text x="564" y="97" class="t3">BATCHID = LB.BATCHID</text></g><g class="node unk"><rect x="16" y="90" width="170" height="44" rx="7"/><text x="26" y="109" class="t1">TABLE</text><text x="26" y="126" class="t2"></text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small><br><small class="muted">마스터/명칭 조회용 조인 제외(기준 테이블 제외): CIM_PRODUCTDEFINITION, CIM_EQUIPMENT, CIM_PROCESSSEGMENT</small></div></details><details class="joinviz" open><summary><b>스칼라 함수 <code>FN_USERNAME</code> 의 조인 구조도</b> <small class="muted">테이블 1 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 202 76" width="202" height="76" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="170" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_USER</text><text x="26" y="52" class="t2">alias U</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>--SelectLotListForRework
-
-SELECT EQ.PLANTID , EQ.LINEID ,
-       L.SITEID
-     , L.WORKORDERID
-     , B.BATCHID 
-     , L.PROCESSSEGMENTID
-     , PS.PROCESSSEGMENTNAME
-     , L.EQUIPMENTID
-     , EQ.EQUIPMENTNAME
-     , L.LOTID
-     , L.LOTNAME
-     , L.STATE
-     , L.PROCESSINGSTATE
-     , L.QTY
-     , L.DEFECTQTY
-     , L.UNITID
-     , L.PRODUCTDEFINITIONID
-     , PD.PRODUCTDEFINITIONNAME
-     , L.PRODUCTCLASSID
-     , L.PRODUCTTYPE     
-     , L.PRODUCTORDERID
-     , L.PROCESSDEFINITIONID
-     , L.PROCESSNODEID
-     , L.TRACKINTIME
-     , L.TRACKINUSER
-     , (SELECT FN_USERNAME(L.SITEID, L.TRACKINUSER) FROM DUAL) AS TRACKINUSERNAME     
-     , L.TRACKOUTTIME
-     , L.TRACKOUTUSER
-     , (SELECT FN_USERNAME(L.SITEID, L.TRACKOUTUSER) FROM DUAL) AS TRACKOUTUSERNAME
-     , L.ISHOLD
-     , L.ISREWORK
-     , L.REWORKCOUNT
-     , L.DESCRIPTION
-     , L.COMMENTS
-     , L.MODIFIER
-     , (SELECT FN_USERNAME(L.SITEID, L.MODIFIER) FROM DUAL) AS MODIFIERNAME
-     , L.MODIFYTIME
-  FROM CIM_LOT L 
- INNER JOIN CIM_PRODUCTDEFINITION PD 
-    ON PD.SITEID = L.SITEID 
-   AND PD.PRODUCTDEFINITIONID = L.PRODUCTDEFINITIONID 
-   AND PD.ISUSABLE = &#x27;Usable&#x27;
- INNER JOIN CIM_EQUIPMENT EQ 
-    ON EQ.SITEID = L.SITEID 
-   AND EQ.EQUIPMENTID = L.EQUIPMENTID  
-   AND EQ.ISUSABLE = &#x27;Usable&#x27;   
- INNER JOIN CIM_PROCESSSEGMENT PS 
-    ON PS.SITEID = L.SITEID 
-   AND PS.PROCESSSEGMENTID = L.PROCESSSEGMENTID  
-   AND PS.ISUSABLE = &#x27;Usable&#x27;      
- INNER JOIN CIM_LOTBATCHREL LB 
-    ON LB.SITEID = L.SITEID 
-   AND LB.LOTID = L.LOTID 
-   AND LB.ISUSABLE = &#x27;Usable&#x27;
- INNER JOIN CIM_BATCH B 
-    ON B.SITEID = LB.SITEID 
-   AND B.BATCHID = LB.BATCHID 
-   AND B.ISUSABLE = &#x27;Usable&#x27;
-   AND B.BATCHTYPE = PS.PROCESSTYPE
- WHERE L.SITEID = :SITEID
-   AND EQ.PLANTID IN(SELECT * FROM TABLE(FN_MES_SPLIT(:PLANTID, &#x27;,&#x27;))) 
-   AND EQ.LINEID  IN(SELECT * FROM TABLE(FN_MES_SPLIT(:LINEID, &#x27;,&#x27;)))
-   AND L.PROCESSSEGMENTID  IN(SELECT * FROM TABLE(FN_MES_SPLIT(:PROCESSSEGMENTID, &#x27;,&#x27;)))
-   AND (:WORKORDERID IS NULL OR L.WORKORDERID = :WORKORDERID)
-   AND (:BATCHID IS NULL OR B.BATCHID = :BATCHID)
-   AND (:LOTID IS NULL OR L.LOTID = :LOTID)   
-   AND L.ISUSABLE = &#x27;Usable&#x27;
-   AND L.STATE NOT IN(&#x27;Defect&#x27;, &#x27;Inspect&#x27;, &#x27;Scrapped&#x27;, &#x27;Terminated&#x27;)
-   AND L.PROCESSINGSTATE = &#x27;WaitForRule&#x27;
-   AND L.TRACKINTIME IS NULL</pre></details><details class="sql"><summary>테이블 반환 함수 FN_MES_SPLIT 정의 보기</summary><pre>CREATE FUNCTION [dbo].[FN_MES_SPLIT]
-(
-  @I_STR     NVARCHAR(MAX),
-  @I_DELIM    NVARCHAR(40) = &#x27;,&#x27;
-)
-RETURNS @RETARRAY TABLE
-(
-	VALUE NVARCHAR(MAX)
-)
-AS  
-BEGIN  
-	DECLARE @VALUE			VARCHAR(8000)
-	DECLARE	@BCONTINUE		BIT
-	DECLARE @ISTRIKE		SMALLINT
-	DECLARE @IDELIMLENGTH	TINYINT
-   
-
-	SET @I_STR = LTRIM(RTRIM(@I_STR))  
-	SET @IDELIMLENGTH = LEN(@I_DELIM)  
-	SET @BCONTINUE = 1  
-
-	WHILE @BCONTINUE = 1  
-	BEGIN  
-		--텍스트에서 구분자를 발견하면, 첫 번째 요소를 반환하고  
-		--반환되는 테이블에 인덱스를 입력한다.  
-		IF CHARINDEX(@I_DELIM, @I_STR)&gt;0  
-		BEGIN  
-			-- 첫 번째 요소를 반환  
-			SET @VALUE = SUBSTRING(@I_STR,1, CHARINDEX(@I_DELIM,@I_STR)-1)  
-				
-			INSERT @RETARRAY (VALUE) VALUES (@VALUE)  
-
-			--다음 요소와 구분자를 문자열의 앞에서부터 제거하고,  
-			--INDEX를 증가시키고 반복작업(LOOP)을 이어간다.  
-			SET @ISTRIKE = LEN(@VALUE) + @IDELIMLENGTH  
-			SET @I_STR = LTRIM(RIGHT(@I_STR,LEN(@I_STR) - @ISTRIKE))  
-		END
-		ELSE  
-		BEGIN  
-			--만약 텍스트 안에서 구분자를 더 이상 찾을 수 없게 되면,   
-			--@I_STR가 @RETARRAY의 마지막 값이다.  
-			SET @VALUE = @I_STR  
-			-- 마지막 값도 구분자로 나누어져 있으뎐  
-			INSERT @RETARRAY (VALUE) VALUES (@VALUE)  
-
-			--WHILE 루프를 빠져 나온다.  
-			SET @BCONTINUE = 0  
-		END  
-	END 
-	
-	RETURN  
-END</pre></details><details class="sql"><summary>스칼라 함수 FN_USERNAME 정의 보기</summary><pre>CREATE FUNCTION [dbo].[FN_USERNAME](
-	@P_SITEID NVARCHAR(500),
-	@P_USERID NVARCHAR(500)
-) 
-RETURNS NVARCHAR(2000)
-AS
-BEGIN
-	DECLARE @V_RETURN NVARCHAR(100);
- 
-	SELECT @V_RETURN = ISNULL(U.USERNAME, &#x27;&#x27;) + &#x27;(&#x27; + ISNULL(U.USERID, &#x27;&#x27;) + &#x27;)&#x27; FROM CIM_USER U
-	WHERE U.SITEID  = @P_SITEID
-		AND U.USERID = @P_USERID
-	RETURN @V_RETURN
-END</pre></details></details><details id="svc-2" class="svc" open><summary><b>#2</b> Query <code>SelectPlantList</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-2">#2 검색조건 콤보 - PLANTID (PLANTID)</a></p><h4>Query (조회 서비스) : SelectPlantList</h4><ul><li>ID 구성: <code>SelectPlantList</code> / 클래스 <code>THiRAMES.Service.UI</code> / 버전 <code>00001</code></li><li>정의 위치: DB 저장 쿼리 (CIM_STOREDQUERY)</li><li>쿼리 파라메터: <code>SITEID</code></li><li>테이블(조회/쓰기 전체, 함수·SP 포함): <div><a class="tbl" href="../tables.html#CIM_FACILITY">CIM_FACILITY</a><span class="b m">메인</span><span class="b r">읽기</span></div></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 1 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 202 76" width="202" height="76" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="170" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_FACILITY</text><text x="26" y="52" class="t2">alias PLANT</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>-- SelectPlantList
-SELECT 
-	FACILITYID AS CODE, -- PLANTID,
-	FACILITYNAME AS NAME, -- PLANTNAME,
-	SHORTNAME
-FROM CIM_FACILITY PLANT
-WHERE 1=1
-	AND UPPER(PLANT.FACILITYTYPE) = &#x27;PLANT&#x27;
-	AND PLANT.SITEID = :SITEID
-ORDER BY UISEQUENCE</pre></details></details><details id="svc-3" class="svc" open><summary><b>#3</b> Query <code>SelectLineListForRework</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-3">#3 검색조건 콤보 - LINEID (LINEID)</a></p><h4>Query (조회 서비스) : SelectLineListForRework</h4><ul><li>ID 구성: <code>SelectLineListForRework</code> / 클래스 <code>THiRAMES.Service.UI</code> / 버전 <code>00001</code></li><li>정의 위치: DB 저장 쿼리 (CIM_STOREDQUERY)</li><li>쿼리 파라메터: <code>PLANTID</code> <code>SITEID</code></li><li>테이블(조회/쓰기 전체, 함수·SP 포함): <div><a class="tbl" href="../tables.html#CIM_PROCESSSEGMENT">CIM_PROCESSSEGMENT</a><span class="b m">메인</span><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_PROCESSSEGMENTEQUIPMENTREL">CIM_PROCESSSEGMENTEQUIPMENTREL</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_EQUIPMENT">CIM_EQUIPMENT</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#TABLE">TABLE</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_FACILITY">CIM_FACILITY</a><span class="b r">읽기</span></div></li><li>함수/SP: <code>FN_MES_SPLIT</code></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 4 · 조인 1</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 594 224" width="594" height="224" role="img" aria-label="조인 구조도"><path class="edge e-inner" d="M186 38 C231 38 231 38 276 38"/><text class="elab" x="231" y="34" text-anchor="middle">INNER</text><g class="node base"><rect x="16" y="16" width="170" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_PROCESSSEGMENT</text><text x="26" y="52" class="t2">alias PS</text></g><g class="node"><rect x="276" y="16" width="302" height="104" rx="7"/><text x="286" y="35" class="t1">CIM_PROCESSSEGMENTEQUIPMENTREL</text><text x="286" y="52" class="t2">alias RL</text><text x="286" y="67" class="t2 jt">INNER</text><text x="304" y="82" class="t3">SITEID = PS.SITEID</text><text x="304" y="97" class="t3">ISUSABLE = PS.ISUSABLE</text><text x="304" y="112" class="t3">PROCESSSEGMENTID = PS.PROCESSSEGMENTID</text></g><g class="node unk"><rect x="16" y="90" width="170" height="44" rx="7"/><text x="26" y="109" class="t1">TABLE</text><text x="26" y="126" class="t2"></text></g><g class="node"><rect x="16" y="164" width="170" height="44" rx="7"/><text x="26" y="183" class="t1">CIM_FACILITY</text><text x="26" y="200" class="t2">alias FC</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small><br><small class="muted">마스터/명칭 조회용 조인 제외(기준 테이블 제외): CIM_EQUIPMENT</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>-- SelectLineListForRework
-SELECT DISTINCT
-       EQ.LINEID
-     , FC.FACILITYNAME AS LINENAME
-  FROM CIM_PROCESSSEGMENT PS
- INNER JOIN CIM_PROCESSSEGMENTEQUIPMENTREL RL 
-    ON RL.SITEID = PS.SITEID 
-   AND RL.ISUSABLE = PS.ISUSABLE
-   AND RL.PROCESSSEGMENTID = PS.PROCESSSEGMENTID
- INNER JOIN CIM_EQUIPMENT EQ 
-    ON EQ.SITEID = RL.SITEID 
-   AND EQ.ISUSABLE = RL.ISUSABLE
-   AND EQ.EQUIPMENTID = RL.EQUIPMENTID
-   AND 1 = CASE
-                WHEN :PLANTID IS NULL THEN 1
-                WHEN EQ.PLANTID IN (SELECT * FROM TABLE(FN_MES_SPLIT(:PLANTID, &#x27;,&#x27;))) THEN 1
-                ELSE 0
-           END
-  LEFT OUTER JOIN CIM_FACILITY FC 
-    ON FC.SITEID = EQ.SITEID 
-   AND FC.FACILITYID = EQ.LINEID
- WHERE 1=1
-  AND PS.SITEID = :SITEID
-  AND PS.ISUSABLE = &#x27;Usable&#x27;
-  AND PS.ISREWORKYN = &#x27;Y&#x27;</pre></details><details class="sql"><summary>테이블 반환 함수 FN_MES_SPLIT 정의 보기</summary><pre>CREATE FUNCTION [dbo].[FN_MES_SPLIT]
-(
-  @I_STR     NVARCHAR(MAX),
-  @I_DELIM    NVARCHAR(40) = &#x27;,&#x27;
-)
-RETURNS @RETARRAY TABLE
-(
-	VALUE NVARCHAR(MAX)
-)
-AS  
-BEGIN  
-	DECLARE @VALUE			VARCHAR(8000)
-	DECLARE	@BCONTINUE		BIT
-	DECLARE @ISTRIKE		SMALLINT
-	DECLARE @IDELIMLENGTH	TINYINT
-   
-
-	SET @I_STR = LTRIM(RTRIM(@I_STR))  
-	SET @IDELIMLENGTH = LEN(@I_DELIM)  
-	SET @BCONTINUE = 1  
-
-	WHILE @BCONTINUE = 1  
-	BEGIN  
-		--텍스트에서 구분자를 발견하면, 첫 번째 요소를 반환하고  
-		--반환되는 테이블에 인덱스를 입력한다.  
-		IF CHARINDEX(@I_DELIM, @I_STR)&gt;0  
-		BEGIN  
-			-- 첫 번째 요소를 반환  
-			SET @VALUE = SUBSTRING(@I_STR,1, CHARINDEX(@I_DELIM,@I_STR)-1)  
-				
-			INSERT @RETARRAY (VALUE) VALUES (@VALUE)  
-
-			--다음 요소와 구분자를 문자열의 앞에서부터 제거하고,  
-			--INDEX를 증가시키고 반복작업(LOOP)을 이어간다.  
-			SET @ISTRIKE = LEN(@VALUE) + @IDELIMLENGTH  
-			SET @I_STR = LTRIM(RIGHT(@I_STR,LEN(@I_STR) - @ISTRIKE))  
-		END
-		ELSE  
-		BEGIN  
-			--만약 텍스트 안에서 구분자를 더 이상 찾을 수 없게 되면,   
-			--@I_STR가 @RETARRAY의 마지막 값이다.  
-			SET @VALUE = @I_STR  
-			-- 마지막 값도 구분자로 나누어져 있으뎐  
-			INSERT @RETARRAY (VALUE) VALUES (@VALUE)  
-
-			--WHILE 루프를 빠져 나온다.  
-			SET @BCONTINUE = 0  
-		END  
-	END 
-	
-	RETURN  
-END</pre></details></details><details id="svc-4" class="svc" open><summary><b>#4</b> Query <code>SelectProcesssegmentListForRework</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-4">#4 검색조건 콤보 - PROCESSSEGMENTID (PROCESSSEGMENTID)</a></p><h4>Query (조회 서비스) : SelectProcesssegmentListForRework</h4><ul><li>ID 구성: <code>SelectProcesssegmentListForRework</code> / 클래스 <code>THiRAMES.Service.UI</code> / 버전 <code>00001</code></li><li>정의 위치: DB 저장 쿼리 (CIM_STOREDQUERY)</li><li>쿼리 파라메터: <code>SITEID</code> <code>PLANTID</code> <code>LINEID</code></li><li>테이블(조회/쓰기 전체, 함수·SP 포함): <div><a class="tbl" href="../tables.html#CIM_PRODUCTPROCESSREL">CIM_PRODUCTPROCESSREL</a><span class="b m">메인</span><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_PROCESSNODE">CIM_PROCESSNODE</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_PROCESSSEGMENT">CIM_PROCESSSEGMENT</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#DT">DT</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_PROCESSSEGMENTEQUIPMENTREL">CIM_PROCESSSEGMENTEQUIPMENTREL</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_EQUIPMENT">CIM_EQUIPMENT</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#TABLE">TABLE</a><span class="b r">읽기</span></div></li><li>함수/SP: <code>FN_MES_SPLIT</code></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 5 · 조인 2</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 971 224" width="971" height="224" role="img" aria-label="조인 구조도"><path class="edge e-inner" d="M195 38 C273 38 273 38 352 38"/><text class="elab" x="273" y="34" text-anchor="middle">INNER</text><path class="edge e-inner" d="M785 38 C740 38 740 38 695 38"/><text class="elab" x="740" y="34" text-anchor="middle">INNER</text><g class="node base"><rect x="16" y="16" width="179" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_PRODUCTPROCESSREL</text><text x="26" y="52" class="t2">alias PP</text></g><g class="node"><rect x="352" y="16" width="343" height="134" rx="7"/><text x="362" y="35" class="t1">CIM_PROCESSNODE</text><text x="362" y="52" class="t2">alias PN</text><text x="362" y="67" class="t2 jt">INNER</text><text x="380" y="82" class="t3">SITEID = PP.SITEID</text><text x="380" y="97" class="t3">ISUSABLE = PP.ISUSABLE</text><text x="380" y="112" class="t3">SITEID = DT.SITEID</text><text x="380" y="127" class="t3">ISUSABLE = DT.ISUSABLE</text><text x="380" y="142" class="t3">PROCESSDEFINITIONID = DT.PROCESSDEFINITIONID</text></g><g class="node unk"><rect x="785" y="16" width="170" height="44" rx="7"/><text x="795" y="35" class="t1">DT</text><text x="795" y="52" class="t2"></text></g><g class="node"><rect x="16" y="90" width="246" height="44" rx="7"/><text x="26" y="109" class="t1">CIM_PROCESSSEGMENTEQUIPMENTREL</text><text x="26" y="126" class="t2">alias RL</text></g><g class="node unk"><rect x="16" y="164" width="170" height="44" rx="7"/><text x="26" y="183" class="t1">TABLE</text><text x="26" y="200" class="t2"></text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small><br><small class="muted">마스터/명칭 조회용 조인 제외(기준 테이블 제외): CIM_PROCESSSEGMENT, CIM_EQUIPMENT</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>-- SelectProcessSegmentListForRework
-
-WITH DT AS (
-    SELECT DISTINCT
-           PN.SITEID
-         , PN.ISUSABLE
-         , PN.PROCESSDEFINITIONID
-         , PN.PROCESSSEGMENTID
-         , PN.PROCESSNODESEQUENCE
-         , NVL(PS.ISREWORKYN, &#x27;N&#x27;) AS ISREWORKYN
-      FROM CIM_PRODUCTPROCESSREL PP
-     INNER JOIN CIM_PROCESSNODE PN ON PN.SITEID = PP.SITEID AND PN.ISUSABLE = PP.ISUSABLE
-       AND PN.PROCESSDEFINITIONID = PN.PROCESSDEFINITIONID
-     INNER JOIN CIM_PROCESSSEGMENT PS ON PS.SITEID = PN.SITEID AND PS.ISUSABLE = PN.ISUSABLE
-       AND PS.PROCESSSEGMENTID = PN.PROCESSSEGMENTID
-       AND PS.ISREWORKYN = &#x27;Y&#x27;
-     WHERE 1=1
-       AND PP.SITEID = :SITEID
-       AND PP.ISUSABLE = &#x27;Usable&#x27;
-       AND PP.ISDEFAULT = &#x27;Y&#x27;
-)
-SELECT DISTINCT
-       PN.PROCESSSEGMENTID
-     , PS.PROCESSSEGMENTNAME
-  FROM DT
- INNER JOIN CIM_PROCESSNODE PN ON PN.SITEID = DT.SITEID AND PN.ISUSABLE = DT.ISUSABLE
-   AND PN.PROCESSDEFINITIONID = DT.PROCESSDEFINITIONID
-   AND PN.PROCESSNODESEQUENCE &gt; DT.PROCESSNODESEQUENCE
- INNER JOIN CIM_PROCESSSEGMENT PS ON PS.SITEID = PN.SITEID AND PS.ISUSABLE = PN.ISUSABLE
-   AND PS.PROCESSSEGMENTID = PN.PROCESSSEGMENTID
- INNER JOIN CIM_PROCESSSEGMENTEQUIPMENTREL RL ON RL.SITEID = PS.SITEID AND RL.ISUSABLE = PS.ISUSABLE
-   AND RL.PROCESSSEGMENTID = PS.PROCESSSEGMENTID
- INNER JOIN CIM_EQUIPMENT EQ ON EQ.SITEID = RL.SITEID AND EQ.ISUSABLE = RL.ISUSABLE
-   AND EQ.EQUIPMENTID = RL.EQUIPMENTID
-   AND 1 = CASE
-                WHEN :PLANTID IS NULL THEN 1
-                WHEN EQ.PLANTID IN (SELECT * FROM TABLE(FN_MES_SPLIT(:PLANTID, &#x27;,&#x27;))) THEN 1
-                ELSE 0
-           END
-   AND 1 = CASE
-                WHEN :LINEID IS NULL THEN 1
-                WHEN EQ.LINEID IN (SELECT * FROM TABLE(FN_MES_SPLIT(:LINEID, &#x27;,&#x27;))) THEN 1
-                ELSE 0
-           END
-ORDER BY 1</pre></details><details class="sql"><summary>테이블 반환 함수 FN_MES_SPLIT 정의 보기</summary><pre>CREATE FUNCTION [dbo].[FN_MES_SPLIT]
-(
-  @I_STR     NVARCHAR(MAX),
-  @I_DELIM    NVARCHAR(40) = &#x27;,&#x27;
-)
-RETURNS @RETARRAY TABLE
-(
-	VALUE NVARCHAR(MAX)
-)
-AS  
-BEGIN  
-	DECLARE @VALUE			VARCHAR(8000)
-	DECLARE	@BCONTINUE		BIT
-	DECLARE @ISTRIKE		SMALLINT
-	DECLARE @IDELIMLENGTH	TINYINT
-   
-
-	SET @I_STR = LTRIM(RTRIM(@I_STR))  
-	SET @IDELIMLENGTH = LEN(@I_DELIM)  
-	SET @BCONTINUE = 1  
-
-	WHILE @BCONTINUE = 1  
-	BEGIN  
-		--텍스트에서 구분자를 발견하면, 첫 번째 요소를 반환하고  
-		--반환되는 테이블에 인덱스를 입력한다.  
-		IF CHARINDEX(@I_DELIM, @I_STR)&gt;0  
-		BEGIN  
-			-- 첫 번째 요소를 반환  
-			SET @VALUE = SUBSTRING(@I_STR,1, CHARINDEX(@I_DELIM,@I_STR)-1)  
-				
-			INSERT @RETARRAY (VALUE) VALUES (@VALUE)  
-
-			--다음 요소와 구분자를 문자열의 앞에서부터 제거하고,  
-			--INDEX를 증가시키고 반복작업(LOOP)을 이어간다.  
-			SET @ISTRIKE = LEN(@VALUE) + @IDELIMLENGTH  
-			SET @I_STR = LTRIM(RIGHT(@I_STR,LEN(@I_STR) - @ISTRIKE))  
-		END
-		ELSE  
-		BEGIN  
-			--만약 텍스트 안에서 구분자를 더 이상 찾을 수 없게 되면,   
-			--@I_STR가 @RETARRAY의 마지막 값이다.  
-			SET @VALUE = @I_STR  
-			-- 마지막 값도 구분자로 나누어져 있으뎐  
-			INSERT @RETARRAY (VALUE) VALUES (@VALUE)  
-
-			--WHILE 루프를 빠져 나온다.  
-			SET @BCONTINUE = 0  
-		END  
-	END 
-	
-	RETURN  
-END</pre></details></details><details id="svc-5" class="svc" open><summary><b>#5</b> Rule <code>RepositionLot</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-5">#5 #saveBtn click</a></p><h4>Rule (저장/실행 서비스) : RepositionLot</h4><ul><li>구현 위치: C# 소스 (THiRAMES.Business.Production) - <code>THiRAMES.Business.Production/0200.LOT/0213.LOT공정이동/RepositionLot.cs</code></li><li>입력 파라메터(WEBDATA): <code>SITEID</code> <code>LOTID</code> <code>PROCESSNODEID</code></li><li>관련 테이블(코드 분석 기반): <br><a class="tbl" href="../tables.html#CIM_LOT">CIM_LOT</a><span class="b u">참조</span><br><a class="tbl" href="../tables.html#CIM_PROCESSNODE">CIM_PROCESSNODE</a><span class="b r">읽기</span></li><li>C# 코드 내 SQL 문자열: 1건</li><li>호출 체인(Service 메서드): <small>PRODUCTIONLotManager.RepositoinLot_Proc, PRODUCTIONLotManager.MakeLotInfo_Reposition, PRODUCTIONLotManager.ValidationLotState_Repostion, ManagerExtenstions.GetProcessnode, MesEisRuleBiz.SetCommonData, PRODUCTIONLotManager.RepositoinLot, ManagerExtenstions.RepositionLot</small></li></ul><details class="svc"><summary>Rule 코드 내 단순 SQL(단일 테이블) 1건 <small class="muted">- 펼쳐서 확인</small></summary><details class="svc"><summary>Rule 코드 내 SQL #1 <small class="muted">(PROCESSNODE.GetProcessNode (CIM.MES.API 프레임워크) · 테이블 1)</small></summary><ul><li>테이블: <div><a class="tbl" href="../tables.html#CIM_PROCESSNODE">CIM_PROCESSNODE</a><span class="b m">메인</span><span class="b r">읽기</span></div></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 1 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 202 76" width="202" height="76" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="170" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_PROCESSNODE</text><text x="26" y="52" class="t2">기준 테이블</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>SELECT * FROM CIM_PROCESSNODE WHERE PROCESSNODEID=@PROCESSNODEID AND SITEID=@SITEID</pre></details></details></details></details><details id="svc-6" class="svc" open><summary><b>#6</b> Query <code>SelectSegmentListForReworkByLot</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-6">#6 gridParam</a></p><h4>Query (조회 서비스) : SelectSegmentListForReworkByLot</h4><ul><li>ID 구성: <code>SelectSegmentListForReworkByLot</code> / 클래스 <code>THiRAMES.Service.UI</code> / 버전 <code>00001</code></li><li>정의 위치: DB 저장 쿼리 (CIM_STOREDQUERY)</li><li>쿼리 파라메터: <code>SITEID</code> <code>LOTID</code></li><li>테이블(조회/쓰기 전체, 함수·SP 포함): <div><a class="tbl" href="../tables.html#CIM_LOT">CIM_LOT</a><span class="b m">메인</span><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_PROCESSNODE">CIM_PROCESSNODE</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_PROCESSSEGMENT">CIM_PROCESSSEGMENT</a><span class="b r">읽기</span></div></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 3 · 조인 2</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 987 136" width="987" height="136" role="img" aria-label="조인 구조도"><path class="edge e-inner" d="M186 38 C231 38 231 38 276 38"/><text class="elab" x="231" y="34" text-anchor="middle">INNER</text><path class="edge e-inner" d="M538 38 C583 38 583 38 628 38"/><text class="elab" x="583" y="34" text-anchor="middle">INNER</text><g class="node base"><rect x="16" y="16" width="170" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_LOT</text><text x="26" y="52" class="t2">alias LT</text></g><g class="node"><rect x="276" y="16" width="262" height="104" rx="7"/><text x="286" y="35" class="t1">CIM_PROCESSNODE</text><text x="286" y="52" class="t2">alias CN</text><text x="286" y="67" class="t2 jt">INNER</text><text x="304" y="82" class="t3">SITEID = LT.SITEID</text><text x="304" y="97" class="t3">ISUSABLE = LT.ISUSABLE</text><text x="304" y="112" class="t3">PROCESSNODEID = LT.PROCESSNODEID</text></g><g class="node"><rect x="628" y="16" width="343" height="104" rx="7"/><text x="638" y="35" class="t1">CIM_PROCESSNODE</text><text x="638" y="52" class="t2">alias PN</text><text x="638" y="67" class="t2 jt">INNER</text><text x="656" y="82" class="t3">SITEID = CN.SITEID</text><text x="656" y="97" class="t3">ISUSABLE = CN.ISUSABLE</text><text x="656" y="112" class="t3">PROCESSDEFINITIONID = CN.PROCESSDEFINITIONID</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small><br><small class="muted">마스터/명칭 조회용 조인 제외(기준 테이블 제외): CIM_PROCESSSEGMENT</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>-- SelectSegmentListForReworkByLot
-
-SELECT LT.LOTID
-     , PN.PROCESSNODESEQUENCE
-     , PN.PROCESSNODEID
-     , PN.PROCESSNODENAME
-     , PN.PROCESSSEGMENTID
-     , PS.PROCESSSEGMENTNAME
-     , PS.ISREWORKYN
-  FROM CIM_LOT LT
- INNER JOIN CIM_PROCESSNODE CN ON CN.SITEID = LT.SITEID AND CN.ISUSABLE = LT.ISUSABLE
-   AND CN.PROCESSNODEID = LT.PROCESSNODEID
- INNER JOIN CIM_PROCESSNODE PN ON PN.SITEID = CN.SITEID AND PN.ISUSABLE = CN.ISUSABLE
-   AND PN.PROCESSDEFINITIONID = CN.PROCESSDEFINITIONID
-   AND PN.PROCESSNODESEQUENCE &lt; CN.PROCESSNODESEQUENCE
- INNER JOIN CIM_PROCESSSEGMENT PS ON PS.SITEID = PN.SITEID --AND PS.ISUSABLE = PN.ISUSABLE
-   AND PS.PROCESSSEGMENTID = PN.PROCESSSEGMENTID
-   AND PS.ISREWORKYN = &#x27;Y&#x27;
- WHERE 1=1
-   AND LT.SITEID = :SITEID
-   AND LT.LOTID = :LOTID
-   AND LT.ISUSABLE = &#x27;Usable&#x27;
+<!DOCTYPE html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>PM_PI_001 - Lot 재작업 관리</title><link rel="stylesheet" href="../style.css"></head><body><header class="top"><a href="../index.html">← 전체 목록</a><a href="../tables.html">테이블 색인</a></header><main><h1>Lot 재작업 관리 <small>PM_PI_001</small></h1><table class="kv"><tr><th>화면 경로</th><td><code>THiRAMES_UI/wwwroot/view/ngs/mes/PM/PM_PI_001.html</code></td></tr><tr><th>화면 구분</th><td>PM 생산관리</td></tr><tr><th>위젯(Grid)</th><td><code>PM_PI_0011</code>, <code>PM_PI_0012</code></td></tr><tr><th>화면 버튼</th><td><span class="chip">findBtn1 · 조회</span> <span class="chip">saveBtn · SAVE</span></td></tr></table><h2>1. 기능별 호출 서비스 / 파라메터 / 테이블</h2><div class="wrap"><table class="grid"><thead><tr><th>#</th><th>기능</th><th>구분</th><th>호출 서비스</th><th>파라메터</th><th>DB 테이블</th></tr></thead><tbody><tr id="fn-1"><td>1</td><td>조회 - 그리드 PM_PI_0011 (Lot재작업관리1_Lot목록)<br><small class="muted">조회 버튼(findBtn)/마스터-디테일 행선택 시 호출</small></td><td>R 조회</td><td><a href="#svc-1"><span class="tag q">Query</span> <code>SelectLotListForRework</code></a> <small>THiRAMES.Service.UI</small></td><td class="params"><code>SITEID</code> <code>PLANTID</code> <code>LINEID</code> <code>PROCESSSEGMENTID</code> <code>WORKORDERID</code> <code>BATCHID</code> <code>LOTID</code><br><span class="muted">UI 전달:</span> <code class="ui">period</code> <code class="ui">FROMDATE</code> <code class="ui">TODATE</code></td><td><a class="tbl" href="../tables.html#CIM_BATCH">CIM_BATCH</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_EQUIPMENT">CIM_EQUIPMENT</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_LOT">CIM_LOT</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_LOTBATCHREL">CIM_LOTBATCHREL</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_PROCESSSEGMENT">CIM_PROCESSSEGMENT</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_PRODUCTDEFINITION">CIM_PRODUCTDEFINITION</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_USER">CIM_USER</a><span class="b r">읽기</span></td></tr><tr id="fn-2"><td>2</td><td>검색조건 콤보 - PLANTID (PLANTID)</td><td>R 조회</td><td><a href="#svc-2"><span class="tag q">Query</span> <code>SelectPlantList</code></a> <small>THiRAMES.Service.UI</small></td><td class="params"><code>SITEID</code></td><td><a class="tbl" href="../tables.html#CIM_FACILITY">CIM_FACILITY</a><span class="b r">읽기</span></td></tr><tr id="fn-3"><td>3</td><td>검색조건 콤보 - LINEID (LINEID)</td><td>R 조회</td><td><a href="#svc-3"><span class="tag q">Query</span> <code>SelectLineListForRework</code></a> <small>THiRAMES.Service.UI</small></td><td class="params"><code>PLANTID</code> <code>SITEID</code></td><td><a class="tbl" href="../tables.html#CIM_EQUIPMENT">CIM_EQUIPMENT</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_FACILITY">CIM_FACILITY</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_PROCESSSEGMENT">CIM_PROCESSSEGMENT</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_PROCESSSEGMENTEQUIPMENTREL">CIM_PROCESSSEGMENTEQUIPMENTREL</a><span class="b r">읽기</span></td></tr><tr id="fn-4"><td>4</td><td>검색조건 콤보 - PROCESSSEGMENTID (PROCESSSEGMENTID)</td><td>R 조회</td><td><a href="#svc-4"><span class="tag q">Query</span> <code>SelectProcesssegmentListForRework</code></a> <small>THiRAMES.Service.UI</small></td><td class="params"><code>SITEID</code> <code>PLANTID</code> <code>LINEID</code></td><td><a class="tbl" href="../tables.html#CIM_EQUIPMENT">CIM_EQUIPMENT</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_PROCESSNODE">CIM_PROCESSNODE</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_PROCESSSEGMENT">CIM_PROCESSSEGMENT</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_PROCESSSEGMENTEQUIPMENTREL">CIM_PROCESSSEGMENTEQUIPMENTREL</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_PRODUCTPROCESSREL">CIM_PRODUCTPROCESSREL</a><span class="b r">읽기</span></td></tr><tr id="fn-5"><td>5</td><td>#saveBtn click<br><small class="muted">JS ngsWidget.ajax(C)</small></td><td>등록/실행</td><td><a href="#svc-5"><span class="tag rule">Rule</span> <code>RepositionLot</code></a></td><td class="params"><code>SITEID</code> <code>LOTID</code> <code>PROCESSNODEID</code><br><span class="muted">UI 전달:</span> <code class="ui">PLANTID</code> <code class="ui">LINEID</code></td><td><a class="tbl" href="../tables.html#CIM_LOT">CIM_LOT</a><span class="b u">참조</span><br><a class="tbl" href="../tables.html#CIM_PROCESSNODE">CIM_PROCESSNODE</a><span class="b r">읽기</span></td></tr><tr id="fn-6"><td>6</td><td>gridParam<br><small class="muted">JS ngsWidget.ajax(R)</small></td><td>조회 (변수 URL 추정)</td><td><a href="#svc-6"><span class="tag q">Query</span> <code>SelectSegmentListForReworkByLot</code></a> <small>THiRAMES.Service.UI</small></td><td class="params"><code>SITEID</code> <code>LOTID</code><br><span class="muted">UI 전달:</span> <code class="ui">FROMDATE</code> <code class="ui">TODATE</code> <code class="ui">WORKORDERID</code> <code class="ui">BATCHID</code></td><td><a class="tbl" href="../tables.html#CIM_LOT">CIM_LOT</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_PROCESSNODE">CIM_PROCESSNODE</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_PROCESSSEGMENT">CIM_PROCESSSEGMENT</a><span class="b r">읽기</span></td></tr></tbody></table></div><h2>2. 서비스 상세</h2><details id="svc-1" class="svc" open><summary><b>#1</b> Query <code>SelectLotListForRework</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-1">#1 조회 - 그리드 PM_PI_0011 (Lot재작업관리1_Lot목록)</a></p><h4>Query (조회 서비스) : SelectLotListForRework</h4><ul><li>ID 구성: <code>SelectLotListForRework</code> / 클래스 <code>THiRAMES.Service.UI</code> / 버전 <code>00001</code></li><li>정의 위치: DB 저장 쿼리 (CIM_STOREDQUERY)</li><li>쿼리 파라메터: <code>SITEID</code> <code>PLANTID</code> <code>LINEID</code> <code>PROCESSSEGMENTID</code> <code>WORKORDERID</code> <code>BATCHID</code> <code>LOTID</code></li><li>테이블(조회/쓰기 전체, 함수·SP 포함): <div><a class="tbl" href="../tables.html#CIM_LOT">CIM_LOT</a><span class="b m">메인</span><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_PRODUCTDEFINITION">CIM_PRODUCTDEFINITION</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_EQUIPMENT">CIM_EQUIPMENT</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_PROCESSSEGMENT">CIM_PROCESSSEGMENT</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_LOTBATCHREL">CIM_LOTBATCHREL</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_BATCH">CIM_BATCH</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#TABLE">TABLE</a><span class="b r">읽기</span></div><div><small class="muted">└ 스칼라 함수 FN_USERNAME :</small> <a class="tbl" href="../tables.html#CIM_USER">CIM_USER</a><span class="b m">메인</span><span class="b r">읽기</span></div></li><li>함수/SP: <code>FN_MES_SPLIT</code> <code>FN_USERNAME</code></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 4 · 조인 2</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 732 150" width="732" height="150" role="img" aria-label="조인 구조도"><path class="edge e-inner" d="M186 38 C231 38 231 38 276 38"/><text class="elab" x="231" y="34" text-anchor="middle">INNER</text><path class="edge e-inner" d="M446 38 C491 38 491 38 536 38"/><text class="elab" x="491" y="34" text-anchor="middle">INNER</text><g class="node base"><rect x="16" y="16" width="170" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_LOT</text><text x="26" y="52" class="t2">alias L</text></g><g class="node"><rect x="276" y="16" width="170" height="89" rx="7"/><text x="286" y="35" class="t1">CIM_LOTBATCHREL</text><text x="286" y="52" class="t2">alias LB</text><text x="286" y="67" class="t2 jt">INNER</text><text x="304" y="82" class="t3">SITEID = L.SITEID</text><text x="304" y="97" class="t3">LOTID = L.LOTID</text></g><g class="node"><rect x="536" y="16" width="180" height="89" rx="7"/><text x="546" y="35" class="t1">CIM_BATCH</text><text x="546" y="52" class="t2">alias B</text><text x="546" y="67" class="t2 jt">INNER</text><text x="564" y="82" class="t3">SITEID = LB.SITEID</text><text x="564" y="97" class="t3">BATCHID = LB.BATCHID</text></g><g class="node unk"><rect x="16" y="90" width="170" height="44" rx="7"/><text x="26" y="109" class="t1">TABLE</text><text x="26" y="126" class="t2"></text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small><br><small class="muted">마스터/명칭 조회용 조인 제외(기준 테이블 제외): CIM_PRODUCTDEFINITION, CIM_EQUIPMENT, CIM_PROCESSSEGMENT</small></div></details><details class="joinviz" open><summary><b>스칼라 함수 <code>FN_USERNAME</code> 의 조인 구조도</b> <small class="muted">테이블 1 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 202 76" width="202" height="76" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="170" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_USER</text><text x="26" y="52" class="t2">alias U</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>--SelectLotListForRework
+
+
+
+SELECT EQ.PLANTID , EQ.LINEID ,
+
+       L.SITEID
+
+     , L.WORKORDERID
+
+     , B.BATCHID 
+
+     , L.PROCESSSEGMENTID
+
+     , PS.PROCESSSEGMENTNAME
+
+     , L.EQUIPMENTID
+
+     , EQ.EQUIPMENTNAME
+
+     , L.LOTID
+
+     , L.LOTNAME
+
+     , L.STATE
+
+     , L.PROCESSINGSTATE
+
+     , L.QTY
+
+     , L.DEFECTQTY
+
+     , L.UNITID
+
+     , L.PRODUCTDEFINITIONID
+
+     , PD.PRODUCTDEFINITIONNAME
+
+     , L.PRODUCTCLASSID
+
+     , L.PRODUCTTYPE     
+
+     , L.PRODUCTORDERID
+
+     , L.PROCESSDEFINITIONID
+
+     , L.PROCESSNODEID
+
+     , L.TRACKINTIME
+
+     , L.TRACKINUSER
+
+     , (SELECT FN_USERNAME(L.SITEID, L.TRACKINUSER) FROM DUAL) AS TRACKINUSERNAME     
+
+     , L.TRACKOUTTIME
+
+     , L.TRACKOUTUSER
+
+     , (SELECT FN_USERNAME(L.SITEID, L.TRACKOUTUSER) FROM DUAL) AS TRACKOUTUSERNAME
+
+     , L.ISHOLD
+
+     , L.ISREWORK
+
+     , L.REWORKCOUNT
+
+     , L.DESCRIPTION
+
+     , L.COMMENTS
+
+     , L.MODIFIER
+
+     , (SELECT FN_USERNAME(L.SITEID, L.MODIFIER) FROM DUAL) AS MODIFIERNAME
+
+     , L.MODIFYTIME
+
+  FROM CIM_LOT L 
+
+ INNER JOIN CIM_PRODUCTDEFINITION PD 
+
+    ON PD.SITEID = L.SITEID 
+
+   AND PD.PRODUCTDEFINITIONID = L.PRODUCTDEFINITIONID 
+
+   AND PD.ISUSABLE = &#x27;Usable&#x27;
+
+ INNER JOIN CIM_EQUIPMENT EQ 
+
+    ON EQ.SITEID = L.SITEID 
+
+   AND EQ.EQUIPMENTID = L.EQUIPMENTID  
+
+   AND EQ.ISUSABLE = &#x27;Usable&#x27;   
+
+ INNER JOIN CIM_PROCESSSEGMENT PS 
+
+    ON PS.SITEID = L.SITEID 
+
+   AND PS.PROCESSSEGMENTID = L.PROCESSSEGMENTID  
+
+   AND PS.ISUSABLE = &#x27;Usable&#x27;      
+
+ INNER JOIN CIM_LOTBATCHREL LB 
+
+    ON LB.SITEID = L.SITEID 
+
+   AND LB.LOTID = L.LOTID 
+
+   AND LB.ISUSABLE = &#x27;Usable&#x27;
+
+ INNER JOIN CIM_BATCH B 
+
+    ON B.SITEID = LB.SITEID 
+
+   AND B.BATCHID = LB.BATCHID 
+
+   AND B.ISUSABLE = &#x27;Usable&#x27;
+
+   AND B.BATCHTYPE = PS.PROCESSTYPE
+
+ WHERE L.SITEID = :SITEID
+
+   AND EQ.PLANTID IN(SELECT * FROM TABLE(FN_MES_SPLIT(:PLANTID, &#x27;,&#x27;))) 
+
+   AND EQ.LINEID  IN(SELECT * FROM TABLE(FN_MES_SPLIT(:LINEID, &#x27;,&#x27;)))
+
+   AND L.PROCESSSEGMENTID  IN(SELECT * FROM TABLE(FN_MES_SPLIT(:PROCESSSEGMENTID, &#x27;,&#x27;)))
+
+   AND (:WORKORDERID IS NULL OR L.WORKORDERID = :WORKORDERID)
+
+   AND (:BATCHID IS NULL OR B.BATCHID = :BATCHID)
+
+   AND (:LOTID IS NULL OR L.LOTID = :LOTID)   
+
+   AND L.ISUSABLE = &#x27;Usable&#x27;
+
+   AND L.STATE NOT IN(&#x27;Defect&#x27;, &#x27;Inspect&#x27;, &#x27;Scrapped&#x27;, &#x27;Terminated&#x27;)
+
+   AND L.PROCESSINGSTATE = &#x27;WaitForRule&#x27;
+
+   AND L.TRACKINTIME IS NULL</pre></details><details class="sql"><summary>테이블 반환 함수 FN_MES_SPLIT 정의 보기</summary><pre>CREATE FUNCTION [dbo].[FN_MES_SPLIT]
+
+(
+
+  @I_STR     NVARCHAR(MAX),
+
+  @I_DELIM    NVARCHAR(40) = &#x27;,&#x27;
+
+)
+
+RETURNS @RETARRAY TABLE
+
+(
+
+	VALUE NVARCHAR(MAX)
+
+)
+
+AS  
+
+BEGIN  
+
+	DECLARE @VALUE			VARCHAR(8000)
+
+	DECLARE	@BCONTINUE		BIT
+
+	DECLARE @ISTRIKE		SMALLINT
+
+	DECLARE @IDELIMLENGTH	TINYINT
+
+   
+
+
+
+	SET @I_STR = LTRIM(RTRIM(@I_STR))  
+
+	SET @IDELIMLENGTH = LEN(@I_DELIM)  
+
+	SET @BCONTINUE = 1  
+
+
+
+	WHILE @BCONTINUE = 1  
+
+	BEGIN  
+
+		--텍스트에서 구분자를 발견하면, 첫 번째 요소를 반환하고  
+
+		--반환되는 테이블에 인덱스를 입력한다.  
+
+		IF CHARINDEX(@I_DELIM, @I_STR)&gt;0  
+
+		BEGIN  
+
+			-- 첫 번째 요소를 반환  
+
+			SET @VALUE = SUBSTRING(@I_STR,1, CHARINDEX(@I_DELIM,@I_STR)-1)  
+
+				
+
+			INSERT @RETARRAY (VALUE) VALUES (@VALUE)  
+
+
+
+			--다음 요소와 구분자를 문자열의 앞에서부터 제거하고,  
+
+			--INDEX를 증가시키고 반복작업(LOOP)을 이어간다.  
+
+			SET @ISTRIKE = LEN(@VALUE) + @IDELIMLENGTH  
+
+			SET @I_STR = LTRIM(RIGHT(@I_STR,LEN(@I_STR) - @ISTRIKE))  
+
+		END
+
+		ELSE  
+
+		BEGIN  
+
+			--만약 텍스트 안에서 구분자를 더 이상 찾을 수 없게 되면,   
+
+			--@I_STR가 @RETARRAY의 마지막 값이다.  
+
+			SET @VALUE = @I_STR  
+
+			-- 마지막 값도 구분자로 나누어져 있으뎐  
+
+			INSERT @RETARRAY (VALUE) VALUES (@VALUE)  
+
+
+
+			--WHILE 루프를 빠져 나온다.  
+
+			SET @BCONTINUE = 0  
+
+		END  
+
+	END 
+
+	
+
+	RETURN  
+
+END</pre></details><details class="sql"><summary>스칼라 함수 FN_USERNAME 정의 보기</summary><pre>CREATE FUNCTION [dbo].[FN_USERNAME](
+
+	@P_SITEID NVARCHAR(500),
+
+	@P_USERID NVARCHAR(500)
+
+) 
+
+RETURNS NVARCHAR(2000)
+
+AS
+
+BEGIN
+
+	DECLARE @V_RETURN NVARCHAR(100);
+
+ 
+
+	SELECT @V_RETURN = ISNULL(U.USERNAME, &#x27;&#x27;) + &#x27;(&#x27; + ISNULL(U.USERID, &#x27;&#x27;) + &#x27;)&#x27; FROM CIM_USER U
+
+	WHERE U.SITEID  = @P_SITEID
+
+		AND U.USERID = @P_USERID
+
+	RETURN @V_RETURN
+
+END</pre></details></details><details id="svc-2" class="svc"><summary><b>#2</b> Query <code>SelectPlantList</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-2">#2 검색조건 콤보 - PLANTID (PLANTID)</a></p><h4>Query (조회 서비스) : SelectPlantList</h4><ul><li>ID 구성: <code>SelectPlantList</code> / 클래스 <code>THiRAMES.Service.UI</code> / 버전 <code>00001</code></li><li>정의 위치: DB 저장 쿼리 (CIM_STOREDQUERY)</li><li>쿼리 파라메터: <code>SITEID</code></li><li>테이블(조회/쓰기 전체, 함수·SP 포함): <div><a class="tbl" href="../tables.html#CIM_FACILITY">CIM_FACILITY</a><span class="b m">메인</span><span class="b r">읽기</span></div></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 1 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 202 76" width="202" height="76" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="170" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_FACILITY</text><text x="26" y="52" class="t2">alias PLANT</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>-- SelectPlantList
+
+SELECT 
+
+	FACILITYID AS CODE, -- PLANTID,
+
+	FACILITYNAME AS NAME, -- PLANTNAME,
+
+	SHORTNAME
+
+FROM CIM_FACILITY PLANT
+
+WHERE 1=1
+
+	AND UPPER(PLANT.FACILITYTYPE) = &#x27;PLANT&#x27;
+
+	AND PLANT.SITEID = :SITEID
+
+ORDER BY UISEQUENCE</pre></details></details><details id="svc-3" class="svc"><summary><b>#3</b> Query <code>SelectLineListForRework</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-3">#3 검색조건 콤보 - LINEID (LINEID)</a></p><h4>Query (조회 서비스) : SelectLineListForRework</h4><ul><li>ID 구성: <code>SelectLineListForRework</code> / 클래스 <code>THiRAMES.Service.UI</code> / 버전 <code>00001</code></li><li>정의 위치: DB 저장 쿼리 (CIM_STOREDQUERY)</li><li>쿼리 파라메터: <code>PLANTID</code> <code>SITEID</code></li><li>테이블(조회/쓰기 전체, 함수·SP 포함): <div><a class="tbl" href="../tables.html#CIM_PROCESSSEGMENT">CIM_PROCESSSEGMENT</a><span class="b m">메인</span><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_PROCESSSEGMENTEQUIPMENTREL">CIM_PROCESSSEGMENTEQUIPMENTREL</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_EQUIPMENT">CIM_EQUIPMENT</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#TABLE">TABLE</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_FACILITY">CIM_FACILITY</a><span class="b r">읽기</span></div></li><li>함수/SP: <code>FN_MES_SPLIT</code></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 4 · 조인 1</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 594 224" width="594" height="224" role="img" aria-label="조인 구조도"><path class="edge e-inner" d="M186 38 C231 38 231 38 276 38"/><text class="elab" x="231" y="34" text-anchor="middle">INNER</text><g class="node base"><rect x="16" y="16" width="170" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_PROCESSSEGMENT</text><text x="26" y="52" class="t2">alias PS</text></g><g class="node"><rect x="276" y="16" width="302" height="104" rx="7"/><text x="286" y="35" class="t1">CIM_PROCESSSEGMENTEQUIPMENTREL</text><text x="286" y="52" class="t2">alias RL</text><text x="286" y="67" class="t2 jt">INNER</text><text x="304" y="82" class="t3">SITEID = PS.SITEID</text><text x="304" y="97" class="t3">ISUSABLE = PS.ISUSABLE</text><text x="304" y="112" class="t3">PROCESSSEGMENTID = PS.PROCESSSEGMENTID</text></g><g class="node unk"><rect x="16" y="90" width="170" height="44" rx="7"/><text x="26" y="109" class="t1">TABLE</text><text x="26" y="126" class="t2"></text></g><g class="node"><rect x="16" y="164" width="170" height="44" rx="7"/><text x="26" y="183" class="t1">CIM_FACILITY</text><text x="26" y="200" class="t2">alias FC</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small><br><small class="muted">마스터/명칭 조회용 조인 제외(기준 테이블 제외): CIM_EQUIPMENT</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>-- SelectLineListForRework
+
+SELECT DISTINCT
+
+       EQ.LINEID
+
+     , FC.FACILITYNAME AS LINENAME
+
+  FROM CIM_PROCESSSEGMENT PS
+
+ INNER JOIN CIM_PROCESSSEGMENTEQUIPMENTREL RL 
+
+    ON RL.SITEID = PS.SITEID 
+
+   AND RL.ISUSABLE = PS.ISUSABLE
+
+   AND RL.PROCESSSEGMENTID = PS.PROCESSSEGMENTID
+
+ INNER JOIN CIM_EQUIPMENT EQ 
+
+    ON EQ.SITEID = RL.SITEID 
+
+   AND EQ.ISUSABLE = RL.ISUSABLE
+
+   AND EQ.EQUIPMENTID = RL.EQUIPMENTID
+
+   AND 1 = CASE
+
+                WHEN :PLANTID IS NULL THEN 1
+
+                WHEN EQ.PLANTID IN (SELECT * FROM TABLE(FN_MES_SPLIT(:PLANTID, &#x27;,&#x27;))) THEN 1
+
+                ELSE 0
+
+           END
+
+  LEFT OUTER JOIN CIM_FACILITY FC 
+
+    ON FC.SITEID = EQ.SITEID 
+
+   AND FC.FACILITYID = EQ.LINEID
+
+ WHERE 1=1
+
+  AND PS.SITEID = :SITEID
+
+  AND PS.ISUSABLE = &#x27;Usable&#x27;
+
+  AND PS.ISREWORKYN = &#x27;Y&#x27;</pre></details><details class="sql"><summary>테이블 반환 함수 FN_MES_SPLIT 정의 보기</summary><pre>CREATE FUNCTION [dbo].[FN_MES_SPLIT]
+
+(
+
+  @I_STR     NVARCHAR(MAX),
+
+  @I_DELIM    NVARCHAR(40) = &#x27;,&#x27;
+
+)
+
+RETURNS @RETARRAY TABLE
+
+(
+
+	VALUE NVARCHAR(MAX)
+
+)
+
+AS  
+
+BEGIN  
+
+	DECLARE @VALUE			VARCHAR(8000)
+
+	DECLARE	@BCONTINUE		BIT
+
+	DECLARE @ISTRIKE		SMALLINT
+
+	DECLARE @IDELIMLENGTH	TINYINT
+
+   
+
+
+
+	SET @I_STR = LTRIM(RTRIM(@I_STR))  
+
+	SET @IDELIMLENGTH = LEN(@I_DELIM)  
+
+	SET @BCONTINUE = 1  
+
+
+
+	WHILE @BCONTINUE = 1  
+
+	BEGIN  
+
+		--텍스트에서 구분자를 발견하면, 첫 번째 요소를 반환하고  
+
+		--반환되는 테이블에 인덱스를 입력한다.  
+
+		IF CHARINDEX(@I_DELIM, @I_STR)&gt;0  
+
+		BEGIN  
+
+			-- 첫 번째 요소를 반환  
+
+			SET @VALUE = SUBSTRING(@I_STR,1, CHARINDEX(@I_DELIM,@I_STR)-1)  
+
+				
+
+			INSERT @RETARRAY (VALUE) VALUES (@VALUE)  
+
+
+
+			--다음 요소와 구분자를 문자열의 앞에서부터 제거하고,  
+
+			--INDEX를 증가시키고 반복작업(LOOP)을 이어간다.  
+
+			SET @ISTRIKE = LEN(@VALUE) + @IDELIMLENGTH  
+
+			SET @I_STR = LTRIM(RIGHT(@I_STR,LEN(@I_STR) - @ISTRIKE))  
+
+		END
+
+		ELSE  
+
+		BEGIN  
+
+			--만약 텍스트 안에서 구분자를 더 이상 찾을 수 없게 되면,   
+
+			--@I_STR가 @RETARRAY의 마지막 값이다.  
+
+			SET @VALUE = @I_STR  
+
+			-- 마지막 값도 구분자로 나누어져 있으뎐  
+
+			INSERT @RETARRAY (VALUE) VALUES (@VALUE)  
+
+
+
+			--WHILE 루프를 빠져 나온다.  
+
+			SET @BCONTINUE = 0  
+
+		END  
+
+	END 
+
+	
+
+	RETURN  
+
+END</pre></details></details><details id="svc-4" class="svc"><summary><b>#4</b> Query <code>SelectProcesssegmentListForRework</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-4">#4 검색조건 콤보 - PROCESSSEGMENTID (PROCESSSEGMENTID)</a></p><h4>Query (조회 서비스) : SelectProcesssegmentListForRework</h4><ul><li>ID 구성: <code>SelectProcesssegmentListForRework</code> / 클래스 <code>THiRAMES.Service.UI</code> / 버전 <code>00001</code></li><li>정의 위치: DB 저장 쿼리 (CIM_STOREDQUERY)</li><li>쿼리 파라메터: <code>SITEID</code> <code>PLANTID</code> <code>LINEID</code></li><li>테이블(조회/쓰기 전체, 함수·SP 포함): <div><a class="tbl" href="../tables.html#CIM_PRODUCTPROCESSREL">CIM_PRODUCTPROCESSREL</a><span class="b m">메인</span><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_PROCESSNODE">CIM_PROCESSNODE</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_PROCESSSEGMENT">CIM_PROCESSSEGMENT</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#DT">DT</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_PROCESSSEGMENTEQUIPMENTREL">CIM_PROCESSSEGMENTEQUIPMENTREL</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_EQUIPMENT">CIM_EQUIPMENT</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#TABLE">TABLE</a><span class="b r">읽기</span></div></li><li>함수/SP: <code>FN_MES_SPLIT</code></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 5 · 조인 2</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 971 224" width="971" height="224" role="img" aria-label="조인 구조도"><path class="edge e-inner" d="M195 38 C273 38 273 38 352 38"/><text class="elab" x="273" y="34" text-anchor="middle">INNER</text><path class="edge e-inner" d="M785 38 C740 38 740 38 695 38"/><text class="elab" x="740" y="34" text-anchor="middle">INNER</text><g class="node base"><rect x="16" y="16" width="179" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_PRODUCTPROCESSREL</text><text x="26" y="52" class="t2">alias PP</text></g><g class="node"><rect x="352" y="16" width="343" height="134" rx="7"/><text x="362" y="35" class="t1">CIM_PROCESSNODE</text><text x="362" y="52" class="t2">alias PN</text><text x="362" y="67" class="t2 jt">INNER</text><text x="380" y="82" class="t3">SITEID = PP.SITEID</text><text x="380" y="97" class="t3">ISUSABLE = PP.ISUSABLE</text><text x="380" y="112" class="t3">SITEID = DT.SITEID</text><text x="380" y="127" class="t3">ISUSABLE = DT.ISUSABLE</text><text x="380" y="142" class="t3">PROCESSDEFINITIONID = DT.PROCESSDEFINITIONID</text></g><g class="node unk"><rect x="785" y="16" width="170" height="44" rx="7"/><text x="795" y="35" class="t1">DT</text><text x="795" y="52" class="t2"></text></g><g class="node"><rect x="16" y="90" width="246" height="44" rx="7"/><text x="26" y="109" class="t1">CIM_PROCESSSEGMENTEQUIPMENTREL</text><text x="26" y="126" class="t2">alias RL</text></g><g class="node unk"><rect x="16" y="164" width="170" height="44" rx="7"/><text x="26" y="183" class="t1">TABLE</text><text x="26" y="200" class="t2"></text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small><br><small class="muted">마스터/명칭 조회용 조인 제외(기준 테이블 제외): CIM_PROCESSSEGMENT, CIM_EQUIPMENT</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>-- SelectProcessSegmentListForRework
+
+
+
+WITH DT AS (
+
+    SELECT DISTINCT
+
+           PN.SITEID
+
+         , PN.ISUSABLE
+
+         , PN.PROCESSDEFINITIONID
+
+         , PN.PROCESSSEGMENTID
+
+         , PN.PROCESSNODESEQUENCE
+
+         , NVL(PS.ISREWORKYN, &#x27;N&#x27;) AS ISREWORKYN
+
+      FROM CIM_PRODUCTPROCESSREL PP
+
+     INNER JOIN CIM_PROCESSNODE PN ON PN.SITEID = PP.SITEID AND PN.ISUSABLE = PP.ISUSABLE
+
+       AND PN.PROCESSDEFINITIONID = PN.PROCESSDEFINITIONID
+
+     INNER JOIN CIM_PROCESSSEGMENT PS ON PS.SITEID = PN.SITEID AND PS.ISUSABLE = PN.ISUSABLE
+
+       AND PS.PROCESSSEGMENTID = PN.PROCESSSEGMENTID
+
+       AND PS.ISREWORKYN = &#x27;Y&#x27;
+
+     WHERE 1=1
+
+       AND PP.SITEID = :SITEID
+
+       AND PP.ISUSABLE = &#x27;Usable&#x27;
+
+       AND PP.ISDEFAULT = &#x27;Y&#x27;
+
+)
+
+SELECT DISTINCT
+
+       PN.PROCESSSEGMENTID
+
+     , PS.PROCESSSEGMENTNAME
+
+  FROM DT
+
+ INNER JOIN CIM_PROCESSNODE PN ON PN.SITEID = DT.SITEID AND PN.ISUSABLE = DT.ISUSABLE
+
+   AND PN.PROCESSDEFINITIONID = DT.PROCESSDEFINITIONID
+
+   AND PN.PROCESSNODESEQUENCE &gt; DT.PROCESSNODESEQUENCE
+
+ INNER JOIN CIM_PROCESSSEGMENT PS ON PS.SITEID = PN.SITEID AND PS.ISUSABLE = PN.ISUSABLE
+
+   AND PS.PROCESSSEGMENTID = PN.PROCESSSEGMENTID
+
+ INNER JOIN CIM_PROCESSSEGMENTEQUIPMENTREL RL ON RL.SITEID = PS.SITEID AND RL.ISUSABLE = PS.ISUSABLE
+
+   AND RL.PROCESSSEGMENTID = PS.PROCESSSEGMENTID
+
+ INNER JOIN CIM_EQUIPMENT EQ ON EQ.SITEID = RL.SITEID AND EQ.ISUSABLE = RL.ISUSABLE
+
+   AND EQ.EQUIPMENTID = RL.EQUIPMENTID
+
+   AND 1 = CASE
+
+                WHEN :PLANTID IS NULL THEN 1
+
+                WHEN EQ.PLANTID IN (SELECT * FROM TABLE(FN_MES_SPLIT(:PLANTID, &#x27;,&#x27;))) THEN 1
+
+                ELSE 0
+
+           END
+
+   AND 1 = CASE
+
+                WHEN :LINEID IS NULL THEN 1
+
+                WHEN EQ.LINEID IN (SELECT * FROM TABLE(FN_MES_SPLIT(:LINEID, &#x27;,&#x27;))) THEN 1
+
+                ELSE 0
+
+           END
+
+ORDER BY 1</pre></details><details class="sql"><summary>테이블 반환 함수 FN_MES_SPLIT 정의 보기</summary><pre>CREATE FUNCTION [dbo].[FN_MES_SPLIT]
+
+(
+
+  @I_STR     NVARCHAR(MAX),
+
+  @I_DELIM    NVARCHAR(40) = &#x27;,&#x27;
+
+)
+
+RETURNS @RETARRAY TABLE
+
+(
+
+	VALUE NVARCHAR(MAX)
+
+)
+
+AS  
+
+BEGIN  
+
+	DECLARE @VALUE			VARCHAR(8000)
+
+	DECLARE	@BCONTINUE		BIT
+
+	DECLARE @ISTRIKE		SMALLINT
+
+	DECLARE @IDELIMLENGTH	TINYINT
+
+   
+
+
+
+	SET @I_STR = LTRIM(RTRIM(@I_STR))  
+
+	SET @IDELIMLENGTH = LEN(@I_DELIM)  
+
+	SET @BCONTINUE = 1  
+
+
+
+	WHILE @BCONTINUE = 1  
+
+	BEGIN  
+
+		--텍스트에서 구분자를 발견하면, 첫 번째 요소를 반환하고  
+
+		--반환되는 테이블에 인덱스를 입력한다.  
+
+		IF CHARINDEX(@I_DELIM, @I_STR)&gt;0  
+
+		BEGIN  
+
+			-- 첫 번째 요소를 반환  
+
+			SET @VALUE = SUBSTRING(@I_STR,1, CHARINDEX(@I_DELIM,@I_STR)-1)  
+
+				
+
+			INSERT @RETARRAY (VALUE) VALUES (@VALUE)  
+
+
+
+			--다음 요소와 구분자를 문자열의 앞에서부터 제거하고,  
+
+			--INDEX를 증가시키고 반복작업(LOOP)을 이어간다.  
+
+			SET @ISTRIKE = LEN(@VALUE) + @IDELIMLENGTH  
+
+			SET @I_STR = LTRIM(RIGHT(@I_STR,LEN(@I_STR) - @ISTRIKE))  
+
+		END
+
+		ELSE  
+
+		BEGIN  
+
+			--만약 텍스트 안에서 구분자를 더 이상 찾을 수 없게 되면,   
+
+			--@I_STR가 @RETARRAY의 마지막 값이다.  
+
+			SET @VALUE = @I_STR  
+
+			-- 마지막 값도 구분자로 나누어져 있으뎐  
+
+			INSERT @RETARRAY (VALUE) VALUES (@VALUE)  
+
+
+
+			--WHILE 루프를 빠져 나온다.  
+
+			SET @BCONTINUE = 0  
+
+		END  
+
+	END 
+
+	
+
+	RETURN  
+
+END</pre></details></details><details id="svc-5" class="svc"><summary><b>#5</b> Rule <code>RepositionLot</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-5">#5 #saveBtn click</a></p><h4>Rule (저장/실행 서비스) : RepositionLot</h4><ul><li>구현 위치: C# 소스 (THiRAMES.Business.Production) - <code>THiRAMES.Business.Production/0200.LOT/0213.LOT공정이동/RepositionLot.cs</code></li><li>입력 파라메터(WEBDATA): <code>SITEID</code> <code>LOTID</code> <code>PROCESSNODEID</code></li><li>관련 테이블(코드 분석 기반): <br><a class="tbl" href="../tables.html#CIM_LOT">CIM_LOT</a><span class="b u">참조</span><br><a class="tbl" href="../tables.html#CIM_PROCESSNODE">CIM_PROCESSNODE</a><span class="b r">읽기</span></li><li>C# 코드 내 SQL 문자열: 1건</li><li>호출 체인(Service 메서드): <small>PRODUCTIONLotManager.RepositoinLot_Proc, PRODUCTIONLotManager.MakeLotInfo_Reposition, PRODUCTIONLotManager.ValidationLotState_Repostion, ManagerExtenstions.GetProcessnode, MesEisRuleBiz.SetCommonData, PRODUCTIONLotManager.RepositoinLot, ManagerExtenstions.RepositionLot</small></li></ul><details class="svc"><summary>Rule 코드 내 단순 SQL(단일 테이블) 1건 <small class="muted">- 펼쳐서 확인</small></summary><details class="svc"><summary>Rule 코드 내 SQL #1 <small class="muted">(PROCESSNODE.GetProcessNode (CIM.MES.API 프레임워크) · 테이블 1)</small></summary><ul><li>테이블: <div><a class="tbl" href="../tables.html#CIM_PROCESSNODE">CIM_PROCESSNODE</a><span class="b m">메인</span><span class="b r">읽기</span></div></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 1 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 202 76" width="202" height="76" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="170" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_PROCESSNODE</text><text x="26" y="52" class="t2">기준 테이블</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>SELECT * FROM CIM_PROCESSNODE WHERE PROCESSNODEID=@PROCESSNODEID AND SITEID=@SITEID</pre></details></details></details></details><details id="svc-6" class="svc"><summary><b>#6</b> Query <code>SelectSegmentListForReworkByLot</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-6">#6 gridParam</a></p><h4>Query (조회 서비스) : SelectSegmentListForReworkByLot</h4><ul><li>ID 구성: <code>SelectSegmentListForReworkByLot</code> / 클래스 <code>THiRAMES.Service.UI</code> / 버전 <code>00001</code></li><li>정의 위치: DB 저장 쿼리 (CIM_STOREDQUERY)</li><li>쿼리 파라메터: <code>SITEID</code> <code>LOTID</code></li><li>테이블(조회/쓰기 전체, 함수·SP 포함): <div><a class="tbl" href="../tables.html#CIM_LOT">CIM_LOT</a><span class="b m">메인</span><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_PROCESSNODE">CIM_PROCESSNODE</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_PROCESSSEGMENT">CIM_PROCESSSEGMENT</a><span class="b r">읽기</span></div></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 3 · 조인 2</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 987 136" width="987" height="136" role="img" aria-label="조인 구조도"><path class="edge e-inner" d="M186 38 C231 38 231 38 276 38"/><text class="elab" x="231" y="34" text-anchor="middle">INNER</text><path class="edge e-inner" d="M538 38 C583 38 583 38 628 38"/><text class="elab" x="583" y="34" text-anchor="middle">INNER</text><g class="node base"><rect x="16" y="16" width="170" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_LOT</text><text x="26" y="52" class="t2">alias LT</text></g><g class="node"><rect x="276" y="16" width="262" height="104" rx="7"/><text x="286" y="35" class="t1">CIM_PROCESSNODE</text><text x="286" y="52" class="t2">alias CN</text><text x="286" y="67" class="t2 jt">INNER</text><text x="304" y="82" class="t3">SITEID = LT.SITEID</text><text x="304" y="97" class="t3">ISUSABLE = LT.ISUSABLE</text><text x="304" y="112" class="t3">PROCESSNODEID = LT.PROCESSNODEID</text></g><g class="node"><rect x="628" y="16" width="343" height="104" rx="7"/><text x="638" y="35" class="t1">CIM_PROCESSNODE</text><text x="638" y="52" class="t2">alias PN</text><text x="638" y="67" class="t2 jt">INNER</text><text x="656" y="82" class="t3">SITEID = CN.SITEID</text><text x="656" y="97" class="t3">ISUSABLE = CN.ISUSABLE</text><text x="656" y="112" class="t3">PROCESSDEFINITIONID = CN.PROCESSDEFINITIONID</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small><br><small class="muted">마스터/명칭 조회용 조인 제외(기준 테이블 제외): CIM_PROCESSSEGMENT</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>-- SelectSegmentListForReworkByLot
+
+
+
+SELECT LT.LOTID
+
+     , PN.PROCESSNODESEQUENCE
+
+     , PN.PROCESSNODEID
+
+     , PN.PROCESSNODENAME
+
+     , PN.PROCESSSEGMENTID
+
+     , PS.PROCESSSEGMENTNAME
+
+     , PS.ISREWORKYN
+
+  FROM CIM_LOT LT
+
+ INNER JOIN CIM_PROCESSNODE CN ON CN.SITEID = LT.SITEID AND CN.ISUSABLE = LT.ISUSABLE
+
+   AND CN.PROCESSNODEID = LT.PROCESSNODEID
+
+ INNER JOIN CIM_PROCESSNODE PN ON PN.SITEID = CN.SITEID AND PN.ISUSABLE = CN.ISUSABLE
+
+   AND PN.PROCESSDEFINITIONID = CN.PROCESSDEFINITIONID
+
+   AND PN.PROCESSNODESEQUENCE &lt; CN.PROCESSNODESEQUENCE
+
+ INNER JOIN CIM_PROCESSSEGMENT PS ON PS.SITEID = PN.SITEID --AND PS.ISUSABLE = PN.ISUSABLE
+
+   AND PS.PROCESSSEGMENTID = PN.PROCESSSEGMENTID
+
+   AND PS.ISREWORKYN = &#x27;Y&#x27;
+
+ WHERE 1=1
+
+   AND LT.SITEID = :SITEID
+
+   AND LT.LOTID = :LOTID
+
+   AND LT.ISUSABLE = &#x27;Usable&#x27;
+
  ORDER BY 1, 2</pre></details></details><h2>3. 그리드 / 검색조건 정의</h2><details><summary><b>PM_PI_0011</b> Lot재작업관리1_Lot목록 — 컬럼 35, 검색조건 4</summary><p>actionId: <code class="wrapc">THiRAMES.Service.UI$RuleMultiInquiry$THiRAMES.Service.UI$SelectLotListForRework$00001</code></p><h4>검색조건</h4><table class="grid sm"><thead><tr><th>필드</th><th>유형</th><th>표시명</th><th>표시명(한글)</th><th>콤보 서비스</th></tr></thead><tbody><tr><td><code>period</code></td><td>FILTER</td><td>period</td><td><b>기간</b></td><td class="wrapc"></td></tr><tr><td><code>PLANTID</code></td><td>FILTER</td><td>PLANTID</td><td><b>PLANT</b></td><td class="wrapc">THiRAMES.Service.UI$RuleMultiInquiry$THiRAMES.Service.UI$SelectPlantList$00001?SITEID=0100</td></tr><tr><td><code>LINEID</code></td><td>FILTER</td><td>LINEID</td><td><b>라인</b></td><td class="wrapc">THiRAMES.Service.UI$RuleMultiInquiry$THiRAMES.Service.UI$SelectLineListForRework$00001?SITEID=0100&amp;PLANTID=</td></tr><tr><td><code>PROCESSSEGMENTID</code></td><td>FILTER</td><td>PROCESSSEGMENTID</td><td><b>공정</b></td><td class="wrapc">THiRAMES.Service.UI$RuleMultiInquiry$THiRAMES.Service.UI$SelectProcesssegmentListForRework$00001?SITEID=0100&amp;PLANTID=&amp;LINEID=</td></tr></tbody></table><p class="muted">조회 쿼리의 메인 테이블 <a class="tbl" href="../tables.html#CIM_LOT">CIM_LOT</a> 에서 오는 컬럼은 <span class="mainmark">강조</span> 표시됩니다 (27개 / 35개)</p><h4>컬럼</h4><table class="grid sm"><thead><tr><th>필드</th><th>표시명</th><th>표시명(한글)</th><th>편집</th><th>필수</th><th>콤보 서비스</th></tr></thead><tbody><tr class="mainc"><td><code>SITEID</code> <span class="b m">메인</span></td><td>SITEID</td><td><b>사이트</b></td><td></td><td>Y</td><td class="wrapc"></td></tr><tr class="mainc"><td><code>WORKORDERID</code> <span class="b m">메인</span></td><td>WORKORDERID</td><td><b>W/O No</b></td><td></td><td></td><td class="wrapc"></td></tr><tr><td><code>BATCHID </code></td><td>BATCHID </td><td><b>Batch</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>PROCESSSEGMENTID</code> <span class="b m">메인</span></td><td>PROCESSSEGMENTID</td><td><b>공정</b></td><td></td><td></td><td class="wrapc"></td></tr><tr><td><code>PROCESSSEGMENTNAME</code></td><td>PROCESSSEGMENTNAME</td><td><b>공정명</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>EQUIPMENTID</code> <span class="b m">메인</span></td><td>EQUIPMENTID</td><td><b>설비</b></td><td></td><td></td><td class="wrapc"></td></tr><tr><td><code>EQUIPMENTNAME</code></td><td>EQUIPMENTNAME</td><td><b>설비명</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>LOTID</code> <span class="b m">메인</span></td><td>LOTID</td><td><b>공정 LOT No</b></td><td></td><td>Y</td><td class="wrapc"></td></tr><tr class="mainc"><td><code>LOTNAME</code> <span class="b m">메인</span></td><td>LOTNAME</td><td><b>LOT 명</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>STATE</code> <span class="b m">메인</span></td><td>STATE</td><td><b>현재상태</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>PROCESSINGSTATE</code> <span class="b m">메인</span></td><td>PROCESSINGSTATE</td><td><b>진행상태</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>QTY</code> <span class="b m">메인</span></td><td>QTY</td><td><b>수량</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>DEFECTQTY</code> <span class="b m">메인</span></td><td>DEFECTQTY</td><td><b>불량수</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>UNITID</code> <span class="b m">메인</span></td><td>UNITID</td><td><b>단위</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>PRODUCTDEFINITIONID</code> <span class="b m">메인</span></td><td>PRODUCTDEFINITIONID</td><td><b>제품코드</b></td><td></td><td></td><td class="wrapc"></td></tr><tr><td><code>PRODUCTDEFINITIONNAME</code></td><td>PRODUCTDEFINITIONNAME</td><td><b>제품명</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>PRODUCTCLASSID</code> <span class="b m">메인</span></td><td>PRODUCTCLASSID</td><td><b>제품그룹</b></td><td></td><td></td><td class="wrapc"></td></tr><tr><td><code>PRODUCTTYPE     </code></td><td>PRODUCTTYPE     </td><td><b>제품타입</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>PRODUCTORDERID</code> <span class="b m">메인</span></td><td>PRODUCTORDERID</td><td><b>P/O No</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>PROCESSDEFINITIONID</code> <span class="b m">메인</span></td><td>PROCESSDEFINITIONID</td><td><b>프로세스</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>PROCESSNODEID</code> <span class="b m">메인</span></td><td>PROCESSNODEID</td><td><b>프로세스Node</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>TRACKINTIME</code> <span class="b m">메인</span></td><td>TRACKINTIME</td><td><b>TRACKIN 시간</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>TRACKINUSER</code> <span class="b m">메인</span></td><td>TRACKINUSER</td><td><b>TRACKIN 작업자</b></td><td></td><td></td><td class="wrapc"></td></tr><tr><td><code>TRACKINUSERNAME</code></td><td>TRACKINUSERNAME</td><td><b>TRACKIN 작업자명</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>TRACKOUTTIME</code> <span class="b m">메인</span></td><td>TRACKOUTTIME</td><td><b>종료시간</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>TRACKOUTUSER</code> <span class="b m">메인</span></td><td>TRACKOUTUSER</td><td><b>TRACKOUT 작업자</b></td><td></td><td></td><td class="wrapc"></td></tr><tr><td><code>TRACKOUTUSERNAME</code></td><td>TRACKOUTUSERNAME</td><td><b>TRACKOUT 작업자명</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>ISHOLD</code> <span class="b m">메인</span></td><td>ISHOLD</td><td><b>HOLD 여부</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>ISREWORK</code> <span class="b m">메인</span></td><td>ISREWORK</td><td><b>REWORK 여부</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>REWORKCOUNT</code> <span class="b m">메인</span></td><td>REWORKCOUNT</td><td><b>재작업수</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>DESCRIPTION</code> <span class="b m">메인</span></td><td>DESCRIPTION</td><td><b>설명</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>COMMENTS</code> <span class="b m">메인</span></td><td>COMMENTS</td><td><b>비고</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>MODIFIER</code> <span class="b m">메인</span></td><td>MODIFIER</td><td><b>수정자</b></td><td></td><td></td><td class="wrapc"></td></tr><tr><td><code>MODIFIERNAME</code></td><td>MODIFIERNAME</td><td><b>수정자명</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>MODIFYTIME</code> <span class="b m">메인</span></td><td>MODIFYTIME</td><td><b>수정일시</b></td><td></td><td></td><td class="wrapc"></td></tr></tbody></table></details><details><summary><b>PM_PI_0012</b> Lot재작업관리2_재작업등록 — 컬럼 5, 검색조건 0</summary><p class="muted">actionId 미정의 - 조회/저장 서비스는 JS 또는 호출 화면(팝업 파라메터)에서 동적으로 지정됩니다.</p><h4>컬럼</h4><table class="grid sm"><thead><tr><th>필드</th><th>표시명</th><th>표시명(한글)</th><th>편집</th><th>필수</th><th>콤보 서비스</th></tr></thead><tbody><tr><td><code>PROCESSNODEID</code></td><td>PROCESSNODEID</td><td><b>프로세스Node</b></td><td></td><td></td><td class="wrapc"></td></tr><tr><td><code>PROCESSSEGMENTID</code></td><td>PROCESSSEGMENTID</td><td><b>공정</b></td><td></td><td></td><td class="wrapc"></td></tr><tr><td><code>PROCESSSEGMENTNAME</code></td><td>PROCESSSEGMENTNAME</td><td><b>공정명</b></td><td></td><td></td><td class="wrapc"></td></tr><tr><td><code>CYCLE</code></td><td>CYCLE</td><td><b>CYCLE</b></td><td></td><td></td><td class="wrapc"></td></tr><tr><td><code>CURRENTPROCESSSEGMENT</code></td><td>CURRENTPROCESSSEGMENT</td><td><b>현공정</b></td><td></td><td></td><td class="wrapc"></td></tr></tbody></table></details><footer>자동 생성 문서 · DB: EM_MES_DEV (10.130.11.100) · 소스: THiRAMES_UI / THiRAMES_Service · "추정"/"코드 분석 기반" 표기는 정적 분석 결과이므로 실제 동작과 다를 수 있습니다.</footer></main></body></html>
