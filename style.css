@@ -1,0 +1,54 @@
+
+:root{--bg:#f6f7f9;--fg:#1d2330;--mut:#6b7385;--card:#fff;--bd:#dfe3ea;--ac:#2456d6;--r:#0f7b4f;--w:#c2410c;--code:#eef1f6}
+@media (prefers-color-scheme:dark){:root{--bg:#12151c;--fg:#e6e9f0;--mut:#9aa3b5;--card:#1a1f2a;--bd:#2b3242;--ac:#7aa2ff;--r:#4ade80;--w:#fb923c;--code:#252c3b}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:14px/1.55 "Malgun Gothic","Apple SD Gothic Neo",system-ui,sans-serif}
+a{color:var(--ac);text-decoration:none}a:hover{text-decoration:underline}
+.top{display:flex;gap:18px;padding:10px 20px;background:var(--card);border-bottom:1px solid var(--bd);position:sticky;top:0;z-index:5}
+main{max-width:1500px;margin:0 auto;padding:20px}
+h1{font-size:22px;margin:6px 0 14px}h1 small{color:var(--mut);font-weight:400;font-size:14px;margin-left:8px}
+h2{font-size:17px;margin:28px 0 10px;padding-bottom:6px;border-bottom:2px solid var(--bd)}h4{margin:12px 0 6px}
+code{background:var(--code);padding:1px 5px;border-radius:4px;font:12px/1.4 Consolas,monospace;word-break:break-all}
+code.ui{opacity:.75;border:1px dashed var(--bd)}
+.wrapc{word-break:break-all;font-family:Consolas,monospace;font-size:12px}
+.muted,small{color:var(--mut)}
+.wrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%}
+table.kv th{width:140px;text-align:left;vertical-align:top;color:var(--mut);font-weight:600;padding:5px 10px 5px 0}table.kv td{padding:5px 0}
+table.grid{background:var(--card);border:1px solid var(--bd)}
+table.grid th{background:var(--code);text-align:left;padding:7px 9px;font-size:12px;white-space:nowrap;border-bottom:1px solid var(--bd)}
+table.grid td{padding:7px 9px;border-top:1px solid var(--bd);vertical-align:top}
+table.grid td.params{max-width:420px}
+table.sm td,table.sm th{padding:4px 8px;font-size:12px}
+.tag{display:inline-block;font-size:11px;padding:0 6px;border-radius:9px;color:#fff;margin-right:3px}.tag.rule{background:#7c3aed}.tag.q{background:#0e7490}
+.b{display:inline-block;font-size:10.5px;padding:0 6px;border-radius:9px;margin-left:4px;border:1px solid}.b.r{color:var(--r);border-color:var(--r)}.b.w{color:var(--w);border-color:var(--w)}.b.u{color:var(--mut);border-color:var(--mut)}.b.m{color:var(--ac);border-color:var(--ac);font-weight:700}
+a.tbl{font:12px Consolas,monospace}
+.chip{display:inline-block;background:var(--code);border-radius:12px;padding:1px 9px;margin:1px 3px 1px 0;font-size:12px}
+details{background:var(--card);border:1px solid var(--bd);border-radius:8px;padding:8px 12px;margin:8px 0}summary{cursor:pointer}
+pre{background:var(--code);padding:10px;border-radius:6px;overflow:auto;font:12px/1.5 Consolas,monospace}
+tr.mainc td{background:color-mix(in srgb,var(--ac) 14%,transparent);font-weight:600}
+.mainmark{background:color-mix(in srgb,var(--ac) 14%,transparent);font-weight:700;padding:0 6px;border-radius:4px}
+p.usedby{margin:6px 0 10px;font-size:13px}
+tr:target td{outline:2px solid var(--ac);outline-offset:-2px}
+details.svc:target{border-color:var(--ac)}
+footer{margin:36px 0 10px;color:var(--mut);font-size:12px}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:8px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:8px;padding:8px 12px;display:block;color:var(--fg)}
+.card:hover{border-color:var(--ac);text-decoration:none}.card b{display:block}.card span{color:var(--mut);font-size:12px}
+input.q{width:100%;max-width:520px;padding:9px 12px;border:1px solid var(--bd);border-radius:8px;background:var(--card);color:var(--fg);font-size:14px}
+@media(max-width:700px){main{padding:12px}.top{padding:8px 12px}}
+
+.tlrow{margin:6px 0}.tllab{display:inline-block;min-width:110px;color:var(--mut);font-size:12px;margin-right:6px}
+a.tc{display:inline-block;font:12px Consolas,monospace;padding:1px 8px;margin:2px 4px 2px 0;border-radius:6px;border:1px solid var(--bd);background:var(--card);color:var(--fg)}
+a.tc i{font:normal 10.5px "Malgun Gothic",sans-serif;margin-left:5px;color:var(--mut)}
+a.tc.main{border:2px solid var(--ac)}a.tc.join{border-color:var(--ac)}a.tc.excl{border-style:dashed;opacity:.65}a.tc.wr{border-color:var(--w)}a.tc.wr i{color:var(--w)}
+
+svg.jv{max-width:none}
+svg.jv .node rect{fill:var(--card);stroke:var(--bd);stroke-width:1.5}
+svg.jv .node.base rect{stroke:var(--ac);stroke-width:2.5}
+svg.jv .node.unk rect{stroke-dasharray:4 3}
+svg.jv .t1{font:600 12px Consolas,monospace;fill:var(--fg)}svg.jv .t2.jt{font-weight:700;fill:var(--ac)}svg.jv .t3{font:11px Consolas,monospace;fill:var(--ac)}svg.jv .t2{font:11px "Malgun Gothic",sans-serif;fill:var(--mut)}
+svg.jv .edge{fill:none;stroke-width:2}
+svg.jv .e-inner{stroke:var(--ac)}svg.jv .e-left,svg.jv .e-right,svg.jv .e-full{stroke:var(--r);stroke-dasharray:6 4}svg.jv .e-cross{stroke:var(--w)}
+svg.jv .elab{font:10.5px Consolas,monospace;fill:var(--mut);paint-order:stroke;stroke:var(--bg);stroke-width:4px}
+.jlegend{font-size:12px;margin-top:6px}.lg{display:inline-block;width:22px;height:0;border-top:2px solid;vertical-align:middle;margin:0 4px 0 12px}
+.lg.inner{border-color:var(--ac)}.lg.left{border-color:var(--r);border-top-style:dashed}.lg.base{border:2px solid var(--ac);height:8px;width:14px;border-radius:3px}

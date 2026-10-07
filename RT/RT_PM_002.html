@@ -1,0 +1,684 @@
+<!DOCTYPE html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>RT_PM_002 - 설비 가동율</title><link rel="stylesheet" href="../style.css"></head><body><header class="top"><a href="../index.html">← 전체 목록</a><a href="../tables.html">테이블 색인</a></header><main><h1>설비 가동율 <small>RT_PM_002</small></h1><table class="kv"><tr><th>화면 경로</th><td><code>THiRAMES_UI/wwwroot/view/ngs/mes/RT/RT_PM_002.html</code></td></tr><tr><th>화면 구분</th><td>RT 실시간/조회</td></tr><tr><th>위젯(Grid)</th><td><code>RT_PM_0021</code></td></tr><tr><th>화면 버튼</th><td><span class="chip">findBtn1 · 조회</span> <span class="chip">excelGridDownBtn1 · EXCEL</span> <span class="chip">bmRateBtn · BTN_BMRATE</span></td></tr></table><h2>1. 기능별 호출 서비스 / 파라메터 / 테이블</h2><div class="wrap"><table class="grid"><thead><tr><th>#</th><th>기능</th><th>구분</th><th>호출 서비스</th><th>파라메터</th><th>DB 테이블</th></tr></thead><tbody><tr id="fn-1"><td>1</td><td>조회 - 그리드 RT_PM_0021 (설비가동율1_설비가동율)<br><small class="muted">조회 버튼(findBtn)/마스터-디테일 행선택 시 호출</small></td><td>R 조회</td><td><a href="#svc-1"><span class="tag q">Query</span> <code>SelectOperationRateList</code></a> <small>THiRAMES.Service.UI</small></td><td class="params"><code>SITEID</code> <code>TYPES</code> <code>STARTDATE</code> <code>ENDDATE</code> <code>RATETYPE</code> <code>RATEOPTION</code><br><span class="muted">UI 전달:</span> <code class="ui">LINEID</code></td><td><a class="tbl" href="../tables.html#RPT_OPERATIONRATE_DEFINITION">RPT_OPERATIONRATE_DEFINITION</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#RPT_OPERATIONRATE_SUM">RPT_OPERATIONRATE_SUM</a><span class="b r">읽기</span></td></tr><tr id="fn-2"><td>2</td><td>검색조건 콤보 - LINEID (LINEID)</td><td>R 조회</td><td><a href="#svc-2"><span class="tag q">Query</span> <code>CDS_Code_200</code></a> <small>THiRA.MES.Modeler</small></td><td class="params"><code>CODECLASSID</code> <code>SITEID</code></td><td><a class="tbl" href="../tables.html#CIM_CODE">CIM_CODE</a><span class="b r">읽기</span></td></tr><tr id="fn-3"><td>3</td><td>검색조건 콤보 - TYPES (SEARCHCYCLE)</td><td>R 조회</td><td><a href="#svc-2"><span class="tag q">Query</span> <code>CDS_Code_200</code></a> <small>THiRA.MES.Modeler</small></td><td class="params"><code>CODECLASSID</code> <code>SITEID</code></td><td><a class="tbl" href="../tables.html#CIM_CODE">CIM_CODE</a><span class="b r">읽기</span></td></tr><tr id="fn-4"><td>4</td><td>검색조건 콤보 - RATETYPE (RATETYPE)</td><td>R 조회</td><td><a href="#svc-2"><span class="tag q">Query</span> <code>CDS_Code_200</code></a> <small>THiRA.MES.Modeler</small></td><td class="params"><code>CODECLASSID</code> <code>SITEID</code></td><td><a class="tbl" href="../tables.html#CIM_CODE">CIM_CODE</a><span class="b r">읽기</span></td></tr><tr id="fn-5"><td>5</td><td>검색조건 콤보 - RATEOPTION (RATEOPTION)</td><td>R 조회</td><td><a href="#svc-2"><span class="tag q">Query</span> <code>CDS_Code_200</code></a> <small>THiRA.MES.Modeler</small></td><td class="params"><code>CODECLASSID</code> <code>SITEID</code></td><td><a class="tbl" href="../tables.html#CIM_CODE">CIM_CODE</a><span class="b r">읽기</span></td></tr></tbody></table></div><h2>2. 서비스 상세</h2><details id="svc-1" class="svc" open><summary><b>#1</b> Query <code>SelectOperationRateList</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-1">#1 조회 - 그리드 RT_PM_0021 (설비가동율1_설비가동율)</a></p><h4>Query (조회 서비스) : SelectOperationRateList</h4><ul><li>ID 구성: <code>SelectOperationRateList</code> / 클래스 <code>THiRAMES.Service.UI</code> / 버전 <code>00001</code></li><li>정의 위치: DB 저장 쿼리 (CIM_STOREDQUERY)</li><li>쿼리명: RT_PM_002_설비 가동율 조회 프로시저</li><li>쿼리 파라메터: <code>SITEID</code> <code>TYPES</code> <code>STARTDATE</code> <code>ENDDATE</code> <code>RATETYPE</code> <code>RATEOPTION</code></li><li>테이블(조회/쓰기 전체, 함수·SP 포함): <div><small class="muted">└ Stored Procedure SP_RPT_OPERATIONRATE_SELECT :</small> <a class="tbl" href="../tables.html#FN_RPT_DAY_WEEK_MONTH">FN_RPT_DAY_WEEK_MONTH</a><span class="b m">메인</span><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#RPT_OPERATIONRATE_SUM">RPT_OPERATIONRATE_SUM</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#RPT_OPERATIONRATE_DEFINITION">RPT_OPERATIONRATE_DEFINITION</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#OPERATION_CALC_DATA">OPERATION_CALC_DATA</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html##OPERATION_DATA">#OPERATION_DATA</a><span class="b r">읽기</span></div><div><small class="muted">└ 테이블 반환 함수 FN_RPT_DAY_WEEK_MONTH :</small> <a class="tbl" href="../tables.html#SPT_VALUES">SPT_VALUES</a><span class="b m">메인</span><span class="b r">읽기</span></div></li><li>함수/SP: <code>EXEC SP_RPT_OPERATIONRATE_SELECT</code></li></ul><details class="joinviz" open><summary><b>Stored Procedure <code>SP_RPT_OPERATIONRATE_SELECT</code> 의 조인 구조도</b> <small class="muted">테이블 7 · 조인 4</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 1000 224" width="1000" height="224" role="img" aria-label="조인 구조도"><path class="edge e-inner" d="M195 38 C240 38 240 38 285 38"/><text class="elab" x="240" y="34" text-anchor="middle">INNER</text><path class="edge e-left" d="M195 38 C240 38 240 112 285 112"/><text class="elab" x="240" y="71" text-anchor="middle">LEFT</text><path class="edge e-left" d="M455 112 C504 112 504 38 554 38"/><text class="elab" x="504" y="71" text-anchor="middle">LEFT</text><path class="edge e-left" d="M724 38 C769 38 769 38 814 38"/><text class="elab" x="769" y="34" text-anchor="middle">LEFT</text><g class="node base unk"><rect x="16" y="16" width="179" height="44" rx="7"/><text x="26" y="35" class="t1">FN_RPT_DAY_WEEK_MONTH</text><text x="26" y="52" class="t2">기준 테이블</text></g><g class="node"><rect x="285" y="16" width="179" height="44" rx="7"/><text x="295" y="35" class="t1">RPT_OPERATIONRATE_SUM</text><text x="295" y="52" class="t2">alias OS</text></g><g class="node unk"><rect x="16" y="90" width="170" height="44" rx="7"/><text x="26" y="109" class="t1">OPERATION_CALC_DATA</text><text x="26" y="126" class="t2"></text></g><g class="node unk"><rect x="285" y="90" width="170" height="44" rx="7"/><text x="295" y="109" class="t1">OPERATION_CALC_DATA</text><text x="295" y="126" class="t2">alias OBD</text></g><g class="node unk"><rect x="554" y="16" width="170" height="44" rx="7"/><text x="564" y="35" class="t1">OPERATION_CALC_DATA</text><text x="564" y="52" class="t2">alias OMA</text></g><g class="node unk"><rect x="814" y="16" width="170" height="44" rx="7"/><text x="824" y="35" class="t1">OPERATION_CALC_DATA</text><text x="824" y="52" class="t2">alias OMB</text></g><g class="node unk"><rect x="16" y="164" width="170" height="44" rx="7"/><text x="26" y="183" class="t1">#OPERATION_DATA</text><text x="26" y="200" class="t2">alias OMD</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small><br><small class="muted">마스터/명칭 조회용 조인 제외(기준 테이블 제외): RPT_OPERATIONRATE_DEFINITION</small></div></details><details class="joinviz" open><summary><b>테이블 반환 함수 <code>FN_RPT_DAY_WEEK_MONTH</code> 의 조인 구조도</b> <small class="muted">테이블 1 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 202 76" width="202" height="76" role="img" aria-label="조인 구조도"><g class="node base unk"><rect x="16" y="16" width="170" height="44" rx="7"/><text x="26" y="35" class="t1">SPT_VALUES</text><text x="26" y="52" class="t2">기준 테이블</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>EXEC SP_RPT_OPERATIONRATE_SELECT @SITEID, @TYPES, @STARTDATE, @ENDDATE, @RATETYPE, @RATEOPTION</pre></details><details class="sql"><summary>Stored Procedure SP_RPT_OPERATIONRATE_SELECT 정의 보기</summary><pre>/**************************************************************************
+ * 가동률 조회 쿼리
+ * 
+ *     DECLARE @SITEID VARCHAR(40) = &#x27;PL01&#x27;
+ *         , @TYPES VARCHAR(10) = &#x27;M&#x27;  -- D / W / M
+ *         , @STARTDATE VARCHAR(10) = &#x27;202401&#x27; -- 2024.01~2024.05
+ *         , @ENDDATE  VARCHAR(10)  = &#x27;202405&#x27;
+ *         --, @PROCESSTYPE VARCHAR(40) = &#x27;&#x27;    -- &#x27;&#x27; : ALL, PREVPROCESS - 전처리, FIRPROCESS - 소성, LIPROCESS - Li, NCMPROCESS - NCM
+ *         , @RATETYPE VARCHAR(40) = &#x27;&#x27;         -- ALL, TIME, PER, TOTAL  [ &#x27;&#x27; | TIME | PER | TOTAL ]
+ *         , @RATEOPTION VARCHAR(40) = &#x27;&#x27;       -- ALL, PLAN, RESULT, GAP [ &#x27;&#x27; | PLAN | RESULT | GAP ]
+ *     EXEC SP_RPT_OPERATIONRATE_SELECT @SITEID, @TYPES, @STARTDATE, @ENDDATE, @RATETYPE, @RATEOPTION
+ * 
+ **************************************************************************/
+CREATE PROCEDURE [dbo].[SP_RPT_OPERATIONRATE_SELECT] 
+    @SITEID VARCHAR(40), @TYPES VARCHAR(40), @STARTDATE VARCHAR(40), @ENDDATE VARCHAR(40), @RATETYPE VARCHAR(40), @RATEOPTION VARCHAR(40)
+AS  
+BEGIN 
+
+--     DECLARE @SITEID VARCHAR(40) = &#x27;PL01&#x27;
+--         , @TYPES VARCHAR(10) = &#x27;D&#x27;  -- D / W / M
+--         , @STARTDATE VARCHAR(10) = &#x27;20240701&#x27; -- 2024.01~2024.05
+--         , @ENDDATE  VARCHAR(10)  = &#x27;20240705&#x27;
+--         , @RATETYPE VARCHAR(40) = &#x27;&#x27;         -- ALL, TIME, PER, TOTAL  [ &#x27;&#x27; | TIME | PER | TOTAL ]
+--         , @RATEOPTION VARCHAR(40) = &#x27;&#x27;       -- ALL, PLAN, RESULT, GAP [ &#x27;&#x27; | PLAN | RESULT | GAP ]
+
+    IF @RATETYPE IS NULL
+    BEGIN
+        SET @RATETYPE = &#x27;&#x27;
+    END
+
+    IF @RATEOPTION IS NULL
+    BEGIN
+        SET @RATETYPE = &#x27;&#x27;
+    END
+    
+    -----------------------------
+    -- 1. TABLE 생성
+    -----------------------------
+         
+    
+    IF OBJECT_ID(&#x27;tempdb..#OPERATION_DATA&#x27;) IS NOT NULL
+    BEGIN    
+        DROP TABLE #OPERATION_DATA
+    END    
+    
+    --
+    -- 1.01 : 조회 항목 기준 정보 저장 테이블
+    --         
+    DECLARE @LEFT_BASE TABLE 
+    (
+        ORDERNO     SMALLINT
+        , TOPICS    VARCHAR(40)
+        , SUBTOPICS VARCHAR(40)
+        , COLNAME   VARCHAR(40)
+    )
+    ;
+
+    --
+    -- 1.02 : 가동률 기준정보 및 결과 저장 테이블
+    --    
+    DECLARE @OPERATION_BASE_DATA TABLE 
+    (
+        WORKDATE                VARCHAR(40)
+        , YEARMONTH             VARCHAR(40)
+        , YEARWEEK              VARCHAR(40)
+        , TOPICS                VARCHAR(40)
+        , COLVAL                FLOAT
+        , ORDERNO               SMALLINT
+        , ITEMID                VARCHAR(40)
+        , ISUSETIMERATE         VARCHAR(40)
+        , ISUSEPERFORMANCERATE  VARCHAR(40)
+        , TIMERATE              FLOAT
+        , PERFORMANCERATE       FLOAT
+        , COMPRERATE            FLOAT
+        , SUBTOPICS             VARCHAR(40)
+    )
+         
+    --
+    -- 1.03 : 조회 결과 정보 저장 TABLE
+    --    
+    CREATE TABLE  #OPERATION_DATA
+    (
+        WORKDATE        VARCHAR(40) COLLATE Korean_100_CS_AI_KS_WS_SC_UTF8
+        , YEARWEEK      VARCHAR(40) COLLATE Korean_100_CS_AI_KS_WS_SC_UTF8
+        , YEARMONTH     VARCHAR(40) COLLATE Korean_100_CS_AI_KS_WS_SC_UTF8
+        , ITEMID        VARCHAR(40) COLLATE Korean_100_CS_AI_KS_WS_SC_UTF8
+        , SUBTOPICS     VARCHAR(40) COLLATE Korean_100_CS_AI_KS_WS_SC_UTF8
+        , ORDERNO       SMALLINT
+        , RATEFLAG      VARCHAR(40) COLLATE Korean_100_CS_AI_KS_WS_SC_UTF8
+        , PLANQTY       FLOAT
+        , RESULTQTY     FLOAT
+        , GAPQTY        FLOAT
+        , TYPES         VARCHAR(40) COLLATE Korean_100_CS_AI_KS_WS_SC_UTF8
+    )
+    ;    
+    
+    -----------------------------
+    -- 2. TEMP TABLE INSERT 
+    -----------------------------
+
+    --
+    -- 2.01 : 조회 항목 리스트 생성
+    --
+    INSERT INTO @LEFT_BASE
+    SELECT 1 AS ORDERNO, &#x27;PREV_BM_NORMAL&#x27; AS TOPICS, &#x27;TIME&#x27; AS SUBTOPICS, &#x27;TIME_PREV_BM_NORMAL_RATE&#x27;  UNION ALL 
+    SELECT 2 AS ORDERNO, &#x27;PREV_BM_NORMAL&#x27; AS TOPICS, &#x27;PER&#x27; AS SUBTOPICS, &#x27;PER_PREV_BM_NORMAL_RATE&#x27;  UNION ALL 
+    SELECT 3 AS ORDERNO, &#x27;PREV_BM_NORMAL&#x27; AS TOPICS, &#x27;TOTAL&#x27; AS SUBTOPICS, &#x27;TOTAL_PREV_BM_NORMAL_RATE&#x27;  UNION ALL 
+    SELECT 4 AS ORDERNO, &#x27;PREV_BM_NOCHARGE&#x27; AS TOPICS, &#x27;TIME&#x27; AS SUBTOPICS, &#x27;TIME_PREV_BM_NOCHARGE_RATE&#x27;  UNION ALL 
+    SELECT 5 AS ORDERNO, &#x27;PREV_BM_NOCHARGE&#x27; AS TOPICS, &#x27;PER&#x27; AS SUBTOPICS, &#x27;PER_PREV_BM_NOCHARGE_RATE&#x27;  UNION ALL 
+    SELECT 6 AS ORDERNO, &#x27;PREV_BM_NOCHARGE&#x27; AS TOPICS, &#x27;TOTAL&#x27; AS SUBTOPICS, &#x27;TOTAL_PREV_BM_NOCHARGE_RATE&#x27;  UNION ALL 
+    SELECT 7 AS ORDERNO, &#x27;PREV_DRY&#x27; AS TOPICS, &#x27;TIME&#x27; AS SUBTOPICS, &#x27;TIME_PREV_DRY_RATE&#x27;  UNION ALL 
+    SELECT 8 AS ORDERNO, &#x27;PREV_DRY&#x27; AS TOPICS, &#x27;PER&#x27; AS SUBTOPICS, &#x27;PER_PREV_DRY_RATE&#x27;  UNION ALL 
+    SELECT 9 AS ORDERNO, &#x27;PREV_DRY&#x27; AS TOPICS, &#x27;TOTAL&#x27; AS SUBTOPICS, &#x27;TOTAL_PREV_DRY_RATE&#x27;  UNION ALL 
+    SELECT 10 AS ORDERNO, &#x27;PREV_PACKING&#x27; AS TOPICS, &#x27;TIME&#x27; AS SUBTOPICS, &#x27;TIME_PREV_PACKING_RATE&#x27;  UNION ALL 
+    SELECT 11 AS ORDERNO, &#x27;PREV_PACKING&#x27; AS TOPICS, &#x27;PER&#x27; AS SUBTOPICS, &#x27;PER_PREV_PACKING_RATE&#x27;  UNION ALL 
+    SELECT 12 AS ORDERNO, &#x27;PREV_PACKING&#x27; AS TOPICS, &#x27;TOTAL&#x27; AS SUBTOPICS, &#x27;TOTAL_PREV_PACKING_RATE&#x27;  UNION ALL 
+    SELECT 13 AS ORDERNO, &#x27;BP_INPUT&#x27; AS TOPICS, &#x27;TIME&#x27; AS SUBTOPICS, &#x27;TIME_BP_INPUT_RATE&#x27;  UNION ALL 
+    SELECT 14 AS ORDERNO, &#x27;BP_INPUT&#x27; AS TOPICS, &#x27;PER&#x27; AS SUBTOPICS, &#x27;PER_BP_INPUT_RATE&#x27;  UNION ALL 
+    SELECT 15 AS ORDERNO, &#x27;BP_INPUT&#x27; AS TOPICS, &#x27;TOTAL&#x27; AS SUBTOPICS, &#x27;TOTAL_BP_INPUT_RATE&#x27;  UNION ALL 
+    SELECT 16 AS ORDERNO, &#x27;KILN&#x27; AS TOPICS, &#x27;TIME&#x27; AS SUBTOPICS, &#x27;TIME_KILN_RATE&#x27;  UNION ALL 
+    SELECT 17 AS ORDERNO, &#x27;KILN&#x27; AS TOPICS, &#x27;PER&#x27; AS SUBTOPICS, &#x27;PER_KILN_RATE&#x27;  UNION ALL 
+    SELECT 18 AS ORDERNO, &#x27;KILN&#x27; AS TOPICS, &#x27;TOTAL&#x27; AS SUBTOPICS, &#x27;TOTAL_KILN_RATE&#x27;  UNION ALL 
+    SELECT 19 AS ORDERNO, &#x27;OFF_GAS&#x27; AS TOPICS, &#x27;TIME&#x27; AS SUBTOPICS, &#x27;TIME_OFF_GAS_RATE&#x27;  UNION ALL 
+    SELECT 20 AS ORDERNO, &#x27;OFF_GAS&#x27; AS TOPICS, &#x27;PER&#x27; AS SUBTOPICS, &#x27;PER_OFF_GAS_RATE&#x27;  UNION ALL 
+    SELECT 21 AS ORDERNO, &#x27;OFF_GAS&#x27; AS TOPICS, &#x27;TOTAL&#x27; AS SUBTOPICS, &#x27;TOTAL_OFF_GAS_RATE&#x27;  UNION ALL 
+    SELECT 22 AS ORDERNO, &#x27;PREMIX_01&#x27; AS TOPICS, &#x27;TIME&#x27; AS SUBTOPICS, &#x27;TIME_PREMIX_01_RATE&#x27;  UNION ALL 
+    SELECT 23 AS ORDERNO, &#x27;PREMIX_01&#x27; AS TOPICS, &#x27;PER&#x27; AS SUBTOPICS, &#x27;PER_PREMIX_01_RATE&#x27;  UNION ALL 
+    SELECT 24 AS ORDERNO, &#x27;PREMIX_01&#x27; AS TOPICS, &#x27;TOTAL&#x27; AS SUBTOPICS, &#x27;TOTAL_PREMIX_01_RATE&#x27;  UNION ALL 
+    SELECT 25 AS ORDERNO, &#x27;PREMIX_02&#x27; AS TOPICS, &#x27;TIME&#x27; AS SUBTOPICS, &#x27;TIME_PREMIX_02_RATE&#x27;  UNION ALL 
+    SELECT 26 AS ORDERNO, &#x27;PREMIX_02&#x27; AS TOPICS, &#x27;PER&#x27; AS SUBTOPICS, &#x27;PER_PREMIX_02_RATE&#x27;  UNION ALL 
+    SELECT 27 AS ORDERNO, &#x27;PREMIX_02&#x27; AS TOPICS, &#x27;TOTAL&#x27; AS SUBTOPICS, &#x27;TOTAL_PREMIX_02_RATE&#x27;  UNION ALL 
+    SELECT 28 AS ORDERNO, &#x27;R1401_01&#x27; AS TOPICS, &#x27;TIME&#x27; AS SUBTOPICS, &#x27;TIME_R1401_01_RATE&#x27;  UNION ALL 
+    SELECT 29 AS ORDERNO, &#x27;R1401_01&#x27; AS TOPICS, &#x27;PER&#x27; AS SUBTOPICS, &#x27;PER_R1401_01_RATE&#x27;  UNION ALL 
+    SELECT 30 AS ORDERNO, &#x27;R1401_01&#x27; AS TOPICS, &#x27;TOTAL&#x27; AS SUBTOPICS, &#x27;TOTAL_R1401_01_RATE&#x27;  UNION ALL 
+    SELECT 31 AS ORDERNO, &#x27;R1401_02&#x27; AS TOPICS, &#x27;TIME&#x27; AS SUBTOPICS, &#x27;TIME_R1401_02_RATE&#x27;  UNION ALL 
+    SELECT 32 AS ORDERNO, &#x27;R1401_02&#x27; AS TOPICS, &#x27;PER&#x27; AS SUBTOPICS, &#x27;PER_R1401_02_RATE&#x27;  UNION ALL 
+    SELECT 33 AS ORDERNO, &#x27;R1401_02&#x27; AS TOPICS, &#x27;TOTAL&#x27; AS SUBTOPICS, &#x27;TOTAL_R1401_02_RATE&#x27;  UNION ALL 
+    SELECT 34 AS ORDERNO, &#x27;R1401_03&#x27; AS TOPICS, &#x27;TIME&#x27; AS SUBTOPICS, &#x27;TIME_R1401_03_RATE&#x27;  UNION ALL 
+    SELECT 35 AS ORDERNO, &#x27;R1401_03&#x27; AS TOPICS, &#x27;PER&#x27; AS SUBTOPICS, &#x27;PER_R1401_03_RATE&#x27;  UNION ALL 
+    SELECT 36 AS ORDERNO, &#x27;R1401_03&#x27; AS TOPICS, &#x27;TOTAL&#x27; AS SUBTOPICS, &#x27;TOTAL_R1401_03_RATE&#x27;  UNION ALL 
+    SELECT 37 AS ORDERNO, &#x27;R1401_04&#x27; AS TOPICS, &#x27;TIME&#x27; AS SUBTOPICS, &#x27;TIME_R1401_04_RATE&#x27;  UNION ALL 
+    SELECT 38 AS ORDERNO, &#x27;R1401_04&#x27; AS TOPICS, &#x27;PER&#x27; AS SUBTOPICS, &#x27;PER_R1401_04_RATE&#x27;  UNION ALL 
+    SELECT 39 AS ORDERNO, &#x27;R1401_04&#x27; AS TOPICS, &#x27;TOTAL&#x27; AS SUBTOPICS, &#x27;TOTAL_R1401_04_RATE&#x27;  UNION ALL 
+    SELECT 40 AS ORDERNO, &#x27;R1402_01&#x27; AS TOPICS, &#x27;TIME&#x27; AS SUBTOPICS, &#x27;TIME_R1402_01_RATE&#x27;  UNION ALL 
+    SELECT 41 AS ORDERNO, &#x27;R1402_01&#x27; AS TOPICS, &#x27;PER&#x27; AS SUBTOPICS, &#x27;PER_R1402_01_RATE&#x27;  UNION ALL 
+    SELECT 42 AS ORDERNO, &#x27;R1402_01&#x27; AS TOPICS, &#x27;TOTAL&#x27; AS SUBTOPICS, &#x27;TOTAL_R1402_01_RATE&#x27;  UNION ALL 
+    SELECT 43 AS ORDERNO, &#x27;R1402_02&#x27; AS TOPICS, &#x27;TIME&#x27; AS SUBTOPICS, &#x27;TIME_R1402_02_RATE&#x27;  UNION ALL 
+    SELECT 44 AS ORDERNO, &#x27;R1402_02&#x27; AS TOPICS, &#x27;PER&#x27; AS SUBTOPICS, &#x27;PER_R1402_02_RATE&#x27;  UNION ALL 
+    SELECT 45 AS ORDERNO, &#x27;R1402_02&#x27; AS TOPICS, &#x27;TOTAL&#x27; AS SUBTOPICS, &#x27;TOTAL_R1402_02_RATE&#x27;  UNION ALL 
+    SELECT 46 AS ORDERNO, &#x27;R1402_03&#x27; AS TOPICS, &#x27;TIME&#x27; AS SUBTOPICS, &#x27;TIME_R1402_03_RATE&#x27;  UNION ALL 
+    SELECT 47 AS ORDERNO, &#x27;R1402_03&#x27; AS TOPICS, &#x27;PER&#x27; AS SUBTOPICS, &#x27;PER_R1402_03_RATE&#x27;  UNION ALL 
+    SELECT 48 AS ORDERNO, &#x27;R1402_03&#x27; AS TOPICS, &#x27;TOTAL&#x27; AS SUBTOPICS, &#x27;TOTAL_R1402_03_RATE&#x27;  UNION ALL 
+    SELECT 49 AS ORDERNO, &#x27;CE1401_01&#x27; AS TOPICS, &#x27;TIME&#x27; AS SUBTOPICS, &#x27;TIME_CE1401_01_RATE&#x27;  UNION ALL 
+    SELECT 50 AS ORDERNO, &#x27;CE1401_01&#x27; AS TOPICS, &#x27;PER&#x27; AS SUBTOPICS, &#x27;PER_CE1401_01_RATE&#x27;  UNION ALL 
+    SELECT 51 AS ORDERNO, &#x27;CE1401_01&#x27; AS TOPICS, &#x27;TOTAL&#x27; AS SUBTOPICS, &#x27;TOTAL_CE1401_01_RATE&#x27;  UNION ALL 
+    SELECT 52 AS ORDERNO, &#x27;CE1401_02&#x27; AS TOPICS, &#x27;TIME&#x27; AS SUBTOPICS, &#x27;TIME_CE1401_02_RATE&#x27;  UNION ALL 
+    SELECT 53 AS ORDERNO, &#x27;CE1401_02&#x27; AS TOPICS, &#x27;PER&#x27; AS SUBTOPICS, &#x27;PER_CE1401_02_RATE&#x27;  UNION ALL 
+    SELECT 54 AS ORDERNO, &#x27;CE1401_02&#x27; AS TOPICS, &#x27;TOTAL&#x27; AS SUBTOPICS, &#x27;TOTAL_CE1401_02_RATE&#x27;  UNION ALL 
+    SELECT 55 AS ORDERNO, &#x27;PK1402&#x27; AS TOPICS, &#x27;TIME&#x27; AS SUBTOPICS, &#x27;TIME_PK1402_RATE&#x27;  UNION ALL 
+    SELECT 56 AS ORDERNO, &#x27;PK1402&#x27; AS TOPICS, &#x27;PER&#x27; AS SUBTOPICS, &#x27;PER_PK1402_RATE&#x27;  UNION ALL 
+    SELECT 57 AS ORDERNO, &#x27;PK1402&#x27; AS TOPICS, &#x27;TOTAL&#x27; AS SUBTOPICS, &#x27;TOTAL_PK1402_RATE&#x27;  UNION ALL 
+    SELECT 58 AS ORDERNO, &#x27;LI_PACKING&#x27; AS TOPICS, &#x27;TIME&#x27; AS SUBTOPICS, &#x27;TIME_LI_PACKING_RATE&#x27;  UNION ALL 
+    SELECT 59 AS ORDERNO, &#x27;LI_PACKING&#x27; AS TOPICS, &#x27;PER&#x27; AS SUBTOPICS, &#x27;PER_LI_PACKING_RATE&#x27;  UNION ALL 
+    SELECT 60 AS ORDERNO, &#x27;LI_PACKING&#x27; AS TOPICS, &#x27;TOTAL&#x27; AS SUBTOPICS, &#x27;TOTAL_LI_PACKING_RATE&#x27;  UNION ALL 
+    SELECT 61 AS ORDERNO, &#x27;R1403_01&#x27; AS TOPICS, &#x27;TIME&#x27; AS SUBTOPICS, &#x27;TIME_R1403_01_RATE&#x27;  UNION ALL 
+    SELECT 62 AS ORDERNO, &#x27;R1403_01&#x27; AS TOPICS, &#x27;PER&#x27; AS SUBTOPICS, &#x27;PER_R1403_01_RATE&#x27;  UNION ALL 
+    SELECT 63 AS ORDERNO, &#x27;R1403_01&#x27; AS TOPICS, &#x27;TOTAL&#x27; AS SUBTOPICS, &#x27;TOTAL_R1403_01_RATE&#x27;  UNION ALL 
+    SELECT 64 AS ORDERNO, &#x27;R1403_02&#x27; AS TOPICS, &#x27;TIME&#x27; AS SUBTOPICS, &#x27;TIME_R1403_02_RATE&#x27;  UNION ALL 
+    SELECT 65 AS ORDERNO, &#x27;R1403_02&#x27; AS TOPICS, &#x27;PER&#x27; AS SUBTOPICS, &#x27;PER_R1403_02_RATE&#x27;  UNION ALL 
+    SELECT 66 AS ORDERNO, &#x27;R1403_02&#x27; AS TOPICS, &#x27;TOTAL&#x27; AS SUBTOPICS, &#x27;TOTAL_R1403_02_RATE&#x27;  UNION ALL 
+    SELECT 67 AS ORDERNO, &#x27;R1403_03&#x27; AS TOPICS, &#x27;TIME&#x27; AS SUBTOPICS, &#x27;TIME_R1403_03_RATE&#x27;  UNION ALL 
+    SELECT 68 AS ORDERNO, &#x27;R1403_03&#x27; AS TOPICS, &#x27;PER&#x27; AS SUBTOPICS, &#x27;PER_R1403_03_RATE&#x27;  UNION ALL 
+    SELECT 69 AS ORDERNO, &#x27;R1403_03&#x27; AS TOPICS, &#x27;TOTAL&#x27; AS SUBTOPICS, &#x27;TOTAL_R1403_03_RATE&#x27;  UNION ALL 
+    SELECT 70 AS ORDERNO, &#x27;CE1402_01&#x27; AS TOPICS, &#x27;TIME&#x27; AS SUBTOPICS, &#x27;TIME_CE1402_01_RATE&#x27;  UNION ALL 
+    SELECT 71 AS ORDERNO, &#x27;CE1402_01&#x27; AS TOPICS, &#x27;PER&#x27; AS SUBTOPICS, &#x27;PER_CE1402_01_RATE&#x27;  UNION ALL 
+    SELECT 72 AS ORDERNO, &#x27;CE1402_01&#x27; AS TOPICS, &#x27;TOTAL&#x27; AS SUBTOPICS, &#x27;TOTAL_CE1402_01_RATE&#x27;  UNION ALL 
+    SELECT 73 AS ORDERNO, &#x27;CE1402_02&#x27; AS TOPICS, &#x27;TIME&#x27; AS SUBTOPICS, &#x27;TIME_CE1402_02_RATE&#x27;  UNION ALL 
+    SELECT 74 AS ORDERNO, &#x27;CE1402_02&#x27; AS TOPICS, &#x27;PER&#x27; AS SUBTOPICS, &#x27;PER_CE1402_02_RATE&#x27;  UNION ALL 
+    SELECT 75 AS ORDERNO, &#x27;CE1402_02&#x27; AS TOPICS, &#x27;TOTAL&#x27; AS SUBTOPICS, &#x27;TOTAL_CE1402_02_RATE&#x27;  UNION ALL 
+    SELECT 76 AS ORDERNO, &#x27;PK1501&#x27; AS TOPICS, &#x27;TIME&#x27; AS SUBTOPICS, &#x27;TIME_PK1501_RATE&#x27;  UNION ALL 
+    SELECT 77 AS ORDERNO, &#x27;PK1501&#x27; AS TOPICS, &#x27;PER&#x27; AS SUBTOPICS, &#x27;PER_PK1501_RATE&#x27;  UNION ALL 
+    SELECT 78 AS ORDERNO, &#x27;PK1501&#x27; AS TOPICS, &#x27;TOTAL&#x27; AS SUBTOPICS, &#x27;TOTAL_PK1501_RATE&#x27;  UNION ALL 
+    SELECT 79 AS ORDERNO, &#x27;PK1502&#x27; AS TOPICS, &#x27;TIME&#x27; AS SUBTOPICS, &#x27;TIME_PK1502_RATE&#x27;  UNION ALL 
+    SELECT 80 AS ORDERNO, &#x27;PK1502&#x27; AS TOPICS, &#x27;PER&#x27; AS SUBTOPICS, &#x27;PER_PK1502_RATE&#x27;  UNION ALL 
+    SELECT 81 AS ORDERNO, &#x27;PK1502&#x27; AS TOPICS, &#x27;TOTAL&#x27; AS SUBTOPICS, &#x27;TOTAL_PK1502_RATE&#x27;  UNION ALL 
+    SELECT 82 AS ORDERNO, &#x27;PK1503&#x27; AS TOPICS, &#x27;TIME&#x27; AS SUBTOPICS, &#x27;TIME_PK1503_RATE&#x27;  UNION ALL 
+    SELECT 83 AS ORDERNO, &#x27;PK1503&#x27; AS TOPICS, &#x27;PER&#x27; AS SUBTOPICS, &#x27;PER_PK1503_RATE&#x27;  UNION ALL 
+    SELECT 84 AS ORDERNO, &#x27;PK1503&#x27; AS TOPICS, &#x27;TOTAL&#x27; AS SUBTOPICS, &#x27;TOTAL_PK1503_RATE&#x27;  UNION ALL 
+    SELECT 85 AS ORDERNO, &#x27;PK1504&#x27; AS TOPICS, &#x27;TIME&#x27; AS SUBTOPICS, &#x27;TIME_PK1504_RATE&#x27;  UNION ALL 
+    SELECT 86 AS ORDERNO, &#x27;PK1504&#x27; AS TOPICS, &#x27;PER&#x27; AS SUBTOPICS, &#x27;PER_PK1504_RATE&#x27;  UNION ALL 
+    SELECT 87 AS ORDERNO, &#x27;PK1504&#x27; AS TOPICS, &#x27;TOTAL&#x27; AS SUBTOPICS, &#x27;TOTAL_PK1504_RATE&#x27;  UNION ALL 
+    SELECT 88 AS ORDERNO, &#x27;COALESCER&#x27; AS TOPICS, &#x27;TIME&#x27; AS SUBTOPICS, &#x27;TIME_COALESCER_RATE&#x27;  UNION ALL 
+    SELECT 89 AS ORDERNO, &#x27;COALESCER&#x27; AS TOPICS, &#x27;PER&#x27; AS SUBTOPICS, &#x27;PER_COALESCER_RATE&#x27;  UNION ALL 
+    SELECT 90 AS ORDERNO, &#x27;COALESCER&#x27; AS TOPICS, &#x27;TOTAL&#x27; AS SUBTOPICS, &#x27;TOTAL_COALESCER_RATE&#x27;  UNION ALL 
+    SELECT 91 AS ORDERNO, &#x27;CO_TRANSFER&#x27; AS TOPICS, &#x27;TIME&#x27; AS SUBTOPICS, &#x27;TIME_CO_TRANSFER_RATE&#x27;  UNION ALL 
+    SELECT 92 AS ORDERNO, &#x27;CO_TRANSFER&#x27; AS TOPICS, &#x27;PER&#x27; AS SUBTOPICS, &#x27;PER_CO_TRANSFER_RATE&#x27;  UNION ALL 
+    SELECT 93 AS ORDERNO, &#x27;CO_TRANSFER&#x27; AS TOPICS, &#x27;TOTAL&#x27; AS SUBTOPICS, &#x27;TOTAL_CO_TRANSFER_RATE&#x27;  UNION ALL 
+    SELECT 94 AS ORDERNO, &#x27;CRYSTALIZER&#x27; AS TOPICS, &#x27;TIME&#x27; AS SUBTOPICS, &#x27;TIME_CRYSTALIZER_RATE&#x27;  UNION ALL 
+    SELECT 95 AS ORDERNO, &#x27;CRYSTALIZER&#x27; AS TOPICS, &#x27;PER&#x27; AS SUBTOPICS, &#x27;PER_CRYSTALIZER_RATE&#x27;  UNION ALL 
+    SELECT 96 AS ORDERNO, &#x27;CRYSTALIZER&#x27; AS TOPICS, &#x27;TOTAL&#x27; AS SUBTOPICS, &#x27;TOTAL_CRYSTALIZER_RATE&#x27;  UNION ALL 
+    SELECT 97 AS ORDERNO, &#x27;PK1602&#x27; AS TOPICS, &#x27;TIME&#x27; AS SUBTOPICS, &#x27;TIME_PK1602_RATE&#x27;  UNION ALL 
+    SELECT 98 AS ORDERNO, &#x27;PK1602&#x27; AS TOPICS, &#x27;PER&#x27; AS SUBTOPICS, &#x27;PER_PK1602_RATE&#x27;  UNION ALL 
+    SELECT 99 AS ORDERNO, &#x27;PK1602&#x27; AS TOPICS, &#x27;TOTAL&#x27; AS SUBTOPICS, &#x27;TOTAL_PK1602_RATE&#x27;  UNION ALL 
+    SELECT 100 AS ORDERNO, &#x27;NI_PACKING&#x27; AS TOPICS, &#x27;TIME&#x27; AS SUBTOPICS, &#x27;TIME_NI_PACKING_RATE&#x27;  UNION ALL 
+    SELECT 101 AS ORDERNO, &#x27;NI_PACKING&#x27; AS TOPICS, &#x27;PER&#x27; AS SUBTOPICS, &#x27;PER_NI_PACKING_RATE&#x27;  UNION ALL 
+    SELECT 102 AS ORDERNO, &#x27;NI_PACKING&#x27; AS TOPICS, &#x27;TOTAL&#x27; AS SUBTOPICS, &#x27;TOTAL_NI_PACKING_RATE&#x27;    
+    ;
+    -- 2.01 : 전처리 조회 부분 END
+
+
+    --
+    -- 2.02 : 가동률 기준정보 및 결과 저장 테이블
+    -- 
+    INSERT INTO @OPERATION_BASE_DATA   
+    SELECT 
+        MA.WORKDATE
+        , MA.YEARMONTH
+        , MA.YEARWEEK
+        , MA.COLNAME AS TOPICS
+        , MA.COLVAL  
+        , MB.ORDERNO
+        , MB.ITEMID
+        , MB.ISUSETIMERATE
+        , MB.ISUSEPERFORMANCERATE
+        , ISNULL(MB.TIMERATE, 0) AS TIMERATE
+        , ISNULL(MB.PERFORMANCERATE, 0) AS PERFORMANCERATE
+        , ISNULL(MB.COMPRERATE, 0) AS COMPRERATE
+        , MB.SUBTOPICS
+    FROM 
+    (
+        SELECT 
+            P.WORKDATE
+            , P.YEARMONTH
+            , P.YEARWEEK
+            , P.COLNAME
+            , P.COLVAL
+        FROM 
+        (
+            SELECT 
+                M.WORKDATE
+                , M.YEARMONTH
+                , M.YEARWEEK
+                , ISNULL( OS.TIME_PREV_BM_NORMAL_RATE  , 0 ) AS TIME_PREV_BM_NORMAL_RATE
+                , ISNULL( OS.PER_PREV_BM_NORMAL_RATE   , 0 ) AS PER_PREV_BM_NORMAL_RATE
+                , ISNULL( OS.TIME_PREV_BM_NOCHARGE_RATE, 0 ) AS TIME_PREV_BM_NOCHARGE_RATE
+                , ISNULL( OS.PER_PREV_BM_NOCHARGE_RATE , 0 ) AS PER_PREV_BM_NOCHARGE_RATE
+                , ISNULL( OS.TIME_PREV_DRY_RATE        , 0 ) AS TIME_PREV_DRY_RATE
+                , ISNULL( OS.PER_PREV_DRY_RATE         , 0 ) AS PER_PREV_DRY_RATE
+                , ISNULL( OS.TIME_PREV_PACKING_RATE    , 0 ) AS TIME_PREV_PACKING_RATE
+                , ISNULL( OS.PER_PREV_PACKING_RATE     , 0 ) AS PER_PREV_PACKING_RATE
+                , ISNULL( OS.TIME_BP_INPUT_RATE        , 0 ) AS TIME_BP_INPUT_RATE
+                , ISNULL( OS.PER_BP_INPUT_RATE         , 0 ) AS PER_BP_INPUT_RATE
+                , ISNULL( OS.TIME_KILN_RATE            , 0 ) AS TIME_KILN_RATE
+                , ISNULL( OS.PER_KILN_RATE             , 0 ) AS PER_KILN_RATE
+                , ISNULL( OS.TIME_OFF_GAS_RATE         , 0 ) AS TIME_OFF_GAS_RATE
+                , ISNULL( OS.PER_OFF_GAS_RATE          , 0 ) AS PER_OFF_GAS_RATE
+                , ISNULL( OS.TIME_PREMIX_01_RATE       , 0) AS TIME_PREMIX_01_RATE
+                , ISNULL( OS.PER_PREMIX_01_RATE        , 0) AS PER_PREMIX_01_RATE
+                , ISNULL( OS.TIME_PREMIX_02_RATE       , 0) AS TIME_PREMIX_02_RATE
+                , ISNULL( OS.PER_PREMIX_02_RATE        , 0) AS PER_PREMIX_02_RATE
+                , ISNULL( OS.TIME_R1401_01_RATE        , 0) AS TIME_R1401_01_RATE
+                , ISNULL( OS.PER_R1401_01_RATE         , 0) AS PER_R1401_01_RATE
+                , ISNULL( OS.TIME_R1401_02_RATE        , 0) AS TIME_R1401_02_RATE
+                , ISNULL( OS.PER_R1401_02_RATE         , 0) AS PER_R1401_02_RATE
+                , ISNULL( OS.TIME_R1401_03_RATE        , 0) AS TIME_R1401_03_RATE
+                , ISNULL( OS.PER_R1401_03_RATE         , 0) AS PER_R1401_03_RATE
+                , ISNULL( OS.TIME_R1401_04_RATE        , 0) AS TIME_R1401_04_RATE
+                , ISNULL( OS.PER_R1401_04_RATE         , 0) AS PER_R1401_04_RATE
+                , ISNULL( OS.TIME_R1402_01_RATE        , 0) AS TIME_R1402_01_RATE
+                , ISNULL( OS.PER_R1402_01_RATE         , 0) AS PER_R1402_01_RATE
+                , ISNULL( OS.TIME_R1402_02_RATE        , 0) AS TIME_R1402_02_RATE
+                , ISNULL( OS.PER_R1402_02_RATE         , 0) AS PER_R1402_02_RATE
+                , ISNULL( OS.TIME_R1402_03_RATE        , 0) AS TIME_R1402_03_RATE
+                , ISNULL( OS.PER_R1402_03_RATE         , 0) AS PER_R1402_03_RATE
+                , ISNULL( OS.TIME_CE1401_01_RATE       , 0) AS TIME_CE1401_01_RATE
+                , ISNULL( OS.PER_CE1401_01_RATE        , 0) AS PER_CE1401_01_RATE
+                , ISNULL( OS.TIME_CE1401_02_RATE       , 0) AS TIME_CE1401_02_RATE
+                , ISNULL( OS.PER_CE1401_02_RATE        , 0) AS PER_CE1401_02_RATE
+                , ISNULL( OS.TIME_PK1402_RATE          , 0) AS TIME_PK1402_RATE
+                , ISNULL( OS.PER_PK1402_RATE           , 0) AS PER_PK1402_RATE
+                , ISNULL( OS.TIME_LI_PACKING_RATE      , 0) AS TIME_LI_PACKING_RATE
+                , ISNULL( OS.PER_LI_PACKING_RATE       , 0) AS PER_LI_PACKING_RATE
+                , ISNULL( OS.TIME_R1403_01_RATE        , 0) AS TIME_R1403_01_RATE
+                , ISNULL( OS.PER_R1403_01_RATE         , 0) AS PER_R1403_01_RATE
+                , ISNULL( OS.TIME_R1403_02_RATE        , 0) AS TIME_R1403_02_RATE
+                , ISNULL( OS.PER_R1403_02_RATE         , 0) AS PER_R1403_02_RATE
+                , ISNULL( OS.TIME_R1403_03_RATE        , 0) AS TIME_R1403_03_RATE
+                , ISNULL( OS.PER_R1403_03_RATE         , 0) AS PER_R1403_03_RATE
+                , ISNULL( OS.TIME_CE1402_01_RATE       , 0) AS TIME_CE1402_01_RATE
+                , ISNULL( OS.PER_CE1402_01_RATE        , 0) AS PER_CE1402_01_RATE
+                , ISNULL( OS.TIME_CE1402_02_RATE       , 0) AS TIME_CE1402_02_RATE
+                , ISNULL( OS.PER_CE1402_02_RATE        , 0) AS PER_CE1402_02_RATE
+                , ISNULL( OS.TIME_PK1501_RATE          , 0 ) AS TIME_PK1501_RATE
+                , ISNULL( OS.PER_PK1501_RATE           , 0 ) AS PER_PK1501_RATE
+                , ISNULL( OS.TIME_PK1502_RATE          , 0 ) AS TIME_PK1502_RATE
+                , ISNULL( OS.PER_PK1502_RATE           , 0 ) AS PER_PK1502_RATE
+                , ISNULL( OS.TIME_PK1503_RATE          , 0 ) AS TIME_PK1503_RATE
+                , ISNULL( OS.PER_PK1503_RATE           , 0 ) AS PER_PK1503_RATE
+                , ISNULL( OS.TIME_PK1504_RATE          , 0 ) AS TIME_PK1504_RATE
+                , ISNULL( OS.PER_PK1504_RATE           , 0 ) AS PER_PK1504_RATE
+                , ISNULL( OS.TIME_COALESCER_RATE       , 0 ) AS TIME_COALESCER_RATE
+                , ISNULL( OS.PER_COALESCER_RATE        , 0 ) AS PER_COALESCER_RATE
+                , ISNULL( OS.TIME_CO_TRANSFER_RATE     , 0 ) AS TIME_CO_TRANSFER_RATE
+                , ISNULL( OS.PER_CO_TRANSFER_RATE      , 0 ) AS PER_CO_TRANSFER_RATE
+                , ISNULL( OS.TIME_CRYSTALIZER_RATE     , 0 ) AS TIME_CRYSTALIZER_RATE
+                , ISNULL( OS.PER_CRYSTALIZER_RATE      , 0 ) AS PER_CRYSTALIZER_RATE
+                , ISNULL( OS.TIME_PK1602_RATE          , 0 ) AS TIME_PK1602_RATE
+                , ISNULL( OS.PER_PK1602_RATE           , 0 ) AS PER_PK1602_RATE
+                , ISNULL( OS.TIME_NI_PACKING_RATE      , 0 ) AS TIME_NI_PACKING_RATE
+                , ISNULL( OS.PER_NI_PACKING_RATE       , 0 ) AS PER_NI_PACKING_RATE
+            FROM dbo.FN_RPT_DAY_WEEK_MONTH( @TYPES, @STARTDATE, @ENDDATE) M
+                INNER JOIN RPT_OPERATIONRATE_SUM OS
+                    ON  M.WORKDATE = OS.WORKDATE
+                    AND OS.ISUSABLE = &#x27;Usable&#x27;
+        ) OB
+        UNPIVOT 
+        (
+            COLVAL FOR COLNAME IN (
+                            TIME_PREV_BM_NORMAL_RATE, PER_PREV_BM_NORMAL_RATE, TIME_PREV_BM_NOCHARGE_RATE, PER_PREV_BM_NOCHARGE_RATE
+                            , TIME_PREV_DRY_RATE, PER_PREV_DRY_RATE, TIME_PREV_PACKING_RATE, PER_PREV_PACKING_RATE
+                            , TIME_BP_INPUT_RATE, PER_BP_INPUT_RATE, TIME_KILN_RATE, PER_KILN_RATE
+                            , TIME_OFF_GAS_RATE, PER_OFF_GAS_RATE, TIME_PREMIX_01_RATE, PER_PREMIX_01_RATE
+                            , TIME_PREMIX_02_RATE, PER_PREMIX_02_RATE, TIME_R1401_01_RATE, PER_R1401_01_RATE
+                            , TIME_R1401_02_RATE, PER_R1401_02_RATE, TIME_R1401_03_RATE, PER_R1401_03_RATE
+                            , TIME_R1401_04_RATE, PER_R1401_04_RATE, TIME_R1402_01_RATE, PER_R1402_01_RATE
+                            , TIME_R1402_02_RATE, PER_R1402_02_RATE, TIME_R1402_03_RATE, PER_R1402_03_RATE
+                            , TIME_CE1401_01_RATE, PER_CE1401_01_RATE, TIME_CE1401_02_RATE, PER_CE1401_02_RATE
+                            , TIME_PK1402_RATE, PER_PK1402_RATE, TIME_LI_PACKING_RATE, PER_LI_PACKING_RATE
+                            , TIME_R1403_01_RATE, PER_R1403_01_RATE, TIME_R1403_02_RATE, PER_R1403_02_RATE
+                            , TIME_R1403_03_RATE, PER_R1403_03_RATE, TIME_CE1402_01_RATE, PER_CE1402_01_RATE
+                            , TIME_CE1402_02_RATE, PER_CE1402_02_RATE, TIME_PK1501_RATE, PER_PK1501_RATE
+                            , TIME_PK1502_RATE, PER_PK1502_RATE, TIME_PK1503_RATE, PER_PK1503_RATE
+                            , TIME_PK1504_RATE, PER_PK1504_RATE, TIME_COALESCER_RATE, PER_COALESCER_RATE
+                            , TIME_CO_TRANSFER_RATE, PER_CO_TRANSFER_RATE, TIME_CRYSTALIZER_RATE, PER_CRYSTALIZER_RATE
+                            , TIME_PK1602_RATE, PER_PK1602_RATE, TIME_NI_PACKING_RATE, PER_NI_PACKING_RATE            
+                    )
+        ) P
+    ) MA
+    RIGHT OUTER JOIN 
+    (
+        SELECT
+            LB.ORDERNO
+            , LB.TOPICS AS ITEMID
+            , LB.COLNAME
+            , LB.SUBTOPICS
+            , OD.ISUSETIMERATE
+            , OD.ISUSEPERFORMANCERATE
+            , OD.TIMERATE
+            , OD.PERFORMANCERATE
+            , OD.COMPRERATE
+        FROM @LEFT_BASE LB
+            INNER JOIN RPT_OPERATIONRATE_DEFINITION OD
+            ON  LB.TOPICS = OD.ITEMID    
+    ) MB
+    ON MA.COLNAME = MB.COLNAME
+    ;
+    -- 2.02 : 가동률 기준정보 및 결과 저장 테이블 END
+ 
+
+
+    --
+    -- 2.03 : 조회 결과 저장 
+    --
+    WITH OPERATION_CALC_DATA AS 
+    (
+        SELECT 
+            OD.WORKDATE
+            , OD.YEARWEEK
+            , OD.YEARMONTH 
+            , OD.ITEMID
+            , OD.SUBTOPICS
+            , OD.ORDERNO
+            , CASE WHEN OD.SUBTOPICS = &#x27;TIME&#x27; THEN OD.ISUSETIMERATE
+                   WHEN OD.SUBTOPICS = &#x27;PER&#x27; THEN OD.ISUSEPERFORMANCERATE
+                   ELSE &#x27;Y&#x27;
+              END AS RATEFLAG
+            , CASE WHEN OD.SUBTOPICS = &#x27;TIME&#x27; THEN OD.TIMERATE 
+                   WHEN OD.SUBTOPICS = &#x27;PER&#x27; THEN OD.PERFORMANCERATE
+                   ELSE OD.COMPRERATE 
+              END AS PLANQTY
+            , OD.COLVAL AS RESULTQTY
+            , OD.COLVAL - ( CASE WHEN OD.SUBTOPICS = &#x27;TIME&#x27; THEN OD.TIMERATE ELSE OD.PERFORMANCERATE END )  AS GAPQTY
+            , @TYPES AS TYPES
+        FROM @OPERATION_BASE_DATA OD
+        GROUP BY OD.WORKDATE, OD.YEARWEEK, OD.YEARMONTH
+                , OD.ITEMID, OD.SUBTOPICS, ORDERNO
+                , CASE WHEN OD.SUBTOPICS = &#x27;TIME&#x27; THEN OD.ISUSETIMERATE WHEN OD.SUBTOPICS = &#x27;PER&#x27; THEN OD.ISUSEPERFORMANCERATE ELSE &#x27;Y&#x27;END
+                , CASE WHEN OD.SUBTOPICS = &#x27;TIME&#x27; THEN OD.TIMERATE WHEN OD.SUBTOPICS = &#x27;PER&#x27; THEN OD.PERFORMANCERATE ELSE OD.COMPRERATE END
+                , OD.COLVAL
+                , OD.COLVAL - ( CASE WHEN OD.SUBTOPICS = &#x27;TIME&#x27; THEN OD.TIMERATE ELSE OD.PERFORMANCERATE END )                
+    )
+    INSERT INTO #OPERATION_DATA
+    SELECT 
+        WORKDATE,YEARWEEK,YEARMONTH,ITEMID,SUBTOPICS,ORDERNO,RATEFLAG,PLANQTY,RESULTQTY,GAPQTY,TYPES
+    FROM OPERATION_CALC_DATA
+    WHERE WORKDATE IS NOT NULL
+    UNION ALL
+    SELECT 
+        M.WORKDATE
+        , M.YEARWEEK
+        , M.YEARMONTH
+        , M.ITEMID
+        , M.SUBTOPICS
+        , M.ORDERNO
+        , M.RATEFLAG
+        , M.PLANQTY
+        , CASE WHEN M.TIME_FLAG = &#x27;Y&#x27; AND M.PER_FLAG = &#x27;Y&#x27; THEN ROUND(M.TIME_QTY * M.PER_QTY / 100.0 , 3)
+               WHEN M.TIME_FLAG = &#x27;Y&#x27; AND M.PER_FLAG = &#x27;N&#x27; THEN M.TIME_QTY
+               WHEN M.TIME_FLAG = &#x27;N&#x27; AND M.PER_FLAG = &#x27;Y&#x27; THEN M.PER_QTY
+               WHEN M.TIME_FLAG = &#x27;N&#x27; AND M.PER_FLAG = &#x27;N&#x27; THEN 0
+               ELSE 0
+          END AS RESULTQTY
+        , (
+               ( CASE WHEN M.TIME_FLAG = &#x27;Y&#x27; AND M.PER_FLAG = &#x27;Y&#x27; THEN ROUND(M.TIME_QTY * M.PER_QTY / 100.0 , 3)
+                   WHEN M.TIME_FLAG = &#x27;Y&#x27; AND M.PER_FLAG = &#x27;N&#x27; THEN M.TIME_QTY
+                   WHEN M.TIME_FLAG = &#x27;N&#x27; AND M.PER_FLAG = &#x27;Y&#x27; THEN M.PER_QTY
+                   WHEN M.TIME_FLAG = &#x27;N&#x27; AND M.PER_FLAG = &#x27;N&#x27; THEN 0
+                   ELSE 0
+                 END ) -  M.PLANQTY
+          ) AS GAPQTY
+        , @TYPES AS TYPES
+    FROM 
+    (
+        SELECT 
+            M.WORKDATE
+            , M.YEARMONTH
+            , M.YEARWEEK
+            , M.ITEMID
+            , M.SUBTOPICS
+            , M.ORDERNO
+            , M.RATEFLAG
+            , M.PLANQTY
+            , OMA.RESULTQTY AS TIME_QTY
+            , OMB.RESULTQTY AS PER_QTY
+            , OMA.RATEFLAG AS TIME_FLAG
+            , OMB.RATEFLAG AS PER_FLAG
+        FROM 
+        (
+            SELECT 
+                RD.WORKDATE
+                , RD.YEARMONTH
+                , RD.YEARWEEK
+                , OBD.ITEMID
+                , OBD.SUBTOPICS
+                , OBD.ORDERNO
+                , OBD.RATEFLAG
+                , OBD.PLANQTY
+            FROM  dbo.FN_RPT_DAY_WEEK_MONTH( @TYPES, @STARTDATE, @ENDDATE) RD
+                LEFT OUTER JOIN OPERATION_CALC_DATA OBD
+                    ON  OBD.WORKDATE IS NULL    
+        ) M
+        LEFT OUTER JOIN OPERATION_CALC_DATA OMA
+            ON  M.WORKDATE = OMA.WORKDATE
+            AND M.ITEMID = OMA.ITEMID
+            AND OMA.SUBTOPICS = &#x27;TIME&#x27;
+        LEFT OUTER JOIN OPERATION_CALC_DATA OMB
+            ON  M.WORKDATE = OMB.WORKDATE
+            AND M.ITEMID = OMB.ITEMID
+            AND OMB.SUBTOPICS = &#x27;PER&#x27;
+    ) M
+    ORDER BY ORDERNO
+    ;
+
+
+    -----------------------------
+    -- 3. 죄종 조회 쿼리
+    -----------------------------  
+    
+    
+    --
+    -- 3.01 UNPIVOT 용 HEADER 생성
+    -- 
+    DECLARE @PV_HEADERS VARCHAR(MAX)
+         ,  @GRID_HEADERS VARCHAR(MAX)
+         ,  @UNION_HEADERS VARCHAR(MAX)
+    ;
+ 
+    SELECT 
+        @PV_HEADERS = STRING_AGG(&#x27;[&#x27; + RPTDATE + &#x27;]&#x27;, &#x27;, &#x27;) WITHIN GROUP ( ORDER BY M.RPTDATE )
+        , @GRID_HEADERS = STRING_AGG(&#x27;ISNULL([&#x27; + RPTDATE + &#x27;], 0) AS [&#x27; + PV_HEADER +&#x27;]&#x27;, &#x27;, &#x27;) WITHIN GROUP ( ORDER BY M.RPTDATE )
+        , @UNION_HEADERS = STRING_AGG(PV_HEADER, &#x27;, &#x27;) WITHIN GROUP ( ORDER BY M.RPTDATE ) 
+    FROM 
+    (
+    
+        SELECT 
+            M.RPTDATE
+            , M.TYPES
+            , CASE WHEN TYPES = &#x27;D&#x27; THEN LEFT(RPTDATE, 4) + &#x27;-&#x27; + SUBSTRING(RPTDATE, 5, 2) + &#x27;-&#x27; + RIGHT(RPTDATE, 2)
+                   WHEN TYPES = &#x27;W&#x27; THEN LEFT(RPTDATE, 4) + &#x27;-&#x27;  + RIGHT(RPTDATE, 2) + TYPES         
+                   ELSE LEFT(RPTDATE, 4) + &#x27;-&#x27;  + RIGHT(RPTDATE, 2) 
+              END AS PV_HEADER
+        FROM 
+        (
+            SELECT 
+                CASE WHEN OMD.TYPES = &#x27;D&#x27; THEN OMD.WORKDATE
+                     WHEN OMD.TYPES = &#x27;W&#x27; THEN OMD.YEARWEEK
+                     ELSE OMD.YEARMONTH 
+                END AS RPTDATE
+                , OMD.TYPES
+            FROM #OPERATION_DATA OMD
+            GROUP BY CASE WHEN OMD.TYPES = &#x27;D&#x27; THEN OMD.WORKDATE WHEN OMD.TYPES = &#x27;W&#x27; THEN OMD.YEARWEEK ELSE OMD.YEARMONTH END, TYPES
+        ) M
+        GROUP BY M.RPTDATE, M.TYPES
+    ) M 
+    ;
+    -- 3.01 UNPIVOT 용 HEADER 생성 END
+
+
+    --
+    -- 3.02 : 실행 쿼리 만들기
+    --
+    
+    DECLARE @PARAMS NVARCHAR(MAX);
+
+
+    SET @PARAMS = N&#x27;@P_RATEOPTION VARCHAR(40), @P_RATETYPE VARCHAR(40)&#x27;
+    
+    DECLARE @STRSQL NVARCHAR(MAX);
+    SET @STRSQL = 
+      N&#x27;WITH RPT_BASE_DATA AS 
+        (
+            SELECT 
+                CASE WHEN OD.TYPES = &#x27;&#x27;D&#x27;&#x27; THEN OD.WORKDATE
+                     WHEN OD.TYPES = &#x27;&#x27;W&#x27;&#x27; THEN OD.YEARWEEK
+                     ELSE OD.YEARMONTH
+                END AS RPTDATE
+                , ITEMID
+                , SUBTOPICS
+                , ORDERNO
+                , RATEFLAG
+                , ISNULL(PLANQTY, 0) AS PLANQTY
+                , ISNULL(RESULTQTY, 0) AS RESULTQTY
+                , ISNULL(GAPQTY, 0) AS GAPQTY
+            FROM #OPERATION_DATA OD
+            UNION ALL
+            SELECT 
+                &#x27;&#x27;SUMMARY&#x27;&#x27; AS RPTDATE
+                , ITEMID
+                , SUBTOPICS
+                , ORDERNO
+                , RATEFLAG
+                , AVG(ISNULL(PLANQTY, 0)) AS PLANQTY
+                , AVG(ISNULL(RESULTQTY, 0)) AS RESULTQTY
+                , AVG(ISNULL(GAPQTY, 0)) AS GAPQTY
+            FROM #OPERATION_DATA
+            GROUP BY ITEMID,SUBTOPICS,ORDERNO, RATEFLAG
+        )
+        SELECT 
+            CASE WHEN OD.UNIT = &#x27;&#x27;PREV&#x27;&#x27; THEN &#x27;&#x27;BM공정&#x27;&#x27; ELSE CB.CODENAME END AS UNIT
+            , OD.ITEMNAME
+            , CA.CODENAME AS RATETYPE
+            , CASE WHEN P.SUBORDERNO = 1  THEN &#x27;&#x27;계획&#x27;&#x27;
+                   WHEN P.SUBORDERNO = 2  THEN &#x27;&#x27;실적&#x27;&#x27;
+                   ELSE &#x27;&#x27;GAP&#x27;&#x27;
+              END AS ITEMTYPE
+            --, P.ITEMID
+            --, P.ITEMTYPE AS ITEMTYPES
+            , [SUMMARY], 
+            &#x27; + @GRID_HEADERS  + &#x27;
+         FROM 
+         (
+            SELECT 
+                UNP.RPTDATE
+                , UNP.ITEMID
+                , UNP.SUBTOPICS
+                , UNP.ORDERNO
+                , CASE WHEN UNP.ITEMTYPE = &#x27;&#x27;PLANQTY&#x27;&#x27; THEN 1 
+                       WHEN UNP.ITEMTYPE = &#x27;&#x27;RESULTQTY&#x27;&#x27; THEN 2
+                       WHEN UNP.ITEMTYPE = &#x27;&#x27;GAPQTY&#x27;&#x27; THEN 3
+                       ELSE 4
+                  END SUBORDERNO
+                , UNP.ITEMTYPE
+                , UNP.UP_VALUE
+            FROM RPT_BASE_DATA RD
+            UNPIVOT( UP_VALUE FOR ITEMTYPE IN ( PLANQTY, RESULTQTY, GAPQTY)) UNP
+        ) UP
+        PIVOT 
+        (
+            MAX(UP_VALUE) FOR RPTDATE IN ( [SUMMARY], 
+                &#x27; + @PV_HEADERS + &#x27; 
+            )
+        ) P
+        LEFT OUTER JOIN CIM_CODE CA
+            ON  P.SUBTOPICS = CA.CODEID
+            AND CA.CODECLASSID = &#x27;&#x27;RPT_OPERATIONRATETYPE&#x27;&#x27;
+            AND CA.SITEID = &#x27;&#x27;PL01&#x27;&#x27;
+        LEFT OUTER JOIN RPT_OPERATIONRATE_DEFINITION OD
+            ON  P.ITEMID = OD.ITEMID
+            AND OD.SITEID = &#x27;&#x27;PL01&#x27;&#x27;
+        LEFT OUTER JOIN CIM_CODE CB
+            ON  OD.UNIT = CB.CODEID
+            AND CB.CODECLASSID = &#x27;&#x27;RPT_UNIT&#x27;&#x27;
+            AND CB.SITEID = &#x27;&#x27;PL01&#x27;&#x27;
+        WHERE P.SUBORDERNO = (CASE WHEN ISNULL( @P_RATEOPTION, &#x27;&#x27;&#x27;&#x27;) = &#x27;&#x27;&#x27;&#x27; THEN P.SUBORDERNO
+                                  WHEN @P_RATEOPTION  = &#x27;&#x27;PLAN&#x27;&#x27; THEN 1
+                                  WHEN @P_RATEOPTION  = &#x27;&#x27;RESULT&#x27;&#x27; THEN 2
+                                  WHEN @P_RATEOPTION  = &#x27;&#x27;GAP&#x27;&#x27; THEN 3
+                                  ELSE 4
+                             END )
+        AND  P.SUBTOPICS = (CASE WHEN @P_RATETYPE = &#x27;&#x27;&#x27;&#x27; THEN P.SUBTOPICS ELSE @P_RATETYPE END)
+        ORDER BY P.ORDERNO, P.SUBORDERNO&#x27;
+        ;
+        -- 3.02 : 실행 쿼리 만들기 END
+
+        --
+        -- 3.03 : 실행
+        --
+
+        --PRINT &#x27;---------------------------------&#x27;
+        --PRINT @STRSQL;
+    
+        EXECUTE sp_executesql @STRSQL, 
+                      @PARAMS, 
+                      @P_RATEOPTION = @RATEOPTION,
+                      @P_RATETYPE   = @RATETYPE    
+
+END</pre></details><details class="sql"><summary>테이블 반환 함수 FN_RPT_DAY_WEEK_MONTH 정의 보기</summary><pre>-------------------------------------------------------------
+-- REPORT 용 조회 기간 일자/주차/월 생성
+--  SELECT * FROM dbo.FN_RPT_DAY_WEEK_MONTH(&#x27;D&#x27;, &#x27;20240101&#x27;, &#x27;20241231&#x27;)
+--  PARAM :
+--     @TYPES : 일,주,월 [ D | W | M ]
+--     @STARTDATE  : 시작일,주,월  [ 20241231 | 202453 | 202412 ]
+--     @ENDDATE  : 시작일,주,월  [ 20241231 | 202453 | 202412 ]
+-------------------------------------------------------------
+CREATE FUNCTION [dbo].[FN_RPT_DAY_WEEK_MONTH]
+(
+    @TYPES VARCHAR(40)
+    , @STARTDATE VARCHAR(40)
+    , @ENDDATE VARCHAR(40)
+)
+RETURNS @RETARRAY TABLE
+(
+    WORKDATE    VARCHAR(8)
+    , YEARS     VARCHAR(4)
+    , YEARMONTH VARCHAR(6)
+    , YEARWEEK  VARCHAR(6)
+)
+AS  
+BEGIN  
+    
+    INSERT @RETARRAY( WORKDATE,YEARS,YEARMONTH,YEARWEEK)
+    SELECT 
+        WORKDATE,YEARS,YEARMONTH,YEARWEEK
+    FROM 
+    (
+        SELECT 
+            CONVERT(VARCHAR(8), WORKDATE, 112) AS WORKDATE
+            , CONVERT(VARCHAR(4), WORKDATE, 112) AS YEARS
+            , CONVERT(VARCHAR(6), WORKDATE, 112) AS YEARMONTH
+            , CONVERT(VARCHAR(4), WORKDATE, 112) + FORMAT(DATEPART(WEEK, WORKDATE), &#x27;00&#x27;) AS YEARWEEK
+        FROM 
+        (
+            SELECT 
+                DATEADD(DAY, NUMBER, CONVERT(DATETIME, LEFT(@STARTDATE, 4) + &#x27;-01-01&#x27;)) AS WORKDATE
+            FROM master..spt_values 
+            WHERE TYPE = &#x27;P&#x27;
+            AND   NUMBER &lt; DATEDIFF(DAY, CONVERT(DATETIME, LEFT(@STARTDATE, 4) + &#x27;-01-01&#x27;), CONVERT(DATETIME, LEFT(@ENDDATE, 4) + &#x27;-12-31&#x27;))
+        ) M
+    ) P
+    WHERE  
+        ( 
+            (
+                ( @TYPES = &#x27;D&#x27; ) AND P.WORKDATE BETWEEN @STARTDATE AND @ENDDATE
+            )
+            OR 
+            (
+                ( @TYPES = &#x27;W&#x27; ) AND P.YEARWEEK BETWEEN @STARTDATE AND @ENDDATE
+            )
+            OR 
+            (
+                ( @TYPES = &#x27;M&#x27; ) AND P.YEARMONTH BETWEEN @STARTDATE AND @ENDDATE
+            )
+        )
+    ;
+
+    RETURN
+END</pre></details></details><details id="svc-2" class="svc" open><summary><b>#2</b> Query <code>CDS_Code_200</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-2">#2 검색조건 콤보 - LINEID (LINEID)</a> <a class="chip" href="#fn-3">#3 검색조건 콤보 - TYPES (SEARCHCYCLE)</a> <a class="chip" href="#fn-4">#4 검색조건 콤보 - RATETYPE (RATETYPE)</a> <a class="chip" href="#fn-5">#5 검색조건 콤보 - RATEOPTION (RATEOPTION)</a></p><h4>Query (조회 서비스) : CDS_Code_200</h4><ul><li>ID 구성: <code>CDS_Code_200</code> / 클래스 <code>THiRA.MES.Modeler</code> / 버전 <code>00001</code></li><li>정의 위치: Modeler 내장 쿼리 (THiRAMES.Service.Modeler.MSSQL DLL)</li><li>쿼리 파라메터: <code>CODECLASSID</code> <code>SITEID</code></li><li>테이블(조회/쓰기 전체, 함수·SP 포함): <div><a class="tbl" href="../tables.html#CIM_CODE">CIM_CODE</a><span class="b m">메인</span><span class="b r">읽기</span></div></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 1 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 202 76" width="202" height="76" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="170" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_CODE</text><text x="26" y="52" class="t2">기준 테이블</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>SELECT CODEID AS CODE,
+       CODENAME AS NAME,
+       UISEQUENCE
+FROM CIM_CODE 
+WHERE CODECLASSID = :CODECLASSID
+      AND ISUSABLE= &#x27;Usable&#x27; 
+      AND SITEID = :SITEID
+ORDER BY UISEQUENCE</pre></details></details><h2>3. 그리드 / 검색조건 정의</h2><details><summary><b>RT_PM_0021</b> 설비가동율1_설비가동율 — 컬럼 6, 검색조건 4</summary><p>actionId: <code class="wrapc">THiRAMES.Service.UI$RuleMultiInquiry$THiRAMES.Service.UI$SelectOperationRateList$00001?SITEID=@STORAGE:siteid&amp;TYPES=&amp;STARTDATE=&amp;ENDDATE=&amp;RATETYPE=&amp;RATEOPTION=</code></p><h4>검색조건</h4><table class="grid sm"><thead><tr><th>필드</th><th>유형</th><th>표시명</th><th>표시명(한글)</th><th>콤보 서비스</th></tr></thead><tbody><tr><td><code>LINEID</code></td><td>FILTER</td><td>LINEID</td><td><b>라인</b></td><td class="wrapc">THiRA.MES.Modeler$RuleMultiInquiry$THiRA.MES.Modeler$CDS_Code_200$00001?CODECLASSID=LINEID&amp;SITEID=@STORAGE:siteid</td></tr><tr><td><code>TYPES</code></td><td>FILTER</td><td>SEARCHCYCLE</td><td><b>주기</b></td><td class="wrapc">THiRA.MES.Modeler$RuleMultiInquiry$THiRA.MES.Modeler$CDS_Code_200$00001?SITEID=@STORAGE:siteid&amp;CODECLASSID=SEARCHCYCLE</td></tr><tr><td><code>RATETYPE</code></td><td>FILTER</td><td>RATETYPE</td><td><b></b></td><td class="wrapc">THiRA.MES.Modeler$RuleMultiInquiry$THiRA.MES.Modeler$CDS_Code_200$00001?SITEID=@STORAGE:siteid&amp;CODECLASSID=RPT_OPERATIONRATETYPE</td></tr><tr><td><code>RATEOPTION</code></td><td>FILTER</td><td>RATEOPTION</td><td><b></b></td><td class="wrapc">THiRA.MES.Modeler$RuleMultiInquiry$THiRA.MES.Modeler$CDS_Code_200$00001?SITEID=@STORAGE:siteid&amp;CODECLASSID=RPT_RESULTTYPE</td></tr></tbody></table><h4>컬럼</h4><table class="grid sm"><thead><tr><th>필드</th><th>표시명</th><th>표시명(한글)</th><th>편집</th><th>필수</th><th>콤보 서비스</th></tr></thead><tbody><tr><td><code>UNITNAME</code></td><td>RPTUNITNAME</td><td><b>유닛</b></td><td></td><td></td><td class="wrapc"></td></tr><tr><td><code>ITEMNAME</code></td><td>EQUIPMENTID</td><td><b>설비</b></td><td></td><td></td><td class="wrapc"></td></tr><tr><td><code>ITEMCOUNT</code></td><td>RPTEQUIPMENTCOUNT</td><td><b>설비 댓수</b></td><td></td><td></td><td class="wrapc"></td></tr><tr><td><code>RATETYPE</code></td><td>RPTOPERATIONRATE</td><td><b>가동율 지표</b></td><td></td><td></td><td class="wrapc"></td></tr><tr><td><code>RATEOPTION</code></td><td>RPTPLANRESULT</td><td><b>계획/실적/Gap</b></td><td></td><td></td><td class="wrapc"></td></tr><tr><td><code>SUMMARY</code></td><td>Summary</td><td><b></b></td><td></td><td></td><td class="wrapc"></td></tr></tbody></table></details><footer>자동 생성 문서 · DB: EM_MES_DEV (10.130.11.100) · 소스: THiRAMES_UI / THiRAMES_Service · "추정"/"코드 분석 기반" 표기는 정적 분석 결과이므로 실제 동작과 다를 수 있습니다.</footer></main></body></html>

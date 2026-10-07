@@ -1,0 +1,266 @@
+<!DOCTYPE html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>PM_MA_001 - 부자재 생산 Tank 현황</title><link rel="stylesheet" href="../style.css"></head><body><header class="top"><a href="../index.html">← 전체 목록</a><a href="../tables.html">테이블 색인</a></header><main><h1>부자재 생산 Tank 현황 <small>PM_MA_001</small></h1><table class="kv"><tr><th>화면 경로</th><td><code>THiRAMES_UI/wwwroot/view/ngs/mes/PM/PM_MA_001.html</code></td></tr><tr><th>화면 구분</th><td>PM 생산관리</td></tr><tr><th>위젯(Grid)</th><td><code>PM_MA_0011</code></td></tr><tr><th>화면 버튼</th><td><span class="chip">findBtn1 · 조회</span> <span class="chip">excelNcDownBtn1 · 엑셀 다운로드</span></td></tr></table><h2>1. 기능별 호출 서비스 / 파라메터 / 테이블</h2><div class="wrap"><table class="grid"><thead><tr><th>#</th><th>기능</th><th>구분</th><th>호출 서비스</th><th>파라메터</th><th>DB 테이블</th></tr></thead><tbody><tr id="fn-1"><td>1</td><td>조회 - 그리드 PM_MA_0011 (부자재생산Tank현황1_Tank현황)<br><small class="muted">조회 버튼(findBtn)/마스터-디테일 행선택 시 호출</small></td><td>R 조회</td><td><a href="#svc-1"><span class="tag q">Query</span> <code>SelectUnProductTankList</code></a> <small>THiRAMES.Service.UI</small></td><td class="params"><code>SITEID</code> <code>LINEID</code> <code>ROOTEQUIPMENTID</code> <code>EQUIPMENTCLASSID(미사용)</code> <code>EQUIPMENTID</code> <code>TANKTYPE</code> <code>ISPRODUCT</code> <code>(&#x27;N&#x27;</code> <code>고정)</code><br><span class="muted">UI 전달:</span> <code class="ui">EQUIPMENTCLASSID</code></td><td><a class="tbl" href="../tables.html#CIM_CODE">CIM_CODE</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_EQUIPMENT">CIM_EQUIPMENT</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_EQUIPMENTCLASS">CIM_EQUIPMENTCLASS</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_MATERIALDEFINITION">CIM_MATERIALDEFINITION</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CST_OPCTAGINFO">CST_OPCTAGINFO</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CST_PROCESSDATAPARAMETER">CST_PROCESSDATAPARAMETER</a><span class="b r">읽기</span></td></tr><tr id="fn-2"><td>2</td><td>검색조건 콤보 - LINEID (LINEID)</td><td>R 조회</td><td><a href="#svc-2"><span class="tag q">Query</span> <code>CDS_Code_200</code></a> <small>THiRA.MES.Modeler</small></td><td class="params"><code>CODECLASSID</code> <code>SITEID</code></td><td><a class="tbl" href="../tables.html#CIM_CODE">CIM_CODE</a><span class="b r">읽기</span></td></tr><tr id="fn-3"><td>3</td><td>검색조건 콤보 - TANKTYPE (TANKTYPE)</td><td>R 조회</td><td><a href="#svc-3"><span class="tag q">Query</span> <code>SelectCboTankTypeWithoutWIP</code></a> <small>THiRAMES.Service.UI</small></td><td class="params"><code>SITEID</code></td><td><a class="tbl" href="../tables.html#CIM_CODE">CIM_CODE</a><span class="b r">읽기</span></td></tr></tbody></table></div><h2>2. 서비스 상세</h2><details id="svc-1" class="svc" open><summary><b>#1</b> Query <code>SelectUnProductTankList</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-1">#1 조회 - 그리드 PM_MA_0011 (부자재생산Tank현황1_Tank현황)</a></p><h4>Query (조회 서비스) : SelectUnProductTankList</h4><ul><li>ID 구성: <code>SelectUnProductTankList</code> / 클래스 <code>THiRAMES.Service.UI</code> / 버전 <code>00001</code></li><li>정의 위치: DB 저장 쿼리 (CIM_STOREDQUERY)</li><li>쿼리명: PM_MA_001 부자재 Tank 현황</li><li>쿼리 파라메터: <code>SITEID</code> <code>LINEID</code> <code>ROOTEQUIPMENTID</code> <code>EQUIPMENTCLASSID(미사용)</code> <code>EQUIPMENTID</code> <code>TANKTYPE</code> <code>ISPRODUCT</code> <code>(&#x27;N&#x27;</code> <code>고정)</code></li><li>테이블(조회/쓰기 전체, 함수·SP 포함): <div><small class="muted">└ Stored Procedure SP_GET_TANKLEVEL :</small> <a class="tbl" href="../tables.html#CST_OPCTAGINFO">CST_OPCTAGINFO</a><span class="b m">메인</span><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CST_PROCESSDATAPARAMETER">CST_PROCESSDATAPARAMETER</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_EQUIPMENT">CIM_EQUIPMENT</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_EQUIPMENTCLASS">CIM_EQUIPMENTCLASS</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CUR_LEVEL">CUR_LEVEL</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_CODE">CIM_CODE</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_MATERIALDEFINITION">CIM_MATERIALDEFINITION</a><span class="b r">읽기</span></div></li><li>함수/SP: <code>EXEC SP_GET_TANKLEVEL</code></li></ul><details class="joinviz" open><summary><b>Stored Procedure <code>SP_GET_TANKLEVEL</code> 의 조인 구조도</b> <small class="muted">테이블 3 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 202 224" width="202" height="224" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="170" height="44" rx="7"/><text x="26" y="35" class="t1">CST_OPCTAGINFO</text><text x="26" y="52" class="t2">alias OT</text></g><g class="node"><rect x="16" y="90" width="170" height="44" rx="7"/><text x="26" y="109" class="t1">CIM_EQUIPMENTCLASS</text><text x="26" y="126" class="t2">alias EC</text></g><g class="node unk"><rect x="16" y="164" width="170" height="44" rx="7"/><text x="26" y="183" class="t1">CUR_LEVEL</text><text x="26" y="200" class="t2">alias INTO</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small><br><small class="muted">마스터/명칭 조회용 조인 제외(기준 테이블 제외): CST_PROCESSDATAPARAMETER, CIM_EQUIPMENT, CIM_CODE, CIM_MATERIALDEFINITION</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>------------------------------------------
+-- MenuID : 부자재 Tank 현황 - Tank 현황
+-- QueryID : SelectUnProductTankList
+-- Param : SITEID, LINEID, ROOTEQUIPMENTID, EQUIPMENTCLASSID(미사용), EQUIPMENTID, TANKTYPE, ISPRODUCT (&#x27;N&#x27; 고정)
+------------------------------------------
+EXEC SP_GET_TANKLEVEL 
+@SITEID, 
+@ROOTEQUIPMENTID, 
+@EQUIPMENTCLASSID, 
+@EQUIPMENTID, 
+@TANKTYPE,  
+&#x27;N&#x27;
+/*
+SELECT CE.ROOTEQUIPMENTID
+	 , CE.EQUIPMENTCLASSID
+	 , CC.EQUIPMENTCLASSNAME 
+	 , CE.EQUIPMENTID 
+	 , CE.EQUIPMENTNAME 
+	 , CT.PRODUCTDEFINITIONID		AS ITEMID
+	 , CM.MATERIALDEFINITIONNAME	AS ITEMNAME
+	 , CE.MAXCAPACITY				AS CAPACITY
+	 , CP.ITEMVALUE1 				AS LEVEL
+	 , CM.SAFETYSTOCK
+  FROM CIM_EQUIPMENT CE
+ INNER JOIN CIM_EQUIPMENTCLASS CC ON CC.SITEID = CE.SITEID AND CC.EQUIPMENTCLASSID = CE.EQUIPMENTCLASSID 
+ INNER JOIN CST_TANKPRODUCTCAPACITY CT ON CT.SITEID = CE.SITEID AND CT.TANKID = CE.EQUIPMENTID
+ INNER JOIN CIM_MATERIALDEFINITION CM ON CM.SITEID = CT.SITEID AND CM.MATERIALDEFINITIONID = CT.PRODUCTDEFINITIONID
+ LEFT OUTER JOIN CIM_PROCESSDATA CP ON CP.SITEID = CE.SITEID AND CP.EQUIPMENTID = CE.EQUIPMENTID 
+ WHERE CE.SITEID = @SITEID
+   AND (@ROOTEQUIPMENTID = &#x27;&#x27; OR CE.ROOTEQUIPMENTID = @ROOTEQUIPMENTID)
+   AND (@EQUIPMENTCLASSID = &#x27;&#x27; OR CE.EQUIPMENTCLASSID = @EQUIPMENTCLASSID)
+   AND (@EQUIPMENTID = &#x27;&#x27; OR CE.EQUIPMENTID LIKE &#x27;%&#x27; + @EQUIPMENTID + &#x27;%&#x27;);
+*/</pre></details><details class="sql"><summary>Stored Procedure SP_GET_TANKLEVEL 정의 보기</summary><pre>CREATE PROCEDURE [dbo].[SP_GET_TANKLEVEL] 
+--DECLARE
+    @SITEID VARCHAR(40) = &#x27;PL01&#x27;, @ROOTEQUIPMENTID VARCHAR(40) = &#x27;&#x27;, @EQUIPMENTCLASSID VARCHAR(40) =&#x27;&#x27;, @EQUIPMENTID VARCHAR(40) = &#x27;&#x27;, @TANKTYPE VARCHAR(40) = &#x27;&#x27;
+    ,@ISPRODUCT VARCHAR(40) = &#x27;N&#x27;
+AS  
+BEGIN 
+
+    DECLARE @TANKLEVEL TABLE
+    (
+        TAGID VARCHAR(100)
+        , EQUIPMENTID VARCHAR(20)
+        , EQUIPMENTCLASSID VARCHAR(20)
+        , ROOTEQUIPMENTID VARCHAR(10)
+        , SITEID VARCHAR(10)
+        , TAGNAME VARCHAR(100)
+        , DATAMAPPINGTABLE VARCHAR(40)
+        , DATAMAPPINGCOLUMN VARCHAR(40)
+        , DATAMAPPINGPREVCOLUMN VARCHAR(40)
+        , UNITID VARCHAR(40)
+        , TAGTYPE VARCHAR(40)
+    )
+    ;
+
+    DECLARE @VALUETABLE TABLE
+    (
+        TABLENAME VARCHAR(40)
+        , COL_POS VARCHAR(10)
+        , PROC_COLNAME VARCHAR(15)
+        , PROC_VALUE VARCHAR(20)
+    )
+    ;
+
+    DECLARE @STRSQT VARCHAR(MAX)
+          , @DATAMAPPINGTABLE VARCHAR(100)
+          , @SELECT_COLUMN VARCHAR(MAX)
+    ;
+
+
+    --
+    -- TANK LEVEL 관련 TAG 조회
+    --
+    INSERT INTO @TANKLEVEL
+    SELECT 
+        OT.TAGID
+        , OT.EQUIPMENTID
+        , EC.EQUIPMENTCLASSID
+        , OT.ROOTEQUIPMENTID
+        , OT.SITEID
+        , OT.TAGNAME
+        , PDP.DATAMAPPINGTABLE 
+        , PDP.DATAMAPPINGCOLUMN 
+        , &#x27;PREV&#x27; + PDP.DATAMAPPINGCOLUMN AS DATAMAPPINGPREVCOLUMN
+        , PDP.UNITID
+        , OT.TAGTYPE
+    FROM CST_OPCTAGINFO OT
+        INNER JOIN CST_PROCESSDATAPARAMETER PDP
+            ON  OT.TAGID = PDP.PROCESSDATAPARAMETERID 
+            AND OT.SITEID = PDP.SITEID 
+            AND PDP.PROCESSDATADEFINITIONID = &#x27;GetTankLevel&#x27;
+            AND PDP.ISUSABLE = &#x27;Usable&#x27;
+        INNER JOIN CIM_EQUIPMENT E
+            ON  OT.EQUIPMENTID = E.EQUIPMENTID 
+            AND OT.SITEID = E.SITEID 
+        INNER JOIN CIM_EQUIPMENTCLASS EC
+            ON  E.EQUIPMENTCLASSID  = EC.EQUIPMENTCLASSID 
+            AND E.SITEID = EC.SITEID 
+    ;
+
+    -- 조회 결과를 TABLE 별 분류하여 CURSOR 에 연결
+    DECLARE CUR_LEVEL CURSOR FOR
+        SELECT 
+            T.DATAMAPPINGTABLE
+            , STRING_AGG ( DATAMAPPINGCOLUMN + &#x27;, PREV&#x27; + DATAMAPPINGCOLUMN, &#x27;, &#x27;  ) WITHIN GROUP (ORDER BY T.DATAMAPPINGTABLE) AS SELECT_COLUMN
+        FROM @TANKLEVEL T
+        GROUP BY T.DATAMAPPINGTABLE
+
+    -- CURSOR OPEN
+    OPEN CUR_LEVEL
+    
+    -- TABLE 별로 WHILE &amp; 결과를 TEMP TABLE 에 저장
+    FETCH NEXT FROM CUR_LEVEL INTO @DATAMAPPINGTABLE, @SELECT_COLUMN
+    WHILE(@@FETCH_STATUS=0)
+    BEGIN
+    
+        SET @STRSQT = &#x27; SELECT UNP.TABLENAME, LEFT(UNP.PROC_COLNAME, 3) AS COL_POS, UNP.PROC_COLNAME, UNP.PROC_VALUE &#x27; +
+              &#x27; FROM ( SELECT &#x27;&#x27;&#x27; + @DATAMAPPINGTABLE + &#x27;&#x27;&#x27; AS TABLENAME, &#x27; + @SELECT_COLUMN + &#x27; FROM &#x27; + @DATAMAPPINGTABLE + &#x27;) M&#x27; +
+              &#x27; UNPIVOT ( PROC_VALUE FOR PROC_COLNAME IN ( &#x27; + @SELECT_COLUMN + &#x27;) ) UNP&#x27;
+              ;
+    
+        INSERT @VALUETABLE EXEC (@STRSQT);
+
+        FETCH NEXT FROM CUR_LEVEL INTO @DATAMAPPINGTABLE, @SELECT_COLUMN
+    END
+
+    -- CURSOR 삭제
+    CLOSE CUR_LEVEL
+    DEALLOCATE CUR_LEVEL
+    
+    
+    IF @ISPRODUCT = &#x27;Y&#x27;
+    BEGIN
+        -- 기본 정보와 PROCESS DATA 연결 조회
+        SELECT 
+            TL.ROOTEQUIPMENTID
+            , EC.EQUIPMENTCLASSID
+            --, E.TANKTYPE AS EQUIPMENTCLASSNAME
+            , C.CODENAME AS TANKTYPE            
+            , TL.EQUIPMENTID
+            , E.EQUIPMENTNAME
+            , E.TANKCAPA AS CAPACITY
+            , &#x27;&#x27; AS PRODUCTDEFINITIONID
+            , &#x27;&#x27; AS PRODUCTDEFINITIONNAME
+            , ROUND(CONVERT(FLOAT, VT_PRE.PROC_VALUE), 2) AS PREVLEVEL  -- 이전 Level
+            , NULL AS PREVMOL       -- 이전 농도
+            , ROUND(VT_PRE.PROC_VALUE * E.TANKCAPA / 100.0, 2) AS PREVVOLUME    -- 이전 볼륨
+            , NULL AS PREVCONTENT   -- 이전 함량
+            , ROUND(CONVERT(FLOAT, VT_CUR.PROC_VALUE), 2) AS LEVEL
+            , NULL AS MOL
+            , ROUND(VT_CUR.PROC_VALUE * E.TANKCAPA / 100.0, 2) AS VOLUME
+  , NULL AS CONTENT       
+        FROM @TANKLEVEL TL
+            LEFT OUTER JOIN @VALUETABLE VT_CUR
+                ON  TL.DATAMAPPINGTABLE = VT_CUR.TABLENAME
+                AND TL.DATAMAPPINGCOLUMN = VT_CUR.PROC_COLNAME
+            LEFT OUTER JOIN @VALUETABLE VT_PRE
+                ON  TL.DATAMAPPINGTABLE = VT_PRE.TABLENAME
+                AND TL.DATAMAPPINGPREVCOLUMN = VT_PRE.PROC_COLNAME
+            INNER JOIN CIM_EQUIPMENT E
+                ON  TL.EQUIPMENTID = E.EQUIPMENTID 
+                AND TL.SITEID = E.SITEID 
+                AND E.TANKTYPE IS NOT NULL
+            LEFT OUTER JOIN CIM_EQUIPMENTCLASS EC
+                ON  E.EQUIPMENTCLASSID = EC.EQUIPMENTCLASSID 
+                AND E.SITEID = EC.SITEID 
+            LEFT OUTER JOIN CIM_CODE C
+                ON  E.TANKTYPE = C.CODEID
+                AND E.SITEID = C.SITEID
+                AND C.CODECLASSID = &#x27;TANKTYPE&#x27;              
+        WHERE TL.SITEID = @SITEID
+        AND (@ROOTEQUIPMENTID = &#x27;&#x27; OR E.ROOTEQUIPMENTID = @ROOTEQUIPMENTID)
+        AND (@TANKTYPE = &#x27;&#x27; OR E.TANKTYPE = @TANKTYPE)
+        AND (@EQUIPMENTID = &#x27;&#x27; OR E.EQUIPMENTID LIKE &#x27;%&#x27; + @EQUIPMENTID + &#x27;%&#x27;) 
+        AND  E.TANKTYPE IN ( &#x27;WIP&#x27;, &#x27;PROD&#x27;, &#x27;MATERIAL&#x27; )
+    END
+    ELSE 
+    BEGIN 
+        -- 기본 정보와 PROCESS DATA 연결 조회
+        SELECT 
+            TL.ROOTEQUIPMENTID
+            , EC.EQUIPMENTCLASSID
+            , C.CODENAME AS TANKTYPE
+            , TL.EQUIPMENTID
+            , E.EQUIPMENTNAME + &#x27; (&#x27; + TL.TAGNAME  + &#x27;)&#x27; AS EQUIPMENTNAME
+            , E.EQUIPMENTNAME 
+            , E.MEDICINECODE AS ITEMID
+--          , MD.MATERIALDEFINITIONNAME AS ITEMNAME
+            , CASE WHEN ISNULL(MD.MATERIALDEFINITIONNAME, &#x27;&#x27;) &lt;&gt; &#x27;&#x27; AND ISNULL(TL.UNITID, &#x27;&#x27;) &lt;&gt; &#x27;&#x27; 
+                        THEN ISNULL(MD.MATERIALDEFINITIONNAME, &#x27;&#x27;) + &#x27; (&#x27; + TL.UNITID + &#x27;)&#x27; 
+                   ELSE MD.MATERIALDEFINITIONNAME
+              END AS ITEMNAME           
+            , E.TANKCAPA AS CAPACITY
+--++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+--            , ROUND(CONVERT(FLOAT, VT_CUR.PROC_VALUE), 2) AS LEVEL
+            , CASE WHEN ISNULL(TL.TAGTYPE, &#x27;Level&#x27;) = &#x27;Weight&#x27; AND E.MEDICINECODE = &#x27;4A0501&#x27;
+                        THEN ROUND( CONVERT(FLOAT, VT_CUR.PROC_VALUE) / 1.1 / ( E.TANKCAPA * 1000.0 ) * 100.0, 2)
+                   ELSE ROUND(CONVERT(FLOAT, VT_CUR.PROC_VALUE), 2)
+              END AS LEVEL
+--++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++        
+            --, ROUND(VT_CUR.PROC_VALUE * E.TANKCAPA / 100.0, 2) AS VOLUME
+            , CASE WHEN ISNULL(TL.TAGTYPE, &#x27;Level&#x27;) = &#x27;Weight&#x27; THEN ROUND(CONVERT(FLOAT, VT_CUR.PROC_VALUE), 2) ELSE ROUND(VT_CUR.PROC_VALUE * E.TANKCAPA / 100.0, 2) END AS VOLUME            
+            , E.WARNINGQTY
+            , E.SAFETYQTY AS SAFETYSTOCK
+            , CASE WHEN ISNULL(TL.TAGTYPE, &#x27;Level&#x27;) = &#x27;Weight&#x27; THEN 
+                      CASE WHEN ISNULL(E.WARNINGQTY, 0) = 0 THEN &#x27;NOR&#x27;
+                           WHEN ROUND(CONVERT(FLOAT, VT_CUR.PROC_VALUE), 2) &lt;= E.SAFETYQTY  THEN &#x27;RED&#x27; -- 주의, 빨간색
+                           WHEN ROUND(CONVERT(FLOAT, VT_CUR.PROC_VALUE), 2) &lt;= E.WARNINGQTY THEN &#x27;YEL&#x27; -- 관심, 노란색
+                           ELSE &#x27;NOR&#x27;
+                      END
+                   ELSE 
+                      CASE WHEN ISNULL(E.WARNINGQTY, 0) = 0 THEN &#x27;NOR&#x27;
+                           WHEN ROUND(VT_CUR.PROC_VALUE * E.TANKCAPA / 100.0, 2) &lt;= E.SAFETYQTY  THEN &#x27;RED&#x27; -- 주의, 빨간색
+                           WHEN ROUND(VT_CUR.PROC_VALUE * E.TANKCAPA / 100.0, 2) &lt;= E.WARNINGQTY THEN &#x27;YEL&#x27; -- 관심, 노란색
+                           ELSE &#x27;NOR&#x27;
+                      END
+              END AS WARNINGTYPE            
+        FROM @TANKLEVEL TL
+            LEFT OUTER JOIN @VALUETABLE VT_CUR
+                ON  TL.DATAMAPPINGTABLE = VT_CUR.TABLENAME
+                AND TL.DATAMAPPINGCOLUMN = VT_CUR.PROC_COLNAME
+            LEFT OUTER JOIN @VALUETABLE VT_PRE
+                ON  TL.DATAMAPPINGTABLE = VT_PRE.TABLENAME
+                AND TL.DATAMAPPINGPREVCOLUMN = VT_PRE.PROC_COLNAME
+            INNER JOIN CIM_EQUIPMENT E
+                ON  TL.EQUIPMENTID = E.EQUIPMENTID 
+                AND TL.SITEID = E.SITEID 
+                AND E.TANKTYPE IS NOT NULL
+            INNER JOIN CIM_EQUIPMENTCLASS EC
+                ON  E.EQUIPMENTCLASSID = EC.EQUIPMENTCLASSID 
+                AND E.SITEID = EC.SITEID 
+            LEFT OUTER JOIN CIM_CODE C
+                ON  E.TANKTYPE = C.CODEID
+                AND E.SITEID = C.SITEID
+                AND C.CODECLASSID = &#x27;TANKTYPE&#x27;
+            LEFT OUTER JOIN CIM_CODE C2
+                ON  E.MEDICINECODE = C2.CODEID
+                AND E.SITEID = C2.SITEID
+                AND C2.CODECLASSID = &#x27;MEDICINECODE&#x27; 
+            LEFT OUTER JOIN CIM_MATERIALDEFINITION MD
+                ON  E.MEDICINECODE = MD.MATERIALDEFINITIONID
+                AND E.SITEID = MD.SITEID
+        WHERE TL.SITEID = @SITEID
+        AND (@ROOTEQUIPMENTID = &#x27;&#x27; OR E.ROOTEQUIPMENTID = @ROOTEQUIPMENTID)
+        AND (@TANKTYPE = &#x27;&#x27; OR E.TANKTYPE = @TANKTYPE)
+        AND (@EQUIPMENTID = &#x27;&#x27; OR E.EQUIPMENTID LIKE &#x27;%&#x27; + @EQUIPMENTID + &#x27;%&#x27;) 
+        AND  E.TANKTYPE IN ( &#x27;MATERIAL&#x27;, &#x27;PROD&#x27; )   
+    END
+
+END</pre></details></details><details id="svc-2" class="svc" open><summary><b>#2</b> Query <code>CDS_Code_200</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-2">#2 검색조건 콤보 - LINEID (LINEID)</a></p><h4>Query (조회 서비스) : CDS_Code_200</h4><ul><li>ID 구성: <code>CDS_Code_200</code> / 클래스 <code>THiRA.MES.Modeler</code> / 버전 <code>00001</code></li><li>정의 위치: Modeler 내장 쿼리 (THiRAMES.Service.Modeler.MSSQL DLL)</li><li>쿼리 파라메터: <code>CODECLASSID</code> <code>SITEID</code></li><li>테이블(조회/쓰기 전체, 함수·SP 포함): <div><a class="tbl" href="../tables.html#CIM_CODE">CIM_CODE</a><span class="b m">메인</span><span class="b r">읽기</span></div></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 1 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 202 76" width="202" height="76" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="170" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_CODE</text><text x="26" y="52" class="t2">기준 테이블</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>SELECT CODEID AS CODE,
+       CODENAME AS NAME,
+       UISEQUENCE
+FROM CIM_CODE 
+WHERE CODECLASSID = :CODECLASSID
+      AND ISUSABLE= &#x27;Usable&#x27; 
+      AND SITEID = :SITEID
+ORDER BY UISEQUENCE</pre></details></details><details id="svc-3" class="svc" open><summary><b>#3</b> Query <code>SelectCboTankTypeWithoutWIP</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-3">#3 검색조건 콤보 - TANKTYPE (TANKTYPE)</a></p><h4>Query (조회 서비스) : SelectCboTankTypeWithoutWIP</h4><ul><li>ID 구성: <code>SelectCboTankTypeWithoutWIP</code> / 클래스 <code>THiRAMES.Service.UI</code> / 버전 <code>00001</code></li><li>정의 위치: DB 저장 쿼리 (CIM_STOREDQUERY)</li><li>쿼리명: 공통 Tank 설비그룹 조회 - / Reactor, Tank</li><li>쿼리 파라메터: <code>SITEID</code></li><li>테이블(조회/쓰기 전체, 함수·SP 포함): <div><a class="tbl" href="../tables.html#CIM_CODE">CIM_CODE</a><span class="b m">메인</span><span class="b r">읽기</span></div></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 1 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 202 76" width="202" height="76" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="170" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_CODE</text><text x="26" y="52" class="t2">alias C</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>------------------------------------------
+--Tank 타입조회 ( 생산 Tank 제외 )
+--SelectCboTankType
+--Param : SITEID
+------------------------------------------
+SELECT C.CODEID AS CODE, C.CODENAME AS NAME
+FROM CIM_CODE C WITH(NOLOCK)
+WHERE C.SITEID = @SITEID
+AND   C.CODECLASSID = &#x27;TANKTYPE&#x27;
+AND   C.CODEID &lt;&gt; &#x27;WIP&#x27;</pre></details></details><h2>3. 그리드 / 검색조건 정의</h2><details><summary><b>PM_MA_0011</b> 부자재생산Tank현황1_Tank현황 — 컬럼 13, 검색조건 3</summary><p>actionId: <code class="wrapc">THiRAMES.Service.UI$RuleMultiInquiry$THiRAMES.Service.UI$SelectUnProductTankList$00001?SITEID=@STORAGE:siteid&amp;LINEID=&amp;ROOTEQUIPMENTID=&amp;EQUIPMENTCLASSID=&amp;EQUIPMENTID=</code></p><h4>검색조건</h4><table class="grid sm"><thead><tr><th>필드</th><th>유형</th><th>표시명</th><th>표시명(한글)</th><th>콤보 서비스</th></tr></thead><tbody><tr><td><code>LINEID</code></td><td>FILTER</td><td>LINEID</td><td><b>라인</b></td><td class="wrapc">THiRA.MES.Modeler$RuleMultiInquiry$THiRA.MES.Modeler$CDS_Code_200$00001?CODECLASSID=LINEID&amp;SITEID=@STORAGE:siteid</td></tr><tr><td><code>TANKTYPE</code></td><td>FILTER</td><td>TANKTYPE</td><td><b>Tank타입</b></td><td class="wrapc">THiRAMES.Service.UI$RuleMultiInquiry$THiRAMES.Service.UI$SelectCboTankTypeWithoutWIP$00001?SITEID=@STORAGE:siteid</td></tr><tr><td><code>EQUIPMENTID</code></td><td>FILTER</td><td>EQUIPMENTID</td><td><b>설비</b></td><td class="wrapc"></td></tr></tbody></table><h4>컬럼</h4><table class="grid sm"><thead><tr><th>필드</th><th>표시명</th><th>표시명(한글)</th><th>편집</th><th>필수</th><th>콤보 서비스</th></tr></thead><tbody><tr><td><code>ROOTEQUIPMENTID</code></td><td>ROOTEQUIPMENTID</td><td><b>Unit</b></td><td></td><td></td><td class="wrapc"></td></tr><tr><td><code>EQUIPMENTCLASSID</code></td><td>EQUIPMENTCLASSID</td><td><b>설비그룹</b></td><td></td><td></td><td class="wrapc"></td></tr><tr><td><code>TANKTYPE</code></td><td>TANKTYPE</td><td><b>Tank타입</b></td><td></td><td></td><td class="wrapc"></td></tr><tr><td><code>EQUIPMENTID</code></td><td>EQUIPMENTID</td><td><b>설비</b></td><td></td><td></td><td class="wrapc"></td></tr><tr><td><code>EQUIPMENTNAME</code></td><td>EQUIPMENTNAME</td><td><b>설비명</b></td><td></td><td></td><td class="wrapc"></td></tr><tr><td><code>ITEMID</code></td><td>ITEMID</td><td><b>품목코드</b></td><td></td><td></td><td class="wrapc"></td></tr><tr><td><code>ITEMNAME</code></td><td>ITEMNAME</td><td><b>품목명</b></td><td></td><td></td><td class="wrapc"></td></tr><tr><td><code>CAPACITY</code></td><td>CAPACITY</td><td><b>용량</b></td><td></td><td></td><td class="wrapc"></td></tr><tr><td><code>LEVEL</code></td><td>LEVEL</td><td><b>레벨(%)</b></td><td></td><td></td><td class="wrapc"></td></tr><tr><td><code>VOLUME</code></td><td>VOLUME</td><td><b>볼륨(㎥)</b></td><td></td><td></td><td class="wrapc"></td></tr><tr><td><code>WARNINGQTY</code></td><td>WARNINGQTY</td><td><b>안전재고(관심)</b></td><td></td><td></td><td class="wrapc"></td></tr><tr><td><code>SAFETYSTOCK</code></td><td>SAFETYSTOCK2</td><td><b>안전재고(주의)</b></td><td></td><td></td><td class="wrapc"></td></tr><tr><td><code>WARNINGTYPE</code></td><td>WARNINGTYPE</td><td><b>주의단계</b></td><td></td><td></td><td class="wrapc"></td></tr></tbody></table></details><footer>자동 생성 문서 · DB: EM_MES_DEV (10.130.11.100) · 소스: THiRAMES_UI / THiRAMES_Service · "추정"/"코드 분석 기반" 표기는 정적 분석 결과이므로 실제 동작과 다를 수 있습니다.</footer></main></body></html>

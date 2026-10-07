@@ -1,0 +1,91 @@
+<!DOCTYPE html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ComPop_PostPlanRegister - 계획 등록 후처리(팝업)</title><link rel="stylesheet" href="../style.css"></head><body><header class="top"><a href="../index.html">← 전체 목록</a><a href="../tables.html">테이블 색인</a></header><main><h1>계획 등록 후처리(팝업) <small>ComPop_PostPlanRegister</small></h1><table class="kv"><tr><th>화면 경로</th><td><code>THiRAMES_UI/wwwroot/view/ngs/mes/common/ComPop_PostPlanRegister.html</code></td></tr><tr><th>화면 구분</th><td>공통 팝업/컴포넌트</td></tr><tr><th>위젯(Grid)</th><td><code>ComPop_PostPlanRegister1</code></td></tr><tr><th>화면 버튼</th><td><span class="chip">findBtn1 · 조회</span> <span class="chip">upsertBtn1 · 저장</span> <span class="chip">closeBtn · Btn_Close</span></td></tr></table><h2>1. 기능별 호출 서비스 / 파라메터 / 테이블</h2><div class="wrap"><table class="grid"><thead><tr><th>#</th><th>기능</th><th>구분</th><th>호출 서비스</th><th>파라메터</th><th>DB 테이블</th></tr></thead><tbody><tr id="fn-1"><td>1</td><td>조회 - 그리드 ComPop_PostPlanRegister1 (계획등록후처리팝업1_후처리목록)<br><small class="muted">조회 버튼(findBtn)/마스터-디테일 행선택 시 호출</small></td><td>R 조회</td><td><a href="#svc-1"><span class="tag q">Query</span> <code>SelectProdPlanDefinitionPopList</code></a> <small>THiRAMES.Service.UI</small></td><td class="params"><code>SITEID</code> <code>SEARCHDATE</code><br><span class="muted">UI 전달:</span> <code class="ui">LINEID</code></td><td><a class="tbl" href="../tables.html#RPT_PRODUCTION_PLAN">RPT_PRODUCTION_PLAN</a><span class="b r">읽기</span></td></tr><tr id="fn-2"><td>2</td><td>저장/삭제 - 그리드 ComPop_PostPlanRegister1 (계획등록후처리팝업1_후처리목록)<br><small class="muted">저장 버튼(upsertBtn): 추가(A)/수정(U)/삭제(D) 행을 WEBDATA로 전송</small></td><td>C/U/D 저장</td><td><a href="#svc-2"><span class="tag rule">Rule</span> <code>SaveProdPlanDefinition</code></a></td><td class="params"><code>SITEID</code> <code>USERID</code> <code>LINEID</code> <code>WORKDATE</code> <code>PLAN_BM_SILO_INPUT</code> <code>PLAN_FIRING_INPUT</code> <code>PLAN_FIRING_OUTPUT</code> <code>PLAN_PREMIX_INPUT</code> <code>PLAN_REACTOR_INPUT</code> <code>_ROW_STATE</code><br><span class="muted">UI 전달:</span> <code class="ui">_ROW_STATE(A/U/D)</code></td><td><span class="muted">-</span></td></tr><tr id="fn-3"><td>3</td><td>검색조건 콤보 - LINEID (LINEID)</td><td>R 조회</td><td><a href="#svc-3"><span class="tag q">Query</span> <code>CDS_Code_200</code></a> <small>THiRA.MES.Modeler</small></td><td class="params"><code>CODECLASSID</code> <code>SITEID</code></td><td><a class="tbl" href="../tables.html#CIM_CODE">CIM_CODE</a><span class="b r">읽기</span></td></tr></tbody></table></div><h2>2. 서비스 상세</h2><details id="svc-1" class="svc" open><summary><b>#1</b> Query <code>SelectProdPlanDefinitionPopList</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-1">#1 조회 - 그리드 ComPop_PostPlanRegister1 (계획등록후처리팝업1_후처리목록)</a></p><h4>Query (조회 서비스) : SelectProdPlanDefinitionPopList</h4><ul><li>ID 구성: <code>SelectProdPlanDefinitionPopList</code> / 클래스 <code>THiRAMES.Service.UI</code> / 버전 <code>00001</code></li><li>정의 위치: DB 저장 쿼리 (CIM_STOREDQUERY)</li><li>쿼리명: RT_MD_002_계획대비 생산량 기준정보 - 후처리 계획 등록 POPUP 조회 쿼리</li><li>쿼리 파라메터: <code>SITEID</code> <code>SEARCHDATE</code></li><li>테이블(조회/쓰기 전체, 함수·SP 포함): <div><a class="tbl" href="../tables.html#SPT_VALUES">SPT_VALUES</a><span class="b m">메인</span><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#RPT_PRODUCTION_PLAN">RPT_PRODUCTION_PLAN</a><span class="b r">읽기</span></div></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 2 · 조인 1</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 462 76" width="462" height="76" role="img" aria-label="조인 구조도"><path class="edge e-left" d="M186 38 C231 38 231 38 276 38"/><text class="elab" x="231" y="34" text-anchor="middle">LEFT</text><g class="node base unk"><rect x="16" y="16" width="170" height="44" rx="7"/><text x="26" y="35" class="t1">SPT_VALUES</text><text x="26" y="52" class="t2">alias A</text></g><g class="node"><rect x="276" y="16" width="170" height="44" rx="7"/><text x="286" y="35" class="t1">RPT_PRODUCTION_PLAN</text><text x="286" y="52" class="t2">alias PP</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>------------------------------------------
+--RT_MD_002_계획대비 생산량 기준정보 - 후처리 계획 등록 POPUP 조회 쿼리
+--SelectProdPlanDefinitionPopList
+--Param : SITEID, SEARCHDATE
+------------------------------------------
+SELECT US1.RPT_DATE,
+	   MAX(US1.WORKDATE) AS WORKDATE,
+	   MAX(US1.YEARMONTH) AS YEARMONTH,
+	   MAX(US1.YEARWEEK) AS YEARWEEK,
+	   MAX(US1.PLAN_BM_SILO_INPUT) AS PLAN_BM_SILO_INPUT,
+	   MAX(US1.PLAN_FIRING_INPUT) AS PLAN_FIRING_INPUT,
+	   MAX(US1.PLAN_FIRING_OUTPUT) AS PLAN_FIRING_OUTPUT,
+	   MAX(US1.PLAN_PREMIX_INPUT) AS PLAN_PREMIX_INPUT,
+	   MAX(US1.PLAN_REACTOR_INPUT) AS PLAN_REACTOR_INPUT,
+	   MAX(US1.PLAN_DRY_INPUT) AS PLAN_DRY_INPUT,
+	   MAX(US1.PLAN_DRY_OUTPUT) AS PLAN_DRY_OUTPUT,
+	   MAX(US1.PLAN_LI2CO3_OUTPUT) AS PLAN_LI2CO3_OUTPUT,
+	   MAX(US1.PLAN_LI3PO4_OUTPUT) AS PLAN_LI3PO4_OUTPUT,
+	   MAX(US1.PLAN_PK1501_INPUT) AS PLAN_PK1501_INPUT,
+	   MAX(US1.PLAN_PK1502_INPUT) AS PLAN_PK1502_INPUT,
+	   MAX(US1.PLAN_PK1503_INPUT) AS PLAN_PK1503_INPUT,
+	   MAX(US1.PLAN_PK1504_INPUT) AS PLAN_PK1504_INPUT,
+	   MAX(US1.PLAN_CO_EXT_OUTPUT) AS PLAN_CO_EXT_OUTPUT,
+	   MAX(US1.PLAN_NI_EXT_OUTPUT) AS PLAN_NI_EXT_OUTPUT,
+	   MAX(US1.PLAN_NI3SO4_OUTPUT) AS PLAN_NI3SO4_OUTPUT
+  FROM (
+  	SELECT S1.RPT_DATE,
+       &#x27;&#x27; AS WORKDATE,
+	   &#x27;&#x27; AS YEARMONTH,
+	   &#x27;&#x27; AS YEARWEEK,
+	   &#x27;&#x27; AS PLAN_BM_SILO_INPUT,
+	   &#x27;&#x27; AS PLAN_FIRING_INPUT,
+	   &#x27;&#x27; AS PLAN_FIRING_OUTPUT,
+	   &#x27;&#x27; AS PLAN_PREMIX_INPUT,
+	   &#x27;&#x27; AS PLAN_REACTOR_INPUT,
+	   &#x27;&#x27; AS PLAN_DRY_INPUT,
+	   &#x27;&#x27; AS PLAN_DRY_OUTPUT,
+	   &#x27;&#x27; AS PLAN_LI2CO3_OUTPUT,
+	   &#x27;&#x27; AS PLAN_LI3PO4_OUTPUT,
+	   &#x27;&#x27; AS PLAN_PK1501_INPUT,
+	   &#x27;&#x27; AS PLAN_PK1502_INPUT,
+	   &#x27;&#x27; AS PLAN_PK1503_INPUT,
+	   &#x27;&#x27; AS PLAN_PK1504_INPUT,
+	   &#x27;&#x27; AS PLAN_CO_EXT_OUTPUT,
+	   &#x27;&#x27; AS PLAN_NI_EXT_OUTPUT,
+	   &#x27;&#x27; AS PLAN_NI3SO4_OUTPUT
+  FROM (
+  	SELECT REPLACE(CONVERT(CHAR(10), DATEADD(d, NUMBER, CONCAT(@SEARCHDATE, &#x27;-01&#x27;)), 120), &#x27;-&#x27;, &#x27;&#x27;) AS RPT_DATE
+  	  FROM MASTER..SPT_VALUES A WITH(NOLOCK)
+     WHERE A.TYPE = &#x27;P&#x27; 
+       AND SUBSTRING(CONVERT(CHAR(10), DATEADD(d, NUMBER, CONCAT(@SEARCHDATE, &#x27;-01&#x27;)), 120), 1, 7) = SUBSTRING(@SEARCHDATE, 1, 7)
+  ) S1
+UNION
+SELECT S1.RPT_DATE,
+       PP.WORKDATE,
+	   PP.YEARMONTH,
+	   PP.YEARWEEK,
+	   PP.PLAN_BM_SILO_INPUT,
+	   PP.PLAN_FIRING_INPUT,
+	   PP.PLAN_FIRING_OUTPUT,
+	   PP.PLAN_PREMIX_INPUT,
+	   PP.PLAN_REACTOR_INPUT,
+	   PP.PLAN_DRY_INPUT,
+	   PP.PLAN_DRY_OUTPUT,
+	   PP.PLAN_LI2CO3_OUTPUT,
+	   PP.PLAN_LI3PO4_OUTPUT,
+	   PP.PLAN_PK1501_INPUT,
+	   PP.PLAN_PK1502_INPUT,
+	   PP.PLAN_PK1503_INPUT,
+	   PP.PLAN_PK1504_INPUT,
+	   PP.PLAN_CO_EXT_OUTPUT,
+	   PP.PLAN_NI_EXT_OUTPUT,
+	   PP.PLAN_NI3SO4_OUTPUT
+  FROM (
+  	SELECT REPLACE(CONVERT(CHAR(10), DATEADD(d, NUMBER, CONCAT(@SEARCHDATE, &#x27;-01&#x27;)), 120), &#x27;-&#x27;, &#x27;&#x27;) AS RPT_DATE
+  	  FROM MASTER..SPT_VALUES A WITH(NOLOCK)
+     WHERE A.TYPE = &#x27;P&#x27; 
+       AND SUBSTRING(CONVERT(CHAR(10), DATEADD(d, NUMBER, CONCAT(@SEARCHDATE, &#x27;-01&#x27;)), 120), 1, 7) = SUBSTRING(@SEARCHDATE, 1, 7)
+  ) S1
+  LEFT JOIN RPT_PRODUCTION_PLAN PP WITH(NOLOCK)
+    ON S1.RPT_DATE = PP.WORKDATE
+ WHERE PP.SITEID = @SITEID
+  ) US1
+GROUP BY US1.RPT_DATE</pre></details></details><details id="svc-2" class="svc" open><summary><b>#2</b> Rule <code>SaveProdPlanDefinition</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-2">#2 저장/삭제 - 그리드 ComPop_PostPlanRegister1 (계획등록후처리팝업1_후처리목록)</a></p><h4>Rule (저장/실행 서비스) : SaveProdPlanDefinition</h4><ul><li>구현 위치: C# 소스 (CUS.Business.Report) - <code>CUS.Business.Report/RT_MD_002 계획대비 생산량 기준정보(후처리)/SaveProdPlanDefinition.cs</code></li><li>설명: RT_MD_002 계획대비 생산량 기준정보(후처리)</li><li>입력 파라메터(WEBDATA): <code>SITEID</code> <code>USERID</code> <code>LINEID</code> <code>WORKDATE</code> <code>PLAN_BM_SILO_INPUT</code> <code>PLAN_FIRING_INPUT</code> <code>PLAN_FIRING_OUTPUT</code> <code>PLAN_PREMIX_INPUT</code> <code>PLAN_REACTOR_INPUT</code> <code>_ROW_STATE</code></li><li>호출 체인(Service 메서드): <small>ProdPlanDefinitionManager.SaveProdPlanDefinition</small></li></ul></details><details id="svc-3" class="svc" open><summary><b>#3</b> Query <code>CDS_Code_200</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-3">#3 검색조건 콤보 - LINEID (LINEID)</a></p><h4>Query (조회 서비스) : CDS_Code_200</h4><ul><li>ID 구성: <code>CDS_Code_200</code> / 클래스 <code>THiRA.MES.Modeler</code> / 버전 <code>00001</code></li><li>정의 위치: Modeler 내장 쿼리 (THiRAMES.Service.Modeler.MSSQL DLL)</li><li>쿼리 파라메터: <code>CODECLASSID</code> <code>SITEID</code></li><li>테이블(조회/쓰기 전체, 함수·SP 포함): <div><a class="tbl" href="../tables.html#CIM_CODE">CIM_CODE</a><span class="b m">메인</span><span class="b r">읽기</span></div></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 1 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 202 76" width="202" height="76" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="170" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_CODE</text><text x="26" y="52" class="t2">기준 테이블</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>SELECT CODEID AS CODE,
+       CODENAME AS NAME,
+       UISEQUENCE
+FROM CIM_CODE 
+WHERE CODECLASSID = :CODECLASSID
+      AND ISUSABLE= &#x27;Usable&#x27; 
+      AND SITEID = :SITEID
+ORDER BY UISEQUENCE</pre></details></details><h2>3. 그리드 / 검색조건 정의</h2><details><summary><b>ComPop_PostPlanRegister1</b> 계획등록후처리팝업1_후처리목록 — 컬럼 1, 검색조건 1</summary><p>actionId: <code class="wrapc">SaveProdPlanDefinition/THiRAMES.Service.UI$RuleMultiInquiry$THiRAMES.Service.UI$SelectProdPlanDefinitionPopList$00001?SITEID=@STORAGE:siteid&amp;SEARCHDATE=</code></p><h4>검색조건</h4><table class="grid sm"><thead><tr><th>필드</th><th>유형</th><th>표시명</th><th>표시명(한글)</th><th>콤보 서비스</th></tr></thead><tbody><tr><td><code>LINEID</code></td><td>FILTER</td><td>LINEID</td><td><b>라인</b></td><td class="wrapc">THiRA.MES.Modeler$RuleMultiInquiry$THiRA.MES.Modeler$CDS_Code_200$00001?CODECLASSID=LINEID&amp;SITEID=@STORAGE:siteid</td></tr></tbody></table><p class="muted">조회 쿼리의 메인 테이블 <a class="tbl" href="../tables.html#RPT_PRODUCTION_PLAN">RPT_PRODUCTION_PLAN</a> 에서 오는 컬럼은 <span class="mainmark">강조</span> 표시됩니다 (0개 / 1개)</p><h4>컬럼</h4><table class="grid sm"><thead><tr><th>필드</th><th>표시명</th><th>표시명(한글)</th><th>편집</th><th>필수</th><th>콤보 서비스</th></tr></thead><tbody><tr><td><code>RPT_DATE</code></td><td>RPT_DATE</td><td><b></b></td><td></td><td></td><td class="wrapc"></td></tr></tbody></table></details><footer>자동 생성 문서 · DB: EM_MES_DEV (10.130.11.100) · 소스: THiRAMES_UI / THiRAMES_Service · "추정"/"코드 분석 기반" 표기는 정적 분석 결과이므로 실제 동작과 다를 수 있습니다.</footer></main></body></html>

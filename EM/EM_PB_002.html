@@ -1,0 +1,373 @@
+<!DOCTYPE html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>EM_PB_002 - PM 검사 그룹 관리</title><link rel="stylesheet" href="../style.css"></head><body><header class="top"><a href="../index.html">← 전체 목록</a><a href="../tables.html">테이블 색인</a></header><main><h1>PM 검사 그룹 관리 <small>EM_PB_002</small></h1><table class="kv"><tr><th>화면 경로</th><td><code>THiRAMES_UI/wwwroot/view/ngs/mes/EM/EM_PB_002.html</code></td></tr><tr><th>메뉴 경로</th><td>설비관리 &gt; 예방정비 &gt; PM 검사 그룹 관리 <small>(MENUID: EM_PB_002)</small></td></tr><tr><th>화면 구분</th><td>EM 설비관리</td></tr><tr><th>위젯(Grid)</th><td><code>EM_PB_0021</code>, <code>EM_PB_0022</code></td></tr><tr><th>화면 버튼</th><td><span class="chip">findBtn1 · 조회</span> <span class="chip">findBtn2 · 조회</span> <span class="chip">excelGridDownBtn1 · EXCEL</span> <span class="chip">Btn_CreateSchedule · Btn_CreateSchedule</span> <span class="chip">upsertBtn1 · 저장</span> <span class="chip">btnCopyGroup · Btn_COPY</span> <span class="chip">openPopUpBtn11 · Btn_New</span> <span class="chip">excelGridDownBtn2 · EXCEL</span> <span class="chip">upsertBtn2 · 저장</span> <span class="chip">delNewSoftBtn2 · 행삭제</span> <span class="chip">Btn_addRow2 · ADDROW</span> <span class="chip">openPopUpBtn2 · PROCESSSEGMENTID</span> <span class="chip">BtnClear · Btn_Clear</span> <span class="chip">closeBtn11 · Btn_Close</span> <span class="chip">popSaveBtn11 · Btn_Save</span></td></tr><tr><th>연계 팝업(common)</th><td><a class="chip" href="../common/ComPop_Equipment.html">ComPop_Equipment</a> <a class="chip" href="../common/POPUP_PMBMITEM.html">POPUP_PMBMITEM</a></td></tr></table><h2>1. 기능별 호출 서비스 / 파라메터 / 테이블</h2><div class="wrap"><table class="grid"><thead><tr><th>#</th><th>기능</th><th>구분</th><th>호출 서비스</th><th>파라메터</th><th>DB 테이블</th></tr></thead><tbody><tr id="fn-1"><td>1</td><td>조회 - 그리드 EM_PB_0021 (PM검사그룹관리1_PMBM그룹목록)<br><small class="muted">조회 버튼(findBtn)/마스터-디테일 행선택 시 호출</small></td><td>R 조회</td><td><a href="#svc-1"><span class="tag q">Query</span> <code>SelectPmInspectionGroupList</code></a> <small>THiRAMES.Service.UI</small></td><td class="params"><code>SITEID</code> <code>LINEID</code> <code>PMTYPE</code> <code>PMDEFINITIONID</code> <code>PMSYSNAME</code> <code>ROOTEQUIPMENTID</code> <code>EQUIPMENTCLASSID</code> <code>EQUIPMENTID</code> <code>ISUSABLE</code><br><span class="muted">UI 전달:</span> <code class="ui">PROCESSSEGMENTID1</code> <code class="ui">SCHEDULEUNIT1</code> <code class="ui">SCHEDULETARGET1</code> <code class="ui">ISUSABLE1</code></td><td><a class="tbl" href="../tables.html#CIM_EQUIPMENT">CIM_EQUIPMENT</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_EQUIPMENTCLASS">CIM_EQUIPMENTCLASS</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_PROCESSSEGMENT">CIM_PROCESSSEGMENT</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CST_PMDEFINITION">CST_PMDEFINITION</a><span class="b r">읽기</span></td></tr><tr id="fn-2"><td>2</td><td>조회 - 그리드 EM_PB_0022 (PM검사그룹관리2_PMBM검사항목목록)<br><small class="muted">조회 버튼(findBtn)/마스터-디테일 행선택 시 호출</small></td><td>R 조회</td><td><a href="#svc-2"><span class="tag q">Query</span> <code>SelectPmInspectionDetailList</code></a> <small>THiRAMES.Service.UI</small></td><td class="params"><code>SITEID</code> <code>LINEID</code> <code>PMDEFINITIONID</code></td><td><a class="tbl" href="../tables.html#CIM_USER">CIM_USER</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CST_PMDEFINITION">CST_PMDEFINITION</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CST_PMDEFINITIONITEMREL">CST_PMDEFINITIONITEMREL</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CST_PMITEM">CST_PMITEM</a><span class="b r">읽기</span></td></tr><tr id="fn-3"><td>3</td><td>저장/삭제 - 그리드 EM_PB_0021 (PM검사그룹관리1_PMBM그룹목록)<br><small class="muted">저장 버튼(upsertBtn): 추가(A)/수정(U)/삭제(D) 행을 WEBDATA로 전송</small></td><td>C/U/D 저장</td><td><a href="#svc-3"><span class="tag rule">Rule</span> <code>SavePmInspectionGroupInfo</code></a></td><td class="params"><code>SITEID</code> <code>USERID</code> <code>LINEID</code> <code>PMSYSNAME</code> <code>PMTYPE</code> <code>EQUIPMENTID</code> <code>PROCESSSEGMENTID</code> <code>SCHEDULEUNIT</code> <code>SCHEDULETARGET</code> <code>VALIDSTARTTIME</code> <code>VALIDENDTIME</code> <code>ISAUTOSCHEDULE</code> <code>ISUSABLE</code> <code>_ROW_STATE</code> <code>ROOTEQUIPMENTID</code><br><span class="muted">UI 전달:</span> <code class="ui">MODIFYTIME</code> <code class="ui">_ROW_STATE(A/U/D)</code></td><td><a class="tbl" href="../tables.html#CST_PMDEFINITION">CST_PMDEFINITION</a><span class="b w">쓰기</span></td></tr><tr id="fn-4"><td>4</td><td>검색조건 콤보 - LINEID (LINEID)</td><td>R 조회</td><td><a href="#svc-4"><span class="tag q">Query</span> <code>CDS_Code_200</code></a> <small>THiRA.MES.Modeler</small></td><td class="params"><code>CODECLASSID</code> <code>SITEID</code></td><td><a class="tbl" href="../tables.html#CIM_CODE">CIM_CODE</a><span class="b r">읽기</span></td></tr><tr id="fn-5"><td>5</td><td>검색조건 콤보 - ROOTEQUIPMENTID (ROOTEQUIPMENTID)</td><td>R 조회</td><td><a href="#svc-4"><span class="tag q">Query</span> <code>CDS_Code_200</code></a> <small>THiRA.MES.Modeler</small></td><td class="params"><code>CODECLASSID</code> <code>SITEID</code></td><td><a class="tbl" href="../tables.html#CIM_CODE">CIM_CODE</a><span class="b r">읽기</span></td></tr><tr id="fn-6"><td>6</td><td>검색조건 콤보 - EQUIPMENTCLASSID (EQUIPMENTCLASSID)</td><td>R 조회</td><td><a href="#svc-5"><span class="tag q">Query</span> <code>RDS_EquipmentClass_200</code></a> <small>THiRA.MES.Modeler</small></td><td class="params"><code>SITEID</code></td><td><a class="tbl" href="../tables.html#CIM_EQUIPMENTCLASS">CIM_EQUIPMENTCLASS</a><span class="b r">읽기</span></td></tr><tr id="fn-7"><td>7</td><td>검색조건 콤보 - ISUSABLE (ISUSABLE)</td><td>R 조회</td><td><a href="#svc-4"><span class="tag q">Query</span> <code>CDS_Code_200</code></a> <small>THiRA.MES.Modeler</small></td><td class="params"><code>CODECLASSID</code> <code>SITEID</code></td><td><a class="tbl" href="../tables.html#CIM_CODE">CIM_CODE</a><span class="b r">읽기</span></td></tr><tr id="fn-8"><td>8</td><td>검색조건 콤보 - PROCESSSEGMENTID1 (PROCESSSEGMENTID1)</td><td>R 조회</td><td><a href="#svc-6"><span class="tag q">Query</span> <code>PMS_ProcessSegment_200</code></a> <small>THiRA.MES.Modeler</small></td><td class="params"><code>SITEID</code></td><td><a class="tbl" href="../tables.html#CIM_PROCESSSEGMENT">CIM_PROCESSSEGMENT</a><span class="b r">읽기</span></td></tr><tr id="fn-9"><td>9</td><td>검색조건 콤보 - SCHEDULEUNIT1 (SCHEDULEUNIT1)</td><td>R 조회</td><td><a href="#svc-4"><span class="tag q">Query</span> <code>CDS_Code_200</code></a> <small>THiRA.MES.Modeler</small></td><td class="params"><code>CODECLASSID</code> <code>SITEID</code></td><td><a class="tbl" href="../tables.html#CIM_CODE">CIM_CODE</a><span class="b r">읽기</span></td></tr><tr id="fn-10"><td>10</td><td>검색조건 콤보 - ISUSABLE1 (ISUSABLE1)</td><td>R 조회</td><td><a href="#svc-4"><span class="tag q">Query</span> <code>CDS_Code_200</code></a> <small>THiRA.MES.Modeler</small></td><td class="params"><code>CODECLASSID</code> <code>SITEID</code></td><td><a class="tbl" href="../tables.html#CIM_CODE">CIM_CODE</a><span class="b r">읽기</span></td></tr><tr id="fn-11"><td>11</td><td>컬럼 콤보/코드 - PMTYPE (TYPE)</td><td>R 조회</td><td><a href="#svc-4"><span class="tag q">Query</span> <code>CDS_Code_200</code></a> <small>THiRA.MES.Modeler</small></td><td class="params"><code>CODECLASSID</code> <code>SITEID</code></td><td><a class="tbl" href="../tables.html#CIM_CODE">CIM_CODE</a><span class="b r">읽기</span></td></tr><tr id="fn-12"><td>12</td><td>컬럼 콤보/코드 - ROOTEQUIPMENTID (ROOTEQUIPMENTID)</td><td>R 조회</td><td><a href="#svc-4"><span class="tag q">Query</span> <code>CDS_Code_200</code></a> <small>THiRA.MES.Modeler</small></td><td class="params"><code>CODECLASSID</code> <code>SITEID</code></td><td><a class="tbl" href="../tables.html#CIM_CODE">CIM_CODE</a><span class="b r">읽기</span></td></tr><tr id="fn-13"><td>13</td><td>컬럼 콤보/코드 - PROCESSSEGMENTID (PROCESSSEGMENTID)</td><td>R 조회</td><td><a href="#svc-6"><span class="tag q">Query</span> <code>PMS_ProcessSegment_200</code></a> <small>THiRA.MES.Modeler</small></td><td class="params"><code>SITEID</code></td><td><a class="tbl" href="../tables.html#CIM_PROCESSSEGMENT">CIM_PROCESSSEGMENT</a><span class="b r">읽기</span></td></tr><tr id="fn-14"><td>14</td><td>컬럼 콤보/코드 - SCHEDULEUNIT (INSPSCHEDULEUNIT)</td><td>R 조회</td><td><a href="#svc-4"><span class="tag q">Query</span> <code>CDS_Code_200</code></a> <small>THiRA.MES.Modeler</small></td><td class="params"><code>CODECLASSID</code> <code>SITEID</code></td><td><a class="tbl" href="../tables.html#CIM_CODE">CIM_CODE</a><span class="b r">읽기</span></td></tr><tr id="fn-15"><td>15</td><td>컬럼 콤보/코드 - ISAUTOSCHEDULE (ISAUTOSCHEDULE)</td><td>R 조회</td><td><a href="#svc-4"><span class="tag q">Query</span> <code>CDS_Code_200</code></a> <small>THiRA.MES.Modeler</small></td><td class="params"><code>CODECLASSID</code> <code>SITEID</code></td><td><a class="tbl" href="../tables.html#CIM_CODE">CIM_CODE</a><span class="b r">읽기</span></td></tr><tr id="fn-16"><td>16</td><td>컬럼 콤보/코드 - ISUSABLE (ISUSABLE)</td><td>R 조회</td><td><a href="#svc-4"><span class="tag q">Query</span> <code>CDS_Code_200</code></a> <small>THiRA.MES.Modeler</small></td><td class="params"><code>CODECLASSID</code> <code>SITEID</code></td><td><a class="tbl" href="../tables.html#CIM_CODE">CIM_CODE</a><span class="b r">읽기</span></td></tr><tr id="fn-17"><td>17</td><td>저장/삭제 - 그리드 EM_PB_0022 (PM검사그룹관리2_PMBM검사항목목록)<br><small class="muted">저장 버튼(upsertBtn): 추가(A)/수정(U)/삭제(D) 행을 WEBDATA로 전송</small></td><td>C/U/D 저장</td><td><a href="#svc-7"><span class="tag rule">Rule</span> <code>SavePmInspectionDefItemRelInfo</code></a></td><td class="params"><code>SITEID</code> <code>USERID</code> <code>LINEID</code> <code>PMDEFINITIONID</code> <code>PMITEMID</code> <code>PMITEMNAME</code> <code>PMTYPE</code> <code>ISUSABLE</code> <code>COMMENTS</code> <code>DESCRIPTION</code> <code>_ROW_STATE</code><br><span class="muted">UI 전달:</span> <code class="ui">_ROW_STATE(A/U/D)</code></td><td><a class="tbl" href="../tables.html#CST_PMDEFINITION">CST_PMDEFINITION</a><span class="b u">참조</span><br><a class="tbl" href="../tables.html#CST_PMDEFINITIONITEMREL">CST_PMDEFINITIONITEMREL</a><span class="b u">참조</span><br><a class="tbl" href="../tables.html#CST_PMITEM">CST_PMITEM</a><span class="b u">참조</span></td></tr><tr id="fn-18"><td>18</td><td>컬럼 콤보/코드 - PMTYPE (PMTYPE)</td><td>R 조회</td><td><a href="#svc-4"><span class="tag q">Query</span> <code>CDS_Code_200</code></a> <small>THiRA.MES.Modeler</small></td><td class="params"><code>CODECLASSID</code> <code>SITEID</code></td><td><a class="tbl" href="../tables.html#CIM_CODE">CIM_CODE</a><span class="b r">읽기</span></td></tr><tr id="fn-19"><td>19</td><td>컬럼 콤보/코드 - EQUIPMENTTYPE (EQUIPMENTCATEGORY)</td><td>R 조회</td><td><a href="#svc-4"><span class="tag q">Query</span> <code>CDS_Code_200</code></a> <small>THiRA.MES.Modeler</small></td><td class="params"><code>CODECLASSID</code> <code>SITEID</code></td><td><a class="tbl" href="../tables.html#CIM_CODE">CIM_CODE</a><span class="b r">읽기</span></td></tr><tr id="fn-20"><td>20</td><td>컬럼 콤보/코드 - PMCATEGORYID (PMCATEGORY)</td><td>R 조회</td><td><a href="#svc-4"><span class="tag q">Query</span> <code>CDS_Code_200</code></a> <small>THiRA.MES.Modeler</small></td><td class="params"><code>CODECLASSID</code> <code>SITEID</code></td><td><a class="tbl" href="../tables.html#CIM_CODE">CIM_CODE</a><span class="b r">읽기</span></td></tr><tr id="fn-21"><td>21</td><td>컬럼 콤보/코드 - PMCLASSID (PMCLASS)</td><td>R 조회</td><td><a href="#svc-4"><span class="tag q">Query</span> <code>CDS_Code_200</code></a> <small>THiRA.MES.Modeler</small></td><td class="params"><code>CODECLASSID</code> <code>SITEID</code></td><td><a class="tbl" href="../tables.html#CIM_CODE">CIM_CODE</a><span class="b r">읽기</span></td></tr><tr id="fn-22"><td>22</td><td>컬럼 콤보/코드 - SCHEDULEUNIT (SCHEDULEUNIT)</td><td>R 조회</td><td><a href="#svc-4"><span class="tag q">Query</span> <code>CDS_Code_200</code></a> <small>THiRA.MES.Modeler</small></td><td class="params"><code>CODECLASSID</code> <code>SITEID</code></td><td><a class="tbl" href="../tables.html#CIM_CODE">CIM_CODE</a><span class="b r">읽기</span></td></tr><tr id="fn-23"><td>23</td><td>savePmInspectionGroupInfo<br><small class="muted">JS ngsWidget.ajax(C)</small></td><td>등록/실행</td><td><a href="#svc-3"><span class="tag rule">Rule</span> <code>SavePmInspectionGroupInfo</code></a></td><td class="params"><code>SITEID</code> <code>USERID</code> <code>LINEID</code> <code>PMSYSNAME</code> <code>PMTYPE</code> <code>EQUIPMENTID</code> <code>PROCESSSEGMENTID</code> <code>SCHEDULEUNIT</code> <code>SCHEDULETARGET</code> <code>VALIDSTARTTIME</code> <code>VALIDENDTIME</code> <code>ISAUTOSCHEDULE</code> <code>ISUSABLE</code> <code>_ROW_STATE</code> <code>ROOTEQUIPMENTID</code></td><td><a class="tbl" href="../tables.html#CST_PMDEFINITION">CST_PMDEFINITION</a><span class="b w">쓰기</span></td></tr><tr id="fn-24"><td>24</td><td>SavePmInspScheduleInfo<br><small class="muted">JS ngsWidget.ajax(R)</small></td><td>조회</td><td><a href="#svc-8"><span class="tag q">Query</span> <code>SavePmInspScheduleInfo</code></a> <small>THiRAMES.Service.UI</small></td><td class="params"><code>SITEID</code> <code>USERID</code> <code>LINEID</code> <code>PMDEFINITIONID</code><br><span class="muted">UI 전달:</span> <code class="ui">CLASSID</code> <code class="ui">QUERYID</code> <code class="ui">VERSION</code></td><td><a class="tbl" href="../tables.html#CST_PMDEFINITION">CST_PMDEFINITION</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CST_PMRESULT">CST_PMRESULT</a><span class="b w">쓰기</span></td></tr></tbody></table></div><h2>2. 서비스 상세</h2><details id="svc-1" class="svc" open><summary><b>#1</b> Query <code>SelectPmInspectionGroupList</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-1">#1 조회 - 그리드 EM_PB_0021 (PM검사그룹관리1_PMBM그룹목록)</a></p><h4>Query (조회 서비스) : SelectPmInspectionGroupList</h4><ul><li>ID 구성: <code>SelectPmInspectionGroupList</code> / 클래스 <code>THiRAMES.Service.UI</code> / 버전 <code>00001</code></li><li>정의 위치: DB 저장 쿼리 (CIM_STOREDQUERY)</li><li>쿼리명: EM_PB_002_PM 검사 그룹 관리 - PM / BM 그룹 목록 Grid 조회 쿼리</li><li>쿼리 파라메터: <code>SITEID</code> <code>LINEID</code> <code>PMTYPE</code> <code>PMDEFINITIONID</code> <code>PMSYSNAME</code> <code>ROOTEQUIPMENTID</code> <code>EQUIPMENTCLASSID</code> <code>EQUIPMENTID</code> <code>ISUSABLE</code></li><li>테이블(조회/쓰기 전체, 함수·SP 포함): <div><a class="tbl" href="../tables.html#CST_PMDEFINITION">CST_PMDEFINITION</a><span class="b m">메인</span><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_EQUIPMENT">CIM_EQUIPMENT</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_EQUIPMENTCLASS">CIM_EQUIPMENTCLASS</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_PROCESSSEGMENT">CIM_PROCESSSEGMENT</a><span class="b r">읽기</span></div></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 2 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 202 150" width="202" height="150" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="170" height="44" rx="7"/><text x="26" y="35" class="t1">CST_PMDEFINITION</text><text x="26" y="52" class="t2">alias A</text></g><g class="node"><rect x="16" y="90" width="170" height="44" rx="7"/><text x="26" y="109" class="t1">CIM_EQUIPMENTCLASS</text><text x="26" y="126" class="t2">alias C</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small><br><small class="muted">마스터/명칭 조회용 조인 제외(기준 테이블 제외): CIM_EQUIPMENT, CIM_PROCESSSEGMENT</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>------------------------------------------
+--EM_PB_002_PM 검사 그룹 관리 - PM / BM 그룹 목록 Grid 조회 쿼리
+--SelectPmInspectionGroupList
+--Param : SITEID, LINEID, PMTYPE, PMDEFINITIONID, PMSYSNAME, ROOTEQUIPMENTID, EQUIPMENTCLASSID, EQUIPMENTID, ISUSABLE
+------------------------------------------   
+SELECT A.PMDEFINITIONID,
+	   A.PMSYSNAME,
+	   A.PMTYPE,
+	   A.ROOTEQUIPMENTID,
+	   C.EQUIPMENTCLASSID,
+	   C.EQUIPMENTCLASSNAME,
+	   A.EQUIPMENTID,
+	   D.PROCESSSEGMENTNAME,
+	   D.PROCESSSEGMENTID,
+	   A.SCHEDULEUNIT,
+	   A.SCHEDULETARGET,
+	   CONVERT(CHAR(19), A.VALIDSTARTTIME, 20) AS VALIDSTARTTIME,
+	   CONVERT(CHAR(19), A.VALIDENDTIME, 20) AS VALIDENDTIME,
+	   A.ISAUTOSCHEDULE,
+	   A.ISUSABLE,
+	   A.CREATOR,
+	   A.CREATETIME,
+	   A.MODIFIER,
+	   A.MODIFYTIME
+  FROM CST_PMDEFINITION A WITH(NOLOCK)
+  LEFT JOIN CIM_EQUIPMENT B WITH(NOLOCK)
+    ON A.SITEID = B.SITEID
+   AND A.EQUIPMENTID = B.EQUIPMENTID
+  LEFT JOIN CIM_EQUIPMENTCLASS C WITH(NOLOCK)
+    ON B.SITEID = C.SITEID
+   AND B.EQUIPMENTCLASSID = C.EQUIPMENTCLASSID
+  LEFT JOIN CIM_PROCESSSEGMENT D WITH(NOLOCK)
+    ON A.SITEID = D.SITEID
+   AND A.PROCESSSEGMENTID = D.PROCESSSEGMENTID
+ WHERE A.SITEID = @SITEID
+   AND A.LINEID = @LINEID
+   AND (@PMTYPE = &#x27;&#x27; OR A.PMTYPE = @PMTYPE)
+   --AND (@PMDEFINITIONID = &#x27;&#x27; OR A.PMDEFINITIONID LIKE &#x27;%&#x27; + @PMDEFINITIONID + &#x27;%&#x27;)
+   AND (@PMSYSNAME = &#x27;&#x27; OR A.PMSYSNAME LIKE &#x27;%&#x27; + @PMSYSNAME + &#x27;%&#x27;)
+   AND A.ROOTEQUIPMENTID = @ROOTEQUIPMENTID
+   AND (@EQUIPMENTCLASSID = &#x27;&#x27; OR C.EQUIPMENTCLASSID = @EQUIPMENTCLASSID)
+   AND (@EQUIPMENTID = &#x27;&#x27; OR A.EQUIPMENTID LIKE &#x27;%&#x27; + @EQUIPMENTID + &#x27;%&#x27;)
+   AND (@ISUSABLE = &#x27;&#x27; OR A.ISUSABLE = @ISUSABLE)
+ ORDER BY A.VALIDSTARTTIME, A.VALIDENDTIME</pre></details></details><details id="svc-2" class="svc" open><summary><b>#2</b> Query <code>SelectPmInspectionDetailList</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-2">#2 조회 - 그리드 EM_PB_0022 (PM검사그룹관리2_PMBM검사항목목록)</a></p><h4>Query (조회 서비스) : SelectPmInspectionDetailList</h4><ul><li>ID 구성: <code>SelectPmInspectionDetailList</code> / 클래스 <code>THiRAMES.Service.UI</code> / 버전 <code>00001</code></li><li>정의 위치: DB 저장 쿼리 (CIM_STOREDQUERY)</li><li>쿼리명: EM_PB_002_PM 검사 그룹 관리 - PM / BM 검사 항목 목록 Grid 조회 쿼리</li><li>쿼리 파라메터: <code>SITEID</code> <code>LINEID</code> <code>PMDEFINITIONID</code></li><li>테이블(조회/쓰기 전체, 함수·SP 포함): <div><a class="tbl" href="../tables.html#CST_PMITEM">CST_PMITEM</a><span class="b m">메인</span><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CST_PMDEFINITIONITEMREL">CST_PMDEFINITIONITEMREL</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CST_PMDEFINITION">CST_PMDEFINITION</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_USER">CIM_USER</a><span class="b r">읽기</span></div></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 3 · 조인 2</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 844 121" width="844" height="121" role="img" aria-label="조인 구조도"><path class="edge e-left" d="M186 38 C231 38 231 38 276 38"/><text class="elab" x="231" y="34" text-anchor="middle">LEFT</text><path class="edge e-left" d="M470 38 C515 38 515 38 560 38"/><text class="elab" x="515" y="34" text-anchor="middle">LEFT</text><g class="node base"><rect x="16" y="16" width="170" height="44" rx="7"/><text x="26" y="35" class="t1">CST_PMITEM</text><text x="26" y="52" class="t2">alias A</text></g><g class="node"><rect x="276" y="16" width="194" height="89" rx="7"/><text x="286" y="35" class="t1">CST_PMDEFINITIONITEMREL</text><text x="286" y="52" class="t2">alias B</text><text x="286" y="67" class="t2 jt">LEFT</text><text x="304" y="82" class="t3">SITEID = A.SITEID</text><text x="304" y="97" class="t3">PMITEMID = A.PMITEMID</text></g><g class="node"><rect x="560" y="16" width="268" height="89" rx="7"/><text x="570" y="35" class="t1">CST_PMDEFINITION</text><text x="570" y="52" class="t2">alias C</text><text x="570" y="67" class="t2 jt">LEFT</text><text x="588" y="82" class="t3">SITEID = B.SITEID</text><text x="588" y="97" class="t3">PMDEFINITIONID = B.PMDEFINITIONID</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small><br><small class="muted">마스터/명칭 조회용 조인 제외(기준 테이블 제외): CIM_USER</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>------------------------------------------
+--EM_PB_002_PM 검사 그룹 관리 - PM / BM 검사 항목 목록 Grid 조회 쿼리
+--SelectPmInspectionDetailList
+--Param : SITEID, LINEID, PMDEFINITIONID
+------------------------------------------
+SELECT A.PMITEMID,
+       A.PMTYPE,
+       A.EQUIPMENTTYPE,
+       A.EQUIPMENTID,
+       A.PMCATEGORYID,
+	   A.PMITEMNAME,
+	   A.PMCLASSID,
+	   A.SCHEDULEUNIT,
+	   A.ISUSABLE,
+	   A.COMMENTS,
+	   A.CREATOR,
+	   D.USERNAME AS CREATORNAME,
+	   A.CREATETIME,
+	   A.MODIFIER,
+	   E.USERNAME AS MODIFIERNAME,
+	   A.MODIFYTIME 
+  FROM CST_PMITEM A WITH(NOLOCK)
+  LEFT JOIN CST_PMDEFINITIONITEMREL B WITH(NOLOCK)
+    ON A.SITEID = B.SITEID 
+   AND A.PMITEMID = B.PMITEMID
+  LEFT JOIN CST_PMDEFINITION C WITH(NOLOCK)
+    ON B.SITEID = C.SITEID 
+   AND B.PMDEFINITIONID = C.PMDEFINITIONID
+  LEFT JOIN CIM_USER D WITH(NOLOCK)
+    ON A.SITEID = D.SITEID
+   AND A.CREATOR = D.USERID
+  LEFT JOIN CIM_USER E WITH(NOLOCK)
+    ON A.SITEID = E.SITEID
+   AND A.MODIFIER = E.USERID
+ WHERE A.SITEID = @SITEID
+   AND A.LINEID = @LINEID
+   AND C.PMDEFINITIONID = @PMDEFINITIONID
+ ORDER BY A.PMITEMID</pre></details></details><details id="svc-3" class="svc" open><summary><b>#3</b> Rule <code>SavePmInspectionGroupInfo</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-3">#3 저장/삭제 - 그리드 EM_PB_0021 (PM검사그룹관리1_PMBM그룹목록)</a> <a class="chip" href="#fn-23">#23 savePmInspectionGroupInfo</a></p><h4>Rule (저장/실행 서비스) : SavePmInspectionGroupInfo</h4><ul><li>구현 위치: C# 소스 (CUS.Business.Equipment) - <code>CUS.Business.Equipment/EM_PB_002 PM 검사 그룹 관리/SavePmInspectionGroupInfo.cs</code></li><li>입력 파라메터(WEBDATA): <code>SITEID</code> <code>USERID</code> <code>LINEID</code> <code>PMSYSNAME</code> <code>PMTYPE</code> <code>EQUIPMENTID</code> <code>PROCESSSEGMENTID</code> <code>SCHEDULEUNIT</code> <code>SCHEDULETARGET</code> <code>VALIDSTARTTIME</code> <code>VALIDENDTIME</code> <code>ISAUTOSCHEDULE</code> <code>ISUSABLE</code> <code>_ROW_STATE</code> <code>ROOTEQUIPMENTID</code></li><li>관련 테이블(코드 분석 기반): <br><a class="tbl" href="../tables.html#CST_PMDEFINITION">CST_PMDEFINITION</a><span class="b w">쓰기</span></li><li>호출 체인(Service 메서드): <small>PmDefinitionManager.SavePmDefinition</small></li></ul></details><details id="svc-4" class="svc" open><summary><b>#4</b> Query <code>CDS_Code_200</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-4">#4 검색조건 콤보 - LINEID (LINEID)</a> <a class="chip" href="#fn-5">#5 검색조건 콤보 - ROOTEQUIPMENTID (ROOTEQUIPMENTID)</a> <a class="chip" href="#fn-7">#7 검색조건 콤보 - ISUSABLE (ISUSABLE)</a> <a class="chip" href="#fn-9">#9 검색조건 콤보 - SCHEDULEUNIT1 (SCHEDULEUNIT1)</a> <a class="chip" href="#fn-10">#10 검색조건 콤보 - ISUSABLE1 (ISUSABLE1)</a> <a class="chip" href="#fn-11">#11 컬럼 콤보/코드 - PMTYPE (TYPE)</a> <a class="chip" href="#fn-12">#12 컬럼 콤보/코드 - ROOTEQUIPMENTID (ROOTEQUIPMENTID)</a> <a class="chip" href="#fn-14">#14 컬럼 콤보/코드 - SCHEDULEUNIT (INSPSCHEDULEUNIT)</a> <a class="chip" href="#fn-15">#15 컬럼 콤보/코드 - ISAUTOSCHEDULE (ISAUTOSCHEDULE)</a> <a class="chip" href="#fn-16">#16 컬럼 콤보/코드 - ISUSABLE (ISUSABLE)</a> <a class="chip" href="#fn-18">#18 컬럼 콤보/코드 - PMTYPE (PMTYPE)</a> <a class="chip" href="#fn-19">#19 컬럼 콤보/코드 - EQUIPMENTTYPE (EQUIPMENTCATEGORY)</a> <a class="chip" href="#fn-20">#20 컬럼 콤보/코드 - PMCATEGORYID (PMCATEGORY)</a> <a class="chip" href="#fn-21">#21 컬럼 콤보/코드 - PMCLASSID (PMCLASS)</a> <a class="chip" href="#fn-22">#22 컬럼 콤보/코드 - SCHEDULEUNIT (SCHEDULEUNIT)</a></p><h4>Query (조회 서비스) : CDS_Code_200</h4><ul><li>ID 구성: <code>CDS_Code_200</code> / 클래스 <code>THiRA.MES.Modeler</code> / 버전 <code>00001</code></li><li>정의 위치: Modeler 내장 쿼리 (THiRAMES.Service.Modeler.MSSQL DLL)</li><li>쿼리 파라메터: <code>CODECLASSID</code> <code>SITEID</code></li><li>테이블(조회/쓰기 전체, 함수·SP 포함): <div><a class="tbl" href="../tables.html#CIM_CODE">CIM_CODE</a><span class="b m">메인</span><span class="b r">읽기</span></div></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 1 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 202 76" width="202" height="76" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="170" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_CODE</text><text x="26" y="52" class="t2">기준 테이블</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>SELECT CODEID AS CODE,
+       CODENAME AS NAME,
+       UISEQUENCE
+FROM CIM_CODE 
+WHERE CODECLASSID = :CODECLASSID
+      AND ISUSABLE= &#x27;Usable&#x27; 
+      AND SITEID = :SITEID
+ORDER BY UISEQUENCE</pre></details></details><details id="svc-5" class="svc" open><summary><b>#5</b> Query <code>RDS_EquipmentClass_200</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-6">#6 검색조건 콤보 - EQUIPMENTCLASSID (EQUIPMENTCLASSID)</a></p><h4>Query (조회 서비스) : RDS_EquipmentClass_200</h4><ul><li>ID 구성: <code>RDS_EquipmentClass_200</code> / 클래스 <code>THiRA.MES.Modeler</code> / 버전 <code>00001</code></li><li>정의 위치: Modeler 내장 쿼리 (THiRAMES.Service.Modeler.MSSQL DLL)</li><li>쿼리 파라메터: <code>SITEID</code></li><li>테이블(조회/쓰기 전체, 함수·SP 포함): <div><a class="tbl" href="../tables.html#CIM_EQUIPMENTCLASS">CIM_EQUIPMENTCLASS</a><span class="b m">메인</span><span class="b r">읽기</span></div></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 1 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 202 76" width="202" height="76" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="170" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_EQUIPMENTCLASS</text><text x="26" y="52" class="t2">기준 테이블</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>SELECT EQUIPMENTCLASSID AS CODE
+       ,EQUIPMENTCLASSNAME AS NAME
+FROM CIM_EQUIPMENTCLASS 
+WHERE ISUSABLE=&#x27;Usable&#x27; 
+      AND SITEID = :SITEID</pre></details></details><details id="svc-6" class="svc" open><summary><b>#6</b> Query <code>PMS_ProcessSegment_200</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-8">#8 검색조건 콤보 - PROCESSSEGMENTID1 (PROCESSSEGMENTID1)</a> <a class="chip" href="#fn-13">#13 컬럼 콤보/코드 - PROCESSSEGMENTID (PROCESSSEGMENTID)</a></p><h4>Query (조회 서비스) : PMS_ProcessSegment_200</h4><ul><li>ID 구성: <code>PMS_ProcessSegment_200</code> / 클래스 <code>THiRA.MES.Modeler</code> / 버전 <code>00001</code></li><li>정의 위치: Modeler 내장 쿼리 (THiRAMES.Service.Modeler.MSSQL DLL)</li><li>쿼리 파라메터: <code>SITEID</code></li><li>테이블(조회/쓰기 전체, 함수·SP 포함): <div><a class="tbl" href="../tables.html#CIM_PROCESSSEGMENT">CIM_PROCESSSEGMENT</a><span class="b m">메인</span><span class="b r">읽기</span></div></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 1 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 202 76" width="202" height="76" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="170" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_PROCESSSEGMENT</text><text x="26" y="52" class="t2">기준 테이블</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>SELECT PROCESSSEGMENTID AS CODE
+       ,PROCESSSEGMENTNAME AS NAME
+FROM CIM_PROCESSSEGMENT 
+WHERE ISUSABLE=&#x27;Usable&#x27; 
+      AND SITEID = :SITEID</pre></details></details><details id="svc-7" class="svc" open><summary><b>#7</b> Rule <code>SavePmInspectionDefItemRelInfo</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-17">#17 저장/삭제 - 그리드 EM_PB_0022 (PM검사그룹관리2_PMBM검사항목목록)</a></p><h4>Rule (저장/실행 서비스) : SavePmInspectionDefItemRelInfo</h4><ul><li>구현 위치: C# 소스 (CUS.Business.Equipment) - <code>CUS.Business.Equipment/EM_PB_002 PM 검사 그룹 관리/SavePmInspectionDefItemRelInfo.cs</code></li><li>입력 파라메터(WEBDATA): <code>SITEID</code> <code>USERID</code> <code>LINEID</code> <code>PMDEFINITIONID</code> <code>PMITEMID</code> <code>PMITEMNAME</code> <code>PMTYPE</code> <code>ISUSABLE</code> <code>COMMENTS</code> <code>DESCRIPTION</code> <code>_ROW_STATE</code></li><li>관련 테이블(코드 분석 기반): <br><a class="tbl" href="../tables.html#CST_PMDEFINITION">CST_PMDEFINITION</a><span class="b u">참조</span><br><a class="tbl" href="../tables.html#CST_PMDEFINITIONITEMREL">CST_PMDEFINITIONITEMREL</a><span class="b u">참조</span><br><a class="tbl" href="../tables.html#CST_PMITEM">CST_PMITEM</a><span class="b u">참조</span></li><li>호출 체인(Service 메서드): <small>PmDefinitionManager.SavePmInspDefItemRel, PmDefinitionManager.UpsertDefItemRel, CustomUtils.SetCommonDataCustom, PmDefinitionManager.DeleteDefItemRel</small></li></ul></details><details id="svc-8" class="svc" open><summary><b>#8</b> Query <code>SavePmInspScheduleInfo</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-24">#24 SavePmInspScheduleInfo</a></p><h4>Query (조회 서비스) : SavePmInspScheduleInfo</h4><ul><li>ID 구성: <code>SavePmInspScheduleInfo</code> / 클래스 <code>THiRAMES.Service.UI</code> / 버전 <code>00001</code></li><li>정의 위치: DB 저장 쿼리 (CIM_STOREDQUERY)</li><li>쿼리명: EM_PB_002 PM 검사 그룹 관리 일정 생성 프로시저</li><li>쿼리 파라메터: <code>SITEID</code> <code>USERID</code> <code>LINEID</code> <code>PMDEFINITIONID</code></li><li>테이블(조회/쓰기 전체, 함수·SP 포함): <div><small class="muted">└ Stored Procedure SP_EM_PB_002_INSERTPMRESULTLIST :</small> <a class="tbl" href="../tables.html#CST_PMDEFINITION">CST_PMDEFINITION</a><span class="b m">메인</span><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#SPT_VALUES">SPT_VALUES</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CST_PMRESULT">CST_PMRESULT</a><span class="b w">쓰기</span></div></li><li>함수/SP: <code>EXEC SP_EM_PB_002_INSERTPMRESULTLIST</code></li></ul><details class="joinviz" open><summary><b>Stored Procedure <code>SP_EM_PB_002_INSERTPMRESULTLIST</code> 의 조인 구조도</b> <small class="muted">테이블 3 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 202 224" width="202" height="224" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="170" height="44" rx="7"/><text x="26" y="35" class="t1">CST_PMDEFINITION</text><text x="26" y="52" class="t2">기준 테이블</text></g><g class="node unk"><rect x="16" y="90" width="170" height="44" rx="7"/><text x="26" y="109" class="t1">SPT_VALUES</text><text x="26" y="126" class="t2">alias A</text></g><g class="node"><rect x="16" y="164" width="170" height="44" rx="7"/><text x="26" y="183" class="t1">CST_PMRESULT</text><text x="26" y="200" class="t2"></text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>EXEC SP_EM_PB_002_INSERTPMRESULTLIST @SITEID, @USERID, @LINEID, @PMDEFINITIONID, &#x27;Y&#x27;</pre></details><details class="sql"><summary>Stored Procedure SP_EM_PB_002_INSERTPMRESULTLIST 정의 보기</summary><pre>CREATE PROCEDURE dbo.SP_EM_PB_002_INSERTPMRESULTLIST
+	@SITEID VARCHAR(40)
+	, @USERID VARCHAR(40)
+	, @LINEID VARCHAR(40)
+	, @PMDEFINITIONID VARCHAR(40)
+	, @DELETEFLAG VARCHAR(1)
+	--, @RETURNVALUE VARCHAR(100) OUTPUT
+AS	
+BEGIN
+		
+	DECLARE @TARGETDAYINFO TABLE
+	(
+		NUMBERID 			INT
+		, BASE_WEEK			INT
+		, TARGET_DAY		DATE
+		, WEEKOFYEAR		INT
+		, WEEKDAY			INT
+		, ISLASTMONTHDAY	VARCHAR(1)
+		, ISFEBLASTDAY		VARCHAR(1)
+		, CREATETARGET      VARCHAR(1)
+	)
+	
+	DECLARE @VALIDSTARTDATE DATETIME
+		  , @VALIDENDDATE DATETIME
+		  , @TODATE DATETIME
+		  , @SCHEDULEUNIT VARCHAR(4)
+		  , @SCHEDULETARGET INT
+		  , @SQL VARCHAR(MAX)
+	;
+	
+	--SET @RETURNVALUE = &#x27;SUCCESS&#x27;;
+
+	BEGIN
+		-- PM 검사 그룹 관리에서 선택한 그룹의 시작일자 기준 2년치의 스케줄을 생성하기 위해 조회
+		SELECT 
+			@VALIDSTARTDATE = VALIDSTARTTIME,
+			@VALIDENDDATE = DATEADD(YEAR, 2, VALIDSTARTTIME),		
+			@TODATE = CONVERT(DATE, GETDATE()),
+			@SCHEDULEUNIT = SCHEDULEUNIT,
+			@SCHEDULETARGET = SCHEDULETARGET
+		  FROM CST_PMDEFINITION
+		 WHERE SITEID = @SITEID
+		   AND PMDEFINITIONID = @PMDEFINITIONID
+				
+		--SELECT @VALIDSTARTDATE, @VALIDENDDATE, @TODATE, @SCHEDULEUNIT, @SCHEDULETARGET
+		
+		IF @SCHEDULEUNIT NOT IN ( &#x27;D&#x27;, &#x27;W&#x27;, &#x27;M&#x27;, &#x27;Y&#x27; ) 
+		BEGIN
+			--PRINT &#x27;스케쥴 단위가 D,W,M,Y 에서 벗어남.&#x27;
+			--SET @RETURNVALUE = &#x27;SP_EM_PB_002_E001&#x27;
+			--RETURN;
+			
+			SET @SQL = &#x27;SELECT &#x27;&#x27;E&#x27;&#x27; AS errCode&#x27; 
+	  		EXEC (@SQL)
+		END
+		
+		IF @SCHEDULETARGET = 0 OR @SCHEDULETARGET IS NULL  
+		BEGIN 
+			--PRINT &#x27;스케쥴 주기가 없거나 0 입니다&#x27;
+			--SET @RETURNVALUE = &#x27;SP_EM_PB_002_E002&#x27;
+			--RETURN;
+			
+			SET @SQL = &#x27;SELECT &#x27;&#x27;E&#x27;&#x27; AS errCode&#x27; 
+	  		EXEC (@SQL)
+		END
+		
+		-- 일별 2년치 일정 저장
+		INSERT INTO @TARGETDAYINFO 
+		SELECT
+			number AS NUMBERID								-- 순번
+			, DATEPART(WK,@VALIDSTARTDATE) AS BASE_WEEK		-- 기준 WEEK (DEFINITION 정보)
+			, DATEADD(d, number, CONVERT(DATE, @TODATE, 112)) AS TARGET_DAY	-- 대상 일자 
+			, DATEPART(WK,DATEADD(d, number, CONVERT(DATE, @TODATE, 112))) AS WEEKOFYEAR
+			, DATEPART(WEEKDAY, DATEADD(d, number, CONVERT(DATE, @TODATE, 112))) AS WEEKDAY	 -- 0 : SUNDAY
+			, CASE WHEN EOMONTH ( DATEADD(d, number, CONVERT(DATE, @TODATE, 112)) ) = DATEADD(d, number, CONVERT(DATE, @TODATE, 112)) THEN &#x27;Y&#x27; ELSE &#x27;N&#x27; END AS ISLASTMONTHDAY
+			, CASE WHEN DATEPART(MONTH, DATEADD(d, number, CONVERT(DATE, @TODATE, 112))) = 2 
+				        AND CONVERT(INT, DATEPART(d, EOMONTH ( DATEADD(d, number, CONVERT(DATE, @TODATE, 112)) ) )) &lt;= CONVERT(INT, DATEPART(d, @VALIDSTARTDATE) )
+	   			        AND  EOMONTH ( DATEADD(d, number, CONVERT(DATE, @TODATE, 112)) ) = DATEADD(d, number, CONVERT(DATE, @TODATE, 112))
+			         THEN &#x27;Y&#x27; 
+			       ELSE &#x27;N&#x27; 
+			  END AS ISFEBLASTDAY			
+			, &#x27;N&#x27; AS CREATETARGET			
+		FROM master..spt_values A
+		WHERE A.type = &#x27;P&#x27;
+		AND number &lt;= DATEDIFF(d, @TODATE, DATEADD(YEAR, 2, CONVERT(DATE, @TODATE)))
+		;		
+
+	END
+	--SELECT * FROM @TARGETDAYINFO
+
+	-- 오늘 날짜 이후 기준 PM 결과 등록되지 않은 데이터 삭제 처리
+	BEGIN
+		IF @DELETEFLAG = &#x27;Y&#x27;
+		BEGIN
+			--SELECT *
+			DELETE
+			FROM CST_PMRESULT
+			WHERE SITEID = @SITEID
+			AND PMDEFINITIONID = @PMDEFINITIONID
+			AND SCHEDULESTARTDATE &gt; @TODATE
+			AND (STARTDATE IS NULL AND ENDDATE IS NULL)
+		END
+	END
+	
+	-- 등록 대상 선정
+	BEGIN TRY
+		-- 일 기준 주기일 경우
+		IF @SCHEDULEUNIT = &#x27;D&#x27;
+		BEGIN
+			PRINT &#x27;D&#x27;
+			UPDATE @TARGETDAYINFO
+			SET CREATETARGET = &#x27;Y&#x27;
+			WHERE NUMBERID % @SCHEDULETARGET = 0
+		END
+		
+		-- 주 기준 주기일 경우
+		ELSE IF @SCHEDULEUNIT = &#x27;W&#x27;
+		BEGIN
+			PRINT &#x27;W&#x27;
+			UPDATE @TARGETDAYINFO
+			SET CREATETARGET = &#x27;Y&#x27;
+			WHERE NUMBERID IN 
+			(
+				SELECT NUMBERID	FROM @TARGETDAYINFO MA
+				WHERE DATEPART(WEEKDAY, @VALIDSTARTDATE ) = WEEKDAY
+				AND   (WEEKOFYEAR - BASE_WEEK) % @SCHEDULETARGET = 0
+			)
+ 
+		END 
+		
+		-- 월 기준 주기일 경우
+		ELSE IF @SCHEDULEUNIT = &#x27;M&#x27;
+		BEGIN 
+			PRINT &#x27;M&#x27;
+			
+			-- 마지막 날인 경우
+			IF EOMONTH(@VALIDSTARTDATE) = CONVERT(DATE, @VALIDSTARTDATE)
+			BEGIN
+				UPDATE @TARGETDAYINFO
+				SET CREATETARGET = &#x27;Y&#x27;
+				WHERE NUMBERID IN 
+					(
+						SELECT NUMBERID
+						FROM 
+						(
+							SELECT 
+								NUMBERID
+								, RANK() OVER(ORDER BY M.NUMBERID ASC) AS MONTHROW
+							FROM @TARGETDAYINFO M
+							WHERE M.ISLASTMONTHDAY = &#x27;Y&#x27; OR M.ISFEBLASTDAY = &#x27;Y&#x27;
+						) MA
+						WHERE MA.MONTHROW % @SCHEDULETARGET = 0
+					)
+
+			END
+			
+			-- 마지막 일이 아닌 경우
+			ELSE
+			BEGIN
+				UPDATE @TARGETDAYINFO
+				SET CREATETARGET = &#x27;Y&#x27;
+				WHERE NUMBERID IN 
+				(			
+					SELECT 
+						NUMBERID
+					FROM 
+					(
+						SELECT 
+							ROW_NUMBER() OVER(ORDER BY NUMBERID ASC) AS MONTHROW
+							, MA.NUMBERID
+						FROM @TARGETDAYINFO MA
+						WHERE DAY(@VALIDSTARTDATE) = DAY(TARGET_DAY) -- DEFINITION 의 기준일 중 일자와 대상 일자 비교 (년월 제외한 일자 비교)
+						 
+					) M
+					WHERE (M.MONTHROW - 1) % @SCHEDULETARGET = 0 AND M.MONTHROW &gt; 1
+				) 
+			END
+		END
+		ELSE IF @SCHEDULEUNIT = &#x27;Y&#x27;
+		BEGIN 
+		
+			UPDATE @TARGETDAYINFO
+			SET CREATETARGET = &#x27;Y&#x27;
+			WHERE TARGET_DAY IN 
+				(
+					SELECT TARGET_DAY
+					FROM
+					(
+						SELECT 
+							number AS NUMBERID
+							, DATEADD(YY, number, CONVERT(DATE, @VALIDSTARTDATE, 112)) AS TARGET_DAY
+						FROM master..spt_values A
+						WHERE A.type = &#x27;P&#x27;
+						AND number &lt;= DATEDIFF(YY, @VALIDSTARTDATE, DATEADD(YEAR, 2, CONVERT(DATE, @VALIDSTARTDATE)))
+					) M
+					WHERE NUMBERID % @SCHEDULETARGET = 0
+				)
+		END	
+		
+	END TRY
+	BEGIN CATCH
+		PRINT &#x27;CATCH&#x27;
+		--SET @RETURNVALUE = &#x27;SP_EM_PB_002_E003&#x27;
+		SET @SQL = &#x27;SELECT &#x27;&#x27;E&#x27;&#x27; AS errCode&#x27; 
+	  	EXEC (@SQL)
+	END CATCH
+	
+	INSERT INTO CST_PMRESULT
+	(
+		PMDEFINITIONID, 
+		SITEID,
+		PMDEFINITIONNAME,
+		PMTYPE,
+		STATE,
+		ROOTEQUIPMENTID,
+		PROCESSSEGMENTID, 
+		EQUIPMENTID, 
+		SCHEDULESTARTDATE, 
+		SCHEDULEENDDATE, 
+		LINEID,
+		ACTIVITY,
+		ISUSABLE, 
+		CREATOR, 
+		CREATETIME,
+		MODIFIER,
+		MODIFYTIME,
+		LASTEVENTTIME
+	)
+	SELECT S1.PMDEFINITIONID,
+		   S1.SITEID,
+		   S1.PMDEFINITIONNAME,
+		   S1.PMTYPE,
+		   S1.STATE,
+		   S1.ROOTEQUIPMENTID,
+		   S1.PROCESSSEGMENTID,
+		   S1.EQUIPMENTID,
+		   S1.TARGET_DAY AS SCHEDULESTARTDATE,
+		   S1.TARGET_DAY AS SCHEDULEENDDATE,
+		   S1.LINEID,
+		   S1.ACTIVITY,
+		   S1.ISUSABLE,
+		   S1.CREATOR,
+		   S1.CREATETIME,
+		   S1.MODIFIER,
+		   S1.MODIFYTIME,
+		   S1.LASTEVENTTIME 
+	  FROM (
+	  	SELECT A.TARGET_DAY, B.*
+		  FROM @TARGETDAYINFO A
+		  LEFT JOIN (
+		  	SELECT A.PMDEFINITIONID,
+			       @SITEID AS SITEID,
+			       A.PMSYSNAME AS PMDEFINITIONNAME,
+			       A.PMTYPE,
+			       &#x27;Waiting&#x27; AS STATE,
+			       A.ROOTEQUIPMENTID,
+			       A.PROCESSSEGMENTID,
+			       A.EQUIPMENTID,
+			       @LINEID AS LINEID,
+			       &#x27;CreatePmSchedule&#x27; AS ACTIVITY,
+			       &#x27;Usable&#x27; AS ISUSABLE,
+			       @USERID AS CREATOR,
+			       GETDATE() AS CREATETIME,
+			       @USERID AS MODIFIER,
+			       GETDATE() AS MODIFYTIME,
+			       GETDATE() AS LASTEVENTTIME
+		  	  FROM CST_PMDEFINITION A
+		  	 WHERE A.SITEID = @SITEID
+			   AND A.PMDEFINITIONID = @PMDEFINITIONID
+		  ) B
+		    ON B.SITEID = @SITEID
+		 WHERE CREATETARGET = &#x27;Y&#x27;
+	  ) S1
+	  
+	  SET @SQL = &#x27;SELECT &#x27;&#x27;S&#x27;&#x27; AS errCode&#x27; 
+  	  EXEC (@SQL)
+	
+END</pre></details></details><h2>3. 그리드 / 검색조건 정의</h2><details><summary><b>EM_PB_0021</b> PM검사그룹관리1_PMBM그룹목록 — 컬럼 18, 검색조건 11</summary><p>actionId: <code class="wrapc">SavePmInspectionGroupInfo/THiRAMES.Service.UI$RuleMultiInquiry$THiRAMES.Service.UI$SelectPmInspectionGroupList$00001?SITEID=@STORAGE:siteCd&amp;LINEID=&amp;PMTYPE=&amp;PMDEFINITIONID=&amp;PMSYSNAME=&amp;ROOTEQUIPMENTID=&amp;EQUIPMENTCLASSID=&amp;EQUIPMENTID=&amp;ISUSABLE=</code></p><h4>검색조건</h4><table class="grid sm"><thead><tr><th>필드</th><th>유형</th><th>표시명</th><th>표시명(한글)</th><th>콤보 서비스</th></tr></thead><tbody><tr><td><code>LINEID</code></td><td>FILTER</td><td>LINEID</td><td><b>라인</b></td><td class="wrapc">THiRA.MES.Modeler$RuleMultiInquiry$THiRA.MES.Modeler$CDS_Code_200$00001?CODECLASSID=LINEID&amp;SITEID=@STORAGE:siteid</td></tr><tr><td><code>PMDEFINITIONID</code></td><td>FILTER</td><td>PMDEFINITIONID</td><td><b></b></td><td class="wrapc"></td></tr><tr><td><code>PMSYSNAME</code></td><td>FILTER</td><td>PMSYSNAME</td><td><b></b></td><td class="wrapc"></td></tr><tr><td><code>ROOTEQUIPMENTID</code></td><td>FILTER</td><td>ROOTEQUIPMENTID</td><td><b>Unit</b></td><td class="wrapc">THiRA.MES.Modeler$RuleMultiInquiry$THiRA.MES.Modeler$CDS_Code_200$00001?SITEID=@STORAGE:siteCd&amp;CODECLASSID=ROOTEQUIPMENT</td></tr><tr><td><code>EQUIPMENTCLASSID</code></td><td>FILTER</td><td>EQUIPMENTCLASSID</td><td><b>설비그룹</b></td><td class="wrapc">THiRA.MES.Modeler$RuleMultiInquiry$THiRA.MES.Modeler$RDS_EquipmentClass_200$00001?SITEID=@STORAGE:siteCd</td></tr><tr><td><code>EQUIPMENTID</code></td><td>FILTER</td><td>EQUIPMENTID</td><td><b>설비</b></td><td class="wrapc"></td></tr><tr><td><code>ISUSABLE</code></td><td>FILTER</td><td>ISUSABLE</td><td><b>사용여부</b></td><td class="wrapc">THiRA.MES.Modeler$RuleMultiInquiry$THiRA.MES.Modeler$CDS_Code_200$00001?SITEID=@STORAGE:siteCd&amp;CODECLASSID=ISUSABLE</td></tr><tr><td><code>PROCESSSEGMENTID1</code></td><td>FILTER</td><td>PROCESSSEGMENTID1</td><td><b></b></td><td class="wrapc">THiRA.MES.Modeler$RuleMultiInquiry$THiRA.MES.Modeler$PMS_ProcessSegment_200$00001?SITEID=@STORAGE:siteCd</td></tr><tr><td><code>SCHEDULEUNIT1</code></td><td>FILTER</td><td>SCHEDULEUNIT1</td><td><b></b></td><td class="wrapc">THiRA.MES.Modeler$RuleMultiInquiry$THiRA.MES.Modeler$CDS_Code_200$00001?SITEID=@STORAGE:siteCd&amp;CODECLASSID=SCHEDULEUNIT</td></tr><tr><td><code>SCHEDULETARGET1</code></td><td>FILTER</td><td>SCHEDULETARGET1</td><td><b></b></td><td class="wrapc"></td></tr><tr><td><code>ISUSABLE1</code></td><td>FILTER</td><td>ISUSABLE1</td><td><b></b></td><td class="wrapc">THiRA.MES.Modeler$RuleMultiInquiry$THiRA.MES.Modeler$CDS_Code_200$00001?SITEID=@STORAGE:siteCd&amp;CODECLASSID=ISUSABLE</td></tr></tbody></table><p class="muted">조회 쿼리의 메인 테이블 <a class="tbl" href="../tables.html#CST_PMDEFINITION">CST_PMDEFINITION</a> 에서 오는 컬럼은 <span class="mainmark">강조</span> 표시됩니다 (14개 / 18개)</p><h4>컬럼</h4><table class="grid sm"><thead><tr><th>필드</th><th>표시명</th><th>표시명(한글)</th><th>편집</th><th>필수</th><th>콤보 서비스</th></tr></thead><tbody><tr class="mainc"><td><code>PMSYSNAME</code> <span class="b m">메인</span></td><td>GROUPNAME</td><td><b>그룹명</b></td><td>Y</td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>PMTYPE</code> <span class="b m">메인</span></td><td>TYPE</td><td><b>타입</b></td><td>Y</td><td>Y</td><td class="wrapc">THiRA.MES.Modeler$RuleMultiInquiry$THiRA.MES.Modeler$CDS_Code_200$00001?SITEID=@STORAGE:siteCd&amp;CODECLASSID=PMTYPE</td></tr><tr class="mainc"><td><code>ROOTEQUIPMENTID</code> <span class="b m">메인</span></td><td>ROOTEQUIPMENTID</td><td><b>Unit</b></td><td></td><td></td><td class="wrapc">THiRA.MES.Modeler$RuleMultiInquiry$THiRA.MES.Modeler$CDS_Code_200$00001?SITEID=@STORAGE:siteCd&amp;CODECLASSID=ROOTEQUIPMENT</td></tr><tr><td><code>EQUIPMENTCLASSID</code></td><td>EQUIPMENTCLASSID</td><td><b>설비그룹</b></td><td></td><td></td><td class="wrapc"></td></tr><tr><td><code>EQUIPMENTCLASSNAME</code></td><td>EQUIPMENTCLASS</td><td><b>설비그룹</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>EQUIPMENTID</code> <span class="b m">메인</span></td><td>EQUIPMENT</td><td><b>설비</b></td><td></td><td>Y</td><td class="wrapc"></td></tr><tr><td><code>PROCESSSEGMENTNAME</code></td><td>PROCESSSEGMENTNAME</td><td><b>공정명</b></td><td></td><td></td><td class="wrapc"></td></tr><tr><td><code>PROCESSSEGMENTID</code></td><td>PROCESSSEGMENTID</td><td><b>공정</b></td><td>Y</td><td></td><td class="wrapc">THiRA.MES.Modeler$RuleMultiInquiry$THiRA.MES.Modeler$PMS_ProcessSegment_200$00001?SITEID=@STORAGE:siteCd</td></tr><tr class="mainc"><td><code>SCHEDULEUNIT</code> <span class="b m">메인</span></td><td>INSPSCHEDULEUNIT</td><td><b>주기단위</b></td><td>Y</td><td>Y</td><td class="wrapc">THiRA.MES.Modeler$RuleMultiInquiry$THiRA.MES.Modeler$CDS_Code_200$00001?SITEID=@STORAGE:siteCd&amp;CODECLASSID=SCHEDULEUNIT</td></tr><tr class="mainc"><td><code>SCHEDULETARGET</code> <span class="b m">메인</span></td><td>INSPSCHEDULE</td><td><b>점검주기</b></td><td>Y</td><td>Y</td><td class="wrapc"></td></tr><tr class="mainc"><td><code>VALIDSTARTTIME</code> <span class="b m">메인</span></td><td>STARTDATE</td><td><b>시작 일자</b></td><td>Y</td><td>Y</td><td class="wrapc"></td></tr><tr class="mainc"><td><code>VALIDENDTIME</code> <span class="b m">메인</span></td><td>ENDDATE</td><td><b>종료 일자</b></td><td>Y</td><td>Y</td><td class="wrapc"></td></tr><tr class="mainc"><td><code>ISAUTOSCHEDULE</code> <span class="b m">메인</span></td><td>ISAUTOSCHEDULE</td><td><b>자동생성</b></td><td>Y</td><td></td><td class="wrapc">THiRA.MES.Modeler$RuleMultiInquiry$THiRA.MES.Modeler$CDS_Code_200$00001?SITEID=@STORAGE:siteCd&amp;CODECLASSID=ISUSABLE</td></tr><tr class="mainc"><td><code>ISUSABLE</code> <span class="b m">메인</span></td><td>ISUSABLE</td><td><b>사용여부</b></td><td>Y</td><td>Y</td><td class="wrapc">THiRA.MES.Modeler$RuleMultiInquiry$THiRA.MES.Modeler$CDS_Code_200$00001?SITEID=@STORAGE:siteCd&amp;CODECLASSID=ISUSABLE</td></tr><tr class="mainc"><td><code>CREATOR</code> <span class="b m">메인</span></td><td>CREATOR</td><td><b>등록자</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>CREATETIME</code> <span class="b m">메인</span></td><td>CREATETIME</td><td><b>등록일시</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>MODIFIER</code> <span class="b m">메인</span></td><td>MODIFIER</td><td><b>수정자</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>MODIFYTIME</code> <span class="b m">메인</span></td><td>MODIFYTIME</td><td><b>수정일시</b></td><td></td><td>Y</td><td class="wrapc"></td></tr></tbody></table></details><details><summary><b>EM_PB_0022</b> PM검사그룹관리2_PMBM검사항목목록 — 컬럼 14, 검색조건 0</summary><p>actionId: <code class="wrapc">SavePmInspectionDefItemRelInfo/THiRAMES.Service.UI$RuleMultiInquiry$THiRAMES.Service.UI$SelectPmInspectionDetailList$00001?SITEID=@STORAGE:siteCd&amp;LINEID=&amp;PMDEFINITIONID=</code></p><p class="muted">조회 쿼리의 메인 테이블 <a class="tbl" href="../tables.html#CST_PMITEM">CST_PMITEM</a> 에서 오는 컬럼은 <span class="mainmark">강조</span> 표시됩니다 (12개 / 14개)</p><h4>컬럼</h4><table class="grid sm"><thead><tr><th>필드</th><th>표시명</th><th>표시명(한글)</th><th>편집</th><th>필수</th><th>콤보 서비스</th></tr></thead><tbody><tr class="mainc"><td><code>PMITEMID</code> <span class="b m">메인</span></td><td>ITEM</td><td><b>항목</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>PMTYPE</code> <span class="b m">메인</span></td><td>PMTYPE</td><td><b>구분</b></td><td></td><td></td><td class="wrapc">THiRA.MES.Modeler$RuleMultiInquiry$THiRA.MES.Modeler$CDS_Code_200$00001?SITEID=@STORAGE:siteCd&amp;CODECLASSID=PMITEMTYPE</td></tr><tr class="mainc"><td><code>EQUIPMENTTYPE</code> <span class="b m">메인</span></td><td>EQUIPMENTCATEGORY</td><td><b>설비 유형</b></td><td></td><td></td><td class="wrapc">THiRA.MES.Modeler$RuleMultiInquiry$THiRA.MES.Modeler$CDS_Code_200$00001?SITEID=@STORAGE:siteCd&amp;CODECLASSID=EQUIPMENTTYPE</td></tr><tr class="mainc"><td><code>EQUIPMENTID</code> <span class="b m">메인</span></td><td>EQUIPMENTID</td><td><b>설비</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>PMCATEGORYID</code> <span class="b m">메인</span></td><td>PMCATEGORY</td><td><b>점검 항목</b></td><td></td><td></td><td class="wrapc">THiRA.MES.Modeler$RuleMultiInquiry$THiRA.MES.Modeler$CDS_Code_200$00001?SITEID=@STORAGE:siteCd&amp;CODECLASSID=PMCATEGORY</td></tr><tr class="mainc"><td><code>PMITEMNAME</code> <span class="b m">메인</span></td><td>PMITEMNAME</td><td><b>점검 기준</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>PMCLASSID</code> <span class="b m">메인</span></td><td>PMCLASS</td><td><b>점검 구분</b></td><td></td><td></td><td class="wrapc">THiRA.MES.Modeler$RuleMultiInquiry$THiRA.MES.Modeler$CDS_Code_200$00001?SITEID=@STORAGE:siteCd&amp;CODECLASSID=PMCLASS</td></tr><tr class="mainc"><td><code>SCHEDULEUNIT</code> <span class="b m">메인</span></td><td>SCHEDULEUNIT</td><td><b>주기단위</b></td><td></td><td></td><td class="wrapc">THiRA.MES.Modeler$RuleMultiInquiry$THiRA.MES.Modeler$CDS_Code_200$00001?SITEID=@STORAGE:siteCd&amp;CODECLASSID=SCHEDULEUNIT</td></tr><tr class="mainc"><td><code>ISUSABLE</code> <span class="b m">메인</span></td><td>ISUSABLE</td><td><b>사용여부</b></td><td></td><td></td><td class="wrapc">THiRA.MES.Modeler$RuleMultiInquiry$THiRA.MES.Modeler$CDS_Code_200$00001?SITEID=@STORAGE:siteCd&amp;CODECLASSID=ISUSABLE</td></tr><tr class="mainc"><td><code>COMMENTS</code> <span class="b m">메인</span></td><td>COMMENTS</td><td><b>비고</b></td><td></td><td></td><td class="wrapc"></td></tr><tr><td><code>CREATORNAME</code></td><td>CREATOR</td><td><b>등록자</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>CREATETIME</code> <span class="b m">메인</span></td><td>CREATETIME</td><td><b>등록일시</b></td><td></td><td></td><td class="wrapc"></td></tr><tr><td><code>MODIFIERNAME</code></td><td>MODIFIER</td><td><b>수정자</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>MODIFYTIME</code> <span class="b m">메인</span></td><td>MODIFYTIME</td><td><b>수정일시</b></td><td></td><td></td><td class="wrapc"></td></tr></tbody></table></details><footer>자동 생성 문서 · DB: EM_MES_DEV (10.130.11.100) · 소스: THiRAMES_UI / THiRAMES_Service · "추정"/"코드 분석 기반" 표기는 정적 분석 결과이므로 실제 동작과 다를 수 있습니다.</footer></main></body></html>

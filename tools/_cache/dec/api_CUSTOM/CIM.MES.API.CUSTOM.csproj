@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AssemblyName>CIM.MES.API.CUSTOM</AssemblyName>
+    <GenerateAssemblyInfo>False</GenerateAssemblyInfo>
+    <TargetFramework>netcoreapp5.0</TargetFramework>
+  </PropertyGroup>
+  <PropertyGroup>
+    <LangVersion>11.0</LangVersion>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup />
+  <ItemGroup />
+  <ItemGroup>
+    <Reference Include="CIM.MES.COMMON">
+      <HintPath>D:\svn_ENMA_MES\bin\net5\CIM.MES.COMMON.dll</HintPath>
+    </Reference>
+    <Reference Include="CIM.MES.Framework">
+      <HintPath>D:\svn_ENMA_MES\bin\net5\CIM.MES.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="CIM.MES.Entity">
+      <HintPath>D:\svn_ENMA_MES\bin\net5\CIM.MES.Entity.dll</HintPath>
+    </Reference>
+    <Reference Include="CIM.MES.Logging">
+      <HintPath>D:\svn_ENMA_MES\bin\net5\CIM.MES.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="CIM.MES.API.POS">
+      <HintPath>D:\svn_ENMA_MES\bin\net5\CIM.MES.API.POS.dll</HintPath>
+    </Reference>
+    <Reference Include="CIM.MES.Configuration">
+      <HintPath>D:\svn_ENMA_MES\bin\net5\CIM.MES.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="CIM.MES.API.PPS">
+      <HintPath>D:\svn_ENMA_MES\bin\net5\CIM.MES.API.PPS.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+</Project>

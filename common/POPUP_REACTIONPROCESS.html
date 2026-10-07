@@ -1,0 +1,575 @@
+<!DOCTYPE html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>POPUP_REACTIONPROCESS - 반응 공정 시작/종료(팝업)</title><link rel="stylesheet" href="../style.css"></head><body><header class="top"><a href="../index.html">← 전체 목록</a><a href="../tables.html">테이블 색인</a></header><main><h1>반응 공정 시작/종료(팝업) <small>POPUP_REACTIONPROCESS</small></h1><table class="kv"><tr><th>화면 경로</th><td><code>THiRAMES_UI/wwwroot/view/ngs/mes/common/POPUP_REACTIONPROCESS.html</code></td></tr><tr><th>화면 구분</th><td>공통 팝업/컴포넌트</td></tr><tr><th>위젯(Grid)</th><td><code>POPUP_REACTIONPROCESS1</code></td></tr><tr><th>화면 버튼</th><td><span class="chip">findBtn1 · 조회</span> <span class="chip">closeBtn · Btn_Close</span> <span class="chip">selectBtn · Btn_OK</span></td></tr></table><h2>1. 기능별 호출 서비스 / 파라메터 / 테이블</h2><div class="wrap"><table class="grid"><thead><tr><th>#</th><th>기능</th><th>구분</th><th>호출 서비스</th><th>파라메터</th><th>DB 테이블</th></tr></thead><tbody><tr id="fn-1"><td>1</td><td>조회 - 그리드 POPUP_REACTIONPROCESS1 (공정진행반응팝업1_환산수량)<br><small class="muted">조회 버튼(findBtn)/마스터-디테일 행선택 시 호출</small></td><td>R 조회</td><td><a href="#svc-1"><span class="tag q">Query</span> <code>SelectExchangeQty</code></a> <small>THiRAMES.Service.UI</small></td><td class="params"><code>SITEID</code> <code>MATERIALDEFINITIONID</code> <code>CONSUMEQTY</code> <code>ISUIDATA</code> <code>(UI</code> <code>=</code> <code>&#x27;Y&#x27;</code> <code>/</code> <code>SERVER</code> <code>&#x27;N&#x27;)</code><br><span class="muted">UI 전달:</span> <code class="ui">LINEID</code> <code class="ui">PRODUCTDEFINITIONID</code> <code class="ui">LOTID</code> <code class="ui">EQUIPMENTID</code> <code class="ui">EQUIPMENTID1</code> <code class="ui">PRODUCTORDERIDSTART</code> <code class="ui">WORKORDERIDSTART</code></td><td><a class="tbl" href="../tables.html#CIM_BOM">CIM_BOM</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_LOT">CIM_LOT</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_PROCESSPATH">CIM_PROCESSPATH</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_WORKORDER">CIM_WORKORDER</a><span class="b r">읽기</span></td></tr><tr id="fn-2"><td>2</td><td>검색조건 콤보 - LINEID (LINEID)</td><td>R 조회</td><td><a href="#svc-2"><span class="tag q">Query</span> <code>CDS_Code_200</code></a> <small>THiRA.MES.Modeler</small></td><td class="params"><code>CODECLASSID</code> <code>SITEID</code></td><td><a class="tbl" href="../tables.html#CIM_CODE">CIM_CODE</a><span class="b r">읽기</span></td></tr><tr id="fn-3"><td>3</td><td>검색조건 콤보 - EQUIPMENTID1 (EQUIPMENTID)</td><td>R 조회</td><td><a href="#svc-3"><span class="tag q">Query</span> <code>SelectNextTankId</code></a> <small>THiRAMES.Service.UI</small></td><td class="params"><code>SITEID</code> <code>PROCESSSEGMENTID</code> <code>EQUIPMENTID</code></td><td><a class="tbl" href="../tables.html#CST_TANKPATHNODE">CST_TANKPATHNODE</a><span class="b r">읽기</span></td></tr><tr id="fn-4"><td>4</td><td>검색조건 콤보 - PRODUCTORDERIDSTART (PRODUCTORDERIDSTART)</td><td>R 조회</td><td><a href="#svc-4"><span class="tag q">Query</span> <code>SelectCboLeachingPO</code></a> <small>THiRAMES.Service.UI</small></td><td class="params"><code>SITEID</code></td><td><a class="tbl" href="../tables.html#CIM_LOT">CIM_LOT</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_PRODUCTORDER">CIM_PRODUCTORDER</a><span class="b r">읽기</span></td></tr><tr id="fn-5"><td>5</td><td>event<br><small class="muted">JS ngsWidget.ajax(C)</small></td><td>등록/실행 (변수 URL 추정)</td><td><a href="#svc-5"><span class="tag rule">Rule</span> <code>EndLeachingProcess</code></a></td><td class="params"><code>SITEID</code> <code>USERID</code> <code>LINEID</code> <code>LOTID</code> <code>WORKORDERID</code> <code>PROCESSSEGMENTID</code> <code>EQUIPMENTID</code> <code>MATERIALDEFINITIONID</code> <code>INPUTTIME</code> <code>INPUTQTY</code> <code>OUTPUTTIME</code><br><span class="muted">UI 전달:</span> <code class="ui">PRODUCTORDERID</code></td><td><a class="tbl" href="../tables.html#CIM_BOM">CIM_BOM</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_EQUIPMENT">CIM_EQUIPMENT</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_LOT">CIM_LOT</a><span class="b w">쓰기</span><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_LOTMATERIALLOTREL">CIM_LOTMATERIALLOTREL</a><span class="b w">쓰기</span><br><a class="tbl" href="../tables.html#CIM_MATERIALDEFINITION">CIM_MATERIALDEFINITION</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_PROCESSDEFINITION">CIM_PROCESSDEFINITION</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_PROCESSNODE">CIM_PROCESSNODE</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_PROCESSSEGMENT">CIM_PROCESSSEGMENT</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_PROCESSSEGMENTEQUIPMENTREL">CIM_PROCESSSEGMENTEQUIPMENTREL</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_PRODUCTDEFINITION">CIM_PRODUCTDEFINITION</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_PRODUCTORDER">CIM_PRODUCTORDER</a><span class="b w">쓰기</span><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_WORKORDER">CIM_WORKORDER</a><span class="b w">쓰기</span><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#IFS_PRD_MATERIALCONSUME">IFS_PRD_MATERIALCONSUME</a><span class="b w">쓰기</span><span class="b r">읽기</span></td></tr><tr id="fn-6"><td>6</td><td>getWorkOrderComboData<br><small class="muted">JS ngsWidget.ajax(R)</small></td><td>조회</td><td><a href="#svc-6"><span class="tag q">Query</span> <code>SelectCboLeachingWO</code></a> <small>THiRAMES.Service.UI</small></td><td class="params"><code>SITEID</code> <code>PRODUCTORDERID</code><br><span class="muted">UI 전달:</span> <code class="ui">MATERIALDEFINITIONID</code> <code class="ui">CONSUMEQTY</code> <code class="ui">PRODUCTDEFINITIONID</code> <code class="ui">ISUIDATA</code> <code class="ui">LOTID</code> <code class="ui">LINEID</code></td><td><a class="tbl" href="../tables.html#CIM_BOM">CIM_BOM</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_LOT">CIM_LOT</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_WORKORDER">CIM_WORKORDER</a><span class="b r">읽기</span></td></tr><tr id="fn-7"><td>7</td><td>selectExchangeMetalStartQty<br><small class="muted">JS ngsWidget.ajax(R)</small></td><td>조회</td><td><a href="#svc-7"><span class="tag q">Query</span> <code>SelectExchangeMetalStartQty</code></a> <small>THiRAMES.Service.UI</small></td><td class="params"><code>SITEID</code> <code>MATERIALDEFINITIONID</code> <code>LOTID</code><br><span class="muted">UI 전달:</span> <code class="ui">PRODUCTORDERID</code></td><td><a class="tbl" href="../tables.html#CIM_BOM">CIM_BOM</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_LOT">CIM_LOT</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_PROCESSPATH">CIM_PROCESSPATH</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_PRODUCTDEFINITION">CIM_PRODUCTDEFINITION</a><span class="b r">읽기</span></td></tr><tr id="fn-8"><td>8</td><td>기타 참조 (JS 문자열)</td><td>참조</td><td><a href="#svc-8"><span class="tag rule">Rule</span> <code>StartLeachingProcess</code></a></td><td class="params"><code>SITEID</code> <code>USERID</code> <code>LINEID</code> <code>PRODUCTORDERID</code> <code>WORKORDERID</code> <code>PROCESSSEGMENTID</code> <code>EQUIPMENTID</code> <code>MATERIALDEFINITIONID</code> <code>INPUTTIME</code> <code>INPUTQTY</code></td><td><a class="tbl" href="../tables.html#CIM_BOM">CIM_BOM</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_EQUIPMENT">CIM_EQUIPMENT</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_LOT">CIM_LOT</a><span class="b w">쓰기</span><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_LOTHIST">CIM_LOTHIST</a><span class="b w">쓰기</span><br><a class="tbl" href="../tables.html#CIM_LOTMATERIALLOTREL">CIM_LOTMATERIALLOTREL</a><span class="b w">쓰기</span><br><a class="tbl" href="../tables.html#CIM_MATERIALLOT">CIM_MATERIALLOT</a><span class="b u">참조</span><br><a class="tbl" href="../tables.html#CIM_PROCESSDEFINITION">CIM_PROCESSDEFINITION</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_PROCESSNODE">CIM_PROCESSNODE</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_PROCESSPATH">CIM_PROCESSPATH</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_PROCESSSEGMENT">CIM_PROCESSSEGMENT</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_PROCESSSEGMENTEQUIPMENTREL">CIM_PROCESSSEGMENTEQUIPMENTREL</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_PRODUCTDEFINITION">CIM_PRODUCTDEFINITION</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_PRODUCTORDER">CIM_PRODUCTORDER</a><span class="b w">쓰기</span><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_WORKORDER">CIM_WORKORDER</a><span class="b w">쓰기</span><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CST_MATERIALLOT">CST_MATERIALLOT</a><span class="b u">참조</span></td></tr></tbody></table></div><h2>2. 서비스 상세</h2><details id="svc-1" class="svc" open><summary><b>#1</b> Query <code>SelectExchangeQty</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-1">#1 조회 - 그리드 POPUP_REACTIONPROCESS1 (공정진행반응팝업1_환산수량)</a></p><h4>Query (조회 서비스) : SelectExchangeQty</h4><ul><li>ID 구성: <code>SelectExchangeQty</code> / 클래스 <code>THiRAMES.Service.UI</code> / 버전 <code>00001</code></li><li>정의 위치: DB 저장 쿼리 (CIM_STOREDQUERY)</li><li>쿼리명: PM_PB_001 공정 진행 (반응) - POPUP 환산수량 조회</li><li>쿼리 파라메터: <code>SITEID</code> <code>MATERIALDEFINITIONID</code> <code>CONSUMEQTY</code> <code>ISUIDATA</code> <code>(UI</code> <code>=</code> <code>&#x27;Y&#x27;</code> <code>/</code> <code>SERVER</code> <code>=</code> <code>&#x27;N&#x27;)</code></li><li>테이블(조회/쓰기 전체, 함수·SP 포함): <div><small class="muted">└ Stored Procedure SP_GET_LEACHINGMETALQTY_V3 :</small> <a class="tbl" href="../tables.html#CIM_LOT">CIM_LOT</a><span class="b m">메인</span><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#METAL_BASEDATA">METAL_BASEDATA</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_WORKORDER">CIM_WORKORDER</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_BOM">CIM_BOM</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_PROCESSPATH">CIM_PROCESSPATH</a><span class="b r">읽기</span></div></li><li>함수/SP: <code>EXEC SP_GET_LEACHINGMETALQTY_V3</code></li></ul><details class="joinviz" open><summary><b>Stored Procedure <code>SP_GET_LEACHINGMETALQTY_V3</code> 의 조인 구조도</b> <small class="muted">테이블 5 · 조인 3</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 1155 180" width="1155" height="180" role="img" aria-label="조인 구조도"><path class="edge e-inner" d="M446 38 C491 38 491 38 536 38"/><text class="elab" x="491" y="34" text-anchor="middle">INNER</text><path class="edge e-inner" d="M706 38 C751 38 751 38 796 38"/><text class="elab" x="751" y="34" text-anchor="middle">INNER</text><path class="edge e-left" d="M276 38 C231 38 231 38 186 38"/><text class="elab" x="231" y="34" text-anchor="middle">LEFT</text><g class="node base"><rect x="16" y="16" width="170" height="74" rx="7"/><text x="26" y="35" class="t1">CIM_LOT</text><text x="26" y="52" class="t2">alias L</text><text x="26" y="67" class="t2 jt">LEFT</text><text x="44" y="82" class="t3">LOTID = MT.LOTID</text></g><g class="node unk"><rect x="276" y="16" width="170" height="44" rx="7"/><text x="286" y="35" class="t1">METAL_BASEDATA</text><text x="286" y="52" class="t2">alias MT</text></g><g class="node"><rect x="536" y="16" width="170" height="44" rx="7"/><text x="546" y="35" class="t1">CIM_WORKORDER</text><text x="546" y="52" class="t2">alias WO</text></g><g class="node"><rect x="796" y="16" width="343" height="89" rx="7"/><text x="806" y="35" class="t1">CIM_BOM</text><text x="806" y="52" class="t2">alias B</text><text x="806" y="67" class="t2 jt">INNER</text><text x="824" y="82" class="t3">SITEID = WO.SITEID</text><text x="824" y="97" class="t3">PRODUCTDEFINITIONID = WO.PRODUCTDEFINITIONID</text></g><g class="node"><rect x="16" y="120" width="170" height="44" rx="7"/><text x="26" y="139" class="t1">CIM_PROCESSPATH</text><text x="26" y="156" class="t2"></text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>------------------------------------------
+--PM_PB_001 공정 진행 (반응) - POPUP 환산수량 조회
+--SelectExchangeQty
+--Param : SITEID, MATERIALDEFINITIONID, CONSUMEQTY, ISUIDATA (UI = &#x27;Y&#x27; / SERVER = &#x27;N&#x27;)
+------------------------------------------
+EXEC SP_GET_LEACHINGMETALQTY_V3 @SITEID, @PRODUCTDEFINITIONID, @CONSUMEQTY, @ISUIDATA</pre></details><details class="sql"><summary>Stored Procedure SP_GET_LEACHINGMETALQTY_V3 정의 보기</summary><pre>--------------------------------
+-- 반응 투입 (TKIN) 시 METAL 무게 환산 (2024-04-17)
+--  톤백 METAL 함유량을 찾지 못한 경우 : DEFAULT 함유량 (임의값)으로 계산하는 로직 추가
+--  PARAM 
+--    @SITEID : &#x27;PL01&#x27;
+--    @FIR_PRODUCTDEFINITIONID : 소성 LOT PRODUCTDEFINITIONID 
+--    @CONSUMEQTY : 소진 대상 수량
+--    @ISUIDATA : Y - UI 조회용, N - 소진 정보용.
+-- EXEC SP_GET_LEACHINGMETALQTY_V3 &#x27;PL01&#x27;, &#x27;2WKO0NCM6-22&#x27;, 5020, &#x27;N&#x27;
+--------------------------------
+CREATE PROCEDURE [dbo].[SP_GET_LEACHINGMETALQTY_V3] 
+    @SITEID VARCHAR(40), @FIR_PRODUCTDEFINITIONID VARCHAR(40), @CONSUMEQTY INT, @ISUIDATA VARCHAR(1) = &#x27;Y&#x27;
+AS  
+BEGIN 
+
+    ---------------------------------------------
+    -- TEMP TABLE 생성
+    ---------------------------------------------
+    DECLARE @LEACHINGMETALINFO TABLE
+    (
+        LOTID VARCHAR(40)
+        , SITEID VARCHAR(40)
+        , CONSUMEQTY FLOAT
+        , USED_QTY FLOAT
+        , LITHIUMMETALQTY FLOAT
+        , COBALTMETALQTY FLOAT
+        , NICKELMETALQTY FLOAT
+        , WORKORDERID VARCHAR(40)
+    )
+    ;
+
+    ---------------------------------------------
+    -- METAL 환산 수량 계산 및 TEMP TABLE 저장 : START
+    ---------------------------------------------
+    WITH METAL_BASEDATA AS 
+    (
+        SELECT 
+            M.LOTID
+            , M.SITEID
+            --, M.RESULTQTY  -- 검증용
+            --, M.QTY        -- 검증용
+            --, M.LITHIUMMETALQTY AS FIR_LITHIUMMETALQTY  -- 검증용
+            --, M.COBALTMETALQTY AS FIR_COBALTMETALQTY    -- 검증용
+            --, M.NICKELMETALQTY AS FIR_NICKELMETALQTY    -- 검증용
+            --, M.START_QTY  -- 검증용
+            --, M.END_QTY    -- 검증용
+            , M.USED_QTY
+            , M.USED_QTY / M.RESULTQTY * M.LITHIUMMETALQTY AS LITHIUMMETALQTY
+            , M.USED_QTY / M.RESULTQTY * M.COBALTMETALQTY AS COBALTMETALQTY
+            , M.USED_QTY / M.RESULTQTY * M.NICKELMETALQTY AS NICKELMETALQTY
+            , M.WORKORDERID
+        FROM 
+        (
+            SELECT 
+                MB.LOTID
+                , MB.SITEID
+                , MB.RESULTQTY
+                , MB.QTY
+                , MB.LITHIUMMETALQTY
+                , MB.COBALTMETALQTY
+                , MB.NICKELMETALQTY
+                , MB.START_QTY
+                , MB.END_QTY
+                , CASE WHEN MB.END_QTY - @CONSUMEQTY  &lt;= 0 THEN ( MB.END_QTY - MB.START_QTY )
+                       ELSE @CONSUMEQTY - MB.START_QTY 
+                  END AS USED_QTY
+                , MB.WORKORDERID
+            FROM 
+            (
+                SELECT 
+                    MA.LOTID
+                    , MA.SITEID
+                    , MA.RESULTQTY
+                    , MA.QTY
+                    , MA.LITHIUMMETALQTY
+                    , MA.COBALTMETALQTY
+                    , MA.NICKELMETALQTY
+                    , ISNULL( LAG(MA.END_QTY) OVER(ORDER BY MA.CREATETIME ASC), 0) AS START_QTY
+                    , MA.END_QTY
+                    , MA.CREATETIME
+                    , MA.WORKORDERID
+                FROM 
+                (
+                    SELECT 
+                        L.LOTID 
+                        , L.SITEID 
+                        , L.ORIGINALQTY 
+                        , L.RESULTQTY
+                        , L.QTY 
+                        , L.PREVQTY
+                        , L.STATE 
+                        , L.PRODUCTDEFINITIONID 
+                        , L.LITHIUMMETALQTY
+                        , L.COBALTMETALQTY
+                        , L.NICKELMETALQTY
+                        , L.CREATETIME
+                        , SUM(L.QTY) OVER(ORDER BY L.CREATETIME ASC) AS END_QTY
+                        , L.WORKORDERID
+                    FROM CIM_LOT L
+                    WHERE L.SITEID = &#x27;PL01&#x27;
+                    AND   L.PROCESSSEGMENTID = &#x27;P2010&#x27;
+                    AND   L.STATE = &#x27;Finished&#x27;
+                    AND   L.PRODUCTDEFINITIONID = @FIR_PRODUCTDEFINITIONID
+                ) MA
+            ) MB
+            WHERE MB.END_QTY &lt;= @CONSUMEQTY
+  OR    ( MB.START_QTY &lt; @CONSUMEQTY AND @CONSUMEQTY &lt;= MB.END_QTY )
+        ) M
+    ) 
+    INSERT INTO @LEACHINGMETALINFO
+    SELECT MT.LOTID 
+         , MT.SITEID
+         , @CONSUMEQTY AS CONSUMEQTY
+         , MT.USED_QTY
+         , MT.LITHIUMMETALQTY
+         , MT.COBALTMETALQTY
+         , MT.NICKELMETALQTY
+         , MT.WORKORDERID
+      FROM METAL_BASEDATA MT
+    ;  
+    ---------------------------------------------
+    -- METAL 환산 수량 계산 및 TEMP TABLE 저장 : END
+    ---------------------------------------------
+  
+    ---------------------------------------------
+    -- 결과값 조회
+    -- @ISUIDATA - Y : LI, CO, NI 의 공정별 SUM 값 SUM 값
+     --            N : LI, CO, NI 의 SUM 값
+    ---------------------------------------------
+    IF @ISUIDATA = &#x27;Y&#x27;
+    BEGIN
+        SELECT 
+            M.PRODUCT
+            , ROUND( SUM(QTY), 2) AS QTY
+        FROM 
+        (
+            SELECT 
+                  CASE WHEN B.PROCESSSEGMENTID = &#x27;P2030&#x27; THEN &#x27;Li&#x27;
+                       WHEN B.PROCESSSEGMENTID = &#x27;P2040&#x27; THEN &#x27;Co&#x27;
+                       WHEN B.PROCESSSEGMENTID = &#x27;P2050&#x27; THEN &#x27;Ni&#x27;
+                  END AS PRODUCT
+                , CASE WHEN B.PROCESSSEGMENTID = &#x27;P2030&#x27; THEN MB.LITHIUMMETALQTY
+                       WHEN B.PROCESSSEGMENTID = &#x27;P2040&#x27; THEN MB.COBALTMETALQTY
+                       WHEN B.PROCESSSEGMENTID = &#x27;P2050&#x27; THEN MB.NICKELMETALQTY
+                  END AS QTY
+            FROM @LEACHINGMETALINFO MB
+                INNER JOIN CIM_WORKORDER WO
+                    ON  MB.WORKORDERID = WO.WORKORDERID 
+                    AND MB.SITEID = WO.SITEID
+                INNER JOIN CIM_BOM B
+                    ON  WO.SITEID = B.SITEID 
+                    AND WO.PRODUCTDEFINITIONID = B.PRODUCTDEFINITIONID
+                    AND B.PROCESSSEGMENTID IN (SELECT NEXTPROCESSNODEID FROM CIM_PROCESSPATH WHERE PROCESSNODEID = &#x27;P2020&#x27;) 
+                    AND B.MATERIALDEFINITIONID &lt;&gt; &#x27;2LSS&#x27; --망초 제외
+                    AND B.MATERIALDEFINITIONID LIKE &#x27;2L%&#x27;
+        ) M
+        GROUP BY M.PRODUCT
+    END
+    ELSE
+    BEGIN
+--        SELECT M.LOTID
+--             , M.CONSUMEQTY
+--             , M.USED_QTY
+--             , ROUND(CONVERT(FLOAT, M.LITHIUMMETALQTY), 2) AS LITHIUMMETALQTY
+--             , ROUND(CONVERT(FLOAT, M.COBALTMETALQTY), 2) AS COBALTMETALQTY
+--             , ROUND(CONVERT(FLOAT, M.NICKELMETALQTY), 2) AS NICKELMETALQTY
+--        FROM 
+--        (
+--            SELECT ISNULL(MT.LOTID, &#x27;TOTALSUM&#x27;) AS LOTID
+--                 , @CONSUMEQTY AS CONSUMEQTY
+--                 , SUM(MT.USED_QTY) AS USED_QTY
+--                 , SUM(MT.LITHIUMMETALQTY) AS LITHIUMMETALQTY
+--                 , SUM(MT.COBALTMETALQTY) AS COBALTMETALQTY
+--                 , SUM(MT.NICKELMETALQTY) AS NICKELMETALQTY
+--              FROM @LEACHINGMETALINFO MT
+--             GROUP BY MT.LOTID WITH ROLLUP
+--         ) M
+        SELECT M.LOTID
+             , M.CONSUMEQTY
+             , M.USED_QTY
+             , ROUND(CONVERT(FLOAT, M.LITHIUMMETALQTY), 2) AS LITHIUMMETALQTY
+             , ROUND(CONVERT(FLOAT, M.COBALTMETALQTY), 2) AS COBALTMETALQTY
+             , ROUND(CONVERT(FLOAT, M.NICKELMETALQTY), 2) AS NICKELMETALQTY
+             , M.WORKORDERID
+        FROM 
+        (
+            SELECT ISNULL(MT.LOTID, &#x27;TOTALSUM&#x27;) AS LOTID
+                 , @CONSUMEQTY AS CONSUMEQTY
+                 , SUM(MT.USED_QTY) AS USED_QTY
+                 , SUM(MT.LITHIUMMETALQTY) AS LITHIUMMETALQTY
+                 , SUM(MT.COBALTMETALQTY) AS COBALTMETALQTY
+                 , SUM(MT.NICKELMETALQTY) AS NICKELMETALQTY
+                 , MIN(L.WORKORDERID) AS WORKORDERID
+              FROM @LEACHINGMETALINFO MT
+                LEFT OUTER JOIN CIM_LOT L
+                    ON  MT.LOTID = L.LOTID
+                    AND L.SITEID = @SITEID
+             GROUP BY MT.LOTID WITH ROLLUP
+         ) M        
+    END
+
+END</pre></details></details><details id="svc-2" class="svc" open><summary><b>#2</b> Query <code>CDS_Code_200</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-2">#2 검색조건 콤보 - LINEID (LINEID)</a></p><h4>Query (조회 서비스) : CDS_Code_200</h4><ul><li>ID 구성: <code>CDS_Code_200</code> / 클래스 <code>THiRA.MES.Modeler</code> / 버전 <code>00001</code></li><li>정의 위치: Modeler 내장 쿼리 (THiRAMES.Service.Modeler.MSSQL DLL)</li><li>쿼리 파라메터: <code>CODECLASSID</code> <code>SITEID</code></li><li>테이블(조회/쓰기 전체, 함수·SP 포함): <div><a class="tbl" href="../tables.html#CIM_CODE">CIM_CODE</a><span class="b m">메인</span><span class="b r">읽기</span></div></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 1 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 202 76" width="202" height="76" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="170" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_CODE</text><text x="26" y="52" class="t2">기준 테이블</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>SELECT CODEID AS CODE,
+       CODENAME AS NAME,
+       UISEQUENCE
+FROM CIM_CODE 
+WHERE CODECLASSID = :CODECLASSID
+      AND ISUSABLE= &#x27;Usable&#x27; 
+      AND SITEID = :SITEID
+ORDER BY UISEQUENCE</pre></details></details><details id="svc-3" class="svc" open><summary><b>#3</b> Query <code>SelectNextTankId</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-3">#3 검색조건 콤보 - EQUIPMENTID1 (EQUIPMENTID)</a></p><h4>Query (조회 서비스) : SelectNextTankId</h4><ul><li>ID 구성: <code>SelectNextTankId</code> / 클래스 <code>THiRAMES.Service.UI</code> / 버전 <code>00001</code></li><li>정의 위치: DB 저장 쿼리 (CIM_STOREDQUERY)</li><li>쿼리명: PM_PB_001 공정 진행 (반응)</li><li>쿼리 파라메터: <code>SITEID</code> <code>PROCESSSEGMENTID</code> <code>EQUIPMENTID</code></li><li>테이블(조회/쓰기 전체, 함수·SP 포함): <div><a class="tbl" href="../tables.html#CST_TANKPATHNODE">CST_TANKPATHNODE</a><span class="b m">메인</span><span class="b r">읽기</span></div></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 1 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 202 76" width="202" height="76" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="170" height="44" rx="7"/><text x="26" y="35" class="t1">CST_TANKPATHNODE</text><text x="26" y="52" class="t2">alias T</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>------------------------------------------
+--PM_PB_001 공정 진행 (반응) - 설비ID 조회 (POPUP 설비ID COMBOBOX)
+--SelectNextTankId
+--Param : SITEID, PROCESSSEGMENTID, EQUIPMENTID
+------------------------------------------
+SELECT DISTINCT T.TOEQUIPMENTID AS CODE
+     , T.TOEQUIPMENTID AS NAME
+  FROM CST_TANKPATHNODE T WITH(NOLOCK)
+  WHERE T.SITEID = @SITEID
+   AND T.PROCESSSEGMENTID = @PROCESSSEGMENTID
+   AND T.FROMEQUIPMENTID = @EQUIPMENTID</pre></details></details><details id="svc-4" class="svc" open><summary><b>#4</b> Query <code>SelectCboLeachingPO</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-4">#4 검색조건 콤보 - PRODUCTORDERIDSTART (PRODUCTORDERIDSTART)</a></p><h4>Query (조회 서비스) : SelectCboLeachingPO</h4><ul><li>ID 구성: <code>SelectCboLeachingPO</code> / 클래스 <code>THiRAMES.Service.UI</code> / 버전 <code>00001</code></li><li>정의 위치: DB 저장 쿼리 (CIM_STOREDQUERY)</li><li>쿼리명: PM_PB_001 공정 진행 (반응) - 반응 공정 시작 POPUP - WO 조회</li><li>쿼리 파라메터: <code>SITEID</code></li><li>테이블(조회/쓰기 전체, 함수·SP 포함): <div><a class="tbl" href="../tables.html#CIM_PRODUCTORDER">CIM_PRODUCTORDER</a><span class="b m">메인</span><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_LOT">CIM_LOT</a><span class="b r">읽기</span></div></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 2 · 조인 1</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 560 121" width="560" height="121" role="img" aria-label="조인 구조도"><path class="edge e-inner" d="M186 38 C231 38 231 38 276 38"/><text class="elab" x="231" y="34" text-anchor="middle">INNER</text><g class="node base"><rect x="16" y="16" width="170" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_PRODUCTORDER</text><text x="26" y="52" class="t2">alias P</text></g><g class="node"><rect x="276" y="16" width="268" height="89" rx="7"/><text x="286" y="35" class="t1">CIM_LOT</text><text x="286" y="52" class="t2">alias L</text><text x="286" y="67" class="t2 jt">INNER</text><text x="304" y="82" class="t3">SITEID = P.SITEID</text><text x="304" y="97" class="t3">PRODUCTORDERID = P.PRODUCTORDERID</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>------------------------------------------
+--PM_PB_001 공정 진행 (반응) - 공정 시작 POPUP : PO 조회
+--SelectCboLeachingPO
+--Param : SITEID
+------------------------------------------
+SELECT DISTINCT P.PRODUCTORDERID AS CODE
+     , P.PRODUCTORDERID AS NAME
+     , P.REQUESTTIME
+     , P.STATE
+  FROM CIM_PRODUCTORDER P WITH(NOLOCK)
+ INNER JOIN CIM_LOT L WITH(NOLOCK) ON L.SITEID = P.SITEID AND L.PRODUCTORDERID = P.PRODUCTORDERID AND L.STATE IN (&#x27;Finished&#x27;, &#x27;Consumed&#x27;) AND L.PROCESSSEGMENTID = &#x27;P2010&#x27;
+ WHERE P.SITEID = @SITEID
+   AND P.PROCESSTYPE = &#x27;P2000&#x27;
+   AND P.STATE IN (&#x27;Created&#x27;, &#x27;Active&#x27;)
+ ORDER BY P.REQUESTTIME DESC, P.PRODUCTORDERID</pre></details></details><details id="svc-5" class="svc" open><summary><b>#5</b> Rule <code>EndLeachingProcess</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-5">#5 event</a></p><h4>Rule (저장/실행 서비스) : EndLeachingProcess</h4><ul><li>구현 위치: C# 소스 (CUS.Business.Production) - <code>CUS.Business.Production/PM_PB_002 공정 진행(반응)/EndLeachingProcess.cs</code></li><li>설명: PM_PB_002 공정 진행(반응)</li><li>입력 파라메터(WEBDATA): <code>SITEID</code> <code>USERID</code> <code>LINEID</code> <code>LOTID</code> <code>WORKORDERID</code> <code>PROCESSSEGMENTID</code> <code>EQUIPMENTID</code> <code>MATERIALDEFINITIONID</code> <code>INPUTTIME</code> <code>INPUTQTY</code> <code>OUTPUTTIME</code></li><li>관련 테이블(코드 분석 기반): <br><a class="tbl" href="../tables.html#CIM_EQUIPMENT">CIM_EQUIPMENT</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_LOT">CIM_LOT</a><span class="b w">쓰기</span><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_LOTMATERIALLOTREL">CIM_LOTMATERIALLOTREL</a><span class="b w">쓰기</span><br><a class="tbl" href="../tables.html#CIM_MATERIALDEFINITION">CIM_MATERIALDEFINITION</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_PROCESSDEFINITION">CIM_PROCESSDEFINITION</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_PROCESSNODE">CIM_PROCESSNODE</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_PROCESSSEGMENT">CIM_PROCESSSEGMENT</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_PROCESSSEGMENTEQUIPMENTREL">CIM_PROCESSSEGMENTEQUIPMENTREL</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_PRODUCTDEFINITION">CIM_PRODUCTDEFINITION</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_PRODUCTORDER">CIM_PRODUCTORDER</a><span class="b w">쓰기</span><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_WORKORDER">CIM_WORKORDER</a><span class="b w">쓰기</span><span class="b r">읽기</span></li><li>내부 호출 쿼리: <code>GetCalculateBPExchangeQty</code> <code>SelectBomForProcessSegmentByBeforeProcessSegment</code> <code>SelectBomForProductByProcesssegment</code> <code>SelectErpIfConsumeData</code> <code>UpdateErpIfConsumeData</code></li><li>C# 코드 내 SQL 문자열: 9건</li><li>호출 체인(Service 메서드): <small>TrackingManager.EndLeachingProcess, ManagerExtenstions.GetLot, CustomTracking.CustomTrackOutLot, CustomUtils.SetCommonDataCustom, CustomTracking.SetIfsproductresult, CustomUtils.GetWorkDate, CustomTracking.SetIfsmaterialconsumeFlagForFiringLeaching, ManagerExtenstions.GetProcessSegment, CustomTrackingUtils.SetErpIfConsumeDataFlag, CustomTrackingUtils.UpdateErpIfConsumeDataFlag, ScheduleJobExecution.CreateIfsProductResult, ManagerExtenstions.CreateIfsProductResult, ManagerExtenstions.GetWorkorder, CustomTrackingUtils.GetBomProcessByBeforeProcess, CustomTrackingUtils.GetBPExchangeQty, CustomTracking.CustomCreateLot, ManagerExtenstions.GetProcessnode, CustomTrackingUtils.GetBomProductByProductMaterial, ManagerExtenstions.GetProductdefinition, ManagerExtenstions.GetProcessdefinitionDefault, CustomTrackingUtils.CreateLotId, ManagerExtenstions.StartLot, CustomTracking.CustomTrackInLot, ManagerExtenstions.GetEquipment, ManagerExtenstions.SelectProcessSegmentEquipmentRelWithEquipment</small></li></ul><details class="svc" open><summary>Rule 내부 호출 쿼리 <code>GetCalculateBPExchangeQty</code> <small class="muted">(DB 저장 쿼리 (CIM_STOREDQUERY) · 테이블 0)</small></summary><p>쿼리 파라메터: <code>TOTALINPUTQTY</code> <code>LI_METAL_QTY</code> <code>CO_METAL_QTY</code> <code>NI_METAL_QTY</code></p><ul><li>테이블: </li></ul><details class="sql"><summary>SQL 보기</summary><pre>------------------------------------------
+--[SERVICE] Metal 환산수량으로 BP 환산수량 계산
+--GetCalculateBPExchangeQty
+--Param : TOTALINPUTQTY, LI_METAL_QTY, CO_METAL_QTY, NI_METAL_QTY
+------------------------------------------
+SELECT CONVERT(float, @TOTALINPUTQTY) AS TOTALINPUTQTY
+     , CONVERT(float, A.LI_BP_QTY) AS LI_BP_QTY
+     , CONVERT(float, A.CO_BP_QTY) AS CO_BP_QTY
+     , CONVERT(float, @TOTALINPUTQTY) - CONVERT(float, A.LI_BP_QTY) - CONVERT(float, A.CO_BP_QTY) AS NI_BP_QTY
+--     , CONVERT(float, A.LI_BP_QTY) + CONVERT(float, A.CO_BP_QTY) + CONVERT(float, @TOTALINPUTQTY) - CONVERT(float, A.LI_BP_QTY) - CONVERT(float, A.CO_BP_QTY) AS TOTALSUMQTY
+  FROM (
+        SELECT ROUND(CONVERT(float, @TOTALINPUTQTY) * CONVERT(float,  @LI_METAL_QTY) / (CONVERT(float, @LI_METAL_QTY) + CONVERT(float, @CO_METAL_QTY) + CONVERT(float, @NI_METAL_QTY )), 2) AS LI_BP_QTY
+             , ROUND(CONVERT(float, @TOTALINPUTQTY) * CONVERT(float, @CO_METAL_QTY) / (CONVERT(float, @LI_METAL_QTY) + CONVERT(float, @CO_METAL_QTY) + CONVERT(float, @NI_METAL_QTY)), 2) AS CO_BP_QTY
+             , ROUND(CONVERT(float, @TOTALINPUTQTY) * CONVERT(float, @NI_METAL_QTY) / (CONVERT(float, @LI_METAL_QTY) + CONVERT(float, @CO_METAL_QTY) + CONVERT(float, @NI_METAL_QTY )), 2) AS NI_BP_QTY
+       ) AS A</pre></details></details><details class="svc" open><summary>Rule 내부 호출 쿼리 <code>SelectBomForProcessSegmentByBeforeProcessSegment</code> <small class="muted">(DB 저장 쿼리 (CIM_STOREDQUERY) · 테이블 2)</small></summary><p>쿼리 파라메터: <code>SITEID</code> <code>PRODUCTDEFINITIONID</code></p><ul><li>테이블: <div><a class="tbl" href="../tables.html#CIM_BOM">CIM_BOM</a><span class="b m">메인</span><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_PRODUCTDEFINITION">CIM_PRODUCTDEFINITION</a><span class="b r">읽기</span></div></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 1 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 202 76" width="202" height="76" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="170" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_BOM</text><text x="26" y="52" class="t2">alias B</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small><br><small class="muted">마스터/명칭 조회용 조인 제외(기준 테이블 제외): CIM_PRODUCTDEFINITION</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>------------------------------------------
+--[SERVICE] BOM - 반응 - 다음 공정 가져오기
+--SelectBomForProcessSegmentByBeforeProcessSegment
+--Param : SITEID, PRODUCTDEFINITIONID
+------------------------------------------
+SELECT B.*
+  FROM CIM_BOM B
+ INNER JOIN CIM_PRODUCTDEFINITION P ON P.SITEID = B.SITEID AND P.PRODUCTDEFINITIONID = B.MATERIALDEFINITIONID AND P.PRODUCTTYPE = &#x27;WIP&#x27;
+ WHERE B.SITEID = @SITEID
+   AND B.PRODUCTDEFINITIONID = @PRODUCTDEFINITIONID
+   AND B.MATERIALDEFINITIONID IN (&#x27;2LLC&#x27;,&#x27;2LCS&#x27;,&#x27;2LNS&#x27;)</pre></details></details><details class="svc" open><summary>Rule 내부 호출 쿼리 <code>SelectBomForProductByProcesssegment</code> <small class="muted">(DB 저장 쿼리 (CIM_STOREDQUERY) · 테이블 1)</small></summary><p>쿼리 파라메터: <code>SITEID</code> <code>PRODUCTDEFINITIONID</code> <code>MATERIALDEFINITIONID</code> <code>PROCESSSEGMENTID</code></p><ul><li>테이블: <div><a class="tbl" href="../tables.html#CIM_BOM">CIM_BOM</a><span class="b m">메인</span><span class="b r">읽기</span></div></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 1 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 202 76" width="202" height="76" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="170" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_BOM</text><text x="26" y="52" class="t2">기준 테이블</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>------------------------------------------
+--[SERVICE] BOM - 해당 공정 제품 가져오기
+--SelectBomForProductByProcesssegment
+--Param : SITEID, PRODUCTDEFINITIONID, MATERIALDEFINITIONID, PROCESSSEGMENTID
+------------------------------------------
+SELECT PRODUCTDEFINITIONID
+     , MATERIALDEFINITIONID
+     , PROCESSSEGMENTID
+     , WORKCENTER
+  FROM CIM_BOM
+ WHERE SITEID = @SITEID
+   AND (@PRODUCTDEFINITIONID = &#x27;&#x27; OR PRODUCTDEFINITIONID = @PRODUCTDEFINITIONID)
+   AND (@MATERIALDEFINITIONID = &#x27;&#x27; OR MATERIALDEFINITIONID = @MATERIALDEFINITIONID)
+   AND (@PROCESSSEGMENTID = &#x27;&#x27; OR PROCESSSEGMENTID = @PROCESSSEGMENTID)</pre></details></details><details class="svc" open><summary>Rule 내부 호출 쿼리 <code>SelectErpIfConsumeData</code> <small class="muted">(DB 저장 쿼리 (CIM_STOREDQUERY) · 테이블 1)</small></summary><p>쿼리 파라메터: <code>SITEID</code> <code>WORKORDERID</code> <code>PRODUCTLOTID</code> <code>LOCATION</code></p><ul><li>테이블: <div><a class="tbl" href="../tables.html#IFS_PRD_MATERIALCONSUME">IFS_PRD_MATERIALCONSUME</a><span class="b m">메인</span><span class="b r">읽기</span></div></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 1 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 226 76" width="226" height="76" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="194" height="44" rx="7"/><text x="26" y="35" class="t1">IFS_PRD_MATERIALCONSUME</text><text x="26" y="52" class="t2">기준 테이블</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>------------------------------------------
+-- Tracking - ERP IF 시 TrackOut시 TrackIn때 소진처리한 목록 Flag Update처리
+--SelectErpIfConsumeData
+--Param : SITEID, WORKORDERID, PRODUCTLOTID, LOCATION
+------------------------------------------
+SELECT WORKORDERID, LOTID, PRODUCTLOTID, WORKDATE, LOCATION, IFFLAG
+  FROM IFS_PRD_MATERIALCONSUME
+ WHERE SITEID = @SITEID
+   AND WORKORDERID = @WORKORDERID
+   AND PRODUCTLOTID = @PRODUCTLOTID
+   AND LOCATION = @LOCATION</pre></details></details><details class="svc" open><summary>Rule 내부 호출 쿼리 <code>UpdateErpIfConsumeData</code> <small class="muted">(DB 저장 쿼리 (CIM_STOREDQUERY) · 테이블 1)</small></summary><p>쿼리 파라메터: <code>SITEID</code> <code>WORKORDERID</code> <code>PRODUCTLOTID</code> <code>LOCATION</code></p><ul><li>테이블: <div><a class="tbl" href="../tables.html#IFS_PRD_MATERIALCONSUME">IFS_PRD_MATERIALCONSUME</a><span class="b w">쓰기</span></div></li></ul><details class="sql"><summary>SQL 보기</summary><pre>------------------------------------------
+-- Tracking - ERP IF 시 TrackOut시 TrackIn때 소진처리한 목록 Flag Update처리
+--UpdateErpIfConsumeData
+--Param : SITEID, WORKORDERID, PRODUCTLOTID, LOCATION
+------------------------------------------
+UPDATE IFS_PRD_MATERIALCONSUME
+   SET IFFLAG = @IFFLAG
+     , WORKDATE = @WORKDATE
+ WHERE SITEID = @SITEID
+   AND WORKORDERID = @WORKORDERID
+   AND PRODUCTLOTID = @PRODUCTLOTID
+   AND LOCATION = @LOCATION</pre></details></details><details class="svc"><summary>Rule 코드 내 단순 SQL(단일 테이블) 9건 <small class="muted">- 펼쳐서 확인</small></summary><details class="svc"><summary>Rule 코드 내 SQL #1 <small class="muted">(LOT.GetLot4Update (CIM.MES.API 프레임워크) · 테이블 1)</small></summary><ul><li>테이블: <div><a class="tbl" href="../tables.html#CIM_LOT">CIM_LOT</a><span class="b m">메인</span><span class="b r">읽기</span></div></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 1 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 202 76" width="202" height="76" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="170" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_LOT</text><text x="26" y="52" class="t2">기준 테이블</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>SELECT * FROM CIM_LOT WITH(UPDLOCK) WHERE LOTID=@LOTID AND SITEID=@SITEID</pre></details></details><details class="svc"><summary>Rule 코드 내 SQL #2 <small class="muted">(PROCESSSEGMENT.GetProcessSegment (CIM.MES.API 프레임워크) · 테이블 1)</small></summary><ul><li>테이블: <div><a class="tbl" href="../tables.html#CIM_PROCESSSEGMENT">CIM_PROCESSSEGMENT</a><span class="b m">메인</span><span class="b r">읽기</span></div></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 1 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 202 76" width="202" height="76" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="170" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_PROCESSSEGMENT</text><text x="26" y="52" class="t2">기준 테이블</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>SELECT * FROM CIM_PROCESSSEGMENT WHERE PROCESSSEGMENTID=@PROCESSSEGMENTID AND SITEID=@SITEID</pre></details></details><details class="svc"><summary>Rule 코드 내 SQL #3 <small class="muted">(WORKORDER.GetWorkOrder (CIM.MES.API 프레임워크) · 테이블 1)</small></summary><ul><li>테이블: <div><a class="tbl" href="../tables.html#CIM_WORKORDER">CIM_WORKORDER</a><span class="b m">메인</span><span class="b r">읽기</span></div></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 1 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 202 76" width="202" height="76" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="170" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_WORKORDER</text><text x="26" y="52" class="t2">기준 테이블</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>SELECT * FROM CIM_WORKORDER WHERE WORKORDERID=@WORKORDERID AND SITEID=@SITEID</pre></details></details><details class="svc"><summary>Rule 코드 내 SQL #4 <small class="muted">(PROCESSNODE.GetProcessNode (CIM.MES.API 프레임워크) · 테이블 1)</small></summary><ul><li>테이블: <div><a class="tbl" href="../tables.html#CIM_PROCESSNODE">CIM_PROCESSNODE</a><span class="b m">메인</span><span class="b r">읽기</span></div></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 1 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 202 76" width="202" height="76" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="170" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_PROCESSNODE</text><text x="26" y="52" class="t2">기준 테이블</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>SELECT * FROM CIM_PROCESSNODE WHERE PROCESSNODEID=@PROCESSNODEID AND SITEID=@SITEID</pre></details></details><details class="svc"><summary>Rule 코드 내 SQL #5 <small class="muted">(PRODUCTDEFINITION.GetProductDefinition (CIM.MES.API 프레임워크) · 테이블 1)</small></summary><ul><li>테이블: <div><a class="tbl" href="../tables.html#CIM_PRODUCTDEFINITION">CIM_PRODUCTDEFINITION</a><span class="b m">메인</span><span class="b r">읽기</span></div></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 1 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 211 76" width="211" height="76" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="179" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_PRODUCTDEFINITION</text><text x="26" y="52" class="t2">기준 테이블</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>SELECT * FROM CIM_PRODUCTDEFINITION WHERE PRODUCTDEFINITIONID=@PRODUCTDEFINITIONID AND SITEID=@SITEID</pre></details></details><details class="svc"><summary>Rule 코드 내 SQL #6 <small class="muted">(PROCESSSEGMENTEQUIPMENTREL.SelectProcessSegmentEquipmentRelWithEquipment (CIM.MES.API 프레임워크) · 테이블 1)</small></summary><ul><li>테이블: <div><a class="tbl" href="../tables.html#CIM_PROCESSSEGMENTEQUIPMENTREL">CIM_PROCESSSEGMENTEQUIPMENTREL</a><span class="b m">메인</span><span class="b r">읽기</span></div></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 1 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 278 76" width="278" height="76" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="246" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_PROCESSSEGMENTEQUIPMENTREL</text><text x="26" y="52" class="t2">기준 테이블</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>SELECT * FROM CIM_PROCESSSEGMENTEQUIPMENTREL WHERE EQUIPMENTID=@EQUIPMENTID AND SITEID=@SITEID AND ISUSABLE=&#x27;Usable&#x27;</pre></details></details><details class="svc"><summary>Rule 코드 내 SQL #7 <small class="muted">(EQUIPMENT.GetEquipment (CIM.MES.API 프레임워크) · 테이블 1)</small></summary><ul><li>테이블: <div><a class="tbl" href="../tables.html#CIM_EQUIPMENT">CIM_EQUIPMENT</a><span class="b m">메인</span><span class="b r">읽기</span></div></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 1 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 202 76" width="202" height="76" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="170" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_EQUIPMENT</text><text x="26" y="52" class="t2">기준 테이블</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>SELECT * FROM CIM_EQUIPMENT WHERE EQUIPMENTID=@EQUIPMENTID AND SITEID=@SITEID</pre></details></details><details class="svc"><summary>Rule 코드 내 SQL #8 <small class="muted">(PRODUCTORDER.GetProductOrder (CIM.MES.API 프레임워크) · 테이블 1)</small></summary><ul><li>테이블: <div><a class="tbl" href="../tables.html#CIM_PRODUCTORDER">CIM_PRODUCTORDER</a><span class="b m">메인</span><span class="b r">읽기</span></div></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 1 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 202 76" width="202" height="76" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="170" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_PRODUCTORDER</text><text x="26" y="52" class="t2">기준 테이블</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>SELECT * FROM CIM_PRODUCTORDER WHERE PRODUCTORDERID=@PRODUCTORDERID AND SITEID=@SITEID</pre></details></details><details class="svc"><summary>Rule 코드 내 SQL #9 <small class="muted">(WORKORDER.SelectWorkOrderListByProductOrder (CIM.MES.API 프레임워크) · 테이블 1)</small></summary><ul><li>테이블: <div><a class="tbl" href="../tables.html#CIM_WORKORDER">CIM_WORKORDER</a><span class="b m">메인</span><span class="b r">읽기</span></div></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 1 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 202 76" width="202" height="76" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="170" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_WORKORDER</text><text x="26" y="52" class="t2">기준 테이블</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>SELECT * FROM CIM_WORKORDER WHERE PRODUCTORDERID=@PRODUCTORDERID AND SITEID=@SITEID AND ISUSABLE=&#x27;Usable&#x27;</pre></details></details></details></details><details id="svc-6" class="svc" open><summary><b>#6</b> Query <code>SelectCboLeachingWO</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-6">#6 getWorkOrderComboData</a></p><h4>Query (조회 서비스) : SelectCboLeachingWO</h4><ul><li>ID 구성: <code>SelectCboLeachingWO</code> / 클래스 <code>THiRAMES.Service.UI</code> / 버전 <code>00001</code></li><li>정의 위치: DB 저장 쿼리 (CIM_STOREDQUERY)</li><li>쿼리명: PM_PB_001 공정 진행 (반응) - 반응 공정 시작 POPUP - WO 조회</li><li>쿼리 파라메터: <code>SITEID</code> <code>PRODUCTORDERID</code></li><li>테이블(조회/쓰기 전체, 함수·SP 포함): <div><a class="tbl" href="../tables.html#CIM_WORKORDER">CIM_WORKORDER</a><span class="b m">메인</span><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_LOT">CIM_LOT</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_BOM">CIM_BOM</a><span class="b r">읽기</span></div></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 3 · 조인 2</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 635 240" width="635" height="240" role="img" aria-label="조인 구조도"><path class="edge e-inner" d="M186 38 C231 38 231 38 276 38"/><text class="elab" x="231" y="34" text-anchor="middle">INNER</text><path class="edge e-left" d="M186 38 C231 38 231 157 276 157"/><text class="elab" x="231" y="93" text-anchor="middle">LEFT</text><g class="node base"><rect x="16" y="16" width="170" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_WORKORDER</text><text x="26" y="52" class="t2">alias WO</text></g><g class="node"><rect x="276" y="16" width="234" height="89" rx="7"/><text x="286" y="35" class="t1">CIM_LOT</text><text x="286" y="52" class="t2">alias L</text><text x="286" y="67" class="t2 jt">INNER</text><text x="304" y="82" class="t3">SITEID = WO.SITEID</text><text x="304" y="97" class="t3">WORKORDERID = WO.WORKORDERID</text></g><g class="node"><rect x="276" y="135" width="343" height="89" rx="7"/><text x="286" y="154" class="t1">CIM_BOM</text><text x="286" y="171" class="t2">alias B</text><text x="286" y="186" class="t2 jt">LEFT</text><text x="304" y="201" class="t3">SITEID = WO.SITEID</text><text x="304" y="216" class="t3">PRODUCTDEFINITIONID = WO.PRODUCTDEFINITIONID</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>------------------------------------------
+--PM_PB_001 공정 진행 (반응) - 반응 공정 시작 POPUP - WO 조회
+--SelectCboLeachingWO
+--Param : SITEID, PRODUCTORDERID
+------------------------------------------
+SELECT DISTINCT WO.WORKORDERID AS CODE
+     , WO.WORKORDERID AS NAME
+     , WO.PRODUCTDEFINITIONID AS ROOTMATERIALDEFINITIONID
+     , B.MATERIALDEFINITIONID
+     , WO.QTY AS WOQTY
+     , WO.STATE
+  FROM CIM_WORKORDER WO WITH(NOLOCK)
+ INNER JOIN CIM_LOT L WITH(NOLOCK) ON L.SITEID = WO.SITEID AND L.WORKORDERID = WO.WORKORDERID AND L.STATE IN (&#x27;Finished&#x27;, &#x27;Consumed&#x27;) AND L.PROCESSSEGMENTID = &#x27;P2010&#x27;
+  LEFT JOIN CIM_BOM B WITH(NOLOCK) ON B.SITEID = WO.SITEID AND B.PRODUCTDEFINITIONID = WO.PRODUCTDEFINITIONID AND B.PROCESSSEGMENTID = &#x27;P2010&#x27;
+ WHERE WO.SITEID = @SITEID
+   AND WO.PRODUCTORDERID = @PRODUCTORDERID</pre></details></details><details id="svc-7" class="svc" open><summary><b>#7</b> Query <code>SelectExchangeMetalStartQty</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-7">#7 selectExchangeMetalStartQty</a></p><h4>Query (조회 서비스) : SelectExchangeMetalStartQty</h4><ul><li>ID 구성: <code>SelectExchangeMetalStartQty</code> / 클래스 <code>THiRAMES.Service.UI</code> / 버전 <code>00001</code></li><li>정의 위치: DB 저장 쿼리 (CIM_STOREDQUERY)</li><li>쿼리명: PM_PB_001 공정 진행 (반응) - POPUP 환산수량 조회</li><li>쿼리 파라메터: <code>SITEID</code> <code>MATERIALDEFINITIONID</code> <code>LOTID</code></li><li>테이블(조회/쓰기 전체, 함수·SP 포함): <div><a class="tbl" href="../tables.html#CIM_BOM">CIM_BOM</a><span class="b m">메인</span><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_PRODUCTDEFINITION">CIM_PRODUCTDEFINITION</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_LOT">CIM_LOT</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_PROCESSPATH">CIM_PROCESSPATH</a><span class="b r">읽기</span></div></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 3 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 202 224" width="202" height="224" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="170" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_BOM</text><text x="26" y="52" class="t2">alias B</text></g><g class="node"><rect x="16" y="90" width="170" height="44" rx="7"/><text x="26" y="109" class="t1">CIM_LOT</text><text x="26" y="126" class="t2">alias L</text></g><g class="node"><rect x="16" y="164" width="170" height="44" rx="7"/><text x="26" y="183" class="t1">CIM_PROCESSPATH</text><text x="26" y="200" class="t2"></text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small><br><small class="muted">마스터/명칭 조회용 조인 제외(기준 테이블 제외): CIM_PRODUCTDEFINITION</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>------------------------------------------
+--PM_PB_001 공정 진행 (반응) - POPUP 환산수량 조회 (종료 POPUP)
+--SelectExchangeMetalStartQty
+--Param : SITEID, MATERIALDEFINITIONID, LOTID
+------------------------------------------
+SELECT CASE WHEN B.PROCESSSEGMENTID = &#x27;P2030&#x27; THEN &#x27;Li&#x27;
+            WHEN B.PROCESSSEGMENTID = &#x27;P2040&#x27; THEN &#x27;Co&#x27;
+            WHEN B.PROCESSSEGMENTID = &#x27;P2050&#x27; THEN &#x27;Ni&#x27;
+       END AS PRODUCT
+     , CASE WHEN B.PROCESSSEGMENTID = &#x27;P2030&#x27; THEN L.LITHIUMMETALQTY
+            WHEN B.PROCESSSEGMENTID = &#x27;P2040&#x27; THEN L.COBALTMETALQTY
+            WHEN B.PROCESSSEGMENTID = &#x27;P2050&#x27; THEN L.NICKELMETALQTY
+       END AS QTY
+  FROM CIM_BOM B WITH(NOLOCK)
+ INNER JOIN CIM_PRODUCTDEFINITION P WITH(NOLOCK) ON P.SITEID = B.SITEID AND P.PRODUCTDEFINITIONID = B.MATERIALDEFINITIONID AND P.PRODUCTTYPE = &#x27;WIP&#x27;
+ INNER JOIN CIM_LOT L  WITH(NOLOCK) ON L.SITEID = @SITEID AND L.LOTID = @LOTID 
+ WHERE B.SITEID = @SITEID
+   AND B.PRODUCTDEFINITIONID = @MATERIALDEFINITIONID
+   AND B.MATERIALDEFINITIONID &lt;&gt; &#x27;2LSS&#x27; --망초 제외
+   AND B.PROCESSSEGMENTID IN (SELECT NEXTPROCESSNODEID FROM CIM_PROCESSPATH WHERE PROCESSNODEID = &#x27;P2020&#x27;)</pre></details></details><details id="svc-8" class="svc" open><summary><b>#8</b> Rule <code>StartLeachingProcess</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-8">#8 기타 참조 (JS 문자열)</a></p><h4>Rule (저장/실행 서비스) : StartLeachingProcess</h4><ul><li>구현 위치: C# 소스 (CUS.Business.Production) - <code>CUS.Business.Production/PM_PB_002 공정 진행(반응)/StartLeachingProcess.cs</code></li><li>설명: PM_PB_002 공정 진행(반응)</li><li>입력 파라메터(WEBDATA): <code>SITEID</code> <code>USERID</code> <code>LINEID</code> <code>PRODUCTORDERID</code> <code>WORKORDERID</code> <code>PROCESSSEGMENTID</code> <code>EQUIPMENTID</code> <code>MATERIALDEFINITIONID</code> <code>INPUTTIME</code> <code>INPUTQTY</code></li><li>관련 테이블(코드 분석 기반): <br><a class="tbl" href="../tables.html#CIM_EQUIPMENT">CIM_EQUIPMENT</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_LOT">CIM_LOT</a><span class="b w">쓰기</span><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_LOTMATERIALLOTREL">CIM_LOTMATERIALLOTREL</a><span class="b w">쓰기</span><br><a class="tbl" href="../tables.html#CIM_MATERIALLOT">CIM_MATERIALLOT</a><span class="b u">참조</span><br><a class="tbl" href="../tables.html#CIM_PROCESSDEFINITION">CIM_PROCESSDEFINITION</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_PROCESSNODE">CIM_PROCESSNODE</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_PROCESSSEGMENT">CIM_PROCESSSEGMENT</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_PROCESSSEGMENTEQUIPMENTREL">CIM_PROCESSSEGMENTEQUIPMENTREL</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_PRODUCTDEFINITION">CIM_PRODUCTDEFINITION</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_PRODUCTORDER">CIM_PRODUCTORDER</a><span class="b w">쓰기</span><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_WORKORDER">CIM_WORKORDER</a><span class="b w">쓰기</span><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CST_MATERIALLOT">CST_MATERIALLOT</a><span class="b u">참조</span></li><li>내부 호출 쿼리: <code>SelectBomForProductByProcesssegment</code> <code>SelectExchangeQty</code> <code>SelectExsitLotInTank</code> <code>UpdateLeachingMetalQty</code></li><li>C# 코드 내 SQL 문자열: 9건</li><li>호출 체인(Service 메서드): <small>TrackingManager.StartLeachingProcess, ManagerExtenstions.GetWorkorder, CustomTrackingUtils.SelectExsitLotInTank, CustomTracking.CustomCreateLot, ManagerExtenstions.GetProcessSegment, ManagerExtenstions.GetProcessnode, CustomTrackingUtils.GetBomProductByProductMaterial, ManagerExtenstions.GetProductdefinition, ManagerExtenstions.GetProcessdefinitionDefault, CustomTrackingUtils.CreateLotId, CustomUtils.SetCommonDataCustom, ManagerExtenstions.GetLot, ManagerExtenstions.StartLot, CustomTracking.CustomTrackInLot, ManagerExtenstions.GetEquipment, ManagerExtenstions.SelectProcessSegmentEquipmentRelWithEquipment, ManagerExtenstions.GetProductorder, ManagerExtenstions.SelectWorkOrderListByProductOrder, PRODUCTORDERManager.SelectWorkOrderListByProductOrder, ManagerExtenstions.UpsertWorkOrder, CustomTrackingUtils.GetMetalExchangeQty, CustomTrackingUtils.UpdateLeachingMetalQty, CustomTracking.CreateLeachingLotMaterialLotRel, CustomTracking.ConsumeLotForLeaching, CustomTracking.UpsertLotMaterialLotRel</small></li></ul><details class="svc" open><summary>Rule 내부 호출 쿼리 <code>SelectBomForProductByProcesssegment</code> <small class="muted">(DB 저장 쿼리 (CIM_STOREDQUERY) · 테이블 1)</small></summary><p>쿼리 파라메터: <code>SITEID</code> <code>PRODUCTDEFINITIONID</code> <code>MATERIALDEFINITIONID</code> <code>PROCESSSEGMENTID</code></p><ul><li>테이블: <div><a class="tbl" href="../tables.html#CIM_BOM">CIM_BOM</a><span class="b m">메인</span><span class="b r">읽기</span></div></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 1 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 202 76" width="202" height="76" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="170" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_BOM</text><text x="26" y="52" class="t2">기준 테이블</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>------------------------------------------
+--[SERVICE] BOM - 해당 공정 제품 가져오기
+--SelectBomForProductByProcesssegment
+--Param : SITEID, PRODUCTDEFINITIONID, MATERIALDEFINITIONID, PROCESSSEGMENTID
+------------------------------------------
+SELECT PRODUCTDEFINITIONID
+     , MATERIALDEFINITIONID
+     , PROCESSSEGMENTID
+     , WORKCENTER
+  FROM CIM_BOM
+ WHERE SITEID = @SITEID
+   AND (@PRODUCTDEFINITIONID = &#x27;&#x27; OR PRODUCTDEFINITIONID = @PRODUCTDEFINITIONID)
+   AND (@MATERIALDEFINITIONID = &#x27;&#x27; OR MATERIALDEFINITIONID = @MATERIALDEFINITIONID)
+   AND (@PROCESSSEGMENTID = &#x27;&#x27; OR PROCESSSEGMENTID = @PROCESSSEGMENTID)</pre></details></details><details class="svc" open><summary>Rule 내부 호출 쿼리 <code>SelectExchangeQty</code> <small class="muted">(DB 저장 쿼리 (CIM_STOREDQUERY) · 테이블 4)</small></summary><p>쿼리 파라메터: <code>SITEID</code> <code>MATERIALDEFINITIONID</code> <code>CONSUMEQTY</code> <code>ISUIDATA</code> <code>(UI</code> <code>=</code> <code>&#x27;Y&#x27;</code> <code>/</code> <code>SERVER</code> <code>=</code> <code>&#x27;N&#x27;)</code></p><ul><li>테이블: <div><small class="muted">└ Stored Procedure SP_GET_LEACHINGMETALQTY_V3 :</small> <a class="tbl" href="../tables.html#CIM_LOT">CIM_LOT</a><span class="b m">메인</span><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#METAL_BASEDATA">METAL_BASEDATA</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_WORKORDER">CIM_WORKORDER</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_BOM">CIM_BOM</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_PROCESSPATH">CIM_PROCESSPATH</a><span class="b r">읽기</span></div></li></ul><details class="joinviz" open><summary><b>Stored Procedure <code>SP_GET_LEACHINGMETALQTY_V3</code> 의 조인 구조도</b> <small class="muted">테이블 5 · 조인 3</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 1155 180" width="1155" height="180" role="img" aria-label="조인 구조도"><path class="edge e-inner" d="M446 38 C491 38 491 38 536 38"/><text class="elab" x="491" y="34" text-anchor="middle">INNER</text><path class="edge e-inner" d="M706 38 C751 38 751 38 796 38"/><text class="elab" x="751" y="34" text-anchor="middle">INNER</text><path class="edge e-left" d="M276 38 C231 38 231 38 186 38"/><text class="elab" x="231" y="34" text-anchor="middle">LEFT</text><g class="node base"><rect x="16" y="16" width="170" height="74" rx="7"/><text x="26" y="35" class="t1">CIM_LOT</text><text x="26" y="52" class="t2">alias L</text><text x="26" y="67" class="t2 jt">LEFT</text><text x="44" y="82" class="t3">LOTID = MT.LOTID</text></g><g class="node unk"><rect x="276" y="16" width="170" height="44" rx="7"/><text x="286" y="35" class="t1">METAL_BASEDATA</text><text x="286" y="52" class="t2">alias MT</text></g><g class="node"><rect x="536" y="16" width="170" height="44" rx="7"/><text x="546" y="35" class="t1">CIM_WORKORDER</text><text x="546" y="52" class="t2">alias WO</text></g><g class="node"><rect x="796" y="16" width="343" height="89" rx="7"/><text x="806" y="35" class="t1">CIM_BOM</text><text x="806" y="52" class="t2">alias B</text><text x="806" y="67" class="t2 jt">INNER</text><text x="824" y="82" class="t3">SITEID = WO.SITEID</text><text x="824" y="97" class="t3">PRODUCTDEFINITIONID = WO.PRODUCTDEFINITIONID</text></g><g class="node"><rect x="16" y="120" width="170" height="44" rx="7"/><text x="26" y="139" class="t1">CIM_PROCESSPATH</text><text x="26" y="156" class="t2"></text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>------------------------------------------
+--PM_PB_001 공정 진행 (반응) - POPUP 환산수량 조회
+--SelectExchangeQty
+--Param : SITEID, MATERIALDEFINITIONID, CONSUMEQTY, ISUIDATA (UI = &#x27;Y&#x27; / SERVER = &#x27;N&#x27;)
+------------------------------------------
+EXEC SP_GET_LEACHINGMETALQTY_V3 @SITEID, @PRODUCTDEFINITIONID, @CONSUMEQTY, @ISUIDATA</pre></details><details class="sql"><summary>Stored Procedure SP_GET_LEACHINGMETALQTY_V3 정의 보기</summary><pre>--------------------------------
+-- 반응 투입 (TKIN) 시 METAL 무게 환산 (2024-04-17)
+--  톤백 METAL 함유량을 찾지 못한 경우 : DEFAULT 함유량 (임의값)으로 계산하는 로직 추가
+--  PARAM 
+--    @SITEID : &#x27;PL01&#x27;
+--    @FIR_PRODUCTDEFINITIONID : 소성 LOT PRODUCTDEFINITIONID 
+--    @CONSUMEQTY : 소진 대상 수량
+--    @ISUIDATA : Y - UI 조회용, N - 소진 정보용.
+-- EXEC SP_GET_LEACHINGMETALQTY_V3 &#x27;PL01&#x27;, &#x27;2WKO0NCM6-22&#x27;, 5020, &#x27;N&#x27;
+--------------------------------
+CREATE PROCEDURE [dbo].[SP_GET_LEACHINGMETALQTY_V3] 
+    @SITEID VARCHAR(40), @FIR_PRODUCTDEFINITIONID VARCHAR(40), @CONSUMEQTY INT, @ISUIDATA VARCHAR(1) = &#x27;Y&#x27;
+AS  
+BEGIN 
+
+    ---------------------------------------------
+    -- TEMP TABLE 생성
+    ---------------------------------------------
+    DECLARE @LEACHINGMETALINFO TABLE
+    (
+        LOTID VARCHAR(40)
+        , SITEID VARCHAR(40)
+        , CONSUMEQTY FLOAT
+        , USED_QTY FLOAT
+        , LITHIUMMETALQTY FLOAT
+        , COBALTMETALQTY FLOAT
+        , NICKELMETALQTY FLOAT
+        , WORKORDERID VARCHAR(40)
+    )
+    ;
+
+    ---------------------------------------------
+    -- METAL 환산 수량 계산 및 TEMP TABLE 저장 : START
+    ---------------------------------------------
+    WITH METAL_BASEDATA AS 
+    (
+        SELECT 
+            M.LOTID
+            , M.SITEID
+            --, M.RESULTQTY  -- 검증용
+            --, M.QTY        -- 검증용
+            --, M.LITHIUMMETALQTY AS FIR_LITHIUMMETALQTY  -- 검증용
+            --, M.COBALTMETALQTY AS FIR_COBALTMETALQTY    -- 검증용
+            --, M.NICKELMETALQTY AS FIR_NICKELMETALQTY    -- 검증용
+            --, M.START_QTY  -- 검증용
+            --, M.END_QTY    -- 검증용
+            , M.USED_QTY
+            , M.USED_QTY / M.RESULTQTY * M.LITHIUMMETALQTY AS LITHIUMMETALQTY
+            , M.USED_QTY / M.RESULTQTY * M.COBALTMETALQTY AS COBALTMETALQTY
+            , M.USED_QTY / M.RESULTQTY * M.NICKELMETALQTY AS NICKELMETALQTY
+            , M.WORKORDERID
+        FROM 
+        (
+            SELECT 
+                MB.LOTID
+                , MB.SITEID
+                , MB.RESULTQTY
+                , MB.QTY
+                , MB.LITHIUMMETALQTY
+                , MB.COBALTMETALQTY
+                , MB.NICKELMETALQTY
+                , MB.START_QTY
+                , MB.END_QTY
+                , CASE WHEN MB.END_QTY - @CONSUMEQTY  &lt;= 0 THEN ( MB.END_QTY - MB.START_QTY )
+                       ELSE @CONSUMEQTY - MB.START_QTY 
+                  END AS USED_QTY
+                , MB.WORKORDERID
+            FROM 
+            (
+                SELECT 
+                    MA.LOTID
+                    , MA.SITEID
+                    , MA.RESULTQTY
+                    , MA.QTY
+                    , MA.LITHIUMMETALQTY
+                    , MA.COBALTMETALQTY
+                    , MA.NICKELMETALQTY
+                    , ISNULL( LAG(MA.END_QTY) OVER(ORDER BY MA.CREATETIME ASC), 0) AS START_QTY
+                    , MA.END_QTY
+                    , MA.CREATETIME
+                    , MA.WORKORDERID
+                FROM 
+                (
+                    SELECT 
+                        L.LOTID 
+                        , L.SITEID 
+                        , L.ORIGINALQTY 
+                        , L.RESULTQTY
+                        , L.QTY 
+                        , L.PREVQTY
+                        , L.STATE 
+                        , L.PRODUCTDEFINITIONID 
+                        , L.LITHIUMMETALQTY
+                        , L.COBALTMETALQTY
+                        , L.NICKELMETALQTY
+                        , L.CREATETIME
+                        , SUM(L.QTY) OVER(ORDER BY L.CREATETIME ASC) AS END_QTY
+                        , L.WORKORDERID
+                    FROM CIM_LOT L
+                    WHERE L.SITEID = &#x27;PL01&#x27;
+                    AND   L.PROCESSSEGMENTID = &#x27;P2010&#x27;
+                    AND   L.STATE = &#x27;Finished&#x27;
+                    AND   L.PRODUCTDEFINITIONID = @FIR_PRODUCTDEFINITIONID
+                ) MA
+            ) MB
+            WHERE MB.END_QTY &lt;= @CONSUMEQTY
+  OR    ( MB.START_QTY &lt; @CONSUMEQTY AND @CONSUMEQTY &lt;= MB.END_QTY )
+        ) M
+    ) 
+    INSERT INTO @LEACHINGMETALINFO
+    SELECT MT.LOTID 
+         , MT.SITEID
+         , @CONSUMEQTY AS CONSUMEQTY
+         , MT.USED_QTY
+         , MT.LITHIUMMETALQTY
+         , MT.COBALTMETALQTY
+         , MT.NICKELMETALQTY
+         , MT.WORKORDERID
+      FROM METAL_BASEDATA MT
+    ;  
+    ---------------------------------------------
+    -- METAL 환산 수량 계산 및 TEMP TABLE 저장 : END
+    ---------------------------------------------
+  
+    ---------------------------------------------
+    -- 결과값 조회
+    -- @ISUIDATA - Y : LI, CO, NI 의 공정별 SUM 값 SUM 값
+     --            N : LI, CO, NI 의 SUM 값
+    ---------------------------------------------
+    IF @ISUIDATA = &#x27;Y&#x27;
+    BEGIN
+        SELECT 
+            M.PRODUCT
+            , ROUND( SUM(QTY), 2) AS QTY
+        FROM 
+        (
+            SELECT 
+                  CASE WHEN B.PROCESSSEGMENTID = &#x27;P2030&#x27; THEN &#x27;Li&#x27;
+                       WHEN B.PROCESSSEGMENTID = &#x27;P2040&#x27; THEN &#x27;Co&#x27;
+                       WHEN B.PROCESSSEGMENTID = &#x27;P2050&#x27; THEN &#x27;Ni&#x27;
+                  END AS PRODUCT
+                , CASE WHEN B.PROCESSSEGMENTID = &#x27;P2030&#x27; THEN MB.LITHIUMMETALQTY
+                       WHEN B.PROCESSSEGMENTID = &#x27;P2040&#x27; THEN MB.COBALTMETALQTY
+                       WHEN B.PROCESSSEGMENTID = &#x27;P2050&#x27; THEN MB.NICKELMETALQTY
+                  END AS QTY
+            FROM @LEACHINGMETALINFO MB
+                INNER JOIN CIM_WORKORDER WO
+                    ON  MB.WORKORDERID = WO.WORKORDERID 
+                    AND MB.SITEID = WO.SITEID
+                INNER JOIN CIM_BOM B
+                    ON  WO.SITEID = B.SITEID 
+                    AND WO.PRODUCTDEFINITIONID = B.PRODUCTDEFINITIONID
+                    AND B.PROCESSSEGMENTID IN (SELECT NEXTPROCESSNODEID FROM CIM_PROCESSPATH WHERE PROCESSNODEID = &#x27;P2020&#x27;) 
+                    AND B.MATERIALDEFINITIONID &lt;&gt; &#x27;2LSS&#x27; --망초 제외
+                    AND B.MATERIALDEFINITIONID LIKE &#x27;2L%&#x27;
+        ) M
+        GROUP BY M.PRODUCT
+    END
+    ELSE
+    BEGIN
+--        SELECT M.LOTID
+--             , M.CONSUMEQTY
+--             , M.USED_QTY
+--             , ROUND(CONVERT(FLOAT, M.LITHIUMMETALQTY), 2) AS LITHIUMMETALQTY
+--             , ROUND(CONVERT(FLOAT, M.COBALTMETALQTY), 2) AS COBALTMETALQTY
+--             , ROUND(CONVERT(FLOAT, M.NICKELMETALQTY), 2) AS NICKELMETALQTY
+--        FROM 
+--        (
+--            SELECT ISNULL(MT.LOTID, &#x27;TOTALSUM&#x27;) AS LOTID
+--                 , @CONSUMEQTY AS CONSUMEQTY
+--                 , SUM(MT.USED_QTY) AS USED_QTY
+--                 , SUM(MT.LITHIUMMETALQTY) AS LITHIUMMETALQTY
+--                 , SUM(MT.COBALTMETALQTY) AS COBALTMETALQTY
+--                 , SUM(MT.NICKELMETALQTY) AS NICKELMETALQTY
+--              FROM @LEACHINGMETALINFO MT
+--             GROUP BY MT.LOTID WITH ROLLUP
+--         ) M
+        SELECT M.LOTID
+             , M.CONSUMEQTY
+             , M.USED_QTY
+             , ROUND(CONVERT(FLOAT, M.LITHIUMMETALQTY), 2) AS LITHIUMMETALQTY
+             , ROUND(CONVERT(FLOAT, M.COBALTMETALQTY), 2) AS COBALTMETALQTY
+             , ROUND(CONVERT(FLOAT, M.NICKELMETALQTY), 2) AS NICKELMETALQTY
+             , M.WORKORDERID
+        FROM 
+        (
+            SELECT ISNULL(MT.LOTID, &#x27;TOTALSUM&#x27;) AS LOTID
+                 , @CONSUMEQTY AS CONSUMEQTY
+                 , SUM(MT.USED_QTY) AS USED_QTY
+                 , SUM(MT.LITHIUMMETALQTY) AS LITHIUMMETALQTY
+                 , SUM(MT.COBALTMETALQTY) AS COBALTMETALQTY
+                 , SUM(MT.NICKELMETALQTY) AS NICKELMETALQTY
+                 , MIN(L.WORKORDERID) AS WORKORDERID
+              FROM @LEACHINGMETALINFO MT
+                LEFT OUTER JOIN CIM_LOT L
+                    ON  MT.LOTID = L.LOTID
+                    AND L.SITEID = @SITEID
+             GROUP BY MT.LOTID WITH ROLLUP
+         ) M        
+    END
+
+END</pre></details></details><details class="svc" open><summary>Rule 내부 호출 쿼리 <code>SelectExsitLotInTank</code> <small class="muted">(DB 저장 쿼리 (CIM_STOREDQUERY) · 테이블 1)</small></summary><p>쿼리 파라메터: <code>SITEID</code> <code>PROCESSSEGMENTID</code> <code>EQUIPMENTID</code></p><ul><li>테이블: <div><a class="tbl" href="../tables.html#CIM_LOT">CIM_LOT</a><span class="b m">메인</span><span class="b r">읽기</span></div></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 1 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 202 76" width="202" height="76" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="170" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_LOT</text><text x="26" y="52" class="t2">기준 테이블</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>------------------------------------------
+--PM_PB_001 공정 진행 (반응) - TANK 이동 시 이동 시킬 TANK에 LOT이 존재하는지 체크
+--SelectExsitLotInTank
+--Param : SITEID, PROCESSSEGMENTID, EQUIPMENTID
+------------------------------------------
+SELECT LOTID, EQUIPMENTID
+  FROM CIM_LOT
+ WHERE SITEID = @SITEID
+   AND STATE = &#x27;Active&#x27;
+   AND PROCESSSEGMENTID = @PROCESSSEGMENTID
+   AND EQUIPMENTID = @EQUIPMENTID</pre></details></details><details class="svc" open><summary>Rule 내부 호출 쿼리 <code>UpdateLeachingMetalQty</code> <small class="muted">(DB 저장 쿼리 (CIM_STOREDQUERY) · 테이블 2)</small></summary><p>쿼리 파라메터: <code>SITEID</code> <code>LOTID</code> <code>LITHIUMMETALQTY</code> <code>COBALTMETALQTY</code> <code>NICKELMETALQTY</code></p><ul><li>테이블: <div><a class="tbl" href="../tables.html#CIM_LOT">CIM_LOT</a><span class="b w">쓰기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_LOTHIST">CIM_LOTHIST</a><span class="b w">쓰기</span></div></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 1 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 202 76" width="202" height="76" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="170" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_LOTHIST</text><text x="26" y="52" class="t2">기준 테이블</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>------------------------------------------
+-- [SERVICE] 반응 TrackIn 시 Metal 량 입력
+-- UpdateLeachingMetalQty
+-- Param : SITEID, LOTID, LITHIUMMETALQTY, COBALTMETALQTY, NICKELMETALQTY
+------------------------------------------
+UPDATE CIM_LOT
+   SET LITHIUMMETALQTY = @LITHIUMMETALQTY
+     , COBALTMETALQTY = @COBALTMETALQTY
+     , NICKELMETALQTY = @NICKELMETALQTY
+ WHERE SITEID = @SITEID
+   AND LOTID = @LOTID
+;
+UPDATE CIM_LOTHIST
+   SET LITHIUMMETALQTY = @LITHIUMMETALQTY
+     , COBALTMETALQTY = @COBALTMETALQTY
+     , NICKELMETALQTY = @NICKELMETALQTY
+ WHERE LASTEVENTSEQ = (SELECT TOP 1 LASTEVENTSEQ FROM CIM_LOTHIST WHERE SITEID = @SITEID AND LOTID = @LOTID ORDER BY LASTEVENTSEQ DESC)</pre></details></details><details class="svc"><summary>Rule 코드 내 단순 SQL(단일 테이블) 9건 <small class="muted">- 펼쳐서 확인</small></summary><details class="svc"><summary>Rule 코드 내 SQL #1 <small class="muted">(WORKORDER.GetWorkOrder (CIM.MES.API 프레임워크) · 테이블 1)</small></summary><ul><li>테이블: <div><a class="tbl" href="../tables.html#CIM_WORKORDER">CIM_WORKORDER</a><span class="b m">메인</span><span class="b r">읽기</span></div></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 1 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 202 76" width="202" height="76" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="170" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_WORKORDER</text><text x="26" y="52" class="t2">기준 테이블</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>SELECT * FROM CIM_WORKORDER WHERE WORKORDERID=@WORKORDERID AND SITEID=@SITEID</pre></details></details><details class="svc"><summary>Rule 코드 내 SQL #2 <small class="muted">(PROCESSSEGMENT.GetProcessSegment (CIM.MES.API 프레임워크) · 테이블 1)</small></summary><ul><li>테이블: <div><a class="tbl" href="../tables.html#CIM_PROCESSSEGMENT">CIM_PROCESSSEGMENT</a><span class="b m">메인</span><span class="b r">읽기</span></div></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 1 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 202 76" width="202" height="76" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="170" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_PROCESSSEGMENT</text><text x="26" y="52" class="t2">기준 테이블</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>SELECT * FROM CIM_PROCESSSEGMENT WHERE PROCESSSEGMENTID=@PROCESSSEGMENTID AND SITEID=@SITEID</pre></details></details><details class="svc"><summary>Rule 코드 내 SQL #3 <small class="muted">(PROCESSNODE.GetProcessNode (CIM.MES.API 프레임워크) · 테이블 1)</small></summary><ul><li>테이블: <div><a class="tbl" href="../tables.html#CIM_PROCESSNODE">CIM_PROCESSNODE</a><span class="b m">메인</span><span class="b r">읽기</span></div></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 1 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 202 76" width="202" height="76" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="170" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_PROCESSNODE</text><text x="26" y="52" class="t2">기준 테이블</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>SELECT * FROM CIM_PROCESSNODE WHERE PROCESSNODEID=@PROCESSNODEID AND SITEID=@SITEID</pre></details></details><details class="svc"><summary>Rule 코드 내 SQL #4 <small class="muted">(PRODUCTDEFINITION.GetProductDefinition (CIM.MES.API 프레임워크) · 테이블 1)</small></summary><ul><li>테이블: <div><a class="tbl" href="../tables.html#CIM_PRODUCTDEFINITION">CIM_PRODUCTDEFINITION</a><span class="b m">메인</span><span class="b r">읽기</span></div></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 1 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 211 76" width="211" height="76" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="179" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_PRODUCTDEFINITION</text><text x="26" y="52" class="t2">기준 테이블</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>SELECT * FROM CIM_PRODUCTDEFINITION WHERE PRODUCTDEFINITIONID=@PRODUCTDEFINITIONID AND SITEID=@SITEID</pre></details></details><details class="svc"><summary>Rule 코드 내 SQL #5 <small class="muted">(LOT.GetLot4Update (CIM.MES.API 프레임워크) · 테이블 1)</small></summary><ul><li>테이블: <div><a class="tbl" href="../tables.html#CIM_LOT">CIM_LOT</a><span class="b m">메인</span><span class="b r">읽기</span></div></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 1 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 202 76" width="202" height="76" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="170" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_LOT</text><text x="26" y="52" class="t2">기준 테이블</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>SELECT * FROM CIM_LOT WITH(UPDLOCK) WHERE LOTID=@LOTID AND SITEID=@SITEID</pre></details></details><details class="svc"><summary>Rule 코드 내 SQL #6 <small class="muted">(PROCESSSEGMENTEQUIPMENTREL.SelectProcessSegmentEquipmentRelWithEquipment (CIM.MES.API 프레임워크) · 테이블 1)</small></summary><ul><li>테이블: <div><a class="tbl" href="../tables.html#CIM_PROCESSSEGMENTEQUIPMENTREL">CIM_PROCESSSEGMENTEQUIPMENTREL</a><span class="b m">메인</span><span class="b r">읽기</span></div></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 1 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 278 76" width="278" height="76" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="246" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_PROCESSSEGMENTEQUIPMENTREL</text><text x="26" y="52" class="t2">기준 테이블</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>SELECT * FROM CIM_PROCESSSEGMENTEQUIPMENTREL WHERE EQUIPMENTID=@EQUIPMENTID AND SITEID=@SITEID AND ISUSABLE=&#x27;Usable&#x27;</pre></details></details><details class="svc"><summary>Rule 코드 내 SQL #7 <small class="muted">(EQUIPMENT.GetEquipment (CIM.MES.API 프레임워크) · 테이블 1)</small></summary><ul><li>테이블: <div><a class="tbl" href="../tables.html#CIM_EQUIPMENT">CIM_EQUIPMENT</a><span class="b m">메인</span><span class="b r">읽기</span></div></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 1 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 202 76" width="202" height="76" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="170" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_EQUIPMENT</text><text x="26" y="52" class="t2">기준 테이블</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>SELECT * FROM CIM_EQUIPMENT WHERE EQUIPMENTID=@EQUIPMENTID AND SITEID=@SITEID</pre></details></details><details class="svc"><summary>Rule 코드 내 SQL #8 <small class="muted">(PRODUCTORDER.GetProductOrder (CIM.MES.API 프레임워크) · 테이블 1)</small></summary><ul><li>테이블: <div><a class="tbl" href="../tables.html#CIM_PRODUCTORDER">CIM_PRODUCTORDER</a><span class="b m">메인</span><span class="b r">읽기</span></div></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 1 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 202 76" width="202" height="76" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="170" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_PRODUCTORDER</text><text x="26" y="52" class="t2">기준 테이블</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>SELECT * FROM CIM_PRODUCTORDER WHERE PRODUCTORDERID=@PRODUCTORDERID AND SITEID=@SITEID</pre></details></details><details class="svc"><summary>Rule 코드 내 SQL #9 <small class="muted">(WORKORDER.SelectWorkOrderListByProductOrder (CIM.MES.API 프레임워크) · 테이블 1)</small></summary><ul><li>테이블: <div><a class="tbl" href="../tables.html#CIM_WORKORDER">CIM_WORKORDER</a><span class="b m">메인</span><span class="b r">읽기</span></div></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 1 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 202 76" width="202" height="76" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="170" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_WORKORDER</text><text x="26" y="52" class="t2">기준 테이블</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>SELECT * FROM CIM_WORKORDER WHERE PRODUCTORDERID=@PRODUCTORDERID AND SITEID=@SITEID AND ISUSABLE=&#x27;Usable&#x27;</pre></details></details></details></details><h2>3. 그리드 / 검색조건 정의</h2><details><summary><b>POPUP_REACTIONPROCESS1</b> 공정진행반응팝업1_환산수량 — 컬럼 2, 검색조건 6</summary><p>actionId: <code class="wrapc">THiRAMES.Service.UI$RuleMultiInquiry$THiRAMES.Service.UI$SelectExchangeQty$00001?SITEID=@STORAGE:siteCd&amp;LINEID=&amp;CONSUMEQTY=&amp;MATERIALDEFINITIONID=&amp;ISUIDATA=Y&amp;PRODUCTDEFINITIONID=&amp;LOTID=</code></p><h4>검색조건</h4><table class="grid sm"><thead><tr><th>필드</th><th>유형</th><th>표시명</th><th>표시명(한글)</th><th>콤보 서비스</th></tr></thead><tbody><tr><td><code>LINEID</code></td><td>FILTER</td><td>LINEID</td><td><b>라인</b></td><td class="wrapc">THiRA.MES.Modeler$RuleMultiInquiry$THiRA.MES.Modeler$CDS_Code_200$00001?CODECLASSID=LINEID&amp;SITEID=@STORAGE:siteid</td></tr><tr><td><code>EQUIPMENTID</code></td><td>FILTER</td><td>EQUIPMENTID</td><td><b>설비</b></td><td class="wrapc"></td></tr><tr><td><code>EQUIPMENTID1</code></td><td>FILTER</td><td>EQUIPMENTID</td><td><b>설비</b></td><td class="wrapc">THiRAMES.Service.UI$RuleMultiInquiry$THiRAMES.Service.UI$SelectNextTankId$00001?SITEID=@STORAGE:siteid&amp;PROCESSSEGMENTID=P2020&amp;EQUIPMENTID=START</td></tr><tr><td><code>MATERIALDEFINITIONID</code></td><td>FILTER</td><td>MATERIALDEFINITIONID</td><td><b>자재코드</b></td><td class="wrapc"></td></tr><tr><td><code>PRODUCTORDERIDSTART</code></td><td>FILTER</td><td>PRODUCTORDERIDSTART</td><td><b></b></td><td class="wrapc">THiRAMES.Service.UI$RuleMultiInquiry$THiRAMES.Service.UI$SelectCboLeachingPO$00001?SITEID=@STORAGE:siteCd</td></tr><tr><td><code>WORKORDERIDSTART</code></td><td>FILTER</td><td>WORKORDERIDSTART</td><td><b></b></td><td class="wrapc"></td></tr></tbody></table><h4>컬럼</h4><table class="grid sm"><thead><tr><th>필드</th><th>표시명</th><th>표시명(한글)</th><th>편집</th><th>필수</th><th>콤보 서비스</th></tr></thead><tbody><tr><td><code>PRODUCT</code></td><td>PRODUCT</td><td><b>제품</b></td><td></td><td></td><td class="wrapc"></td></tr><tr><td><code>QTY</code></td><td>QTY</td><td><b>수량</b></td><td></td><td></td><td class="wrapc"></td></tr></tbody></table></details><footer>자동 생성 문서 · DB: EM_MES_DEV (10.130.11.100) · 소스: THiRAMES_UI / THiRAMES_Service · "추정"/"코드 분석 기반" 표기는 정적 분석 결과이므로 실제 동작과 다를 수 있습니다.</footer></main></body></html>

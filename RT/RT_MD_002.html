@@ -1,0 +1,328 @@
+<!DOCTYPE html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>RT_MD_002 - 계획대비 생산량 기준정보</title><link rel="stylesheet" href="../style.css"></head><body><header class="top"><a href="../index.html">← 전체 목록</a><a href="../tables.html">테이블 색인</a></header><main><h1>계획대비 생산량 기준정보 <small>RT_MD_002</small></h1><table class="kv"><tr><th>화면 경로</th><td><code>THiRAMES_UI/wwwroot/view/ngs/mes/RT/RT_MD_002.html</code></td></tr><tr><th>화면 구분</th><td>RT 실시간/조회</td></tr><tr><th>위젯(Grid)</th><td><code>RT_MD_0021</code></td></tr><tr><th>화면 버튼</th><td><span class="chip">findBtn1 · 조회</span> <span class="chip">excelGridDownBtn1 · EXCEL</span> <span class="chip">postPlanBtn · BTN_POSTPLAN</span> <span class="chip">preProcessBtn · BTN_PREPROCESS</span></td></tr><tr><th>연계 팝업(common)</th><td><a class="chip" href="../common/ComPop_PreProcessRegister.html">ComPop_PreProcessRegister</a> <a class="chip" href="../common/ComPop_PostPlanRegister.html">ComPop_PostPlanRegister</a></td></tr></table><h2>1. 기능별 호출 서비스 / 파라메터 / 테이블</h2><div class="wrap"><table class="grid"><thead><tr><th>#</th><th>기능</th><th>구분</th><th>호출 서비스</th><th>파라메터</th><th>DB 테이블</th></tr></thead><tbody><tr id="fn-1"><td>1</td><td>조회 - 그리드 RT_MD_0021 (계획대비생산량기준정보1_계획등록현황)<br><small class="muted">조회 버튼(findBtn)/마스터-디테일 행선택 시 호출</small></td><td>R 조회</td><td><a href="#svc-1"><span class="tag q">Query</span> <code>SelectProdPlanDefinitionList</code></a> <small>THiRAMES.Service.UI</small></td><td class="params"><code>SITEID</code> <code>SEARCHCYCLE</code> <code>STARTDATE</code> <code>ENDDATE</code><br><span class="muted">UI 전달:</span> <code class="ui">LINEID</code> <code class="ui">fromDate</code> <code class="ui">toDate</code></td><td><a class="tbl" href="../tables.html#RPT_PRODUCTION_PLAN">RPT_PRODUCTION_PLAN</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#RPT_PRODUCTION_PREV_PLAN_RESULT">RPT_PRODUCTION_PREV_PLAN_RESULT</a><span class="b r">읽기</span></td></tr><tr id="fn-2"><td>2</td><td>검색조건 콤보 - LINEID (LINEID)</td><td>R 조회</td><td><a href="#svc-2"><span class="tag q">Query</span> <code>CDS_Code_200</code></a> <small>THiRA.MES.Modeler</small></td><td class="params"><code>CODECLASSID</code> <code>SITEID</code></td><td><a class="tbl" href="../tables.html#CIM_CODE">CIM_CODE</a><span class="b r">읽기</span></td></tr><tr id="fn-3"><td>3</td><td>검색조건 콤보 - SEARCHCYCLE (SEARCHCYCLE)</td><td>R 조회</td><td><a href="#svc-2"><span class="tag q">Query</span> <code>CDS_Code_200</code></a> <small>THiRA.MES.Modeler</small></td><td class="params"><code>CODECLASSID</code> <code>SITEID</code></td><td><a class="tbl" href="../tables.html#CIM_CODE">CIM_CODE</a><span class="b r">읽기</span></td></tr></tbody></table></div><h2>2. 서비스 상세</h2><details id="svc-1" class="svc" open><summary><b>#1</b> Query <code>SelectProdPlanDefinitionList</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-1">#1 조회 - 그리드 RT_MD_0021 (계획대비생산량기준정보1_계획등록현황)</a></p><h4>Query (조회 서비스) : SelectProdPlanDefinitionList</h4><ul><li>ID 구성: <code>SelectProdPlanDefinitionList</code> / 클래스 <code>THiRAMES.Service.UI</code> / 버전 <code>00001</code></li><li>정의 위치: DB 저장 쿼리 (CIM_STOREDQUERY)</li><li>쿼리명: RT_MD_002_계획대비 생산량 기준정보 - 계획 등록 현황 조회 프로시저</li><li>쿼리 파라메터: <code>SITEID</code> <code>SEARCHCYCLE</code> <code>STARTDATE</code> <code>ENDDATE</code></li><li>테이블(조회/쓰기 전체, 함수·SP 포함): <div><small class="muted">└ Stored Procedure SP_RPT_PRODUCTIONPLANDEFINITION :</small> <a class="tbl" href="../tables.html#FN_RPT_DAY_WEEK_MONTH">FN_RPT_DAY_WEEK_MONTH</a><span class="b m">메인</span><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#RPT_PRODUCTION_PREV_PLAN_RESULT">RPT_PRODUCTION_PREV_PLAN_RESULT</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#RPT_PRODUCTION_PLAN">RPT_PRODUCTION_PLAN</a><span class="b r">읽기</span></div><div><small class="muted">└ 테이블 반환 함수 FN_RPT_DAY_WEEK_MONTH :</small> <a class="tbl" href="../tables.html#SPT_VALUES">SPT_VALUES</a><span class="b m">메인</span><span class="b r">읽기</span></div></li><li>함수/SP: <code>EXEC SP_RPT_PRODUCTIONPLANDEFINITION</code></li></ul><details class="joinviz" open><summary><b>Stored Procedure <code>SP_RPT_PRODUCTIONPLANDEFINITION</code> 의 조인 구조도</b> <small class="muted">테이블 3 · 조인 2</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 554 150" width="554" height="150" role="img" aria-label="조인 구조도"><path class="edge e-left" d="M195 38 C240 38 240 38 285 38"/><text class="elab" x="240" y="34" text-anchor="middle">LEFT</text><path class="edge e-left" d="M195 38 C240 38 240 112 285 112"/><text class="elab" x="240" y="71" text-anchor="middle">LEFT</text><g class="node base unk"><rect x="16" y="16" width="179" height="44" rx="7"/><text x="26" y="35" class="t1">FN_RPT_DAY_WEEK_MONTH</text><text x="26" y="52" class="t2">기준 테이블</text></g><g class="node"><rect x="285" y="16" width="253" height="44" rx="7"/><text x="295" y="35" class="t1">RPT_PRODUCTION_PREV_PLAN_RESULT</text><text x="295" y="52" class="t2">alias PREV</text></g><g class="node"><rect x="285" y="90" width="170" height="44" rx="7"/><text x="295" y="109" class="t1">RPT_PRODUCTION_PLAN</text><text x="295" y="126" class="t2">alias PL</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small></div></details><details class="joinviz" open><summary><b>테이블 반환 함수 <code>FN_RPT_DAY_WEEK_MONTH</code> 의 조인 구조도</b> <small class="muted">테이블 1 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 202 76" width="202" height="76" role="img" aria-label="조인 구조도"><g class="node base unk"><rect x="16" y="16" width="170" height="44" rx="7"/><text x="26" y="35" class="t1">SPT_VALUES</text><text x="26" y="52" class="t2">기준 테이블</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>------------------------------------------
+--RT_MD_002_계획대비 생산량 기준정보 - 계획 등록 현황 조회 프로시저
+--SelectProdPlanDefinitionList
+--Param : SITEID, SEARCHCYCLE, STARTDATE ENDDATE
+------------------------------------------
+EXEC SP_RPT_PRODUCTIONPLANDEFINITION @SITEID, @SEARCHCYCLE, @STARTDATE, @ENDDATE</pre></details><details class="sql"><summary>Stored Procedure SP_RPT_PRODUCTIONPLANDEFINITION 정의 보기</summary><pre>CREATE  PROCEDURE [dbo].[SP_RPT_PRODUCTIONPLANDEFINITION]
+    @SITEID VARCHAR(40), @SEARCHCYCLE VARCHAR(1) = &#x27;&#x27;, @STARTDATE VARCHAR(10) = &#x27;&#x27;, @ENDDATE VARCHAR(10) = &#x27;&#x27;
+AS  
+--DECLARE @SITEID VARCHAR(40) = &#x27;PL01&#x27;
+--    , @SEARCHCYCLE VARCHAR(1) = &#x27;W&#x27;
+--    , @STARTDATE VARCHAR(10) = &#x27;2024-27W&#x27;
+--    , @ENDDATE VARCHAR(10) = &#x27;2024-31W&#x27;
+    
+BEGIN
+    
+    SET @STARTDATE = REPLACE(REPLACE(REPLACE(@STARTDATE, &#x27;-&#x27;, &#x27;&#x27;), &#x27;W&#x27;, &#x27;&#x27;), &#x27;M&#x27;, &#x27;&#x27;)
+    SET @ENDDATE   = REPLACE(REPLACE(REPLACE(@ENDDATE, &#x27;-&#x27;, &#x27;&#x27;), &#x27;W&#x27;, &#x27;&#x27;), &#x27;M&#x27;, &#x27;&#x27;)
+    
+    
+    IF OBJECT_ID(&#x27;tempdb..#PLAN_DATA&#x27;) IS NOT NULL
+    BEGIN    
+        DROP TABLE #PLAN_DATA
+    END
+    
+    
+    CREATE TABLE #PLAN_DATA
+    (
+        RPTDATE   VARCHAR(10)
+        , ITEMID  VARCHAR(40)
+        , PLANQTY FLOAT
+    )
+        
+    --######################################################
+    -- 전처리 DATA 저장
+    --######################################################
+    INSERT INTO #PLAN_DATA
+    SELECT 
+        UNP.RPTDATE
+        , UNP.ITEMID
+        , UNP.PLANQTY
+    FROM 
+    (
+        SELECT 
+            CASE WHEN @SEARCHCYCLE = &#x27;D&#x27; THEN PB.WORKDATE
+                 WHEN @SEARCHCYCLE = &#x27;W&#x27; THEN PB.YEARWEEK
+                 ELSE PB.YEARMONTH 
+            END AS RPTDATE
+            , ISNULL(PREV.PLAN_BM_NORMAL_INPUT , 0) AS PLAN_BM_NORMAL_INPUT 
+            , ISNULL(PREV.PLAN_BP_NORMAL_OUTPUT, 0) AS PLAN_BP_NORMAL_OUTPUT
+            , ISNULL(PREV.PLAN_BP_NODISC_INPUT , 0) AS PLAN_BP_NODISC_INPUT 
+            , ISNULL(PREV.PLAN_BP_NODISC_OUTPUT, 0) AS PLAN_BP_NODISC_OUTPUT
+            , ISNULL(PREV.PLAN_BM_NORMAL_INPUT , 0) + ISNULL(PREV.PLAN_BP_NODISC_INPUT , 0) AS PLAN_BP_TOTAL_INPUT
+            , ISNULL(PREV.PLAN_BP_NORMAL_OUTPUT, 0) + ISNULL(PREV.PLAN_BP_NODISC_OUTPUT, 0) AS PLAN_BP_TOTAL_OUTPUT
+        FROM dbo.FN_RPT_DAY_WEEK_MONTH(@SEARCHCYCLE, @STARTDATE, @ENDDATE ) PB
+            LEFT OUTER JOIN RPT_PRODUCTION_PREV_PLAN_RESULT PREV
+                ON  PB.WORKDATE = PREV.WORKDATE
+    ) M
+    UNPIVOT
+    (
+        PLANQTY FOR ITEMID IN ( PLAN_BM_NORMAL_INPUT,PLAN_BP_NORMAL_OUTPUT,PLAN_BP_NODISC_INPUT,PLAN_BP_NODISC_OUTPUT,PLAN_BP_TOTAL_INPUT,PLAN_BP_TOTAL_OUTPUT)
+    ) UNP
+    --######################################################
+    -- 전처리 DATA 저장 END
+    --######################################################
+    
+    --######################################################
+    -- 후처리 DATA 저장 START
+    --######################################################
+    INSERT INTO #PLAN_DATA
+    SELECT 
+        UNP.RPTDATE
+        , UNP.ITEMID
+        , UNP.PLANQTY
+    FROM 
+    (
+        SELECT 
+            CASE WHEN @SEARCHCYCLE = &#x27;D&#x27; THEN PB.WORKDATE
+                 WHEN @SEARCHCYCLE = &#x27;W&#x27; THEN PB.YEARWEEK
+                 ELSE PB.YEARMONTH 
+            END AS RPTDATE
+            , ISNULL(PL.PLAN_BM_SILO_INPUT         , 0) AS PLAN_BM_SILO_INPUT
+            , ISNULL(PL.PLAN_FIRING_INPUT          , 0) AS PLAN_FIRING_INPUT
+            , ISNULL(PL.PLAN_FIRING_OUTPUT         , 0) AS PLAN_FIRING_OUTPUT
+            , ISNULL(PL.PLAN_PREMIX_INPUT          , 0) AS PLAN_PREMIX_INPUT
+            , ISNULL(PL.PLAN_REACTOR_INPUT         , 0) AS PLAN_REACTOR_INPUT
+            , ISNULL(PL.PLAN_DRY_INPUT             , 0) AS PLAN_DRY_INPUT
+            , ISNULL(PL.PLAN_DRY_OUTPUT            , 0) AS PLAN_DRY_OUTPUT
+            , ISNULL(PL.PLAN_LI2CO3_OUTPUT         , 0) AS PLAN_LI2CO3_OUTPUT
+            , ISNULL(PL.PLAN_LI3PO4_OUTPUT         , 0) AS PLAN_LI3PO4_OUTPUT
+            , ISNULL(PL.PLAN_PK1501_INPUT          , 0) AS PLAN_PK1501_INPUT
+            , ISNULL(PL.PLAN_PK1502_INPUT          , 0) AS PLAN_PK1502_INPUT
+            , ISNULL(PL.PLAN_PK1503_INPUT          , 0) AS PLAN_PK1503_INPUT
+            , ISNULL(PL.PLAN_PK1504_INPUT          , 0) AS PLAN_PK1504_INPUT
+            , ISNULL(PL.PLAN_CO_EXT_OUTPUT         , 0) AS PLAN_CO_EXT_OUTPUT
+            , ISNULL(PL.PLAN_NI_EXT_OUTPUT         , 0) AS PLAN_NI_EXT_OUTPUT
+            , ISNULL(PL.PLAN_NI3SO4_OUTPUT         , 0) AS PLAN_NI3SO4_OUTPUT
+            , ISNULL(PL.PLAN_PREMIX_OUTPUT         , 0) AS PLAN_PREMIX_OUTPUT
+            , ISNULL(PL.PLAN_REACTOR_OUTPUT        , 0) AS PLAN_REACTOR_OUTPUT
+            , ISNULL(PL.PLAN_V1517NCM_SULFATE_INPUT, 0) AS PLAN_V1517NCM_SULFATE_INPUT
+            , ISNULL(PL.PLAN_V1523NM_SULFATE_INPUT , 0) AS PLAN_V1523NM_SULFATE_INPUT
+            , ISNULL(PL.PLAN_V1526N_SULFATE_INPUT  , 0) AS PLAN_V1526N_SULFATE_INPUT
+            , ISNULL(PL.PLAN_V1531N_SULFATE_INPUT  , 0) AS PLAN_V1531N_SULFATE_INPUT
+            , ISNULL(PL.PLAN_CR_FEEDTANK_INPUT     , 0) AS PLAN_CR_FEEDTANK_INPUT
+        FROM dbo.FN_RPT_DAY_WEEK_MONTH(@SEARCHCYCLE, @STARTDATE, @ENDDATE ) PB
+            LEFT OUTER JOIN RPT_PRODUCTION_PLAN PL
+                ON  PB.WORKDATE = PL.WORKDATE
+    ) M
+    UNPIVOT
+    (
+        PLANQTY FOR ITEMID IN ( 
+                  PLAN_BM_SILO_INPUT, PLAN_FIRING_INPUT, PLAN_FIRING_OUTPUT, PLAN_PREMIX_INPUT, PLAN_REACTOR_INPUT, PLAN_DRY_INPUT
+                , PLAN_DRY_OUTPUT, PLAN_LI2CO3_OUTPUT, PLAN_LI3PO4_OUTPUT, PLAN_PK1501_INPUT, PLAN_PK1502_INPUT, PLAN_PK1503_INPUT
+                , PLAN_PK1504_INPUT, PLAN_CO_EXT_OUTPUT, PLAN_NI_EXT_OUTPUT, PLAN_NI3SO4_OUTPUT, PLAN_PREMIX_OUTPUT, PLAN_REACTOR_OUTPUT
+                , PLAN_V1517NCM_SULFATE_INPUT, PLAN_V1523NM_SULFATE_INPUT, PLAN_V1526N_SULFATE_INPUT, PLAN_V1531N_SULFATE_INPUT, PLAN_CR_FEEDTANK_INPUT    
+            )
+    ) UNP
+    ;
+    --######################################################
+    -- 후처리 DATA 저장 END
+    --######################################################
+
+
+--    SELECT * FROM #PLAN_DATA
+
+
+    --######################################################
+    -- 가변 HEADER 만들기
+    --######################################################
+    DECLARE @PV_HEADERS VARCHAR(MAX)
+          , @GRID_HEADERS VARCHAR(MAX)
+--          , @UNION_HEADERS VARCHAR(MAX)
+    ;
+    SELECT 
+        @PV_HEADERS = STRING_AGG(&#x27;[&#x27; + RPTDATE + &#x27;]&#x27;, &#x27;, &#x27;) WITHIN GROUP ( ORDER BY M.RPTDATE )
+        , @GRID_HEADERS = STRING_AGG(&#x27;ISNULL([&#x27; + RPTDATE + &#x27;], 0) AS [&#x27; + PV_HEADER +&#x27;]&#x27;, &#x27;, &#x27;) WITHIN GROUP ( ORDER BY M.RPTDATE )
+--        , @UNION_HEADERS = STRING_AGG(PV_HEADER, &#x27;, &#x27;) WITHIN GROUP ( ORDER BY M.RPTDATE ) 
+    FROM 
+    (
+        SELECT 
+              CASE WHEN @SEARCHCYCLE = &#x27;D&#x27; THEN WORKDATE
+                   WHEN @SEARCHCYCLE = &#x27;W&#x27; THEN YEARWEEK         
+                   ELSE YEARMONTH
+              END AS RPTDATE            
+            , CASE WHEN @SEARCHCYCLE = &#x27;D&#x27; THEN LEFT(WORKDATE, 4) + &#x27;-&#x27; + SUBSTRING(WORKDATE, 5, 2) + &#x27;-&#x27; + RIGHT(WORKDATE, 2)
+                   WHEN @SEARCHCYCLE = &#x27;W&#x27; THEN LEFT(YEARWEEK, 4) + &#x27;-&#x27;  + RIGHT(YEARWEEK, 2) + @SEARCHCYCLE         
+                   ELSE LEFT(YEARMONTH, 4) + &#x27;-&#x27;  + RIGHT(YEARMONTH, 2) + @SEARCHCYCLE
+              END AS PV_HEADER
+        FROM dbo.FN_RPT_DAY_WEEK_MONTH(@SEARCHCYCLE, @STARTDATE, @ENDDATE ) PB
+        GROUP BY CASE WHEN @SEARCHCYCLE = &#x27;D&#x27; THEN WORKDATE
+                      WHEN @SEARCHCYCLE = &#x27;W&#x27; THEN YEARWEEK         
+                      ELSE YEARMONTH
+                 END,
+                 CASE WHEN @SEARCHCYCLE = &#x27;D&#x27; THEN LEFT(WORKDATE, 4) + &#x27;-&#x27; + SUBSTRING(WORKDATE, 5, 2) + &#x27;-&#x27; + RIGHT(WORKDATE, 2)
+                      WHEN @SEARCHCYCLE = &#x27;W&#x27; THEN LEFT(YEARWEEK, 4) + &#x27;-&#x27;  + RIGHT(YEARWEEK, 2) + @SEARCHCYCLE         
+                      ELSE LEFT(YEARMONTH, 4) + &#x27;-&#x27;  + RIGHT(YEARMONTH, 2) + @SEARCHCYCLE
+                 END
+    ) M
+    
+    
+    --######################################################
+    -- 가변 HEADER 만들기 END
+    --######################################################
+
+
+
+    --######################################################
+    -- 조회
+    --######################################################    
+    DECLARE @STRSQL VARCHAR(MAX)
+    ;
+
+    SET @STRSQL =
+         &#x27;  WITH BASE_DATA AS 
+            (
+                SELECT RPTDATE, ITEMID, PLANQTY FROM #PLAN_DATA   UNION ALL
+   SELECT &#x27;&#x27;SUMMARY&#x27;&#x27; AS RPTDATE, ITEMID, SUM(PLANQTY) AS PLANQTY FROM #PLAN_DATA GROUP BY ITEMID    
+            )
+            , HEADER_LIST AS 
+            (
+                SELECT &#x27;&#x27;PLAN_BM_NORMAL_INPUT&#x27;&#x27;       AS ITEMID, &#x27;&#x27;PREVPROCESS&#x27;&#x27; AS PROCESSTYPE, &#x27;&#x27;CELL&#x27;&#x27;   AS SUBITEMID, &#x27;&#x27;Ton&#x27;&#x27; AS UNITID,  10 AS UISEQUENCE  UNION ALL 
+                SELECT &#x27;&#x27;PLAN_BP_NORMAL_OUTPUT&#x27;&#x27;      AS ITEMID, &#x27;&#x27;PREVPROCESS&#x27;&#x27; AS PROCESSTYPE, &#x27;&#x27;TONBAG&#x27;&#x27; AS SUBITEMID, &#x27;&#x27;Ton&#x27;&#x27; AS UNITID,  20 AS UISEQUENCE  UNION ALL 
+                SELECT &#x27;&#x27;PLAN_BP_NODISC_INPUT&#x27;&#x27;       AS ITEMID, &#x27;&#x27;PREVPROCESS&#x27;&#x27; AS PROCESSTYPE, &#x27;&#x27;CELL&#x27;&#x27;   AS SUBITEMID, &#x27;&#x27;Ton&#x27;&#x27; AS UNITID,  30 AS UISEQUENCE  UNION ALL 
+                SELECT &#x27;&#x27;PLAN_BP_NODISC_OUTPUT&#x27;&#x27;      AS ITEMID, &#x27;&#x27;PREVPROCESS&#x27;&#x27; AS PROCESSTYPE, &#x27;&#x27;TONBAG&#x27;&#x27; AS SUBITEMID, &#x27;&#x27;Ton&#x27;&#x27; AS UNITID,  40 AS UISEQUENCE  UNION ALL 
+                SELECT &#x27;&#x27;PLAN_BP_TOTAL_INPUT&#x27;&#x27;        AS ITEMID, &#x27;&#x27;PREVPROCESS&#x27;&#x27; AS PROCESSTYPE, &#x27;&#x27;CELL&#x27;&#x27;   AS SUBITEMID, &#x27;&#x27;Ton&#x27;&#x27; AS UNITID,  50 AS UISEQUENCE  UNION ALL 
+                SELECT &#x27;&#x27;PLAN_BP_TOTAL_OUTPUT&#x27;&#x27;       AS ITEMID, &#x27;&#x27;PREVPROCESS&#x27;&#x27; AS PROCESSTYPE, &#x27;&#x27;TONBAG&#x27;&#x27; AS SUBITEMID, &#x27;&#x27;Ton&#x27;&#x27; AS UNITID,  60 AS UISEQUENCE  UNION ALL 
+                                                                                                                                      
+                SELECT &#x27;&#x27;PLAN_BM_SILO_INPUT&#x27;&#x27;         AS ITEMID, &#x27;&#x27;FIRPROCESS&#x27;&#x27;  AS PROCESSTYPE, &#x27;&#x27;TONBAG&#x27;&#x27; AS SUBITEMID, &#x27;&#x27;Ton&#x27;&#x27; AS UNITID,  70 AS UISEQUENCE  UNION ALL 
+                SELECT &#x27;&#x27;PLAN_FIRING_INPUT&#x27;&#x27;          AS ITEMID, &#x27;&#x27;FIRPROCESS&#x27;&#x27;  AS PROCESSTYPE, &#x27;&#x27;FIR_IN&#x27;&#x27; AS SUBITEMID, &#x27;&#x27;Ton&#x27;&#x27; AS UNITID,  80 AS UISEQUENCE  UNION ALL 
+                SELECT &#x27;&#x27;PLAN_FIRING_OUTPUT&#x27;&#x27;         AS ITEMID, &#x27;&#x27;FIRPROCESS&#x27;&#x27;  AS PROCESSTYPE, &#x27;&#x27;FIR_OUT&#x27;&#x27;AS SUBITEMID, &#x27;&#x27;Ton&#x27;&#x27; AS UNITID,  90 AS UISEQUENCE  UNION ALL 
+                                                                                                                                   
+                SELECT &#x27;&#x27;PLAN_PREMIX_INPUT&#x27;&#x27;          AS ITEMID, &#x27;&#x27;LIPROCESS&#x27;&#x27;   AS PROCESSTYPE, &#x27;&#x27;BP_IN&#x27;&#x27;  AS SUBITEMID, &#x27;&#x27;Ton&#x27;&#x27; AS UNITID, 110 AS UISEQUENCE  UNION ALL 
+                SELECT &#x27;&#x27;PLAN_PREMIX_OUTPUT&#x27;&#x27;         AS ITEMID, &#x27;&#x27;LIPROCESS&#x27;&#x27;   AS PROCESSTYPE, &#x27;&#x27;BP_OUT&#x27;&#x27; AS SUBITEMID, &#x27;&#x27;Ton&#x27;&#x27; AS UNITID, 120 AS UISEQUENCE  UNION ALL 
+                SELECT &#x27;&#x27;PLAN_REACTOR_INPUT&#x27;&#x27;         AS ITEMID, &#x27;&#x27;LIPROCESS&#x27;&#x27;   AS PROCESSTYPE, &#x27;&#x27;BP_IN&#x27;&#x27;  AS SUBITEMID, &#x27;&#x27;Ton&#x27;&#x27; AS UNITID, 130 AS UISEQUENCE  UNION ALL 
+                SELECT &#x27;&#x27;PLAN_REACTOR_OUTPUT&#x27;&#x27;        AS ITEMID, &#x27;&#x27;LIPROCESS&#x27;&#x27;   AS PROCESSTYPE, &#x27;&#x27;BP_OUT&#x27;&#x27; AS SUBITEMID, &#x27;&#x27;Ton&#x27;&#x27; AS UNITID, 140 AS UISEQUENCE  UNION ALL 
+                SELECT &#x27;&#x27;PLAN_DRY_INPUT&#x27;&#x27;             AS ITEMID, &#x27;&#x27;LIPROCESS&#x27;&#x27;   AS PROCESSTYPE, &#x27;&#x27;DRY&#x27;&#x27;    AS SUBITEMID, &#x27;&#x27;Ton&#x27;&#x27; AS UNITID, 150 AS UISEQUENCE  UNION ALL 
+                SELECT &#x27;&#x27;PLAN_DRY_OUTPUT&#x27;&#x27;            AS ITEMID, &#x27;&#x27;LIPROCESS&#x27;&#x27;   AS PROCESSTYPE, &#x27;&#x27;BP_OUT&#x27;&#x27; AS SUBITEMID, &#x27;&#x27;Ton&#x27;&#x27; AS UNITID, 160 AS UISEQUENCE  UNION ALL 
+                SELECT &#x27;&#x27;PLAN_LI2CO3_OUTPUT&#x27;&#x27;         AS ITEMID, &#x27;&#x27;LIPROCESS&#x27;&#x27;   AS PROCESSTYPE, &#x27;&#x27;TONBAG&#x27;&#x27; AS SUBITEMID, &#x27;&#x27;Ton&#x27;&#x27; AS UNITID, 170 AS UISEQUENCE  UNION ALL 
+                SELECT &#x27;&#x27;PLAN_LI3PO4_OUTPUT&#x27;&#x27;         AS ITEMID, &#x27;&#x27;LIPROCESS&#x27;&#x27;   AS PROCESSTYPE, &#x27;&#x27;TONBAG&#x27;&#x27; AS SUBITEMID, &#x27;&#x27;Ton&#x27;&#x27; AS UNITID, 180 AS UISEQUENCE  UNION ALL 
+                                                                                                                                   
+                SELECT &#x27;&#x27;PLAN_PK1501_INPUT&#x27;&#x27;          AS ITEMID, &#x27;&#x27;NCMPROCESS&#x27;&#x27;  AS PROCESSTYPE, &#x27;&#x27;FQI&#x27;&#x27;    AS SUBITEMID, &#x27;&#x27;m3&#x27;&#x27;  AS UNITID, 190 AS UISEQUENCE  UNION ALL 
+                SELECT &#x27;&#x27;PLAN_V1517NCM_SULFATE_INPUT&#x27;&#x27; AS ITEMID,&#x27;&#x27;NCMPROCESS&#x27;&#x27;  AS PROCESSTYPE, &#x27;&#x27;FQI&#x27;&#x27;    AS SUBITEMID, &#x27;&#x27;m3&#x27;&#x27;  AS UNITID, 200 AS UISEQUENCE  UNION ALL 
+                SELECT &#x27;&#x27;PLAN_PK1502_INPUT&#x27;&#x27;          AS ITEMID, &#x27;&#x27;NCMPROCESS&#x27;&#x27;  AS PROCESSTYPE, &#x27;&#x27;FQI&#x27;&#x27;    AS SUBITEMID, &#x27;&#x27;m3&#x27;&#x27;  AS UNITID, 210 AS UISEQUENCE  UNION ALL 
+                SELECT &#x27;&#x27;PLAN_V1523NM_SULFATE_INPUT&#x27;&#x27; AS ITEMID, &#x27;&#x27;NCMPROCESS&#x27;&#x27;  AS PROCESSTYPE, &#x27;&#x27;FQI&#x27;&#x27;    AS SUBITEMID, &#x27;&#x27;m3&#x27;&#x27;  AS UNITID, 220 AS UISEQUENCE  UNION ALL 
+                SELECT &#x27;&#x27;PLAN_PK1503_INPUT&#x27;&#x27;          AS ITEMID, &#x27;&#x27;NCMPROCESS&#x27;&#x27;  AS PROCESSTYPE, &#x27;&#x27;FQI&#x27;&#x27;    AS SUBITEMID, &#x27;&#x27;m3&#x27;&#x27;  AS UNITID, 230 AS UISEQUENCE  UNION ALL 
+                SELECT &#x27;&#x27;PLAN_V1526N_SULFATE_INPUT&#x27;&#x27;  AS ITEMID, &#x27;&#x27;NCMPROCESS&#x27;&#x27;  AS PROCESSTYPE, &#x27;&#x27;FQI&#x27;&#x27;    AS SUBITEMID, &#x27;&#x27;m3&#x27;&#x27;  AS UNITID, 240 AS UISEQUENCE  UNION ALL 
+                SELECT &#x27;&#x27;PLAN_PK1504_INPUT&#x27;&#x27;          AS ITEMID, &#x27;&#x27;NCMPROCESS&#x27;&#x27;  AS PROCESSTYPE, &#x27;&#x27;FQI&#x27;&#x27;    AS SUBITEMID, &#x27;&#x27;m3&#x27;&#x27;  AS UNITID, 250 AS UISEQUENCE  UNION ALL 
+                SELECT &#x27;&#x27;PLAN_V1531N_SULFATE_INPUT&#x27;&#x27;  AS ITEMID, &#x27;&#x27;NCMPROCESS&#x27;&#x27;  AS PROCESSTYPE, &#x27;&#x27;FQI&#x27;&#x27;    AS SUBITEMID, &#x27;&#x27;m3&#x27;&#x27;  AS UNITID, 260 AS UISEQUENCE  UNION ALL 
+                SELECT &#x27;&#x27;PLAN_CR_FEEDTANK_INPUT&#x27;&#x27;     AS ITEMID, &#x27;&#x27;NCMPROCESS&#x27;&#x27;  AS PROCESSTYPE, &#x27;&#x27;FQI&#x27;&#x27;    AS SUBITEMID, &#x27;&#x27;m3&#x27;&#x27;  AS UNITID, 270 AS UISEQUENCE  UNION ALL 
+                SELECT &#x27;&#x27;PLAN_CO_EXT_OUTPUT&#x27;&#x27;         AS ITEMID, &#x27;&#x27;NCMPROCESS&#x27;&#x27;  AS PROCESSTYPE, &#x27;&#x27;FQI&#x27;&#x27;    AS SUBITEMID, &#x27;&#x27;m3&#x27;&#x27;  AS UNITID, 280 AS UISEQUENCE  UNION ALL 
+                SELECT &#x27;&#x27;PLAN_NI_EXT_OUTPUT&#x27;&#x27;         AS ITEMID, &#x27;&#x27;NCMPROCESS&#x27;&#x27;  AS PROCESSTYPE, &#x27;&#x27;TONBAG&#x27;&#x27; AS SUBITEMID, &#x27;&#x27;Ton&#x27;&#x27; AS UNITID, 290 AS UISEQUENCE  UNION ALL 
+                SELECT &#x27;&#x27;PLAN_NI3SO4_OUTPUT&#x27;&#x27;         AS ITEMID, &#x27;&#x27;NCMPROCESS&#x27;&#x27;  AS PROCESSTYPE, &#x27;&#x27;TONBAG&#x27;&#x27; AS SUBITEMID, &#x27;&#x27;Ton&#x27;&#x27; AS UNITID, 300 AS UISEQUENCE  
+            )
+            , PVIOT_DATA AS 
+            (
+                SELECT 
+                    P.ITEMID
+                    , SUMMARY
+                    , &#x27; + @PV_HEADERS + &#x27;
+                FROM BASE_DATA BD
+                PIVOT
+                (
+                    SUM(PLANQTY) FOR RPTDATE IN ( [SUMMARY], &#x27; + @PV_HEADERS + &#x27;)
+                ) P
+            )
+            SELECT
+                HL.UISEQUENCE
+                , CA.CODENAME AS PROCESSNAME
+                , CB.CODENAME AS MANAGEMENTITEM
+                , CC.CODENAME + &#x27;&#x27;(&#x27;&#x27; + HL.UNITID + &#x27;&#x27;)&#x27;&#x27; AS DETAILITEMNAME
+                , PD.SUMMARY
+                , PD.ITEMID AS PART
+                , &#x27; +  @PV_HEADERS + &#x27;
+            FROM HEADER_LIST HL
+                LEFT OUTER JOIN PVIOT_DATA PD
+                    ON  HL.ITEMID = PD.ITEMID
+                LEFT OUTER JOIN CIM_CODE CA
+                    ON  HL.PROCESSTYPE = CA.CODEID
+                    AND CA.SITEID = &#x27;&#x27;PL01&#x27;&#x27;
+                    AND CA.CODECLASSID = &#x27;&#x27;RPT_PROCESS&#x27;&#x27;
+                LEFT OUTER JOIN CIM_CODE CB
+                    ON  HL.ITEMID = &#x27;&#x27;PLAN_&#x27;&#x27; + CB.CODEID
+                    AND CB.SITEID = &#x27;&#x27;PL01&#x27;&#x27;
+                    AND CB.CODECLASSID = &#x27;&#x27;RPT_MANAGEMENTITEM&#x27;&#x27;
+                LEFT OUTER JOIN CIM_CODE CC
+                    ON  HL.SUBITEMID = CC.CODEID
+                    AND CC.SITEID = &#x27;&#x27;PL01&#x27;&#x27;
+                    AND CC.CODECLASSID = &#x27;&#x27;RPT_MANAGEMENTSUBITEM&#x27;&#x27; 
+            &#x27;;    
+        
+--            SELECT @PV_HEADERS, @GRID_HEADERS, @UNION_HEADERS
+
+--    PRINT &#x27;---------------------------------------------&#x27;    
+--    PRINT &#x27;STRSQL : &#x27; + @STRSQL
+    EXEC (@STRSQL);
+
+--    IF OBJECT_ID(&#x27;tempdb..#PLAN_DATA&#x27;) IS NOT NULL
+--    BEGIN    
+--        DROP TABLE #PLAN_DATA
+--    END
+
+END</pre></details><details class="sql"><summary>테이블 반환 함수 FN_RPT_DAY_WEEK_MONTH 정의 보기</summary><pre>-------------------------------------------------------------
+-- REPORT 용 조회 기간 일자/주차/월 생성
+--  SELECT * FROM dbo.FN_RPT_DAY_WEEK_MONTH(&#x27;D&#x27;, &#x27;20240101&#x27;, &#x27;20241231&#x27;)
+--  PARAM :
+--     @TYPES : 일,주,월 [ D | W | M ]
+--     @STARTDATE  : 시작일,주,월  [ 20241231 | 202453 | 202412 ]
+--     @ENDDATE  : 시작일,주,월  [ 20241231 | 202453 | 202412 ]
+-------------------------------------------------------------
+CREATE FUNCTION [dbo].[FN_RPT_DAY_WEEK_MONTH]
+(
+    @TYPES VARCHAR(40)
+    , @STARTDATE VARCHAR(40)
+    , @ENDDATE VARCHAR(40)
+)
+RETURNS @RETARRAY TABLE
+(
+    WORKDATE    VARCHAR(8)
+    , YEARS     VARCHAR(4)
+    , YEARMONTH VARCHAR(6)
+    , YEARWEEK  VARCHAR(6)
+)
+AS  
+BEGIN  
+    
+    INSERT @RETARRAY( WORKDATE,YEARS,YEARMONTH,YEARWEEK)
+    SELECT 
+        WORKDATE,YEARS,YEARMONTH,YEARWEEK
+    FROM 
+    (
+        SELECT 
+            CONVERT(VARCHAR(8), WORKDATE, 112) AS WORKDATE
+            , CONVERT(VARCHAR(4), WORKDATE, 112) AS YEARS
+            , CONVERT(VARCHAR(6), WORKDATE, 112) AS YEARMONTH
+            , CONVERT(VARCHAR(4), WORKDATE, 112) + FORMAT(DATEPART(WEEK, WORKDATE), &#x27;00&#x27;) AS YEARWEEK
+        FROM 
+        (
+            SELECT 
+                DATEADD(DAY, NUMBER, CONVERT(DATETIME, LEFT(@STARTDATE, 4) + &#x27;-01-01&#x27;)) AS WORKDATE
+            FROM master..spt_values 
+            WHERE TYPE = &#x27;P&#x27;
+            AND   NUMBER &lt; DATEDIFF(DAY, CONVERT(DATETIME, LEFT(@STARTDATE, 4) + &#x27;-01-01&#x27;), CONVERT(DATETIME, LEFT(@ENDDATE, 4) + &#x27;-12-31&#x27;))
+        ) M
+    ) P
+    WHERE  
+        ( 
+            (
+                ( @TYPES = &#x27;D&#x27; ) AND P.WORKDATE BETWEEN @STARTDATE AND @ENDDATE
+            )
+            OR 
+            (
+                ( @TYPES = &#x27;W&#x27; ) AND P.YEARWEEK BETWEEN @STARTDATE AND @ENDDATE
+            )
+            OR 
+            (
+                ( @TYPES = &#x27;M&#x27; ) AND P.YEARMONTH BETWEEN @STARTDATE AND @ENDDATE
+            )
+        )
+    ;
+
+    RETURN
+END</pre></details></details><details id="svc-2" class="svc" open><summary><b>#2</b> Query <code>CDS_Code_200</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-2">#2 검색조건 콤보 - LINEID (LINEID)</a> <a class="chip" href="#fn-3">#3 검색조건 콤보 - SEARCHCYCLE (SEARCHCYCLE)</a></p><h4>Query (조회 서비스) : CDS_Code_200</h4><ul><li>ID 구성: <code>CDS_Code_200</code> / 클래스 <code>THiRA.MES.Modeler</code> / 버전 <code>00001</code></li><li>정의 위치: Modeler 내장 쿼리 (THiRAMES.Service.Modeler.MSSQL DLL)</li><li>쿼리 파라메터: <code>CODECLASSID</code> <code>SITEID</code></li><li>테이블(조회/쓰기 전체, 함수·SP 포함): <div><a class="tbl" href="../tables.html#CIM_CODE">CIM_CODE</a><span class="b m">메인</span><span class="b r">읽기</span></div></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 1 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 202 76" width="202" height="76" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="170" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_CODE</text><text x="26" y="52" class="t2">기준 테이블</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>SELECT CODEID AS CODE,
+       CODENAME AS NAME,
+       UISEQUENCE
+FROM CIM_CODE 
+WHERE CODECLASSID = :CODECLASSID
+      AND ISUSABLE= &#x27;Usable&#x27; 
+      AND SITEID = :SITEID
+ORDER BY UISEQUENCE</pre></details></details><h2>3. 그리드 / 검색조건 정의</h2><details><summary><b>RT_MD_0021</b> 계획대비생산량기준정보1_계획등록현황 — 컬럼 6, 검색조건 4</summary><p>actionId: <code class="wrapc">THiRAMES.Service.UI$RuleMultiInquiry$THiRAMES.Service.UI$SelectProdPlanDefinitionList$00001?SITEID=@STORAGE:siteid&amp;SEARCHCYCLE=&amp;STARTDATE=&amp;ENDDATE=</code></p><h4>검색조건</h4><table class="grid sm"><thead><tr><th>필드</th><th>유형</th><th>표시명</th><th>표시명(한글)</th><th>콤보 서비스</th></tr></thead><tbody><tr><td><code>LINEID</code></td><td>FILTER</td><td>LINEID</td><td><b>라인</b></td><td class="wrapc">THiRA.MES.Modeler$RuleMultiInquiry$THiRA.MES.Modeler$CDS_Code_200$00001?CODECLASSID=LINEID&amp;SITEID=@STORAGE:siteid</td></tr><tr><td><code>SEARCHCYCLE</code></td><td>FILTER</td><td>SEARCHCYCLE</td><td><b>주기</b></td><td class="wrapc">THiRA.MES.Modeler$RuleMultiInquiry$THiRA.MES.Modeler$CDS_Code_200$00001?SITEID=@STORAGE:siteid&amp;CODECLASSID=SEARCHCYCLE</td></tr><tr><td><code>fromDate</code></td><td>FILTER</td><td>fromDate</td><td><b></b></td><td class="wrapc"></td></tr><tr><td><code>toDate</code></td><td>FILTER</td><td>toDate</td><td><b></b></td><td class="wrapc"></td></tr></tbody></table><h4>컬럼</h4><table class="grid sm"><thead><tr><th>필드</th><th>표시명</th><th>표시명(한글)</th><th>편집</th><th>필수</th><th>콤보 서비스</th></tr></thead><tbody><tr><td><code>PROCESSNAME</code></td><td>PROCESSSEGMENTID</td><td><b>공정</b></td><td></td><td></td><td class="wrapc"></td></tr><tr><td><code>MANAGEMENTITEM</code></td><td>MANAGEMENTITEM</td><td><b>관리 항목</b></td><td></td><td></td><td class="wrapc"></td></tr><tr><td><code>DETAILITEMNAME</code></td><td>DETAILITEMNAME</td><td><b>세부 항목</b></td><td></td><td></td><td class="wrapc"></td></tr><tr><td><code>SUMMARY</code></td><td>SUMMARY</td><td><b></b></td><td></td><td></td><td class="wrapc"></td></tr><tr><td><code>UISEQUENCE</code></td><td>UISEQUENCE</td><td><b>UI순서</b></td><td></td><td></td><td class="wrapc"></td></tr><tr><td><code>PART</code></td><td>PART</td><td><b></b></td><td></td><td></td><td class="wrapc"></td></tr></tbody></table></details><footer>자동 생성 문서 · DB: EM_MES_DEV (10.130.11.100) · 소스: THiRAMES_UI / THiRAMES_Service · "추정"/"코드 분석 기반" 표기는 정적 분석 결과이므로 실제 동작과 다를 수 있습니다.</footer></main></body></html>

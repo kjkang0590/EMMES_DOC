@@ -1,0 +1,400 @@
+<!DOCTYPE html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>PM_PI_005 - 자주 검사 실적 현황</title><link rel="stylesheet" href="../style.css"></head><body><header class="top"><a href="../index.html">← 전체 목록</a><a href="../tables.html">테이블 색인</a></header><main><h1>자주 검사 실적 현황 <small>PM_PI_005</small></h1><table class="kv"><tr><th>화면 경로</th><td><code>THiRAMES_UI/wwwroot/view/ngs/mes/PM/PM_PI_005.html</code></td></tr><tr><th>화면 구분</th><td>PM 생산관리</td></tr><tr><th>위젯(Grid)</th><td><code>PM_PI_0051</code></td></tr><tr><th>화면 버튼</th><td><span class="chip">findBtn1 · 조회</span> <span class="chip">findBtn2 · 조회</span></td></tr></table><h2>1. 기능별 호출 서비스 / 파라메터 / 테이블</h2><div class="wrap"><table class="grid"><thead><tr><th>#</th><th>기능</th><th>구분</th><th>호출 서비스</th><th>파라메터</th><th>DB 테이블</th></tr></thead><tbody><tr id="fn-1"><td>1</td><td>조회 - 그리드 PM_PI_0051 (자주검사실적현황1_검사대상목록)<br><small class="muted">조회 버튼(findBtn)/마스터-디테일 행선택 시 호출</small></td><td>R 조회</td><td><a href="#svc-1"><span class="tag q">Query</span> <code>SelectSelfInspectionResult</code></a> <small>THiRAMES.Service.UI</small></td><td class="params"><code>PLANTID</code> <code>LINEID</code> <code>EQUIPMENTID</code> <code>SITEID</code> <code>FROMDATE</code> <code>TODATE</code> <code>PROCESSSEGMENTID</code> <code>BATCHID</code> <code>LOTID</code> <code>PRODUCTDEFINITIONNAME</code> <code>PRODUCTORDERTYPE</code><br><span class="muted">UI 전달:</span> <code class="ui">test</code></td><td><a class="tbl" href="../tables.html#CIM_BATCH">CIM_BATCH</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_EQUIPMENT">CIM_EQUIPMENT</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_PROCESSSEGMENT">CIM_PROCESSSEGMENT</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_PRODUCTDEFINITION">CIM_PRODUCTDEFINITION</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_RECIPEDEFINITION">CIM_RECIPEDEFINITION</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_RECIPEPARAMETER">CIM_RECIPEPARAMETER</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_STATE">CIM_STATE</a><span class="b r">읽기</span></td></tr><tr id="fn-2"><td>2</td><td>검색조건 콤보 - PLANTID (PLANTID)</td><td>R 조회</td><td><a href="#svc-2"><span class="tag q">Query</span> <code>SelectPlantList</code></a> <small>THiRAMES.Service.UI</small></td><td class="params"><code>SITEID</code></td><td><a class="tbl" href="../tables.html#CIM_FACILITY">CIM_FACILITY</a><span class="b r">읽기</span></td></tr><tr id="fn-3"><td>3</td><td>검색조건 콤보 - LINEID (LINEID)</td><td>R 조회</td><td><a href="#svc-3"><span class="tag q">Query</span> <code>SelectLineList</code></a> <small>THiRAMES.Service.UI</small></td><td class="params"><code>SITEID</code> <code>PLANTID</code> <code>SHOP</code></td><td><a class="tbl" href="../tables.html#CIM_FACILITY">CIM_FACILITY</a><span class="b r">읽기</span></td></tr><tr id="fn-4"><td>4</td><td>검색조건 콤보 - PROCESSSEGMENTID (PROCESSSEGMENTID)</td><td>R 조회</td><td><a href="#svc-4"><span class="tag q">Query</span> <code>SelectProcessSegmentList</code></a> <small>THiRAMES.Service.UI</small></td><td class="params"><code>PLANTID</code> <code>LINEID</code><br><span class="muted">UI 전달:</span> <code class="ui">SITEID</code></td><td><a class="tbl" href="../tables.html#CIM_EQUIPMENT">CIM_EQUIPMENT</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_PROCESSSEGMENT">CIM_PROCESSSEGMENT</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_PROCESSSEGMENTEQUIPMENTREL">CIM_PROCESSSEGMENTEQUIPMENTREL</a><span class="b r">읽기</span></td></tr><tr id="fn-5"><td>5</td><td>검색조건 콤보 - EQUIPMENTID (EQUIPMENTID)</td><td>R 조회</td><td><a href="#svc-4"><span class="tag q">Query</span> <code>SelectProcessSegmentList</code></a> <small>THiRAMES.Service.UI</small></td><td class="params"><code>PLANTID</code> <code>LINEID</code><br><span class="muted">UI 전달:</span> <code class="ui">SITEID</code> <code class="ui">PROCESSSEGMENTID</code></td><td><a class="tbl" href="../tables.html#CIM_EQUIPMENT">CIM_EQUIPMENT</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_PROCESSSEGMENT">CIM_PROCESSSEGMENT</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_PROCESSSEGMENTEQUIPMENTREL">CIM_PROCESSSEGMENTEQUIPMENTREL</a><span class="b r">읽기</span></td></tr><tr id="fn-6"><td>6</td><td>검색조건 콤보 - PRODUCTORDERTYPE (PRODUCTORDERTYPE)</td><td>R 조회</td><td><a href="#svc-5"><span class="tag q">Query</span> <code>SelectCboCodeList</code></a> <small>THiRAMES.Service.UI</small></td><td class="params"><code>CODECLASSID</code> <code>SITEID</code></td><td><a class="tbl" href="../tables.html#CIM_CODE">CIM_CODE</a><span class="b r">읽기</span></td></tr><tr id="fn-7"><td>7</td><td>컬럼 콤보/코드 - JUDGE (JUDGE)</td><td>R 조회</td><td><a href="#svc-5"><span class="tag q">Query</span> <code>SelectCboCodeList</code></a> <small>THiRAMES.Service.UI</small></td><td class="params"><code>CODECLASSID</code> <code>SITEID</code><br><span class="muted">UI 전달:</span> <code class="ui">PLANTID</code></td><td><a class="tbl" href="../tables.html#CIM_CODE">CIM_CODE</a><span class="b r">읽기</span></td></tr><tr id="fn-8"><td>8</td><td>#PLANTID change<br><small class="muted">JS ngsWidget.ajax(R)</small></td><td>조회</td><td><a href="#svc-3"><span class="tag q">Query</span> <code>SelectLineList</code></a> <small>THiRAMES.Service.UI</small></td><td class="params"><code>SITEID</code> <code>PLANTID</code> <code>SHOP</code></td><td><a class="tbl" href="../tables.html#CIM_FACILITY">CIM_FACILITY</a><span class="b r">읽기</span></td></tr><tr id="fn-9"><td>9</td><td>#LINEID change<br><small class="muted">JS ngsWidget.ajax(R)</small></td><td>조회</td><td><a href="#svc-4"><span class="tag q">Query</span> <code>SelectProcessSegmentList</code></a> <small>THiRAMES.Service.UI</small></td><td class="params"><code>PLANTID</code> <code>LINEID</code><br><span class="muted">UI 전달:</span> <code class="ui">SITEID</code></td><td><a class="tbl" href="../tables.html#CIM_EQUIPMENT">CIM_EQUIPMENT</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_PROCESSSEGMENT">CIM_PROCESSSEGMENT</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_PROCESSSEGMENTEQUIPMENTREL">CIM_PROCESSSEGMENTEQUIPMENTREL</a><span class="b r">읽기</span></td></tr><tr id="fn-10"><td>10</td><td>#PROCESSSEGMENTID change<br><small class="muted">JS ngsWidget.ajax(R)</small></td><td>조회</td><td><a href="#svc-6"><span class="tag q">Query</span> <code>SelectEquipmentListByProcesssegmentId</code></a> <small>THiRAMES.Service.UI</small></td><td class="params"><code>PROCESSSEGMENTID</code> <code>PLANTID</code> <code>LINEID</code> <code>SITEID</code></td><td><a class="tbl" href="../tables.html#CIM_EQUIPMENT">CIM_EQUIPMENT</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_PROCESSSEGMENTEQUIPMENTREL">CIM_PROCESSSEGMENTEQUIPMENTREL</a><span class="b r">읽기</span></td></tr></tbody></table></div><h2>2. 서비스 상세</h2><details id="svc-1" class="svc" open><summary><b>#1</b> Query <code>SelectSelfInspectionResult</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-1">#1 조회 - 그리드 PM_PI_0051 (자주검사실적현황1_검사대상목록)</a></p><h4>Query (조회 서비스) : SelectSelfInspectionResult</h4><ul><li>ID 구성: <code>SelectSelfInspectionResult</code> / 클래스 <code>THiRAMES.Service.UI</code> / 버전 <code>00001</code></li><li>정의 위치: DB 저장 쿼리 (CIM_STOREDQUERY)</li><li>쿼리 파라메터: <code>PLANTID</code> <code>LINEID</code> <code>EQUIPMENTID</code> <code>SITEID</code> <code>FROMDATE</code> <code>TODATE</code> <code>PROCESSSEGMENTID</code> <code>BATCHID</code> <code>LOTID</code> <code>PRODUCTDEFINITIONNAME</code> <code>PRODUCTORDERTYPE</code></li><li>테이블(조회/쓰기 전체, 함수·SP 포함): <div><a class="tbl" href="../tables.html#CUS_SQCRESULT">CUS_SQCRESULT</a><span class="b m">메인</span><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_EQUIPMENT">CIM_EQUIPMENT</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_RECIPEPARAMETER">CIM_RECIPEPARAMETER</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_PROCESSSEGMENT">CIM_PROCESSSEGMENT</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_BATCH">CIM_BATCH</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_PRODUCTDEFINITION">CIM_PRODUCTDEFINITION</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_RECIPEDEFINITION">CIM_RECIPEDEFINITION</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_STATE">CIM_STATE</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#TABLE">TABLE</a><span class="b r">읽기</span></div></li><li>함수/SP: <code>FN_MES_SPLIT</code></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 3 · 조인 1</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 479 150" width="479" height="150" role="img" aria-label="조인 구조도"><path class="edge e-inner" d="M186 38 C231 38 231 38 276 38"/><text class="elab" x="231" y="34" text-anchor="middle">INNER</text><g class="node base unk"><rect x="16" y="16" width="170" height="44" rx="7"/><text x="26" y="35" class="t1">CUS_SQCRESULT</text><text x="26" y="52" class="t2">alias SQC</text></g><g class="node"><rect x="276" y="16" width="187" height="89" rx="7"/><text x="286" y="35" class="t1">CIM_BATCH</text><text x="286" y="52" class="t2">alias BAT</text><text x="286" y="67" class="t2 jt">INNER</text><text x="304" y="82" class="t3">SITEID = SQC.SITEID</text><text x="304" y="97" class="t3">BATCHID = SQC.BATCHID</text></g><g class="node unk"><rect x="16" y="90" width="170" height="44" rx="7"/><text x="26" y="109" class="t1">TABLE</text><text x="26" y="126" class="t2"></text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small><br><small class="muted">마스터/명칭 조회용 조인 제외(기준 테이블 제외): CIM_EQUIPMENT, CIM_RECIPEPARAMETER, CIM_PROCESSSEGMENT, CIM_PRODUCTDEFINITION, CIM_RECIPEDEFINITION, CIM_STATE</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>SELECT 
+	SQC.BATCHID 
+	, SQC.LOTID
+	, SQC.PRODUCTDEFINITIONID
+	, PDEF.PRODUCTDEFINITIONNAME 
+	, SQC.PROCESSSEGMENTID
+	, SGMT.PROCESSSEGMENTNAME   
+	, SQC.RECIPEDEFINITIONID 
+	, RDEF.RECIPEDEFINITIONNAME 
+	, SQC.RECIPEITEMID 
+	, SQC.RECIPEPARAMETERNAME   
+	, SQC.LOWERLIMIT 
+	, PARAM.TARGET
+	, SQC.UPPERLIMIT 
+	, SQC.UNITID 
+	, SQC.ITEMVALUE 
+	, SQC.JUDGE 
+	, SQC.MODIFIER 
+	, SQC.MODIFYTIME 
+FROM CUS_SQCRESULT SQC
+INNER JOIN CIM_EQUIPMENT EQP
+	ON EQP.SITEID = SQC.SITEID 
+	AND EQP.ISUSABLE = SQC.ISUSABLE 
+	AND EQP.EQUIPMENTID = SQC.EQUIPMENTID
+	AND EQP.PLANTID = NVL(:PLANTID, EQP.PLANTID)
+	AND EQP.LINEID = NVL(:LINEID, EQP.LINEID)
+	AND EQP.EQUIPMENTID = NVL(:EQUIPMENTID, EQP.EQUIPMENTID) 
+INNER JOIN CIM_RECIPEPARAMETER PARAM
+	ON SQC.RECIPEDEFINITIONID = PARAM.RECIPEDEFINITIONID 
+	AND SQC.RECIPEPARAMETERID  = PARAM.RECIPEPARAMETERID 
+	AND SQC.RECIPEITEMID = PARAM.RECIPEITEMID 
+INNER JOIN CIM_PROCESSSEGMENT    SGMT 
+	ON SGMT.SITEID = SQC.SITEID 
+	AND SGMT.PROCESSSEGMENTID = SQC.PROCESSSEGMENTID 
+INNER JOIN CIM_BATCH BAT 
+	ON BAT.SITEID = SQC.SITEID 
+	AND BAT.BATCHID = SQC.BATCHID 
+	AND BAT.BATCHTYPE = SGMT.PROCESSTYPE 
+INNER JOIN CIM_PRODUCTDEFINITION PDEF 
+	ON PDEF.SITEID = SQC.SITEID 
+	AND PDEF.PRODUCTDEFINITIONID = SQC.PRODUCTDEFINITIONID 
+--INNER JOIN CIM_PRODUCTORDER ORD 
+--	ON PDEF.PRODUCTDEFINITIONID = ORD.PRODUCTDEFINITIONID 
+INNER JOIN CIM_RECIPEDEFINITION RDEF 
+	ON RDEF.SITEID = SQC.SITEID 
+	AND RDEF.RECIPEDEFINITIONID = SQC.RECIPEDEFINITIONID 
+--INNER JOIN CIM_EQUIPMENT          EQ 
+--	ON EQP.SITEID = SQC.SITEID 
+--	AND EQP.EQUIPMENTID = SQC.EQUIPMENTID 
+LEFT OUTER JOIN CIM_STATE STA
+	ON STA.SITEID = SQC.SITEID 
+	AND STA.STATEMODELID =&#x27;SQCState&#x27; 
+	AND STA.STATEID = SQC.STATE 
+WHERE 1=1
+	AND SQC.ISUSABLE = &#x27;Usable&#x27;
+	AND SQC.SITEID = :SITEID
+	AND SQC.CREATETIME &gt;= TO_DATE(:FROMDATE||&#x27; 00:00:00&#x27;, &#x27;YYYY-MM-DD HH24:MI:SS&#x27;) AND SQC.CREATETIME &lt; TO_DATE(:TODATE||&#x27; 00:00:00&#x27;, &#x27;YYYY-MM-DD HH24:MI:SS&#x27;) +1
+	AND (:PROCESSSEGMENTID IS NULL OR SQC.PROCESSSEGMENTID = NVL(:PROCESSSEGMENTID, SQC.PROCESSSEGMENTID))
+	--  AND SQC.WORKORDERID = NVL(:WORKORDERID, SQC.WORKORDERID)
+	AND (:BATCHID IS NULL OR SQC.BATCHID LIKE &#x27;%&#x27;|| :BATCHID ||&#x27;%&#x27;)
+	--AND (:LOTID IS NULL OR SQC.LOTID =  NVL(:LOTID, SQC.LOTID))
+	AND 1 = (CASE WHEN :LOTID IS NULL THEN 1
+	              WHEN SGMT.PROCESSTYPE = &#x27;Plate&#x27; AND SUBSTR(:LOTID, 13, 1) IN(&#x27;A&#x27;,&#x27;R&#x27;) AND SQC.LOTID IN(SELECT * FROM TABLE(FN_MES_SPLIT(:LOTID || &#x27;,&#x27; || REPLACE(:LOTID, &#x27;R&#x27;, &#x27;A&#x27;), &#x27;,&#x27;))) THEN 1
+	              WHEN SQC.LOTID = :LOTID THEN 1
+	              ELSE 0 END
+			)
+	AND (:PRODUCTDEFINITIONNAME IS NULL OR PDEF.PRODUCTDEFINITIONNAME LIKE &#x27;%&#x27;|| :PRODUCTDEFINITIONNAME ||&#x27;%&#x27;)
+	AND (:PRODUCTORDERTYPE IS NULL OR RDEF.PRODUCTORDERTYPE = :PRODUCTORDERTYPE)
+	--AND PARAM.PROCESSDATATYPE = &#x27;LOT&#x27;
+  --AND SQC.SQCPERIODTYPE = :SQCPERIODTYPE
+  /* 일시적 조건 제거
+  AND SQC.PRODUCTDEFINITIONID = :PRODUCTDEFINITIONID
+  AND SQC.STATE = :STATE
+  */
+	
+	
+
+/*
+---------------------------------------
+-- 자주 검사 실적 현황 - 메인 조회
+---------------------------------------
+-- TABLE : SELECT * FROM CUS_SQCRESULT WHERE ROWNUM &lt; 100
+---------------------------------------
+-- INPUT
+-- SITEID : 사업장 : 필수 : 단건
+-- FROMDATE : YYYY-MM-DD : 필수 : MODIFYTIME
+-- TODATE : YYYY-MM-DD : 필수 : MODIFYTIME
+-- SQCPERIODTYPE : 검사주기 : 옵션 : 멀티
+-- PLANTID : PLANT : 옵션 : 멀티
+-- LINEID : 라인 : 옵션 : 멀티
+-- PROCESSSEGMENTID : 공정 : 옵션 : 멀티
+-- PROCESSSEGMENTID : 공정 : 옵션 : 멀티
+-- EQUIPMENTID : 설비 : 옵션 : 멀티
+-- STATE : 상태 : 옵션 : 멀티
+-- PRODUCTDEFINITIONID : 제품 : 옵션 : 멀티
+-- WORKORDERID : W/O :옵션 : 오른쪽 LIKE 적용
+-- BATCHID : BATCH : 옵션 : 오른쪽 LIKE 적용
+-- LOTID : LOT : 옵션 : 오른쪽 LIKE 적용
+---------------------------------------
+
+SELECT
+    SR.SQCSYSID
+  , SR.SITEID 
+  , SR.SQCPERIODTYPE 
+  , SR.STATE
+  , ST.STATENAME
+  , SR.PRODUCTDEFINITIONID
+  , PD.PRODUCTDEFINITIONNAME 
+  , SR.WORKORDERID 
+  , SR.BATCHID 
+  , SR.LOTID
+  , SR.PROCESSSEGMENTID
+  , PS.PROCESSSEGMENTNAME 
+  , SR.EQUIPMENTID
+  , EQ.EQUIPMENTNAME
+  , SR.RECIPEDEFINITIONID 
+  , RD.RECIPEDEFINITIONNAME 
+  , SR.SUBVERSION 
+  , SR.RECIPEITEMID 
+  , SR.RECIPEPARAMETERNAME 
+  , SR.LOWERLIMIT 
+  , SR.UPPERLIMIT 
+  , SR.UNITID 
+  , SR.ITEMVALUE 
+  , SR.JUDGE 
+  , SR.MODIFIER 
+  , SR.MODIFYTIME 
+FROM CUS_SQCRESULT SR
+INNER JOIN CIM_EQUIPMENT EQ ON EQ.SITEID = SR.SITEID AND EQ.ISUSABLE = SR.ISUSABLE 
+  AND EQ.EQUIPMENTID = SR.EQUIPMENTID
+  AND EQ.PLANTID = NVL(:PLANTID, EQ.PLANTID)
+  AND EQ.LINEID = NVL(:LINEID, EQ.LINEID)
+  AND EQ.EQUIPMENTID = NVL(:EQUIPMENTID, EQ.EQUIPMENTID) 
+INNER JOIN CIM_PROCESSSEGMENT    PS ON PS.SITEID = SR.SITEID AND PS.PROCESSSEGMENTID = SR.PROCESSSEGMENTID 
+INNER JOIN CIM_BATCH BT ON BT.SITEID = SR.SITEID AND BT.BATCHID = SR.BATCHID AND BT.BATCHTYPE = PS.PROCESSTYPE 
+INNER JOIN CIM_PRODUCTDEFINITION  PD ON PD.SITEID = SR.SITEID AND PD.PRODUCTDEFINITIONID = SR.PRODUCTDEFINITIONID 
+INNER JOIN CIM_RECIPEDEFINITION   RD ON RD.SITEID = SR.SITEID AND RD.RECIPEDEFINITIONID = SR.RECIPEDEFINITIONID 
+INNER JOIN CIM_EQUIPMENT          EQ ON EQ.SITEID = SR.SITEID AND EQ.EQUIPMENTID = SR.EQUIPMENTID 
+LEFT OUTER JOIN CIM_STATE         ST ON ST.SITEID = SR.SITEID AND ST.STATEMODELID =&#x27;SQCState&#x27; AND ST.STATEID = SR.STATE 
+--INNER JOIN CIM_LOTBATCHREL       BL ON BL.SITEID = BT.SITEID AND BL.ISUSABLE = BT.ISUSABLE 
+--  AND BL.BATCHID = BT.BATCHID 
+--INNER JOIN CIM_LOT               LT ON LT.SITEID = BL.SITEID AND LT.ISUSABLE = BL.ISUSABLE 
+--  AND LT.LOTID = BL.LOTID
+WHERE 1=1
+  AND SR.ISUSABLE = &#x27;Usable&#x27;
+  AND SR.SITEID = :SITEID
+  AND SR.CREATETIME &gt;= TO_DATE(:FROMDATE, &#x27;YYYY-MM-DD&#x27;)
+  AND SR.CREATETIME &lt; TO_DATE(:TODATE, &#x27;YYYY-MM-DD&#x27;) +1
+  AND SR.PROCESSSEGMENTID = NVL(:PROCESSSEGMENTID, SR.PROCESSSEGMENTID)
+  AND SR.WORKORDERID = NVL(:WORKORDERID, SR.WORKORDERID)
+  AND SR.BATCHID = NVL(:BATCHID, SR.BATCHID)
+  AND SR.LOTID =  NVL(:LOTID, SR.LOTID)
+  --AND SR.SQCPERIODTYPE = :SQCPERIODTYPE
+  -- 일시적 조건 제거
+  --AND SR.PRODUCTDEFINITIONID = :PRODUCTDEFINITIONID
+  --AND SR.STATE = :STATE
+  
+*/</pre></details><details class="sql"><summary>테이블 반환 함수 FN_MES_SPLIT 정의 보기</summary><pre>CREATE FUNCTION [dbo].[FN_MES_SPLIT]
+(
+  @I_STR     NVARCHAR(MAX),
+  @I_DELIM    NVARCHAR(40) = &#x27;,&#x27;
+)
+RETURNS @RETARRAY TABLE
+(
+	VALUE NVARCHAR(MAX)
+)
+AS  
+BEGIN  
+	DECLARE @VALUE			VARCHAR(8000)
+	DECLARE	@BCONTINUE		BIT
+	DECLARE @ISTRIKE		SMALLINT
+	DECLARE @IDELIMLENGTH	TINYINT
+   
+
+	SET @I_STR = LTRIM(RTRIM(@I_STR))  
+	SET @IDELIMLENGTH = LEN(@I_DELIM)  
+	SET @BCONTINUE = 1  
+
+	WHILE @BCONTINUE = 1  
+	BEGIN  
+		--텍스트에서 구분자를 발견하면, 첫 번째 요소를 반환하고  
+		--반환되는 테이블에 인덱스를 입력한다.  
+		IF CHARINDEX(@I_DELIM, @I_STR)&gt;0  
+		BEGIN  
+			-- 첫 번째 요소를 반환  
+			SET @VALUE = SUBSTRING(@I_STR,1, CHARINDEX(@I_DELIM,@I_STR)-1)  
+				
+			INSERT @RETARRAY (VALUE) VALUES (@VALUE)  
+
+			--다음 요소와 구분자를 문자열의 앞에서부터 제거하고,  
+			--INDEX를 증가시키고 반복작업(LOOP)을 이어간다.  
+			SET @ISTRIKE = LEN(@VALUE) + @IDELIMLENGTH  
+			SET @I_STR = LTRIM(RIGHT(@I_STR,LEN(@I_STR) - @ISTRIKE))  
+		END
+		ELSE  
+		BEGIN  
+			--만약 텍스트 안에서 구분자를 더 이상 찾을 수 없게 되면,   
+			--@I_STR가 @RETARRAY의 마지막 값이다.  
+			SET @VALUE = @I_STR  
+			-- 마지막 값도 구분자로 나누어져 있으뎐  
+			INSERT @RETARRAY (VALUE) VALUES (@VALUE)  
+
+			--WHILE 루프를 빠져 나온다.  
+			SET @BCONTINUE = 0  
+		END  
+	END 
+	
+	RETURN  
+END</pre></details></details><details id="svc-2" class="svc" open><summary><b>#2</b> Query <code>SelectPlantList</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-2">#2 검색조건 콤보 - PLANTID (PLANTID)</a></p><h4>Query (조회 서비스) : SelectPlantList</h4><ul><li>ID 구성: <code>SelectPlantList</code> / 클래스 <code>THiRAMES.Service.UI</code> / 버전 <code>00001</code></li><li>정의 위치: DB 저장 쿼리 (CIM_STOREDQUERY)</li><li>쿼리 파라메터: <code>SITEID</code></li><li>테이블(조회/쓰기 전체, 함수·SP 포함): <div><a class="tbl" href="../tables.html#CIM_FACILITY">CIM_FACILITY</a><span class="b m">메인</span><span class="b r">읽기</span></div></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 1 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 202 76" width="202" height="76" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="170" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_FACILITY</text><text x="26" y="52" class="t2">alias PLANT</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>-- SelectPlantList
+SELECT 
+	FACILITYID AS CODE, -- PLANTID,
+	FACILITYNAME AS NAME, -- PLANTNAME,
+	SHORTNAME
+FROM CIM_FACILITY PLANT
+WHERE 1=1
+	AND UPPER(PLANT.FACILITYTYPE) = &#x27;PLANT&#x27;
+	AND PLANT.SITEID = :SITEID
+ORDER BY UISEQUENCE</pre></details></details><details id="svc-3" class="svc" open><summary><b>#3</b> Query <code>SelectLineList</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-3">#3 검색조건 콤보 - LINEID (LINEID)</a> <a class="chip" href="#fn-8">#8 #PLANTID change</a></p><h4>Query (조회 서비스) : SelectLineList</h4><ul><li>ID 구성: <code>SelectLineList</code> / 클래스 <code>THiRAMES.Service.UI</code> / 버전 <code>00001</code></li><li>정의 위치: DB 저장 쿼리 (CIM_STOREDQUERY)</li><li>쿼리 파라메터: <code>SITEID</code> <code>PLANTID</code> <code>SHOP</code></li><li>테이블(조회/쓰기 전체, 함수·SP 포함): <div><a class="tbl" href="../tables.html#CIM_FACILITY">CIM_FACILITY</a><span class="b m">메인</span><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#FN_MES_SPLIT">FN_MES_SPLIT</a><span class="b r">읽기</span></div></li><li>함수/SP: <code>FN_MES_SPLIT</code></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 3 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 202 224" width="202" height="224" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="170" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_FACILITY</text><text x="26" y="52" class="t2">alias LINE</text></g><g class="node"><rect x="16" y="90" width="170" height="44" rx="7"/><text x="26" y="109" class="t1">CIM_FACILITY</text><text x="26" y="126" class="t2">alias PLANTLINE</text></g><g class="node unk"><rect x="16" y="164" width="170" height="44" rx="7"/><text x="26" y="183" class="t1">FN_MES_SPLIT</text><text x="26" y="200" class="t2"></text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>-- SelectLineList
+SELECT 
+	FACILITYID AS CODE, -- LINEID,
+	FACILITYNAME AS NAME, -- LINENAME,
+	SHORTNAME, SHOP, LINEGROUP
+FROM CIM_FACILITY LINE
+	WHERE 1=1
+	AND UPPER(LINE.FACILITYTYPE) = &#x27;LINE&#x27;
+	AND LINE.SITEID = :SITEID
+	AND LINE.PARENTFACILITYID IN 
+	(
+		SELECT FACILITYID FROM CIM_FACILITY PLANTLINE
+		WHERE 1=1
+			AND (:PLANTID IS NULL OR PLANTLINE.PARENTFACILITYID = :PLANTID)
+			AND UPPER(PLANTLINE.FACILITYTYPE) = &#x27;PLANTLINE&#x27;
+			AND PLANTLINE.SITEID = :SITEID
+	)
+	AND LINE.ISUSABLE = &#x27;Usable&#x27;
+	AND (:SHOP IS NULL OR LINE.SHOP IN (SELECT COLUMN_VALUE FROM FN_MES_SPLIT(:SHOP, &#x27;,&#x27;)))
+ORDER BY UISEQUENCE</pre></details><details class="sql"><summary>테이블 반환 함수 FN_MES_SPLIT 정의 보기</summary><pre>CREATE FUNCTION [dbo].[FN_MES_SPLIT]
+(
+  @I_STR     NVARCHAR(MAX),
+  @I_DELIM    NVARCHAR(40) = &#x27;,&#x27;
+)
+RETURNS @RETARRAY TABLE
+(
+	VALUE NVARCHAR(MAX)
+)
+AS  
+BEGIN  
+	DECLARE @VALUE			VARCHAR(8000)
+	DECLARE	@BCONTINUE		BIT
+	DECLARE @ISTRIKE		SMALLINT
+	DECLARE @IDELIMLENGTH	TINYINT
+   
+
+	SET @I_STR = LTRIM(RTRIM(@I_STR))  
+	SET @IDELIMLENGTH = LEN(@I_DELIM)  
+	SET @BCONTINUE = 1  
+
+	WHILE @BCONTINUE = 1  
+	BEGIN  
+		--텍스트에서 구분자를 발견하면, 첫 번째 요소를 반환하고  
+		--반환되는 테이블에 인덱스를 입력한다.  
+		IF CHARINDEX(@I_DELIM, @I_STR)&gt;0  
+		BEGIN  
+			-- 첫 번째 요소를 반환  
+			SET @VALUE = SUBSTRING(@I_STR,1, CHARINDEX(@I_DELIM,@I_STR)-1)  
+				
+			INSERT @RETARRAY (VALUE) VALUES (@VALUE)  
+
+			--다음 요소와 구분자를 문자열의 앞에서부터 제거하고,  
+			--INDEX를 증가시키고 반복작업(LOOP)을 이어간다.  
+			SET @ISTRIKE = LEN(@VALUE) + @IDELIMLENGTH  
+			SET @I_STR = LTRIM(RIGHT(@I_STR,LEN(@I_STR) - @ISTRIKE))  
+		END
+		ELSE  
+		BEGIN  
+			--만약 텍스트 안에서 구분자를 더 이상 찾을 수 없게 되면,   
+			--@I_STR가 @RETARRAY의 마지막 값이다.  
+			SET @VALUE = @I_STR  
+			-- 마지막 값도 구분자로 나누어져 있으뎐  
+			INSERT @RETARRAY (VALUE) VALUES (@VALUE)  
+
+			--WHILE 루프를 빠져 나온다.  
+			SET @BCONTINUE = 0  
+		END  
+	END 
+	
+	RETURN  
+END</pre></details></details><details id="svc-4" class="svc" open><summary><b>#4</b> Query <code>SelectProcessSegmentList</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-4">#4 검색조건 콤보 - PROCESSSEGMENTID (PROCESSSEGMENTID)</a> <a class="chip" href="#fn-5">#5 검색조건 콤보 - EQUIPMENTID (EQUIPMENTID)</a> <a class="chip" href="#fn-9">#9 #LINEID change</a></p><h4>Query (조회 서비스) : SelectProcessSegmentList</h4><ul><li>ID 구성: <code>SelectProcessSegmentList</code> / 클래스 <code>THiRAMES.Service.UI</code> / 버전 <code>00001</code></li><li>정의 위치: DB 저장 쿼리 (CIM_STOREDQUERY)</li><li>쿼리 파라메터: <code>PLANTID</code> <code>LINEID</code></li><li>테이블(조회/쓰기 전체, 함수·SP 포함): <div><a class="tbl" href="../tables.html#CIM_EQUIPMENT">CIM_EQUIPMENT</a><span class="b m">메인</span><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_PROCESSSEGMENTEQUIPMENTREL">CIM_PROCESSSEGMENTEQUIPMENTREL</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_PROCESSSEGMENT">CIM_PROCESSSEGMENT</a><span class="b r">읽기</span></div></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 2 · 조인 1</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 538 121" width="538" height="121" role="img" aria-label="조인 구조도"><path class="edge e-inner" d="M186 38 C231 38 231 38 276 38"/><text class="elab" x="231" y="34" text-anchor="middle">INNER</text><g class="node base"><rect x="16" y="16" width="170" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_EQUIPMENT</text><text x="26" y="52" class="t2">alias EQ</text></g><g class="node"><rect x="276" y="16" width="246" height="89" rx="7"/><text x="286" y="35" class="t1">CIM_PROCESSSEGMENTEQUIPMENTREL</text><text x="286" y="52" class="t2">alias PER</text><text x="286" y="67" class="t2 jt">INNER</text><text x="304" y="82" class="t3">EQUIPMENTID = EQ.EQUIPMENTID</text><text x="304" y="97" class="t3">SITEID = EQ.SITEID</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small><br><small class="muted">마스터/명칭 조회용 조인 제외(기준 테이블 제외): CIM_PROCESSSEGMENT</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>-- SelectProcessSegmentList
+
+SELECT DISTINCT EQ.SITEID, EQ.PLANTID, EQ.LINEID
+	, PC.PROCESSSEGMENTID AS CODE
+	, PC.PROCESSSEGMENTNAME AS NAME
+	, PC.PROCESSTYPE
+	, PC.BIZRULEID
+	, CASE WHEN (SELECT COUNT(*) FROM CIM_EQUIPMENT SUB WHERE SUB.PARENTID = EQ.EQUIPMENTID) &gt; 0 THEN &#x27;Y&#x27; ELSE &#x27;N&#x27; END ISSUBEQP
+FROM CIM_EQUIPMENT EQ
+	INNER JOIN CIM_PROCESSSEGMENTEQUIPMENTREL PER
+	ON 1=1
+	AND PER.EQUIPMENTID = EQ.EQUIPMENTID
+	AND PER.SITEID = EQ.SITEID
+	AND PER.ISUSABLE = &#x27;Usable&#x27;
+	INNER JOIN CIM_PROCESSSEGMENT PC
+	ON 1=1
+	AND PC.PROCESSSEGMENTID = PER.PROCESSSEGMENTID
+	AND PC.SITEID = PER.SITEID
+	AND PC.ISUSABLE = &#x27;Usable&#x27;
+WHERE 1=1
+	AND (:PLANTID IS NULL OR EQ.PLANTID = :PLANTID)
+	AND (:LINEID IS NULL OR  EQ.LINEID = :LINEID)
+ORDER BY EQ.PLANTID, EQ.LINEID, PC.PROCESSSEGMENTID</pre></details></details><details id="svc-5" class="svc" open><summary><b>#5</b> Query <code>SelectCboCodeList</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-6">#6 검색조건 콤보 - PRODUCTORDERTYPE (PRODUCTORDERTYPE)</a> <a class="chip" href="#fn-7">#7 컬럼 콤보/코드 - JUDGE (JUDGE)</a></p><h4>Query (조회 서비스) : SelectCboCodeList</h4><ul><li>ID 구성: <code>SelectCboCodeList</code> / 클래스 <code>THiRAMES.Service.UI</code> / 버전 <code>00001</code></li><li>정의 위치: DB 저장 쿼리 (CIM_STOREDQUERY)</li><li>쿼리 파라메터: <code>CODECLASSID</code> <code>SITEID</code></li><li>테이블(조회/쓰기 전체, 함수·SP 포함): <div><a class="tbl" href="../tables.html#CIM_CODE">CIM_CODE</a><span class="b m">메인</span><span class="b r">읽기</span></div></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 1 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 202 76" width="202" height="76" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="170" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_CODE</text><text x="26" y="52" class="t2">기준 테이블</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>SELECT CODEID AS CODE,
+	   CODENAME AS NAME,
+	   UISEQUENCE 
+FROM CIM_CODE
+WHERE CODECLASSID = :CODECLASSID   
+  AND SITEID = :SITEID      
+  AND ISUSABLE= &#x27;Usable&#x27;       
+ORDER BY UISEQUENCE</pre></details></details><details id="svc-6" class="svc" open><summary><b>#6</b> Query <code>SelectEquipmentListByProcesssegmentId</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-10">#10 #PROCESSSEGMENTID change</a></p><h4>Query (조회 서비스) : SelectEquipmentListByProcesssegmentId</h4><ul><li>ID 구성: <code>SelectEquipmentListByProcesssegmentId</code> / 클래스 <code>THiRAMES.Service.UI</code> / 버전 <code>00001</code></li><li>정의 위치: DB 저장 쿼리 (CIM_STOREDQUERY)</li><li>쿼리 파라메터: <code>PROCESSSEGMENTID</code> <code>PLANTID</code> <code>LINEID</code> <code>SITEID</code></li><li>테이블(조회/쓰기 전체, 함수·SP 포함): <div><a class="tbl" href="../tables.html#CIM_EQUIPMENT">CIM_EQUIPMENT</a><span class="b m">메인</span><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_PROCESSSEGMENTEQUIPMENTREL">CIM_PROCESSSEGMENTEQUIPMENTREL</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#TABLE">TABLE</a><span class="b r">읽기</span></div></li><li>함수/SP: <code>FN_MES_SPLIT</code></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 2 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 202 150" width="202" height="150" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="170" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_EQUIPMENT</text><text x="26" y="52" class="t2">alias EQ</text></g><g class="node unk"><rect x="16" y="90" width="170" height="44" rx="7"/><text x="26" y="109" class="t1">TABLE</text><text x="26" y="126" class="t2"></text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small><br><small class="muted">마스터/명칭 조회용 조인 제외(기준 테이블 제외): CIM_PROCESSSEGMENTEQUIPMENTREL</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>-- SelectEquipmentListByProcesssegmentId
+
+SELECT * FROM 
+(
+SELECT EQ.EQUIPMENTID AS CODE
+     , EQ.EQUIPMENTNAME AS NAME
+  FROM CIM_EQUIPMENT EQ
+ INNER JOIN CIM_PROCESSSEGMENTEQUIPMENTREL PER
+    ON EQ.SITEID = PER.SITEID 
+   AND EQ.EQUIPMENTID = PER.EQUIPMENTID 
+   AND PER.ISUSABLE = &#x27;Usable&#x27;
+ WHERE 1=1
+   AND PER.PROCESSSEGMENTID IN (SELECT * FROM TABLE(FN_MES_SPLIT(:PROCESSSEGMENTID, &#x27;,&#x27;)))
+   AND (:PLANTID IS NULL OR EQ.PLANTID = :PLANTID)
+   AND (:LINEID IS NULL OR  EQ.LINEID = :LINEID)
+   AND EQ.SITEID = :SITEID
+   AND EQ.ISUSABLE = &#x27;Usable&#x27;
+ORDER BY EQ.UISEQUENCE
+)
+
+--SELECT * FROM 
+--(
+--SELECT EQ.EQUIPMENTID AS CODE
+--     , EQ.EQUIPMENTNAME AS NAME
+--  FROM CIM_EQUIPMENT EQ
+-- WHERE 1=1
+--   AND :PROCESSSEGMENTID = :PROCESSSEGMENTID
+--   AND (:PLANTID IS NULL OR EQ.PLANTID = :PLANTID)
+--   AND (:LINEID IS NULL OR  EQ.LINEID = :LINEID)
+--   AND EQ.SITEID = :SITEID
+--   AND EQ.ISUSABLE = &#x27;Usable&#x27;
+--ORDER BY EQ.EQUIPMENTID
+--)</pre></details><details class="sql"><summary>테이블 반환 함수 FN_MES_SPLIT 정의 보기</summary><pre>CREATE FUNCTION [dbo].[FN_MES_SPLIT]
+(
+  @I_STR     NVARCHAR(MAX),
+  @I_DELIM    NVARCHAR(40) = &#x27;,&#x27;
+)
+RETURNS @RETARRAY TABLE
+(
+	VALUE NVARCHAR(MAX)
+)
+AS  
+BEGIN  
+	DECLARE @VALUE			VARCHAR(8000)
+	DECLARE	@BCONTINUE		BIT
+	DECLARE @ISTRIKE		SMALLINT
+	DECLARE @IDELIMLENGTH	TINYINT
+   
+
+	SET @I_STR = LTRIM(RTRIM(@I_STR))  
+	SET @IDELIMLENGTH = LEN(@I_DELIM)  
+	SET @BCONTINUE = 1  
+
+	WHILE @BCONTINUE = 1  
+	BEGIN  
+		--텍스트에서 구분자를 발견하면, 첫 번째 요소를 반환하고  
+		--반환되는 테이블에 인덱스를 입력한다.  
+		IF CHARINDEX(@I_DELIM, @I_STR)&gt;0  
+		BEGIN  
+			-- 첫 번째 요소를 반환  
+			SET @VALUE = SUBSTRING(@I_STR,1, CHARINDEX(@I_DELIM,@I_STR)-1)  
+				
+			INSERT @RETARRAY (VALUE) VALUES (@VALUE)  
+
+			--다음 요소와 구분자를 문자열의 앞에서부터 제거하고,  
+			--INDEX를 증가시키고 반복작업(LOOP)을 이어간다.  
+			SET @ISTRIKE = LEN(@VALUE) + @IDELIMLENGTH  
+			SET @I_STR = LTRIM(RIGHT(@I_STR,LEN(@I_STR) - @ISTRIKE))  
+		END
+		ELSE  
+		BEGIN  
+			--만약 텍스트 안에서 구분자를 더 이상 찾을 수 없게 되면,   
+			--@I_STR가 @RETARRAY의 마지막 값이다.  
+			SET @VALUE = @I_STR  
+			-- 마지막 값도 구분자로 나누어져 있으뎐  
+			INSERT @RETARRAY (VALUE) VALUES (@VALUE)  
+
+			--WHILE 루프를 빠져 나온다.  
+			SET @BCONTINUE = 0  
+		END  
+	END 
+	
+	RETURN  
+END</pre></details></details><h2>3. 그리드 / 검색조건 정의</h2><details><summary><b>PM_PI_0051</b> 자주검사실적현황1_검사대상목록 — 컬럼 27, 검색조건 6</summary><p>actionId: <code class="wrapc">THiRAMES.Service.UI$RuleMultiInquiry$THiRAMES.Service.UI$SelectSelfInspectionResult$00001?SITEID=&amp;FROMDATE=&amp;TODATE=&amp;PLANTID=&amp;PROCESSSEGMENTID=&amp;LINEID=&amp;EQUIPMENTID=&amp;PRODUCTDEFINITIONNAME=&amp;PRODUCTORDERTYPE=&amp;BATCHID=&amp;LOTID=</code></p><h4>검색조건</h4><table class="grid sm"><thead><tr><th>필드</th><th>유형</th><th>표시명</th><th>표시명(한글)</th><th>콤보 서비스</th></tr></thead><tbody><tr><td><code>test</code></td><td>FILTER</td><td>test</td><td><b>테스트</b></td><td class="wrapc"></td></tr><tr><td><code>PLANTID</code></td><td>FILTER</td><td>PLANTID</td><td><b>PLANT</b></td><td class="wrapc">THiRAMES.Service.UI$RuleMultiInquiry$THiRAMES.Service.UI$SelectPlantList$00001?SITEID=0100</td></tr><tr><td><code>LINEID</code></td><td>FILTER</td><td>LINEID</td><td><b>라인</b></td><td class="wrapc">THiRAMES.Service.UI$RuleMultiInquiry$THiRAMES.Service.UI$SelectLineList$00001?SITEID=0100&amp;PLANTID=</td></tr><tr><td><code>PROCESSSEGMENTID</code></td><td>FILTER</td><td>PROCESSSEGMENTID</td><td><b>공정</b></td><td class="wrapc">THiRAMES.Service.UI$RuleMultiInquiry$THiRAMES.Service.UI$SelectProcessSegmentList$00001?SITEID=0100&amp;PLANTID=&amp;LINEID=</td></tr><tr><td><code>EQUIPMENTID</code></td><td>FILTER</td><td>EQUIPMENTID</td><td><b>설비</b></td><td class="wrapc">THiRAMES.Service.UI$RuleMultiInquiry$THiRAMES.Service.UI$SelectProcessSegmentList$00001?SITEID=0100&amp;PLANTID=&amp;LINEID=&amp;PROCESSSEGMENTID=</td></tr><tr><td><code>PRODUCTORDERTYPE</code></td><td>FILTER</td><td>PRODUCTORDERTYPE</td><td><b>제조 형태</b></td><td class="wrapc">THiRAMES.Service.UI$RuleMultiInquiry$THiRAMES.Service.UI$SelectCboCodeList$00001?SITEID=0100&amp;CODECLASSID=PRODUCTORDERTYPE</td></tr></tbody></table><p class="muted">조회 쿼리의 메인 테이블 <a class="tbl" href="../tables.html#CIM_EQUIPMENT">CIM_EQUIPMENT</a> 에서 오는 컬럼은 <span class="mainmark">강조</span> 표시됩니다 (0개 / 27개)</p><h4>컬럼</h4><table class="grid sm"><thead><tr><th>필드</th><th>표시명</th><th>표시명(한글)</th><th>편집</th><th>필수</th><th>콤보 서비스</th></tr></thead><tbody><tr><td><code>BATCHID</code></td><td>BATCHID </td><td><b>Batch</b></td><td></td><td></td><td class="wrapc"></td></tr><tr><td><code>LOTID</code></td><td>LOTID</td><td><b>공정 LOT No</b></td><td></td><td></td><td class="wrapc"></td></tr><tr><td><code>PRODUCTDEFINITIONNAME</code></td><td>PRODUCTDEFINITIONNAME</td><td><b>제품명</b></td><td></td><td></td><td class="wrapc"></td></tr><tr><td><code>PROCESSSEGMENTNAME</code></td><td>PROCESSSEGMENTNAME</td><td><b>공정명</b></td><td></td><td></td><td class="wrapc"></td></tr><tr><td><code>RECIPEDEFINITIONID</code></td><td>RECIPEDEFINITIONID</td><td><b>Recipe</b></td><td></td><td></td><td class="wrapc"></td></tr><tr><td><code>RECIPEITEMID</code></td><td>RECIPEITEMID</td><td><b>Recipe 항목</b></td><td></td><td></td><td class="wrapc"></td></tr><tr><td><code>RECIPEPARAMETERNAME</code></td><td>RECIPEPARAMETERNAME</td><td><b>Recipe 파라미터명</b></td><td></td><td></td><td class="wrapc"></td></tr><tr><td><code>LOWERLIMIT</code></td><td>LOWERLIMIT</td><td><b>LSL</b></td><td></td><td></td><td class="wrapc"></td></tr><tr><td><code>TAGET</code></td><td>TAGET</td><td><b></b></td><td></td><td></td><td class="wrapc"></td></tr><tr><td><code>UPPERLIMIT</code></td><td>UPPERLIMIT</td><td><b>USL</b></td><td></td><td></td><td class="wrapc"></td></tr><tr><td><code>UNITID</code></td><td>UNITID</td><td><b>단위</b></td><td></td><td></td><td class="wrapc"></td></tr><tr><td><code>ITEMVALUE</code></td><td>ITEMVALUE</td><td><b>측정값</b></td><td></td><td></td><td class="wrapc"></td></tr><tr><td><code>MODIFYTIME</code></td><td>MODIFYTIME</td><td><b>수정일시</b></td><td></td><td></td><td class="wrapc"></td></tr><tr><td><code>MODIFIER</code></td><td>MODIFIER</td><td><b>수정자</b></td><td></td><td></td><td class="wrapc"></td></tr><tr><td><code>SQCSYSID</code></td><td>SQCSYSID</td><td><b>SQC ID</b></td><td></td><td></td><td class="wrapc"></td></tr><tr><td><code>SITEID</code></td><td>SITEID</td><td><b>사이트</b></td><td></td><td></td><td class="wrapc"></td></tr><tr><td><code>SQCPERIODTYPE</code></td><td>SQCPERIODTYPE</td><td><b>자주 검사 주기</b></td><td></td><td></td><td class="wrapc"></td></tr><tr><td><code>STATENAME</code></td><td>STATENAME</td><td><b>상태명</b></td><td></td><td></td><td class="wrapc"></td></tr><tr><td><code>PRODUCTDEFINITIONID</code></td><td>PRODUCTDEFINITIONID</td><td><b>제품코드</b></td><td></td><td></td><td class="wrapc"></td></tr><tr><td><code>WORKORDERID</code></td><td>WORKORDERID</td><td><b>W/O No</b></td><td></td><td></td><td class="wrapc"></td></tr><tr><td><code>PROCESSSEGMENTID</code></td><td>PROCESSSEGMENTID</td><td><b>공정</b></td><td></td><td></td><td class="wrapc"></td></tr><tr><td><code>EQUIPMENTID</code></td><td>EQUIPMENTID</td><td><b>설비</b></td><td></td><td></td><td class="wrapc"></td></tr><tr><td><code>EQUIPMENTNAME</code></td><td>EQUIPMENTNAME</td><td><b>설비명</b></td><td></td><td></td><td class="wrapc"></td></tr><tr><td><code>RECIPEDEFINITIONNAME</code></td><td>RECIPEDEFINITIONNAME</td><td><b>Recipe명</b></td><td></td><td></td><td class="wrapc"></td></tr><tr><td><code>SUBVERSION</code></td><td>SUBVERSION</td><td><b>Sub Version</b></td><td></td><td></td><td class="wrapc"></td></tr><tr><td><code>JUDGE</code></td><td>JUDGE</td><td><b>판정값</b></td><td></td><td></td><td class="wrapc">THiRAMES.Service.UI$RuleMultiInquiry$THiRAMES.Service.UI$SelectCboCodeList$00001?SITEID=0100&amp;PLANTID=&amp;CODECLASSID=JUDGE</td></tr><tr><td><code>STATE</code></td><td>STATE</td><td><b>현재상태</b></td><td></td><td></td><td class="wrapc"></td></tr></tbody></table></details><footer>자동 생성 문서 · DB: EM_MES_DEV (10.130.11.100) · 소스: THiRAMES_UI / THiRAMES_Service · "추정"/"코드 분석 기반" 표기는 정적 분석 결과이므로 실제 동작과 다를 수 있습니다.</footer></main></body></html>

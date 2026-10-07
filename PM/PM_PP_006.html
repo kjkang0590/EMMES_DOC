@@ -1,0 +1,114 @@
+<!DOCTYPE html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>PM_PP_006 - Boxing현황조회1</title><link rel="stylesheet" href="../style.css"></head><body><header class="top"><a href="../index.html">← 전체 목록</a><a href="../tables.html">테이블 색인</a></header><main><h1>Boxing현황조회1 <small>PM_PP_006</small></h1><table class="kv"><tr><th>화면 경로</th><td><code>THiRAMES_UI/wwwroot/view/ngs/mes/PM/PM_PP_006.html</code></td></tr><tr><th>화면 구분</th><td>PM 생산관리</td></tr><tr><th>위젯(Grid)</th><td><code>PM_PP_0061</code>, <code>PM_PP_0062</code>, <code>PM_PP_0063</code></td></tr><tr><th>화면 버튼</th><td><span class="chip">findBtn1 · 조회</span> <span class="chip">findBtn2 · 조회</span> <span class="chip">findBtn3 · 조회</span> <span class="chip">excelDownBtn1 · 엑셀 다운로드</span> <span class="chip">excelDownBtn2 · 엑셀 다운로드</span> <span class="chip">excelDownBtn3 · 엑셀 다운로드</span></td></tr></table><h2>1. 기능별 호출 서비스 / 파라메터 / 테이블</h2><div class="wrap"><table class="grid"><thead><tr><th>#</th><th>기능</th><th>구분</th><th>호출 서비스</th><th>파라메터</th><th>DB 테이블</th></tr></thead><tbody><tr id="fn-1"><td>1</td><td>조회 - 그리드 PM_PP_0061 (Boxing현황조회1_Pallet목록)<br><small class="muted">조회 버튼(findBtn)/마스터-디테일 행선택 시 호출</small></td><td>R 조회</td><td><a href="#svc-1"><span class="tag q">Query</span> <code>RPT_SelectBoxingPalletList</code></a> <small>THiRAMES.Service.UI</small></td><td class="params"><code>FROMDATE</code> <code>TODATE</code> <code>PRODUCTDEFINITIONID</code> <code>PALLETID</code> <code>OUTBOXID</code> <code>INBOXID</code> <code>CELLID</code> <code>USERID</code><br><span class="muted">UI 전달:</span> <code class="ui">period</code> <code class="ui">SITEID</code></td><td><a class="tbl" href="../tables.html#CIM_LOTHIST">CIM_LOTHIST</a><span class="b r">읽기</span></td></tr><tr id="fn-2"><td>2</td><td>조회 - 그리드 PM_PP_0062 (Boxing현황조회2_Box목록)<br><small class="muted">조회 버튼(findBtn)/마스터-디테일 행선택 시 호출</small></td><td>R 조회</td><td><a href="#svc-1"><span class="tag q">Query</span> <code>RPT_SelectBoxingPalletList</code></a> <small>THiRAMES.Service.UI</small></td><td class="params"><code>FROMDATE</code> <code>TODATE</code> <code>PRODUCTDEFINITIONID</code> <code>PALLETID</code> <code>OUTBOXID</code> <code>INBOXID</code> <code>CELLID</code> <code>USERID</code><br><span class="muted">UI 전달:</span> <code class="ui">SITEID</code></td><td><a class="tbl" href="../tables.html#CIM_LOTHIST">CIM_LOTHIST</a><span class="b r">읽기</span></td></tr><tr id="fn-3"><td>3</td><td>조회 - 그리드 PM_PP_0063 (Boxing현황조회3_Cell목록)<br><small class="muted">조회 버튼(findBtn)/마스터-디테일 행선택 시 호출</small></td><td>R 조회</td><td><a href="#svc-1"><span class="tag q">Query</span> <code>RPT_SelectBoxingPalletList</code></a> <small>THiRAMES.Service.UI</small></td><td class="params"><code>FROMDATE</code> <code>TODATE</code> <code>PRODUCTDEFINITIONID</code> <code>PALLETID</code> <code>OUTBOXID</code> <code>INBOXID</code> <code>CELLID</code> <code>USERID</code><br><span class="muted">UI 전달:</span> <code class="ui">SITEID</code></td><td><a class="tbl" href="../tables.html#CIM_LOTHIST">CIM_LOTHIST</a><span class="b r">읽기</span></td></tr><tr id="fn-4"><td>4</td><td>검색조건 콤보 - PRODUCTDEFINITIONID (PRODUCTDEFINITIONID)</td><td>R 조회</td><td><a href="#svc-2"><span class="tag q">Query</span> <code>SelectProductDefinitionList</code></a> <small>THiRAMES.Service.UI</small></td><td class="params"><code>SITEID</code></td><td><a class="tbl" href="../tables.html#CIM_PRODUCTDEFINITION">CIM_PRODUCTDEFINITION</a><span class="b r">읽기</span></td></tr><tr id="fn-5"><td>5</td><td>검색조건 콤보 - USERID (USERID)</td><td>R 조회</td><td><a href="#svc-3"><span class="tag q">Query</span> <code>SelectWorkUserList</code></a> <small>THiRAMES.Service.UI</small></td><td class="params"><code>SITEID</code></td><td><span class="muted">-</span></td></tr><tr id="fn-6"><td>6</td><td>gridParam<br><small class="muted">JS ngsWidget.ajax(R)</small></td><td>조회 (변수 URL 추정)</td><td><a href="#svc-4"><span class="tag q">Query</span> <code>RPT_SelectBoxingCellList</code></a> <small>THiRAMES.Service.UI</small></td><td class="params"><code>FROMDATE</code> <code>TODATE</code> <code>PALLETID</code> <code>OUTBOXID</code> <code>INBOXID</code><br><span class="muted">UI 전달:</span> <code class="ui">SITEID</code></td><td><a class="tbl" href="../tables.html#CIM_LOTHIST">CIM_LOTHIST</a><span class="b r">읽기</span></td></tr><tr id="fn-7"><td>7</td><td>기타 참조 (JS 문자열)</td><td>참조</td><td><a href="#svc-5"><span class="tag q">Query</span> <code>RPT_SelectBoxingBoxList</code></a> <small>THiRAMES.Service.UI</small></td><td class="params"><code>FROMDATE</code> <code>TODATE</code> <code>PALLETID</code></td><td><a class="tbl" href="../tables.html#CIM_LOTHIST">CIM_LOTHIST</a><span class="b r">읽기</span></td></tr></tbody></table></div><h2>2. 서비스 상세</h2><details id="svc-1" class="svc" open><summary><b>#1</b> Query <code>RPT_SelectBoxingPalletList</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-1">#1 조회 - 그리드 PM_PP_0061 (Boxing현황조회1_Pallet목록)</a> <a class="chip" href="#fn-2">#2 조회 - 그리드 PM_PP_0062 (Boxing현황조회2_Box목록)</a> <a class="chip" href="#fn-3">#3 조회 - 그리드 PM_PP_0063 (Boxing현황조회3_Cell목록)</a></p><h4>Query (조회 서비스) : RPT_SelectBoxingPalletList</h4><ul><li>ID 구성: <code>RPT_SelectBoxingPalletList</code> / 클래스 <code>THiRAMES.Service.UI</code> / 버전 <code>00001</code></li><li>정의 위치: DB 저장 쿼리 (CIM_STOREDQUERY)</li><li>쿼리 파라메터: <code>FROMDATE</code> <code>TODATE</code> <code>PRODUCTDEFINITIONID</code> <code>PALLETID</code> <code>OUTBOXID</code> <code>INBOXID</code> <code>CELLID</code> <code>USERID</code></li><li>테이블(조회/쓰기 전체, 함수·SP 포함): <div><a class="tbl" href="../tables.html#CIM_LOTHIST">CIM_LOTHIST</a><span class="b m">메인</span><span class="b r">읽기</span></div></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 1 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 202 76" width="202" height="76" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="170" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_LOTHIST</text><text x="26" y="52" class="t2">alias LOT</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>--Pallet 목록
+
+	SELECT 
+		LOT.PRODUCTDEFINITIONID 
+		, LOT.PALLETID 
+		, COUNT(*) AS CELLQTY
+		, LOT.MODIFIER  
+	FROM CIM_LOTHIST LOT
+	WHERE 1=1
+--		AND LOT.GRADE IS NOT NULL
+		AND LOT.MATERIALTYPE = &#x27;CELL&#x27;
+		AND LOT.CUSTOMACTIVITY = &#x27;LotDataMeasureReport&#x27;
+		AND LOT.TRACKOUTTIME &gt;= TO_DATe(:FROMDATE||&#x27; 00:00:00&#x27;, &#x27;YYYY-MM-DD HH24:MI:SS&#x27;) AND LOT.TRACKOUTTIME &lt; TO_DATE(:TODATE||&#x27; 00:00:00&#x27;, &#x27;YYYY-MM-DD HH24:MI:SS&#x27;) + 1
+		AND (:PRODUCTDEFINITIONID IS NULL OR LOT.PRODUCTDEFINITIONID = :PRODUCTDEFINITIONID)
+		AND (:PALLETID IS NULL OR LOT.PALLETID LIKE &#x27;%&#x27;|| :PALLETID ||&#x27;%&#x27;)
+		AND (:OUTBOXID IS NULL OR LOT.OUTBOX LIKE &#x27;%&#x27;|| :OUTBOXID ||&#x27;%&#x27; )
+		AND (:INBOXID IS NULL OR LOT.INBOX LIKE &#x27;%&#x27;|| :INBOXID ||&#x27;%&#x27;)
+		AND (:CELLID IS NULL OR LOT.LOTID LIKE &#x27;%&#x27;|| :CELLID ||&#x27;%&#x27;)
+		AND (:USERID IS NULL OR LOT.MODIFIER LIKE &#x27;%&#x27;|| :USERID ||&#x27;%&#x27; )
+	GROUP BY LOT.PRODUCTDEFINITIONID, LOT.PALLETID, LOT.MODIFIER 
+	
+/**
+SELECT 
+	DEF.PRODUCTDEFINITIONID 
+	, DEF.PRODUCTDEFINITIONNAME 
+	, MAT.PRODUCTDATE 
+	, MAT.PALLETID 
+	, SUM(MAT.QTY) AS QTY
+	, &#x27;&#x27; USERID
+FROM CIM_MATERIALLOT MAT
+LEFT OUTER JOIN CIM_PRODUCTORDER OD
+	ON MAT.SITEID = OD.SITEID 
+	AND MAT.PRODUCTORDERID = OD.PRODUCTORDERID 
+LEFT OUTER JOIN CIM_PRODUCTDEFINITION DEF
+	ON OD.SITEID = DEF.SITEID 
+	AND OD.PRODUCTDEFINITIONID = DEF.PRODUCTDEFINITIONID 
+WHERE 1=1
+	AND MAT.ISUSABLE = &#x27;Usable&#x27;
+	AND MAT.SITEID = :SITEID 
+	AND MAT.STATE = &#x27;Terminated&#x27;
+	AND MAT.LOCATION = &#x27;1100&#x27;--포장대기
+	AND MAT.PRODUCTDATE &gt;= TO_DATE(:FROMDATE, &#x27;YYYY-MM-DD&#x27;) AND MAT.PRODUCTDATE &lt; TO_DATE(:TODATE, &#x27;YYYY-MM-DD&#x27;)
+	AND DEF.PRODUCTDEFINITIONID = :PRODUCTDEFINITIONID
+	AND MAT.PALLETID LIKE &#x27;%&#x27;|| :PALLETID ||&#x27;%&#x27;
+	AND MAT.OUTBOX LIKE &#x27;%&#x27;|| :OUTBOXID ||&#x27;%&#x27;
+	AND MAT.INBOX LIKE &#x27;%&#x27;|| :INBOXID ||&#x27;%&#x27;
+GROUP BY DEF.PRODUCTDEFINITIONID , DEF.PRODUCTDEFINITIONNAME , MAT.PRODUCTDATE , MAT.PALLETID 
+**/</pre></details></details><details id="svc-2" class="svc" open><summary><b>#2</b> Query <code>SelectProductDefinitionList</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-4">#4 검색조건 콤보 - PRODUCTDEFINITIONID (PRODUCTDEFINITIONID)</a></p><h4>Query (조회 서비스) : SelectProductDefinitionList</h4><ul><li>ID 구성: <code>SelectProductDefinitionList</code> / 클래스 <code>THiRAMES.Service.UI</code> / 버전 <code>00001</code></li><li>정의 위치: DB 저장 쿼리 (CIM_STOREDQUERY)</li><li>쿼리 파라메터: <code>SITEID</code></li><li>테이블(조회/쓰기 전체, 함수·SP 포함): <div><a class="tbl" href="../tables.html#CIM_PRODUCTDEFINITION">CIM_PRODUCTDEFINITION</a><span class="b m">메인</span><span class="b r">읽기</span></div></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 1 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 211 76" width="211" height="76" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="179" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_PRODUCTDEFINITION</text><text x="26" y="52" class="t2">alias DEF</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>SELECT 
+	DEF.PRODUCTDEFINITIONID AS CODE
+	, DEF.PRODUCTDEFINITIONNAME AS NAME
+FROM CIM_PRODUCTDEFINITION DEF
+WHERE 1=1
+	AND DEF.ISUSABLE = &#x27;Usable&#x27;
+	AND DEF.SITEID = :SITEID</pre></details></details><details id="svc-3" class="svc" open><summary><b>#3</b> Query <code>SelectWorkUserList</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-5">#5 검색조건 콤보 - USERID (USERID)</a></p><h4>Query (조회 서비스) : SelectWorkUserList</h4><ul><li>ID 구성: <code>SelectWorkUserList</code> / 클래스 <code>THiRAMES.Service.UI</code> / 버전 <code>00001</code></li><li>정의 위치: DB 저장 쿼리 (CIM_STOREDQUERY)</li><li>쿼리 파라메터: <code>SITEID</code></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 1 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 202 76" width="202" height="76" role="img" aria-label="조인 구조도"><g class="node base unk"><rect x="16" y="16" width="170" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_USER_DEV2</text><text x="26" y="52" class="t2">alias USR</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>SELECT
+	DISTINCT(USR.USERID) AS CODE
+	, USR.USERNAME  AS NAME
+	, USR.INIT_SITE
+	, USR.USE_YN
+FROM CIM_USER_DEV2 USR
+WHERE 1=1 
+	AND USR.DIVISION_CD = &#x27;THiRA&#x27;
+	AND USR.USE_YN = &#x27;Y&#x27;
+	AND USR.INIT_SITE = :SITEID 
+ORDER BY
+	USR.USERID ASC</pre></details></details><details id="svc-4" class="svc" open><summary><b>#4</b> Query <code>RPT_SelectBoxingCellList</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-6">#6 gridParam</a></p><h4>Query (조회 서비스) : RPT_SelectBoxingCellList</h4><ul><li>ID 구성: <code>RPT_SelectBoxingCellList</code> / 클래스 <code>THiRAMES.Service.UI</code> / 버전 <code>00001</code></li><li>정의 위치: DB 저장 쿼리 (CIM_STOREDQUERY)</li><li>쿼리 파라메터: <code>FROMDATE</code> <code>TODATE</code> <code>PALLETID</code> <code>OUTBOXID</code> <code>INBOXID</code></li><li>테이블(조회/쓰기 전체, 함수·SP 포함): <div><a class="tbl" href="../tables.html#CIM_LOTHIST">CIM_LOTHIST</a><span class="b m">메인</span><span class="b r">읽기</span></div></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 1 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 202 76" width="202" height="76" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="170" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_LOTHIST</text><text x="26" y="52" class="t2">alias LOT</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>--Cell 목록
+
+	SELECT 
+		LOT.LOTID AS CELLID  
+	FROM CIM_LOTHIST LOT
+	WHERE 1=1
+--		AND LOT.GRADE IS NOT NULL
+		AND LOT.MATERIALTYPE = &#x27;CELL&#x27;
+		AND LOT.CUSTOMACTIVITY = &#x27;LotDataMeasureReport&#x27;
+		AND LOT.TRACKOUTTIME &gt;= TO_DATe(:FROMDATE||&#x27; 00:00:00&#x27;, &#x27;YYYY-MM-DD HH24:MI:SS&#x27;) AND LOT.TRACKOUTTIME &lt; TO_DATE(:TODATE||&#x27; 00:00:00&#x27;, &#x27;YYYY-MM-DD HH24:MI:SS&#x27;) + 1
+		AND (:PALLETID IS NULL OR LOT.PALLETID = :PALLETID)
+		AND (:OUTBOXID IS NULL OR LOT.OUTBOX = :OUTBOXID)
+		AND (:INBOXID IS NULL OR LOT.INBOX = :INBOXID)
+		
+/**
+SELECT 
+	MLOT.MATERIALLOTID  
+FROM CIM_MATERIALLOT MLOT
+WHERE 1=1
+	AND MLOT.ISUSABLE = &#x27;Usable&#x27;
+	AND MLOT.SITEID = :SITEID 
+	AND MLOT.MATERIALTYPE =&#x27;CELL&#x27;
+	AND MLOT.OUTBOX = :OUTBOXID
+**/</pre></details></details><details id="svc-5" class="svc" open><summary><b>#5</b> Query <code>RPT_SelectBoxingBoxList</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-7">#7 기타 참조 (JS 문자열)</a></p><h4>Query (조회 서비스) : RPT_SelectBoxingBoxList</h4><ul><li>ID 구성: <code>RPT_SelectBoxingBoxList</code> / 클래스 <code>THiRAMES.Service.UI</code> / 버전 <code>00001</code></li><li>정의 위치: DB 저장 쿼리 (CIM_STOREDQUERY)</li><li>쿼리 파라메터: <code>FROMDATE</code> <code>TODATE</code> <code>PALLETID</code></li><li>테이블(조회/쓰기 전체, 함수·SP 포함): <div><a class="tbl" href="../tables.html#CIM_LOTHIST">CIM_LOTHIST</a><span class="b m">메인</span><span class="b r">읽기</span></div></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 1 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 202 76" width="202" height="76" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="170" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_LOTHIST</text><text x="26" y="52" class="t2">alias LOT</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>--Box 목록
+
+	SELECT 
+		LOT.OUTBOX AS OUTBOXID
+		, LOT.INBOX AS INBOXID
+		, COUNT(*) AS CELLQTY
+	FROM CIM_LOTHIST LOT
+	WHERE 1=1
+--		AND LOT.GRADE IS NOT NULL
+		AND LOT.MATERIALTYPE = &#x27;CELL&#x27;
+		AND LOT.CUSTOMACTIVITY = &#x27;LotDataMeasureReport&#x27;
+		AND LOT.TRACKOUTTIME &gt;= TO_DATe(:FROMDATE||&#x27; 00:00:00&#x27;, &#x27;YYYY-MM-DD HH24:MI:SS&#x27;) AND LOT.TRACKOUTTIME &lt; TO_DATE(:TODATE||&#x27; 00:00:00&#x27;, &#x27;YYYY-MM-DD HH24:MI:SS&#x27;) + 1
+		AND (:PALLETID IS NULL OR LOT.PALLETID = :PALLETID)
+	GROUP BY LOT.OUTBOX, LOT.INBOX	
+	
+/**
+SELECT 
+	MLOT.OUTBOX 
+	, MLOT.INBOX 
+	, SUM(MLOT.QTY) QTY
+FROM CIM_MATERIALLOT MLOT
+WHERE 1=1
+	AND MLOT.ISUSABLE = &#x27;Usable&#x27;
+	AND MLOT.SITEID = :SITEID 
+	AND MLOT.PALLETID = :PALLETID 
+GROUP BY MLOT.OUTBOX, MLOT.INBOX
+**/</pre></details></details><h2>3. 그리드 / 검색조건 정의</h2><details><summary><b>PM_PP_0061</b> Boxing현황조회1_Pallet목록 — 컬럼 6, 검색조건 3</summary><p>actionId: <code class="wrapc">THiRAMES.Service.UI$RuleMultiInquiry$THiRAMES.Service.UI$RPT_SelectBoxingPalletList$00001</code></p><h4>검색조건</h4><table class="grid sm"><thead><tr><th>필드</th><th>유형</th><th>표시명</th><th>표시명(한글)</th><th>콤보 서비스</th></tr></thead><tbody><tr><td><code>period</code></td><td>FILTER</td><td>period</td><td><b>기간</b></td><td class="wrapc"></td></tr><tr><td><code>PRODUCTDEFINITIONID</code></td><td>FILTER</td><td>PRODUCTDEFINITIONID</td><td><b>제품코드</b></td><td class="wrapc">THiRAMES.Service.UI$RuleMultiInquiry$THiRAMES.Service.UI$SelectProductDefinitionList$00001?SITEID=0100</td></tr><tr><td><code>USERID</code></td><td>FILTER</td><td>USERID</td><td><b>사용자ID</b></td><td class="wrapc">THiRAMES.Service.UI$RuleMultiInquiry$THiRAMES.Service.UI$SelectWorkUserList$00001?SITEID=0100</td></tr></tbody></table><p class="muted">조회 쿼리의 메인 테이블 <a class="tbl" href="../tables.html#CIM_LOTHIST">CIM_LOTHIST</a> 에서 오는 컬럼은 <span class="mainmark">강조</span> 표시됩니다 (3개 / 6개)</p><h4>컬럼</h4><table class="grid sm"><thead><tr><th>필드</th><th>표시명</th><th>표시명(한글)</th><th>편집</th><th>필수</th><th>콤보 서비스</th></tr></thead><tbody><tr class="mainc"><td><code>PRODUCTDEFINITIONID</code> <span class="b m">메인</span></td><td>PRODUCTDEFINITIONID</td><td><b>제품코드</b></td><td></td><td>Y</td><td class="wrapc"></td></tr><tr><td><code>WORKINGDATE</code></td><td>WORKINGDATE</td><td><b>작업 일자</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>PALLETID</code> <span class="b m">메인</span></td><td>PALLETID</td><td><b>Pallet</b></td><td></td><td>Y</td><td class="wrapc"></td></tr><tr><td><code>CELLQTY</code></td><td>CELLQTY</td><td><b>Cell 수량</b></td><td></td><td></td><td class="wrapc"></td></tr><tr class="mainc"><td><code>PRODUCTDEFINITIONID</code> <span class="b m">메인</span></td><td>PRODUCTDEFINITIONID</td><td><b>제품코드</b></td><td></td><td></td><td class="wrapc"></td></tr><tr><td><code>USERID</code></td><td>USERID</td><td><b>사용자ID</b></td><td></td><td></td><td class="wrapc"></td></tr></tbody></table></details><details><summary><b>PM_PP_0062</b> Boxing현황조회2_Box목록 — 컬럼 3, 검색조건 0</summary><p>actionId: <code class="wrapc">THiRAMES.Service.UI$RuleMultiInquiry$THiRAMES.Service.UI$RPT_SelectBoxingPalletList$00001</code></p><p class="muted">조회 쿼리의 메인 테이블 <a class="tbl" href="../tables.html#CIM_LOTHIST">CIM_LOTHIST</a> 에서 오는 컬럼은 <span class="mainmark">강조</span> 표시됩니다 (0개 / 3개)</p><h4>컬럼</h4><table class="grid sm"><thead><tr><th>필드</th><th>표시명</th><th>표시명(한글)</th><th>편집</th><th>필수</th><th>콤보 서비스</th></tr></thead><tbody><tr><td><code>OUTBOXID</code></td><td>OUTBOXID</td><td><b>OutBox</b></td><td></td><td>Y</td><td class="wrapc"></td></tr><tr><td><code>INBOXID</code></td><td>INBOXID</td><td><b>InBox</b></td><td></td><td>Y</td><td class="wrapc"></td></tr><tr><td><code>CELLQTY</code></td><td>CELLQTY</td><td><b>Cell 수량</b></td><td></td><td>Y</td><td class="wrapc"></td></tr></tbody></table></details><details><summary><b>PM_PP_0063</b> Boxing현황조회3_Cell목록 — 컬럼 1, 검색조건 0</summary><p>actionId: <code class="wrapc">THiRAMES.Service.UI$RuleMultiInquiry$THiRAMES.Service.UI$RPT_SelectBoxingPalletList$00001</code></p><p class="muted">조회 쿼리의 메인 테이블 <a class="tbl" href="../tables.html#CIM_LOTHIST">CIM_LOTHIST</a> 에서 오는 컬럼은 <span class="mainmark">강조</span> 표시됩니다 (0개 / 1개)</p><h4>컬럼</h4><table class="grid sm"><thead><tr><th>필드</th><th>표시명</th><th>표시명(한글)</th><th>편집</th><th>필수</th><th>콤보 서비스</th></tr></thead><tbody><tr><td><code>CELLID</code></td><td>CELLID</td><td><b>Cell</b></td><td></td><td>Y</td><td class="wrapc"></td></tr></tbody></table></details><footer>자동 생성 문서 · DB: EM_MES_DEV (10.130.11.100) · 소스: THiRAMES_UI / THiRAMES_Service · "추정"/"코드 분석 기반" 표기는 정적 분석 결과이므로 실제 동작과 다를 수 있습니다.</footer></main></body></html>

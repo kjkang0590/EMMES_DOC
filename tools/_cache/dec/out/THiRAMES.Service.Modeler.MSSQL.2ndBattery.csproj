@@ -1,0 +1,337 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AssemblyName>THiRAMES.Service.Modeler.MSSQL.2ndBattery</AssemblyName>
+    <GenerateAssemblyInfo>False</GenerateAssemblyInfo>
+    <TargetFramework>netcoreapp5.0</TargetFramework>
+  </PropertyGroup>
+  <PropertyGroup>
+    <LangVersion>11.0</LangVersion>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup>
+    <RootNamespace />
+  </PropertyGroup>
+  <ItemGroup>
+    <None Remove="THiRAMES.Service.Modeler.Query._100.CDS._101.SITE.CDS_Site_100_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._100.CDS._101.SITE.CDS_Site_200_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._100.CDS._102.FACILITY.CDS_Facility_100_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._100.CDS._102.FACILITY.CDS_Facility_101_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._100.CDS._102.FACILITY.CDS_Facility_200_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._100.CDS._103.FACILITYCLASS.CDS_FacilityClass_100_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._100.CDS._103.FACILITYCLASS.CDS_FacilityClass_200_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._100.CDS._104.FACILITYMAP.CDS_FacilityMap_100_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._100.CDS._104.FACILITYMAP.CDS_FacilityMap_101_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._100.CDS._105.STATE.CDS_State_100_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._100.CDS._105.STATE.CDS_State_101_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._100.CDS._105.STATE.CDS_STATE_200_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._100.CDS._105.STATE.CDS_State_201_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._100.CDS._105.STATE.CDS_State_202_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._100.CDS._106.STATEMODEL.CDS_StateModel_100_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._100.CDS._106.STATEMODEL.CDS_StateModel_200_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._100.CDS._106.STATEMODEL.CDS_StateModel_201_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._100.CDS._108.CODE.CDS_Code_100_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._100.CDS._108.CODE.CDS_Code_101_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._100.CDS._108.CODE.CDS_Code_200_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._100.CDS._108.CODE.CDS_Code_201_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._100.CDS._108.CODE.CDS_Code_202_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._100.CDS._109.CODECLASS.CDS_CodeClass_100_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._100.CDS._109.CODECLASS.CDS_CodeClass_200_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._100.CDS._109.CODECLASS.CDS_CodeClass_201_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._100.CDS._110.DEFECT.CDS_Defect_100_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._100.CDS._111.DEFECTCLASS.CDS_DefectClass_100_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._100.CDS._113.CONSTANTDEFINITION.CDS_ConstantDefintion_100_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._100.CDS._116.IDPATTERN.CDS_IdPattern_100_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._100.CDS._117.UNIT.CDS_Unit_100_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._100.CDS._117.UNIT.CDS_Unit_200_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._100.CDS._119.ALARMACTION.CDS_AlarmAction_100_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._100.CDS._120.ALARMACTIONCATEGORY.CDS_AlarmActionCategory_100_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._100.CDS._121.ALARMACTIONCATEGORYREL.CDS_AlarmActionCategoryRel_100_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._100.CDS._122.ALARMDEFINITION.CDS_AlarmDefinition_100_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._100.CDS._122.ALARMDEFINITION.CDS_AlarmDefinition_101_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._100.CDS._123.ALARMCLASS.CDS_AlarmClass_100_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._100.CDS._123.ALARMCLASS.CDS_AlarmClass_200_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._100.CDS._124.LOGINPOLICY.CDS_LoginPolicy_100_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._100.CDS._125.MENU.CDS_LogMenu_100_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._100.CDS._125.MENU.CDS_MenuList_100_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._100.CDS._126.MENUCLASS.CDS_MenuClassList_100_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._100.CDS._126.MENUCLASS.CDS_MenuClassList_200_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._100.CDS._127.MENUOBJECT.CDS_MenuObjectList_100_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._100.CDS._127.MENUOBJECT.CDS_MenuObjectList_101_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._100.CDS._128.MULTILANGUAGE.CDS_MultiLanguage_100_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._100.CDS._128.MULTILANGUAGE.CDS_MultiLanguage_101_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._100.CDS._128.MULTILANGUAGE.CDS_MultiLanguage_102_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._100.CDS._128.MULTILANGUAGE.CDS_MultiLanguage_200_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._100.CDS._129.SHIFT.CDS_Shift_100_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._100.CDS._130.WORKCALENDARDEFINITION.CDS_WorkCalendarDefinition_100_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._100.CDS._131.CUSTOMER.CDS_Customer_100_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._100.CDS._131.CUSTOMER.CDS_Customer_200_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._100.CDS._131.CUSTOMER.CDS_Customer_201_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._100.CDS._131.CUSTOMER.CDS_Customer_202_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._100.CDS._131.CUSTOMER.CDS_Customer_203_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._100.CDS._132.VENDOR.CDS_Vendor_100_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._100.CDS._132.VENDOR.CDS_Vendor_200_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._100.CDS._132.VENDOR.CDS_Vendor_201_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._100.CDS._137._USER.CDS_UserList_100_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._100.CDS._138.USERCLASS.CDS_UserClassList_100_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._100.CDS._138.USERCLASS.CDS_UserClassList_101_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._100.CDS._139.USERCLASSREL.CDS_UserClassRelList_100_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._100.CDS._140.USERCLASSMENUREL.CDS_UserClassMenuRelList_100_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._100.CDS._140.USERCLASSMENUREL.CDS_UserClassMenuRelList_101_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._100.CDS._143.USERCLASSOBJECTREL.CDS_UserClassObjectRelList_100_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._100.CDS._143.USERCLASSOBJECTREL.CDS_UserClassObjectRelList_101_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._100.CDS._143.USERCLASSOBJECTREL.CDS_UserClassObjectRelList_102_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._100.CDS._148.STOREDQUERY.CDS_StoredQuery_100_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._100.CDS._148.STOREDQUERY.CDS_StoredQuery_101_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._100.CDS._149.TABLEDICTIONARY.CDS_Table_200_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._100.CDS._150.ATTACHMENT.CDS_Attachment_100_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._100.CDS._151.ATTACHMENTDOWN.CDS_AttachmentDown_100_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._100.CDS._152.USERFAVORITEMENU.CDS_UserFavoriteMenuList_100_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._100.CDS._153.WIDGET.CDS_Widget_100_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._100.CDS._153.WIDGET.CDS_Widget_101_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._100.CDS._155.LOGIN.CDS_Login_100_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._400.PMS._401.PROCESSSEGMENTRULE.PMS_ProcessSegmentRule_100_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._400.PMS._401.PROCESSSEGMENTRULE.PMS_ProcessSegmentRule_200_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._400.PMS._402.PROCESSSEGMENTRULECLS.PMS_ProcessSegmentRuleCls_100_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._400.PMS._402.PROCESSSEGMENTRULECLS.PMS_ProcessSegmentRuleCls_200_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._400.PMS._403.PROCESSSEGMENTRULECLSREL.PMS_ProcessSegmentRuleClsRel_100_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._400.PMS._404.PROCESSSEGMENT.PMS_ProcessSegment_100_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._400.PMS._404.PROCESSSEGMENT.PMS_ProcessSegment_101_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._400.PMS._404.PROCESSSEGMENT.PMS_ProcessSegment_200_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._400.PMS._405.PROCESSSEGMENTEQUIPMENTREL.PMS_ProcessSegmentEquipmentRel_100_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._400.PMS._406.PROCESSNODE.PMS_ProcessNode_101_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._400.PMS._406.PROCESSNODE.PMS_ProcessNode_200_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._400.PMS._406.PROCESSNODE.PMS_ProcessNode_201_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._400.PMS._407.PROCESSPATH.PMS_ProcessPath_101_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._400.PMS._408.PROCESSDEFINITION.PMS_ProcessDefinition_100_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._400.PMS._408.PROCESSDEFINITION.PMS_ProcessDefinition_101_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._400.PMS._408.PROCESSDEFINITION.PMS_ProcessDefinition_200_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._500.POS._100.LOGIN.POS_Login_100_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._500.POS._101.LOGUSERMENU.POS_LogUserMenuList_100_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._600.PPS._601.PRODUCTDEFINITION.PPS_ProductDefinition_100_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._600.PPS._601.PRODUCTDEFINITION.PPS_ProductDefinition_101_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._600.PPS._601.PRODUCTDEFINITION.PPS_ProductDefinition_102_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._600.PPS._601.PRODUCTDEFINITION.PPS_ProductDefinition_200_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._600.PPS._602.PRODUCTCLASS.PPS_ProductClass_100_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._600.PPS._602.PRODUCTCLASS.PPS_ProductClass_200_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._600.PPS._602.PRODUCTCLASS.PPS_ProductClass_201_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._600.PPS._603.PRODUCTPROCESSREL.PPS_ProductProcessRel_100_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._600.PPS._603.PRODUCTPROCESSREL.PPS_ProductProcessRel_101_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._600.PPS._603.PRODUCTPROCESSREL.PPS_ProductProcessRel_201_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._600.PPS._604.PRODUCTRULEKEY.PPS_ProductRuleKey_100_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._600.PPS._605.PRODUCTRULE.PPS_ProductRule_100_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._600.PPS._605.PRODUCTRULE.PPS_ProductRule_101_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._600.PPS._605.PRODUCTRULE.PPS_ProductRule_200_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._600.PPS._606.BOM.PPS_Bom_100_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._600.PPS._607.MBOM.PPS_Mbom_100_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._700.QMS._701.SPCITEM.QMS_SpcItem_100_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._700.QMS._702.SPCITEMSPEC.QMS_SpcItemSpec_100_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._700.QMS._703.INSPDEFINITION.QMS_Inspdefinition_200_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._700.QMS._703.INSPDEFINITION.QMS_Inspdefinition_201_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._700.QMS._703.INSPDEFINITION.QMS_Inspdefinition_202_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._700.QMS._703.INSPDEFINITION.QMS_Inspdefinition_203_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._700.QMS._704.INSPITEM.QMS_Inspitem_100_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._700.QMS._705.INSPDEFINITIONITEMSPEC.QMS_Inspdefinitionitemspec_200_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._700.QMS._705.INSPDEFINITIONITEMSPEC.QMS_Inspdefinitionitemspec_201_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._700.QMS._706.ISNPITEMCLASS.QMS_InspitemClass_100_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._700.QMS.QMS_Coperator_100_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._800.RDS._801.CARRIERDEFINITION.RDS_CarrierDefinition_100_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._800.RDS._801.CARRIERDEFINITION.RDS_CarrierDefinition_101_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._800.RDS._802.CARRIERCLASS.RDS_CarrierClass_100_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._800.RDS._802.CARRIERCLASS.RDS_CarrierClass_200_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._800.RDS._803.DURABLEDEFINITION.RDS_DurableDefinition_100_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._800.RDS._803.DURABLEDEFINITION.RDS_DurableDefinition_101_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._800.RDS._804.DURABLECLASS.RDS_DurableClass_100_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._800.RDS._804.DURABLECLASS.RDS_DurableClass_200_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._800.RDS._805.EQUIPMENT.RDS_Equipment_100_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._800.RDS._805.EQUIPMENT.RDS_Equipment_101_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._800.RDS._805.EQUIPMENT.RDS_Equipment_200_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._800.RDS._806.EQUIPMENTCLASS.RDS_EquipmentClass_100_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._800.RDS._806.EQUIPMENTCLASS.RDS_EquipmentClass_200_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._800.RDS._807.PORT.RDS_Port_100_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._800.RDS._807.PORT.RDS_Port_101_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._800.RDS._807.PORT.RDS_Port_200_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._800.RDS._808.MATERIALDEFINITION.RDS_MaterialDefinition_100_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._800.RDS._808.MATERIALDEFINITION.RDS_MaterialDefinition_101_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._800.RDS._808.MATERIALDEFINITION.RDS_MaterialDefinition_200_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._800.RDS._808.MATERIALDEFINITION.RDS_MaterialDefinition_201_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._800.RDS._809.MATERIALCLASS.RDS_MaterialClass_100_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._800.RDS._809.MATERIALCLASS.RDS_MaterialClass_200_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query._800.RDS._809.MATERIALCLASS.RDS_MaterialClass_201_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query.CacheCodeList" />
+    <None Remove="THiRAMES.Service.Modeler.Query.CacheGridMasterList" />
+    <None Remove="THiRAMES.Service.Modeler.Query.CacheMultilanguageList" />
+    <None Remove="THiRAMES.Service.Modeler.Query.CacheSiteList" />
+    <None Remove="THiRAMES.Service.Modeler.Query.SelectGridMasterList_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query.SelectMultilanguageList_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query.SelectMultiLanguageMessageCode_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query.SelectMultiLanguageWebUI_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query.SelectUserInfo_SqlDatabase" />
+    <None Remove="THiRAMES.Service.Modeler.Query.SelectUserMenuList_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._100.CDS._101.SITE.CDS_Site_100_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._100.CDS._101.SITE.CDS_Site_100_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._100.CDS._101.SITE.CDS_Site_200_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._100.CDS._101.SITE.CDS_Site_200_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._100.CDS._102.FACILITY.CDS_Facility_100_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._100.CDS._102.FACILITY.CDS_Facility_100_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._100.CDS._102.FACILITY.CDS_Facility_101_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._100.CDS._102.FACILITY.CDS_Facility_101_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._100.CDS._102.FACILITY.CDS_Facility_200_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._100.CDS._102.FACILITY.CDS_Facility_200_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._100.CDS._103.FACILITYCLASS.CDS_FacilityClass_100_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._100.CDS._103.FACILITYCLASS.CDS_FacilityClass_100_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._100.CDS._103.FACILITYCLASS.CDS_FacilityClass_200_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._100.CDS._103.FACILITYCLASS.CDS_FacilityClass_200_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._100.CDS._104.FACILITYMAP.CDS_FacilityMap_100_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._100.CDS._104.FACILITYMAP.CDS_FacilityMap_100_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._100.CDS._104.FACILITYMAP.CDS_FacilityMap_101_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._100.CDS._104.FACILITYMAP.CDS_FacilityMap_101_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._100.CDS._105.STATE.CDS_State_100_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._100.CDS._105.STATE.CDS_State_100_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._100.CDS._105.STATE.CDS_State_101_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._100.CDS._105.STATE.CDS_State_101_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._100.CDS._105.STATE.CDS_STATE_200_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._100.CDS._105.STATE.CDS_STATE_200_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._100.CDS._105.STATE.CDS_State_201_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._100.CDS._105.STATE.CDS_State_201_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._100.CDS._105.STATE.CDS_State_202_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._100.CDS._105.STATE.CDS_State_202_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._100.CDS._106.STATEMODEL.CDS_StateModel_100_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._100.CDS._106.STATEMODEL.CDS_StateModel_100_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._100.CDS._106.STATEMODEL.CDS_StateModel_200_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._100.CDS._106.STATEMODEL.CDS_StateModel_200_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._100.CDS._106.STATEMODEL.CDS_StateModel_201_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._100.CDS._106.STATEMODEL.CDS_StateModel_201_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._100.CDS._108.CODE.CDS_Code_100_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._100.CDS._108.CODE.CDS_Code_100_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._100.CDS._108.CODE.CDS_Code_101_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._100.CDS._108.CODE.CDS_Code_101_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._100.CDS._108.CODE.CDS_Code_200_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._100.CDS._108.CODE.CDS_Code_200_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._100.CDS._108.CODE.CDS_Code_201_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._100.CDS._108.CODE.CDS_Code_201_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._100.CDS._108.CODE.CDS_Code_202_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._100.CDS._108.CODE.CDS_Code_202_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._100.CDS._109.CODECLASS.CDS_CodeClass_100_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._100.CDS._109.CODECLASS.CDS_CodeClass_100_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._100.CDS._109.CODECLASS.CDS_CodeClass_200_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._100.CDS._109.CODECLASS.CDS_CodeClass_200_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._100.CDS._109.CODECLASS.CDS_CodeClass_201_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._100.CDS._109.CODECLASS.CDS_CodeClass_201_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._100.CDS._110.DEFECT.CDS_Defect_100_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._100.CDS._110.DEFECT.CDS_Defect_100_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._100.CDS._111.DEFECTCLASS.CDS_DefectClass_100_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._100.CDS._111.DEFECTCLASS.CDS_DefectClass_100_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._100.CDS._113.CONSTANTDEFINITION.CDS_ConstantDefintion_100_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._100.CDS._113.CONSTANTDEFINITION.CDS_ConstantDefintion_100_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._100.CDS._116.IDPATTERN.CDS_IdPattern_100_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._100.CDS._116.IDPATTERN.CDS_IdPattern_100_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._100.CDS._117.UNIT.CDS_Unit_100_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._100.CDS._117.UNIT.CDS_Unit_100_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._100.CDS._117.UNIT.CDS_Unit_200_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._100.CDS._117.UNIT.CDS_Unit_200_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._100.CDS._119.ALARMACTION.CDS_AlarmAction_100_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._100.CDS._119.ALARMACTION.CDS_AlarmAction_100_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._100.CDS._120.ALARMACTIONCATEGORY.CDS_AlarmActionCategory_100_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._100.CDS._120.ALARMACTIONCATEGORY.CDS_AlarmActionCategory_100_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._100.CDS._121.ALARMACTIONCATEGORYREL.CDS_AlarmActionCategoryRel_100_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._100.CDS._121.ALARMACTIONCATEGORYREL.CDS_AlarmActionCategoryRel_100_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._100.CDS._122.ALARMDEFINITION.CDS_AlarmDefinition_100_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._100.CDS._122.ALARMDEFINITION.CDS_AlarmDefinition_100_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._100.CDS._122.ALARMDEFINITION.CDS_AlarmDefinition_101_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._100.CDS._122.ALARMDEFINITION.CDS_AlarmDefinition_101_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._100.CDS._123.ALARMCLASS.CDS_AlarmClass_100_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._100.CDS._123.ALARMCLASS.CDS_AlarmClass_100_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._100.CDS._123.ALARMCLASS.CDS_AlarmClass_200_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._100.CDS._123.ALARMCLASS.CDS_AlarmClass_200_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._100.CDS._124.LOGINPOLICY.CDS_LoginPolicy_100_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._100.CDS._124.LOGINPOLICY.CDS_LoginPolicy_100_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._100.CDS._125.MENU.CDS_LogMenu_100_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._100.CDS._125.MENU.CDS_LogMenu_100_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._100.CDS._125.MENU.CDS_MenuList_100_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._100.CDS._125.MENU.CDS_MenuList_100_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._100.CDS._126.MENUCLASS.CDS_MenuClassList_100_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._100.CDS._126.MENUCLASS.CDS_MenuClassList_100_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._100.CDS._126.MENUCLASS.CDS_MenuClassList_200_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._100.CDS._126.MENUCLASS.CDS_MenuClassList_200_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._100.CDS._127.MENUOBJECT.CDS_MenuObjectList_100_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._100.CDS._127.MENUOBJECT.CDS_MenuObjectList_100_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._100.CDS._127.MENUOBJECT.CDS_MenuObjectList_101_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._100.CDS._127.MENUOBJECT.CDS_MenuObjectList_101_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._100.CDS._128.MULTILANGUAGE.CDS_MultiLanguage_100_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._100.CDS._128.MULTILANGUAGE.CDS_MultiLanguage_100_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._100.CDS._128.MULTILANGUAGE.CDS_MultiLanguage_101_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._100.CDS._128.MULTILANGUAGE.CDS_MultiLanguage_101_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._100.CDS._128.MULTILANGUAGE.CDS_MultiLanguage_102_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._100.CDS._128.MULTILANGUAGE.CDS_MultiLanguage_102_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._100.CDS._128.MULTILANGUAGE.CDS_MultiLanguage_200_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._100.CDS._128.MULTILANGUAGE.CDS_MultiLanguage_200_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._100.CDS._129.SHIFT.CDS_Shift_100_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._100.CDS._129.SHIFT.CDS_Shift_100_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._100.CDS._130.WORKCALENDARDEFINITION.CDS_WorkCalendarDefinition_100_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._100.CDS._130.WORKCALENDARDEFINITION.CDS_WorkCalendarDefinition_100_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._100.CDS._131.CUSTOMER.CDS_Customer_100_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._100.CDS._131.CUSTOMER.CDS_Customer_100_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._100.CDS._131.CUSTOMER.CDS_Customer_200_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._100.CDS._131.CUSTOMER.CDS_Customer_200_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._100.CDS._131.CUSTOMER.CDS_Customer_201_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._100.CDS._131.CUSTOMER.CDS_Customer_201_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._100.CDS._131.CUSTOMER.CDS_Customer_202_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._100.CDS._131.CUSTOMER.CDS_Customer_202_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._100.CDS._131.CUSTOMER.CDS_Customer_203_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._100.CDS._131.CUSTOMER.CDS_Customer_203_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._100.CDS._132.VENDOR.CDS_Vendor_100_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._100.CDS._132.VENDOR.CDS_Vendor_100_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._100.CDS._132.VENDOR.CDS_Vendor_200_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._100.CDS._132.VENDOR.CDS_Vendor_200_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._100.CDS._132.VENDOR.CDS_Vendor_201_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._100.CDS._132.VENDOR.CDS_Vendor_201_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._100.CDS._137._USER.CDS_UserList_100_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._100.CDS._137._USER.CDS_UserList_100_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._100.CDS._138.USERCLASS.CDS_UserClassList_100_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._100.CDS._138.USERCLASS.CDS_UserClassList_100_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._100.CDS._138.USERCLASS.CDS_UserClassList_101_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._100.CDS._138.USERCLASS.CDS_UserClassList_101_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._100.CDS._139.USERCLASSREL.CDS_UserClassRelList_100_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._100.CDS._139.USERCLASSREL.CDS_UserClassRelList_100_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._100.CDS._140.USERCLASSMENUREL.CDS_UserClassMenuRelList_100_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._100.CDS._140.USERCLASSMENUREL.CDS_UserClassMenuRelList_100_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._100.CDS._140.USERCLASSMENUREL.CDS_UserClassMenuRelList_101_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._100.CDS._140.USERCLASSMENUREL.CDS_UserClassMenuRelList_101_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._100.CDS._143.USERCLASSOBJECTREL.CDS_UserClassObjectRelList_100_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._100.CDS._143.USERCLASSOBJECTREL.CDS_UserClassObjectRelList_100_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._100.CDS._143.USERCLASSOBJECTREL.CDS_UserClassObjectRelList_101_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._100.CDS._143.USERCLASSOBJECTREL.CDS_UserClassObjectRelList_101_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._100.CDS._143.USERCLASSOBJECTREL.CDS_UserClassObjectRelList_102_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._100.CDS._143.USERCLASSOBJECTREL.CDS_UserClassObjectRelList_102_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._100.CDS._148.STOREDQUERY.CDS_StoredQuery_100_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._100.CDS._148.STOREDQUERY.CDS_StoredQuery_100_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._100.CDS._148.STOREDQUERY.CDS_StoredQuery_101_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._100.CDS._148.STOREDQUERY.CDS_StoredQuery_101_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._100.CDS._149.TABLEDICTIONARY.CDS_Table_200_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._100.CDS._149.TABLEDICTIONARY.CDS_Table_200_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._100.CDS._150.ATTACHMENT.CDS_Attachment_100_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._100.CDS._150.ATTACHMENT.CDS_Attachment_100_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._100.CDS._151.ATTACHMENTDOWN.CDS_AttachmentDown_100_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._100.CDS._151.ATTACHMENTDOWN.CDS_AttachmentDown_100_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._100.CDS._152.USERFAVORITEMENU.CDS_UserFavoriteMenuList_100_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._100.CDS._152.USERFAVORITEMENU.CDS_UserFavoriteMenuList_100_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._100.CDS._153.WIDGET.CDS_Widget_100_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._100.CDS._153.WIDGET.CDS_Widget_100_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._100.CDS._153.WIDGET.CDS_Widget_101_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._100.CDS._153.WIDGET.CDS_Widget_101_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._100.CDS._155.LOGIN.CDS_Login_100_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._100.CDS._155.LOGIN.CDS_Login_100_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._400.PMS._401.PROCESSSEGMENTRULE.PMS_ProcessSegmentRule_100_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._400.PMS._401.PROCESSSEGMENTRULE.PMS_ProcessSegmentRule_100_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._400.PMS._401.PROCESSSEGMENTRULE.PMS_ProcessSegmentRule_200_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._400.PMS._401.PROCESSSEGMENTRULE.PMS_ProcessSegmentRule_200_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._400.PMS._402.PROCESSSEGMENTRULECLS.PMS_ProcessSegmentRuleCls_100_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._400.PMS._402.PROCESSSEGMENTRULECLS.PMS_ProcessSegmentRuleCls_100_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._400.PMS._402.PROCESSSEGMENTRULECLS.PMS_ProcessSegmentRuleCls_200_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._400.PMS._402.PROCESSSEGMENTRULECLS.PMS_ProcessSegmentRuleCls_200_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._400.PMS._403.PROCESSSEGMENTRULECLSREL.PMS_ProcessSegmentRuleClsRel_100_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._400.PMS._403.PROCESSSEGMENTRULECLSREL.PMS_ProcessSegmentRuleClsRel_100_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._400.PMS._404.PROCESSSEGMENT.PMS_ProcessSegment_100_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._400.PMS._404.PROCESSSEGMENT.PMS_ProcessSegment_100_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._400.PMS._404.PROCESSSEGMENT.PMS_ProcessSegment_101_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._400.PMS._404.PROCESSSEGMENT.PMS_ProcessSegment_101_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._400.PMS._404.PROCESSSEGMENT.PMS_ProcessSegment_200_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._400.PMS._404.PROCESSSEGMENT.PMS_ProcessSegment_200_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._400.PMS._405.PROCESSSEGMENTEQUIPMENTREL.PMS_ProcessSegmentEquipmentRel_100_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._400.PMS._405.PROCESSSEGMENTEQUIPMENTREL.PMS_ProcessSegmentEquipmentRel_100_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._400.PMS._406.PROCESSNODE.PMS_ProcessNode_101_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._400.PMS._406.PROCESSNODE.PMS_ProcessNode_101_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._400.PMS._406.PROCESSNODE.PMS_ProcessNode_200_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._400.PMS._406.PROCESSNODE.PMS_ProcessNode_200_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._400.PMS._406.PROCESSNODE.PMS_ProcessNode_201_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._400.PMS._406.PROCESSNODE.PMS_ProcessNode_201_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._400.PMS._407.PROCESSPATH.PMS_ProcessPath_101_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._400.PMS._407.PROCESSPATH.PMS_ProcessPath_101_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._400.PMS._408.PROCESSDEFINITION.PMS_ProcessDefinition_100_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._400.PMS._408.PROCESSDEFINITION.PMS_ProcessDefinition_100_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._400.PMS._408.PROCESSDEFINITION.PMS_ProcessDefinition_101_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._400.PMS._408.PROCESSDEFINITION.PMS_ProcessDefinition_101_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._400.PMS._408.PROCESSDEFINITION.PMS_ProcessDefinition_200_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._400.PMS._408.PROCESSDEFINITION.PMS_ProcessDefinition_200_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._500.POS._100.LOGIN.POS_Login_100_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._500.POS._100.LOGIN.POS_Login_100_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._500.POS._101.LOGUSERMENU.POS_LogUserMenuList_100_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._500.POS._101.LOGUSERMENU.POS_LogUserMenuList_100_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._600.PPS._601.PRODUCTDEFINITION.PPS_ProductDefinition_100_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._600.PPS._601.PRODUCTDEFINITION.PPS_ProductDefinition_100_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._600.PPS._601.PRODUCTDEFINITION.PPS_ProductDefinition_101_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._600.PPS._601.PRODUCTDEFINITION.PPS_ProductDefinition_101_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._600.PPS._601.PRODUCTDEFINITION.PPS_ProductDefinition_102_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._600.PPS._601.PRODUCTDEFINITION.PPS_ProductDefinition_102_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._600.PPS._601.PRODUCTDEFINITION.PPS_ProductDefinition_200_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._600.PPS._601.PRODUCTDEFINITION.PPS_ProductDefinition_200_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._600.PPS._602.PRODUCTCLASS.PPS_ProductClass_100_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._600.PPS._602.PRODUCTCLASS.PPS_ProductClass_100_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._600.PPS._602.PRODUCTCLASS.PPS_ProductClass_200_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._600.PPS._602.PRODUCTCLASS.PPS_ProductClass_200_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._600.PPS._602.PRODUCTCLASS.PPS_ProductClass_201_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._600.PPS._602.PRODUCTCLASS.PPS_ProductClass_201_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._600.PPS._603.PRODUCTPROCESSREL.PPS_ProductProcessRel_100_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._600.PPS._603.PRODUCTPROCESSREL.PPS_ProductProcessRel_100_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._600.PPS._603.PRODUCTPROCESSREL.PPS_ProductProcessRel_101_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._600.PPS._603.PRODUCTPROCESSREL.PPS_ProductProcessRel_101_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._600.PPS._603.PRODUCTPROCESSREL.PPS_ProductProcessRel_201_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._600.PPS._603.PRODUCTPROCESSREL.PPS_ProductProcessRel_201_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._600.PPS._604.PRODUCTRULEKEY.PPS_ProductRuleKey_100_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._600.PPS._604.PRODUCTRULEKEY.PPS_ProductRuleKey_100_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._600.PPS._605.PRODUCTRULE.PPS_ProductRule_100_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._600.PPS._605.PRODUCTRULE.PPS_ProductRule_100_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._600.PPS._605.PRODUCTRULE.PPS_ProductRule_101_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._600.PPS._605.PRODUCTRULE.PPS_ProductRule_101_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._600.PPS._605.PRODUCTRULE.PPS_ProductRule_200_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._600.PPS._605.PRODUCTRULE.PPS_ProductRule_200_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._600.PPS._606.BOM.PPS_Bom_100_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._600.PPS._606.BOM.PPS_Bom_100_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._600.PPS._607.MBOM.PPS_Mbom_100_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._600.PPS._607.MBOM.PPS_Mbom_100_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._700.QMS._701.SPCITEM.QMS_SpcItem_100_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._700.QMS._701.SPCITEM.QMS_SpcItem_100_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._700.QMS._702.SPCITEMSPEC.QMS_SpcItemSpec_100_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._700.QMS._702.SPCITEMSPEC.QMS_SpcItemSpec_100_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._700.QMS._703.INSPDEFINITION.QMS_Inspdefinition_200_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._700.QMS._703.INSPDEFINITION.QMS_Inspdefinition_200_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._700.QMS._703.INSPDEFINITION.QMS_Inspdefinition_201_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._700.QMS._703.INSPDEFINITION.QMS_Inspdefinition_201_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._700.QMS._703.INSPDEFINITION.QMS_Inspdefinition_202_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._700.QMS._703.INSPDEFINITION.QMS_Inspdefinition_202_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._700.QMS._703.INSPDEFINITION.QMS_Inspdefinition_203_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._700.QMS._703.INSPDEFINITION.QMS_Inspdefinition_203_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._700.QMS._704.INSPITEM.QMS_Inspitem_100_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._700.QMS._704.INSPITEM.QMS_Inspitem_100_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._700.QMS._705.INSPDEFINITIONITEMSPEC.QMS_Inspdefinitionitemspec_200_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._700.QMS._705.INSPDEFINITIONITEMSPEC.QMS_Inspdefinitionitemspec_200_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._700.QMS._705.INSPDEFINITIONITEMSPEC.QMS_Inspdefinitionitemspec_201_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._700.QMS._705.INSPDEFINITIONITEMSPEC.QMS_Inspdefinitionitemspec_201_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._700.QMS._706.ISNPITEMCLASS.QMS_InspitemClass_100_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._700.QMS._706.ISNPITEMCLASS.QMS_InspitemClass_100_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._700.QMS.QMS_Coperator_100_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._700.QMS.QMS_Coperator_100_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._800.RDS._801.CARRIERDEFINITION.RDS_CarrierDefinition_100_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._800.RDS._801.CARRIERDEFINITION.RDS_CarrierDefinition_100_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._800.RDS._801.CARRIERDEFINITION.RDS_CarrierDefinition_101_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._800.RDS._801.CARRIERDEFINITION.RDS_CarrierDefinition_101_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._800.RDS._802.CARRIERCLASS.RDS_CarrierClass_100_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._800.RDS._802.CARRIERCLASS.RDS_CarrierClass_100_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._800.RDS._802.CARRIERCLASS.RDS_CarrierClass_200_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._800.RDS._802.CARRIERCLASS.RDS_CarrierClass_200_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._800.RDS._803.DURABLEDEFINITION.RDS_DurableDefinition_100_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._800.RDS._803.DURABLEDEFINITION.RDS_DurableDefinition_100_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._800.RDS._803.DURABLEDEFINITION.RDS_DurableDefinition_101_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._800.RDS._803.DURABLEDEFINITION.RDS_DurableDefinition_101_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._800.RDS._804.DURABLECLASS.RDS_DurableClass_100_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._800.RDS._804.DURABLECLASS.RDS_DurableClass_100_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._800.RDS._804.DURABLECLASS.RDS_DurableClass_200_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._800.RDS._804.DURABLECLASS.RDS_DurableClass_200_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._800.RDS._805.EQUIPMENT.RDS_Equipment_100_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._800.RDS._805.EQUIPMENT.RDS_Equipment_100_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._800.RDS._805.EQUIPMENT.RDS_Equipment_101_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._800.RDS._805.EQUIPMENT.RDS_Equipment_101_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._800.RDS._805.EQUIPMENT.RDS_Equipment_200_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._800.RDS._805.EQUIPMENT.RDS_Equipment_200_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._800.RDS._806.EQUIPMENTCLASS.RDS_EquipmentClass_100_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._800.RDS._806.EQUIPMENTCLASS.RDS_EquipmentClass_100_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._800.RDS._806.EQUIPMENTCLASS.RDS_EquipmentClass_200_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._800.RDS._806.EQUIPMENTCLASS.RDS_EquipmentClass_200_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._800.RDS._807.PORT.RDS_Port_100_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._800.RDS._807.PORT.RDS_Port_100_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._800.RDS._807.PORT.RDS_Port_101_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._800.RDS._807.PORT.RDS_Port_101_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._800.RDS._807.PORT.RDS_Port_200_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._800.RDS._807.PORT.RDS_Port_200_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._800.RDS._808.MATERIALDEFINITION.RDS_MaterialDefinition_100_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._800.RDS._808.MATERIALDEFINITION.RDS_MaterialDefinition_100_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._800.RDS._808.MATERIALDEFINITION.RDS_MaterialDefinition_101_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._800.RDS._808.MATERIALDEFINITION.RDS_MaterialDefinition_101_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._800.RDS._808.MATERIALDEFINITION.RDS_MaterialDefinition_200_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._800.RDS._808.MATERIALDEFINITION.RDS_MaterialDefinition_200_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._800.RDS._808.MATERIALDEFINITION.RDS_MaterialDefinition_201_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._800.RDS._808.MATERIALDEFINITION.RDS_MaterialDefinition_201_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._800.RDS._809.MATERIALCLASS.RDS_MaterialClass_100_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._800.RDS._809.MATERIALCLASS.RDS_MaterialClass_100_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._800.RDS._809.MATERIALCLASS.RDS_MaterialClass_200_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._800.RDS._809.MATERIALCLASS.RDS_MaterialClass_200_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query._800.RDS._809.MATERIALCLASS.RDS_MaterialClass_201_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query._800.RDS._809.MATERIALCLASS.RDS_MaterialClass_201_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query.CacheCodeList" LogicalName="THiRAMES.Service.Modeler.Query.CacheCodeList" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query.CacheGridMasterList" LogicalName="THiRAMES.Service.Modeler.Query.CacheGridMasterList" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query.CacheMultilanguageList" LogicalName="THiRAMES.Service.Modeler.Query.CacheMultilanguageList" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query.CacheSiteList" LogicalName="THiRAMES.Service.Modeler.Query.CacheSiteList" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query.SelectGridMasterList_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query.SelectGridMasterList_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query.SelectMultilanguageList_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query.SelectMultilanguageList_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query.SelectMultiLanguageMessageCode_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query.SelectMultiLanguageMessageCode_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query.SelectMultiLanguageWebUI_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query.SelectMultiLanguageWebUI_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query.SelectUserInfo_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query.SelectUserInfo_SqlDatabase" />
+    <EmbeddedResource Include="THiRAMES.Service.Modeler.Query.SelectUserMenuList_SqlDatabase" LogicalName="THiRAMES.Service.Modeler.Query.SelectUserMenuList_SqlDatabase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="CIM.MES.Plugin">
+      <HintPath>D:\svn_ENMA_MES\bin\net5\CIM.MES.Plugin.dll</HintPath>
+    </Reference>
+    <Reference Include="DryIoc">
+      <HintPath>D:\svn_ENMA_MES\bin\net5\DryIoc.dll</HintPath>
+    </Reference>
+    <Reference Include="CIM.MES.Framework">
+      <HintPath>D:\svn_ENMA_MES\bin\net5\CIM.MES.Framework.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+</Project>

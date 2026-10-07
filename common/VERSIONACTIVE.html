@@ -1,0 +1,126 @@
+<!DOCTYPE html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>VERSIONACTIVE - 버전 확정 팝업</title><link rel="stylesheet" href="../style.css"></head><body><header class="top"><a href="../index.html">← 전체 목록</a><a href="../tables.html">테이블 색인</a></header><main><h1>버전 확정 팝업 <small>VERSIONACTIVE</small></h1><table class="kv"><tr><th>화면 경로</th><td><code>THiRAMES_UI/wwwroot/view/ngs/mes/common/VERSIONACTIVE.html</code></td></tr><tr><th>화면 구분</th><td>공통 팝업/컴포넌트</td></tr><tr><th>위젯(Grid)</th><td><code>VERSIONACTIVE1</code></td></tr><tr><th>화면 버튼</th><td><span class="chip">closeBtn · Btn_Close</span> <span class="chip">saveBtn · SAVE</span></td></tr></table><h2>1. 기능별 호출 서비스 / 파라메터 / 테이블</h2><div class="wrap"><table class="grid"><thead><tr><th>#</th><th>기능</th><th>구분</th><th>호출 서비스</th><th>파라메터</th><th>DB 테이블</th></tr></thead><tbody><tr id="fn-1"><td>1</td><td>event<br><small class="muted">JS ngsWidget.ajax(C)</small></td><td>등록/실행</td><td><a href="#svc-1"><span class="tag rule">Rule</span> <code>ActiveRecipeDefinition</code></a></td><td class="params"><code>RECIPEDEFINITIONID</code> <code>RECIPEDEFINITIONNAME</code> <code>SITEID</code></td><td><a class="tbl" href="../tables.html#CIM_PROCESSDATAPARAMETER">CIM_PROCESSDATAPARAMETER</a><span class="b w">쓰기</span><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_PROCESSDEFINITION">CIM_PROCESSDEFINITION</a><span class="b w">쓰기</span><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_RECIPEDEFINITION">CIM_RECIPEDEFINITION</a><span class="b w">쓰기</span><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_RECIPEITEM">CIM_RECIPEITEM</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_RECIPEPARAMETER">CIM_RECIPEPARAMETER</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_TRACEDATAPARAMETER">CIM_TRACEDATAPARAMETER</a><span class="b w">쓰기</span></td></tr></tbody></table></div><h2>2. 서비스 상세</h2><details id="svc-1" class="svc" open><summary><b>#1</b> Rule <code>ActiveRecipeDefinition</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-1">#1 event</a></p><h4>Rule (저장/실행 서비스) : ActiveRecipeDefinition</h4><ul><li>구현 위치: C# 소스 (THiRAMES.Business.MasterData) - <code>THiRAMES.Business.MasterData/104.레시피관리/ActiveRecipeDefinition.cs</code></li><li>입력 파라메터(WEBDATA): <code>RECIPEDEFINITIONID</code> <code>RECIPEDEFINITIONNAME</code> <code>SITEID</code></li><li>관련 테이블(코드 분석 기반): <br><a class="tbl" href="../tables.html#CIM_PROCESSDEFINITION">CIM_PROCESSDEFINITION</a><span class="b w">쓰기</span><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CIM_RECIPEDEFINITION">CIM_RECIPEDEFINITION</a><span class="b w">쓰기</span><span class="b r">읽기</span></li><li>내부 호출 쿼리: <code>InsertProcessDataParameter4RecipeActive</code> <code>InsertTraceDataParameter4RecipeActive</code></li><li>C# 코드 내 SQL 문자열: 3건</li><li>호출 체인(Service 메서드): <small>RECIPEDEFINITIONManager.ActiveRecipe, ManagerExtenstions.GetRecipedefinition, ManagerExtenstions.SelectRecipeDefinitionNameList, RECIPEDEFINITIONManager.ComputeVersion, FORMATIONDEFINITIONManager.ComputeVersion, RECIPEDEFINITIONManager.Hold, MesEisRuleBiz.SetCommonData, ManagerExtenstions.UpdateRecipeDefinition, PROCESSDEFINITIONManager.Active, ManagerExtenstions.GetProcessdefinition, ManagerExtenstions.DeleteProcessDefinition, ManagerExtenstions.UnDeleteProcessDefinition, ManagerExtenstions.UpdateProcessDefinition, RECIPEDEFINITIONManager.Active, RECIPEDEFINITIONManager.InsertProcessDataParameter4RecipeActive, RECIPEDEFINITIONManager.InsertTraceDataParameter4RecipeActive</small></li></ul><details class="svc" open><summary>Rule 내부 호출 쿼리 <code>InsertProcessDataParameter4RecipeActive</code> <small class="muted">(DB 저장 쿼리 (CIM_STOREDQUERY) · 테이블 4)</small></summary><p>쿼리 파라메터: <code>SITEID</code> <code>RECIPEDEFINITIONID</code></p><ul><li>테이블: <div><a class="tbl" href="../tables.html#CIM_RECIPEDEFINITION">CIM_RECIPEDEFINITION</a><span class="b m">메인</span><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#IV">IV</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_RECIPEPARAMETER">CIM_RECIPEPARAMETER</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_RECIPEITEM">CIM_RECIPEITEM</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#DT">DT</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#FD">FD</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_PROCESSDATAPARAMETER">CIM_PROCESSDATAPARAMETER</a><span class="b w">쓰기</span></div></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 5 · 조인 2</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 816 269" width="816" height="269" role="img" aria-label="조인 구조도"><path class="edge e-inner" d="M470 38 C425 38 425 38 380 38"/><text class="elab" x="425" y="34" text-anchor="middle">INNER</text><path class="edge e-inner" d="M380 38 C425 38 425 112 470 112"/><text class="elab" x="425" y="71" text-anchor="middle">INNER</text><g class="node base"><rect x="16" y="16" width="364" height="89" rx="7"/><text x="26" y="35" class="t1">CIM_RECIPEDEFINITION</text><text x="26" y="52" class="t2">alias RD</text><text x="26" y="67" class="t2 jt">INNER</text><text x="44" y="82" class="t3">SITEID = IV.SITEID</text><text x="44" y="97" class="t3">RECIPEDEFINITIONID = IV.PROCESSDATADEFINITIONID</text></g><g class="node unk"><rect x="470" y="16" width="170" height="44" rx="7"/><text x="480" y="35" class="t1">IV</text><text x="480" y="52" class="t2"></text></g><g class="node"><rect x="470" y="90" width="330" height="89" rx="7"/><text x="480" y="109" class="t1">CIM_RECIPEPARAMETER</text><text x="480" y="126" class="t2">alias RP</text><text x="480" y="141" class="t2 jt">INNER</text><text x="498" y="156" class="t3">SITEID = RD.SITEID</text><text x="498" y="171" class="t3">RECIPEDEFINITIONID = RD.RECIPEDEFINITIONID</text></g><g class="node unk"><rect x="16" y="135" width="170" height="44" rx="7"/><text x="26" y="154" class="t1">DT</text><text x="26" y="171" class="t2"></text></g><g class="node unk"><rect x="16" y="209" width="170" height="44" rx="7"/><text x="26" y="228" class="t1">FD</text><text x="26" y="245" class="t2"></text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small><br><small class="muted">마스터/명칭 조회용 조인 제외(기준 테이블 제외): CIM_PROCESSDATAPARAMETER, CIM_RECIPEITEM</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>------------------------------------
+-- InsertProcessDataParameter4RecipeActive : 레시피 활성시 PROCESSDATAPARAMETER 저장
+------------------------------------
+-- INPUT : SITEID, RECIPEDEFINITIONID
+--
+INSERT INTO CIM_PROCESSDATAPARAMETER 
+(
+    PROCESSDATAPARAMETERID
+  , PROCESSDATADEFINITIONID
+  , SITEID
+  , PROCESSDATAPARAMETERNAME 
+  , DATAMAPPINGCOLUMN 
+  , ISUSABLE 
+  , CREATOR 
+  , CREATETIME 
+  , MODIFIER 
+  , MODIFYTIME 
+  , LASTEVENTTIME 
+  , TID
+)
+WITH IV AS (
+  SELECT 
+      RD.RECIPEDEFINITIONID AS PROCESSDATADEFINITIONID
+    , RD.SITEID
+    , TO_NUMBER(NVL(SUBSTR(PP.DATAMAPPINGCOLUMN, 10, 40), &#x27;0&#x27;)) AS MAXITEM
+  FROM CIM_RECIPEDEFINITION RD
+  LEFT OUTER JOIN CIM_PROCESSDATAPARAMETER PP ON PP.PROCESSDATADEFINITIONID= RD.RECIPEDEFINITIONID 
+  WHERE 1=1
+    AND RD.SITEID = :SITEID 
+    AND RD.RECIPEDEFINITIONID = :RECIPEDEFINITIONID -- &#x27;11MIX001012NN00102&#x27;
+)
+, DT AS (
+  SELECT
+      RP.RECIPEITEMID         AS PROCESSDATAPARAMETERID
+    , RP.RECIPEDEFINITIONID   AS PROCESSDATADEFINITIONID
+    , RP.SITEID
+    , RI.RECIPEITEMNAME       AS PROCESSDATAPARAMETERNAME
+    , &#x27;Usable&#x27; AS ISUSABLE
+    , RP.CREATOR
+    , RP.CREATETIME 
+    , RP.MODIFIER 
+    , RP.MODIFYTIME 
+    , RP.LASTEVENTTIME 
+    , RP.TID
+    , IV.MAXITEM
+    , RANK() OVER (PARTITION BY RP.RECIPEDEFINITIONID, RP.RECIPEITEMID ORDER BY RP.RECIPEPARAMETERID) AS RRANK
+  FROM IV
+  INNER JOIN CIM_RECIPEDEFINITION RD ON RD.SITEID = IV.SITEID
+    AND RD.RECIPEDEFINITIONID = IV.PROCESSDATADEFINITIONID
+  INNER JOIN CIM_RECIPEPARAMETER RP ON RP.SITEID = RD.SITEID 
+    AND RP.RECIPEDEFINITIONID = RD.RECIPEDEFINITIONID 
+  LEFT OUTER JOIN CIM_RECIPEITEM RI ON RI.SITEID = RD.SITEID
+    AND RI.RECIPEITEMID = RP.RECIPEITEMID 
+  WHERE 1=1
+    AND NOT EXISTS (SELECT 1 FROM CIM_PROCESSDATAPARAMETER PP
+                    WHERE 1=1
+                      AND PP.SITEID = RP.SITEID
+                      AND PP.PROCESSDATADEFINITIONID = RP.RECIPEDEFINITIONID
+                      AND PP.PROCESSDATAPARAMETERID = RP.RECIPEITEMID
+                  ) 
+)
+, FD AS (
+  SELECT
+      DT.*
+    , &#x27;ITEMVALUE&#x27;||
+      TO_CHAR(DT.MAXITEM +
+      RANK() OVER (PARTITION BY DT.PROCESSDATADEFINITIONID ORDER BY DT.PROCESSDATAPARAMETERID)
+      ) AS DATAMAPPINGCOLUMN
+    , RANK() OVER (PARTITION BY DT.PROCESSDATADEFINITIONID ORDER BY DT.PROCESSDATAPARAMETERID) AS DRANK
+  FROM DT
+  WHERE 1=1
+    AND DT.RRANK = 1
+)
+  SELECT 
+      FD.PROCESSDATAPARAMETERID
+    , FD.PROCESSDATADEFINITIONID
+    , FD.SITEID
+    , FD.PROCESSDATAPARAMETERNAME
+    , FD.DATAMAPPINGCOLUMN
+    , FD.ISUSABLE
+    , FD.CREATOR
+    , FD.CREATETIME
+    , FD.MODIFIER
+    , FD.MODIFYTIME
+    , FD.LASTEVENTTIME
+    , FD.TID
+  FROM FD
+  ORDER BY 2,1</pre></details></details><details class="svc" open><summary>Rule 내부 호출 쿼리 <code>InsertTraceDataParameter4RecipeActive</code> <small class="muted">(DB 저장 쿼리 (CIM_STOREDQUERY) · 테이블 2)</small></summary><ul><li>테이블: <div><a class="tbl" href="../tables.html#CIM_PROCESSDATAPARAMETER">CIM_PROCESSDATAPARAMETER</a><span class="b m">메인</span><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_TRACEDATAPARAMETER">CIM_TRACEDATAPARAMETER</a><span class="b w">쓰기</span></div></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 2 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 233 150" width="233" height="150" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="201" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_PROCESSDATAPARAMETER</text><text x="26" y="52" class="t2">alias PP</text></g><g class="node"><rect x="16" y="90" width="186" height="44" rx="7"/><text x="26" y="109" class="t1">CIM_TRACEDATAPARAMETER</text><text x="26" y="126" class="t2">alias TP</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>------------------------------------
+-- InsertTraceDataParameter4RecipeActive : 레시피 활성시 TRACEDATAPARAMETER 저장
+------------------------------------
+INSERT INTO CIM_TRACEDATAPARAMETER  
+(
+    TRACEDATAPARAMETERID
+  , TRACEDATADEFINITIONID
+  , SITEID
+  , TRACEDATAPARAMETERNAME 
+  , DATAMAPPINGCOLUMN 
+  , ISUSABLE 
+  , CREATOR 
+  , CREATETIME 
+  , MODIFIER 
+  , MODIFYTIME 
+  , LASTEVENTTIME 
+  , TID
+)
+SELECT
+    PP.PROCESSDATAPARAMETERID   AS TRACEDATAPARAMETERID
+  , PP.PROCESSDATADEFINITIONID  AS TRACEDATADEFINITIONID
+  , PP.SITEID
+  , PP.PROCESSDATAPARAMETERNAME AS TRACEDATAPARAMETERNAME
+  , PP.DATAMAPPINGCOLUMN
+  , PP.ISUSABLE 
+  , PP.CREATOR 
+  , PP.CREATETIME 
+  , PP.MODIFIER 
+  , PP.MODIFYTIME 
+  , PP.LASTEVENTTIME 
+  , PP.TID
+FROM CIM_PROCESSDATAPARAMETER PP
+WHERE 1=1
+  AND NOT EXISTS (SELECT 1 FROM CIM_TRACEDATAPARAMETER TP
+                  WHERE 1=1
+                    AND TP.TRACEDATAPARAMETERID = PP.PROCESSDATAPARAMETERID 
+                    AND TP.TRACEDATADEFINITIONID = PP.PROCESSDATADEFINITIONID 
+                    AND TP.SITEID = PP.SITEID
+                )</pre></details></details><details class="svc"><summary>Rule 코드 내 단순 SQL(단일 테이블) 3건 <small class="muted">- 펼쳐서 확인</small></summary><details class="svc"><summary>Rule 코드 내 SQL #1 <small class="muted">(RECIPEDEFINITION.GetRecipeDefinition (CIM.MES.API 프레임워크) · 테이블 1)</small></summary><ul><li>테이블: <div><a class="tbl" href="../tables.html#CIM_RECIPEDEFINITION">CIM_RECIPEDEFINITION</a><span class="b m">메인</span><span class="b r">읽기</span></div></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 1 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 204 76" width="204" height="76" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="172" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_RECIPEDEFINITION</text><text x="26" y="52" class="t2">기준 테이블</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>SELECT * FROM CIM_RECIPEDEFINITION WHERE RECIPEDEFINITIONID=@RECIPEDEFINITIONID AND SITEID=@SITEID</pre></details></details><details class="svc"><summary>Rule 코드 내 SQL #2 <small class="muted">(RECIPEDEFINITION.SelectRecipeDefinitionNameList (CIM.MES.API 프레임워크) · 테이블 1)</small></summary><ul><li>테이블: <div><a class="tbl" href="../tables.html#CIM_RECIPEDEFINITION">CIM_RECIPEDEFINITION</a><span class="b m">메인</span><span class="b r">읽기</span></div></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 1 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 204 76" width="204" height="76" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="172" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_RECIPEDEFINITION</text><text x="26" y="52" class="t2">기준 테이블</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>SELECT * FROM CIM_RECIPEDEFINITION WHERE RECIPEDEFINITIONNAME = @RECIPEDEFINITIONNAME AND SITEID=@SITEID AND ISUSABLE=&#x27;Usable&#x27;</pre></details></details><details class="svc"><summary>Rule 코드 내 SQL #3 <small class="muted">(PROCESSDEFINITION.GetProcessDefinition4Update (CIM.MES.API 프레임워크) · 테이블 1)</small></summary><ul><li>테이블: <div><a class="tbl" href="../tables.html#CIM_PROCESSDEFINITION">CIM_PROCESSDEFINITION</a><span class="b m">메인</span><span class="b r">읽기</span></div></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 1 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 211 76" width="211" height="76" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="179" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_PROCESSDEFINITION</text><text x="26" y="52" class="t2">기준 테이블</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>SELECT * FROM CIM_PROCESSDEFINITION WITH(UPDLOCK) WHERE PROCESSDEFINITIONID=@PROCESSDEFINITIONID AND SITEID=@SITEID</pre></details></details></details></details><h2>3. 그리드 / 검색조건 정의</h2><details><summary><b>VERSIONACTIVE1</b> 버전 확정 팝업 — 컬럼 0, 검색조건 0</summary><p class="muted">actionId 미정의 - 조회/저장 서비스는 JS 또는 호출 화면(팝업 파라메터)에서 동적으로 지정됩니다.</p></details><footer>자동 생성 문서 · DB: EM_MES_DEV (10.130.11.100) · 소스: THiRAMES_UI / THiRAMES_Service · "추정"/"코드 분석 기반" 표기는 정적 분석 결과이므로 실제 동작과 다를 수 있습니다.</footer></main></body></html>

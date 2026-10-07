@@ -1,0 +1,331 @@
+<!DOCTYPE html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>RT_PM_003 - 공정 Cpk</title><link rel="stylesheet" href="../style.css"></head><body><header class="top"><a href="../index.html">← 전체 목록</a><a href="../tables.html">테이블 색인</a></header><main><h1>공정 Cpk <small>RT_PM_003</small></h1><table class="kv"><tr><th>화면 경로</th><td><code>THiRAMES_UI/wwwroot/view/ngs/mes/RT/RT_PM_003.html</code></td></tr><tr><th>화면 구분</th><td>RT 실시간/조회</td></tr><tr><th>위젯(Grid)</th><td><code>RT_PM_0031</code></td></tr><tr><th>화면 버튼</th><td><span class="chip">findBtn1 · 조회</span> <span class="chip">excelGridDownBtn1 · EXCEL</span></td></tr></table><h2>1. 기능별 호출 서비스 / 파라메터 / 테이블</h2><div class="wrap"><table class="grid"><thead><tr><th>#</th><th>기능</th><th>구분</th><th>호출 서비스</th><th>파라메터</th><th>DB 테이블</th></tr></thead><tbody><tr id="fn-1"><td>1</td><td>조회 - 그리드 RT_PM_0031 (공정Cpk1_공정Cpk현황)<br><small class="muted">조회 버튼(findBtn)/마스터-디테일 행선택 시 호출</small></td><td>R 조회</td><td><a href="#svc-1"><span class="tag q">Query</span> <code>SelectProcessCpkList</code></a> <small>THiRAMES.Service.UI</small></td><td class="params"><code>SITEID</code> <code>FROMDATE</code> <code>TODATE</code> <code>CPKITEM</code> <code>ISGRID(&#x27;Y&#x27;:</code> <code>그리드</code> <code>데이터</code> <code>조회</code> <code>&#x27;N&#x27;:</code> <code>차트</code> <code>조회)</code><br><span class="muted">UI 전달:</span> <code class="ui">UNIT</code> <code class="ui">CPKITEMID</code> <code class="ui">ISGRID</code> <code class="ui">LINEID</code></td><td><a class="tbl" href="../tables.html#CIM_CODE">CIM_CODE</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CST_PROCESSDATAPARAMETER">CST_PROCESSDATAPARAMETER</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#RPT_PROCESSCPK_DEFINITION">RPT_PROCESSCPK_DEFINITION</a><span class="b r">읽기</span></td></tr><tr id="fn-2"><td>2</td><td>검색조건 콤보 - LINEID (LINEID)</td><td>R 조회</td><td><a href="#svc-2"><span class="tag q">Query</span> <code>CDS_Code_200</code></a> <small>THiRA.MES.Modeler</small></td><td class="params"><code>CODECLASSID</code> <code>SITEID</code></td><td><a class="tbl" href="../tables.html#CIM_CODE">CIM_CODE</a><span class="b r">읽기</span></td></tr><tr id="fn-3"><td>3</td><td>검색조건 콤보 - CPKITEM (MANAGEMENTITEM)</td><td>R 조회</td><td><a href="#svc-3"><span class="tag q">Query</span> <code>SelectCboProcessCpkItem</code></a> <small>THiRAMES.Service.UI</small></td><td class="params"><code>SITEID</code></td><td><a class="tbl" href="../tables.html#CST_OPCTAGINFO">CST_OPCTAGINFO</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#RPT_PROCESSCPK_DEFINITION">RPT_PROCESSCPK_DEFINITION</a><span class="b r">읽기</span></td></tr><tr id="fn-4"><td>4</td><td>chartAPI<br><small class="muted">JS ngsWidget.ajax(R)</small></td><td>조회</td><td><a href="#svc-1"><span class="tag q">Query</span> <code>SelectProcessCpkList</code></a> <small>THiRAMES.Service.UI</small></td><td class="params"><code>SITEID</code> <code>FROMDATE</code> <code>TODATE</code> <code>CPKITEM</code> <code>ISGRID(&#x27;Y&#x27;:</code> <code>그리드</code> <code>데이터</code> <code>조회</code> <code>&#x27;N&#x27;:</code> <code>차트</code> <code>조회)</code><br><span class="muted">UI 전달:</span> <code class="ui">ISGRID</code> <code class="ui">LINEID</code></td><td><a class="tbl" href="../tables.html#CIM_CODE">CIM_CODE</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#CST_PROCESSDATAPARAMETER">CST_PROCESSDATAPARAMETER</a><span class="b r">읽기</span><br><a class="tbl" href="../tables.html#RPT_PROCESSCPK_DEFINITION">RPT_PROCESSCPK_DEFINITION</a><span class="b r">읽기</span></td></tr></tbody></table></div><h2>2. 서비스 상세</h2><details id="svc-1" class="svc" open><summary><b>#1</b> Query <code>SelectProcessCpkList</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-1">#1 조회 - 그리드 RT_PM_0031 (공정Cpk1_공정Cpk현황)</a> <a class="chip" href="#fn-4">#4 chartAPI</a></p><h4>Query (조회 서비스) : SelectProcessCpkList</h4><ul><li>ID 구성: <code>SelectProcessCpkList</code> / 클래스 <code>THiRAMES.Service.UI</code> / 버전 <code>00001</code></li><li>정의 위치: DB 저장 쿼리 (CIM_STOREDQUERY)</li><li>쿼리명: RT_PM_003_공정 Cpk 조회 프로시저</li><li>쿼리 파라메터: <code>SITEID</code> <code>FROMDATE</code> <code>TODATE</code> <code>CPKITEM</code> <code>ISGRID(&#x27;Y&#x27;:</code> <code>그리드</code> <code>데이터</code> <code>조회</code> <code>&#x27;N&#x27;:</code> <code>차트</code> <code>데이터</code> <code>조회)</code></li><li>테이블(조회/쓰기 전체, 함수·SP 포함): <div><small class="muted">└ Stored Procedure SP_RPT_CPK_SELECT :</small> <a class="tbl" href="../tables.html#RPT_PROCESSCPK_DEFINITION">RPT_PROCESSCPK_DEFINITION</a><span class="b m">메인</span><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#FN_MES_SPLIT">FN_MES_SPLIT</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CST_PROCESSDATAPARAMETER">CST_PROCESSDATAPARAMETER</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CIM_CODE">CIM_CODE</a><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CUR_LEVEL">CUR_LEVEL</a><span class="b r">읽기</span></div></li><li>함수/SP: <code>EXEC SP_RPT_CPK_SELECT</code></li></ul><details class="joinviz" open><summary><b>Stored Procedure <code>SP_RPT_CPK_SELECT</code> 의 조인 구조도</b> <small class="muted">테이블 3 · 조인 1</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 501 150" width="501" height="150" role="img" aria-label="조인 구조도"><path class="edge e-inner" d="M225 38 C270 38 270 38 315 38"/><text class="elab" x="270" y="34" text-anchor="middle">INNER</text><g class="node base"><rect x="16" y="16" width="209" height="44" rx="7"/><text x="26" y="35" class="t1">RPT_PROCESSCPK_DEFINITION</text><text x="26" y="52" class="t2">alias CD</text></g><g class="node unk"><rect x="315" y="16" width="170" height="44" rx="7"/><text x="325" y="35" class="t1">FN_MES_SPLIT</text><text x="325" y="52" class="t2"></text></g><g class="node unk"><rect x="16" y="90" width="170" height="44" rx="7"/><text x="26" y="109" class="t1">CUR_LEVEL</text><text x="26" y="126" class="t2">alias INTO</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small><br><small class="muted">마스터/명칭 조회용 조인 제외(기준 테이블 제외): CST_PROCESSDATAPARAMETER, CIM_CODE</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>------------------------------------------
+--RT_PM_003_공정 Cpk 조회 프로시저
+--SelectProcessCpkList
+--Param : SITEID, FROMDATE, TODATE, CPKITEM, ISGRID(&#x27;Y&#x27;: 그리드 데이터 조회, &#x27;N&#x27;: 차트 데이터 조회)
+------------------------------------------
+EXEC SP_RPT_CPK_SELECT @SITEID, @FROMDATE, @TODATE, @CPKITEM, @ISGRID</pre></details><details class="sql"><summary>Stored Procedure SP_RPT_CPK_SELECT 정의 보기</summary><pre>/**************************************************************************
+ * REPORT CPK 조회
+ *  CPK 는 SUMMARY 없음
+ *
+ *    DECLARE
+ *       @SITEID VARCHAR(40) = &#x27;PL01&#x27;                   -- SITEID
+ *       , @FROMDATE DATETIME = &#x27;2024-07-01 07:00:00&#x27;   -- 시작 일시
+ *       , @TODATE DATETIME= &#x27;2024-07-08 07:00:00&#x27;      -- 종료 일시
+ *       , @CPKITEM VARCHAR(MAX) = &#x27;KILN01,KILN02,KILN03,KILN04,KILN05,KILN06,KILN07,KILN08&#x27;    -- CPKITEM 코드를 &#x27;,&#x27; 로 연결
+ *       , @ISGRID VARCHAR(1) = &#x27;N&#x27;                     -- Y : GRID DATA 조회 | N : CHART DATA 조회
+ * 
+ *     EXEC SP_RPT_CPK_SELECT @SITEID, @FROMDATE, @TODATE, @CPKITEM, @ISGRID
+ **************************************************************************/
+CREATE PROCEDURE [dbo].[SP_RPT_CPK_SELECT] 
+    @SITEID VARCHAR(40), @FROMDATE DATETIME, @TODATE DATETIME, @CPKITEM VARCHAR(MAX), @ISGRID VARCHAR(1) = &#x27;Y&#x27;
+AS  
+--DECLARE
+--        @SITEID VARCHAR(40) = &#x27;PL01&#x27;
+--        , @FROMDATE DATETIME = &#x27;2024-07-01 07:00:00&#x27;
+--        , @TODATE DATETIME= &#x27;2024-07-01 07:30:00&#x27;
+--        , @CPKITEM VARCHAR(MAX) = &#x27;KILN01,KILN02,KILN03,KILN04,KILN05,KILN06,KILN07,KILN08&#x27;
+--        , @ISGRID VARCHAR(1) = &#x27;Y&#x27;
+BEGIN 
+
+    
+    -- PROCESS DATA 용 변수
+    DECLARE @STRSQT NVARCHAR(MAX)
+          , @DATAMAPPINGTABLE NVARCHAR(100)
+          , @SELECT_CURRENT_COLUMN NVARCHAR(MAX)
+          , @PARAMS NVARCHAR(MAX)
+          , @STARTDATE DATETIME
+          , @ENDDATE   DATETIME          
+    ;    
+        
+    
+    DECLARE @CPK_VALUE TABLE
+    (
+        TABLENAME  VARCHAR(40)
+        , COLNAME    VARCHAR(40)
+        , MODIFYTIME DATETIME
+        , NOW_VALUE  FLOAT
+    );        
+    
+    DECLARE @CPK_ITEM_LIST TABLE
+    (
+        CPKITEMID           VARCHAR(40)
+        , CPKITEMNAME       VARCHAR(40)
+        , SITEID            VARCHAR(40)
+        , UNIT              VARCHAR(40)
+        , UNITNAME          VARCHAR(100)
+        , TARGET            FLOAT
+        , USL               FLOAT
+        , LSL               FLOAT
+        , CPKTARGET         FLOAT
+        , TAGID             VARCHAR(100)
+        , DCSTAGID          VARCHAR(40)
+        , UISEQUENCE        SMALLINT
+        , DATAMAPPINGTABLE  VARCHAR(40)
+        , DATAMAPPINGCOLUMN VARCHAR(40)
+    )
+    ;
+        
+    --##########################################################################
+    -- 기준정보 조회 : * START * 
+    --##########################################################################
+    INSERT INTO @CPK_ITEM_LIST
+    SELECT 
+        CD.CPKITEMID
+        , CD.CPKITEMNAME
+        , CD.SITEID
+        , CD.UNIT 
+        , C.CODENAME AS UNITNAME
+        , CD.TARGET
+        , CD.USL
+        , CD.LSL
+        , CD.CPKTARGET
+        , CD.TAGID
+        , CD.DCSTAGID
+        , CD.UISEQUENCE
+        , PM.DATAMAPPINGTABLE
+        , PM.DATAMAPPINGCOLUMN
+    FROM RPT_PROCESSCPK_DEFINITION CD
+        INNER JOIN dbo.FN_MES_SPLIT(@CPKITEM, &#x27;,&#x27;) SP
+            ON  CD.CPKITEMID = SP.VALUE
+        INNER JOIN CST_PROCESSDATAPARAMETER PM
+            ON  CD.TAGID = PM.PROCESSDATAPARAMETERID
+            AND CD.SITEID = PM.SITEID
+            AND PM.PROCESSDATADEFINITIONID = &#x27;EISMES_Tran_Process_Data&#x27;
+            AND PM.ISUSABLE = &#x27;Usable&#x27;
+        LEFT OUTER JOIN CIM_CODE C
+            ON  CD.UNIT = C.CODEID
+            AND CD.SITEID = C.SITEID
+            AND C.CODECLASSID = &#x27;RPT_UNIT&#x27;
+    WHERE CD.SITEID = @SITEID
+    ORDER BY CD.UISEQUENCE    
+    ;
+    --##########################################################################
+    -- 기준정보 조회 : * END * 
+    --##########################################################################
+
+
+
+
+    --##########################################################################
+    -- PROCESS DATA 에서 DATA 수집 : * START * 
+    --##########################################################################
+    BEGIN
+        
+        -- 조회 결과를 TABLE 별 분류하여 CURSOR 에 연결
+        DECLARE CUR_LEVEL CURSOR FOR
+            SELECT 
+T.DATAMAPPINGTABLE
+                , STRING_AGG ( DATAMAPPINGCOLUMN, &#x27;, &#x27;) WITHIN GROUP (ORDER BY T.DATAMAPPINGTABLE) AS SELECT_CURRENT_COLUMN
+            FROM @CPK_ITEM_LIST T
+            GROUP BY T.DATAMAPPINGTABLE        
+            
+            
+        -- CURSOR OPEN
+        OPEN CUR_LEVEL
+        
+    
+        -- TABLE 별로 WHILE &amp; 결과를 TEMP TABLE 에 저장
+        FETCH NEXT FROM CUR_LEVEL INTO @DATAMAPPINGTABLE, @SELECT_CURRENT_COLUMN 
+        WHILE(@@FETCH_STATUS=0)
+        BEGIN
+            
+            SET @PARAMS = N&#x27;@P_STARTTIME DATETIME, @P_ENDTIME DATETIME&#x27;
+            
+            SET @STRSQT = N&#x27;
+                    SELECT 
+                        TABLENAME
+                        , COLNAME
+                        , MODIFYTIME
+                        , CONVERT(FLOAT, NOW_VALUE ) AS NOW_VALUE
+                    FROM 
+                    ( 
+                        SELECT &#x27;&#x27;&#x27; + @DATAMAPPINGTABLE + &#x27;&#x27;&#x27; AS TABLENAME, 
+                            MODIFYTIME,
+                            &#x27; + @SELECT_CURRENT_COLUMN + &#x27;
+                        FROM &#x27; + @DATAMAPPINGTABLE + &#x27;HIST WITH(NOLOCK)
+                        WHERE @P_STARTTIME &lt;= MODIFYTIME AND MODIFYTIME &lt; @P_ENDTIME 
+                    ) M 
+                    UNPIVOT 
+                    ( 
+                        NOW_VALUE FOR COLNAME IN ( &#x27; + @SELECT_CURRENT_COLUMN + &#x27;)
+                    ) UNPA
+                    ORDER BY TABLENAME, COLNAME, MODIFYTIME&#x27;
+            ;
+        
+--            PRINT &#x27;------------------------------------------------------------------------------&#x27;
+--            PRINT @STRSQT    
+
+            INSERT @CPK_VALUE (TABLENAME, COLNAME, MODIFYTIME, NOW_VALUE)
+            EXECUTE sp_executesql @STRSQT, 
+                          @PARAMS, 
+                          @P_STARTTIME = @FROMDATE,
+                          @P_ENDTIME = @TODATE
+            ;    
+    
+            FETCH NEXT FROM CUR_LEVEL INTO @DATAMAPPINGTABLE, @SELECT_CURRENT_COLUMN
+        END
+    
+        -- CURSOR 삭제
+        CLOSE CUR_LEVEL
+        DEALLOCATE CUR_LEVEL
+    END 
+    ;
+    --##########################################################################
+    -- PROCESS DATA 에서 DATA 수집 : # END #
+    --##########################################################################    
+
+
+    --
+    -- GRID DATA
+    --
+    IF @ISGRID = &#x27;Y&#x27;
+    BEGIN
+        WITH CPK_SUM_DATA AS
+        (
+            SELECT 
+                CV.TABLENAME
+                , CV.COLNAME
+                , MAX(CV.NOW_VALUE) AS MAX_VALUE
+                , MIN(CV.NOW_VALUE) AS MIN_VALUE
+                , MAX(CV.NOW_VALUE) - MIN(CV.NOW_VALUE) AS RANGE_VALUE
+                , ROUND(AVG(CV.NOW_VALUE),2) AS AVG_VALUE
+                , STDEV(CV.NOW_VALUE) AS STDEV_VALUE
+            FROM @CPK_VALUE CV
+            GROUP BY CV.TABLENAME, CV.COLNAME
+        )
+        SELECT 
+            CPKITEMID
+            , CPKITEMNAME
+            , UNITNAME
+            , DCSTAGID
+            , UISEQUENCE
+            , ITEMTYPE
+            , FORMAT(ROUND(ITEMVALUE,2), &#x27;####0.00&#x27;) AS ITEMVALUE
+        FROM 
+        (
+            SELECT 
+                CL.CPKITEMID
+                , CL.CPKITEMNAME
+                , CL.UNITNAME
+                , CL.DCSTAGID
+                , ROUND(CD.MAX_VALUE, 2) AS [Max]
+                , ROUND(CD.MIN_VALUE, 2) AS [Min]
+                , (ROUND(CD.MAX_VALUE, 2) - ROUND(CD.MIN_VALUE, 2)) AS [Range]
+                , CD.AVG_VALUE AS [Avg]
+                , CD.STDEV_VALUE AS [STDEV]
+--                , (CL.USL - CD.AVG_VALUE) / (CD.STDEV_VALUE * 3) AS UPPER_CP -- 상한 CP
+--                , (CD.AVG_VALUE - CL.LSL) / (CD.STDEV_VALUE * 3) AS LOW_CP -- 하한 CP
+                , ABS( (CL.USL + CL.LSL) / 2 - CD.AVG_VALUE ) / ( (CL.USL - CL.LSL) / 2 )  AS [K_VALUE] -- K : ABS[ (USL + LSL) / 2 - AVG ] / [ (USL-LSL) /2 ]
+                , CASE WHEN CD.STDEV_VALUE = 0 OR (CL.USL - CL.LSL) = 0 THEN 0
+--                       WHEN ( 1.0 - (ABS( (CL.USL + CL.LSL) / 2 - CD.AVG_VALUE ) / ( (CL.USL - CL.LSL)) / 2 ) ) &lt; 0 THEN (CL.USL - CL.LSL) / (6 * CD.STDEV_VALUE) 
+--                       ELSE ( 1.0 - (ABS( (CL.USL + CL.LSL) / 2 - CD.AVG_VALUE ) / ( (CL.USL - CL.LSL)) / 2 ) ) * (CL.USL - CL.LSL) / (6 * CD.STDEV_VALUE)
+                       WHEN ((CL.USL - CD.AVG_VALUE) / (CD.STDEV_VALUE * 3)) &gt; ((CD.AVG_VALUE - CL.LSL) / (CD.STDEV_VALUE * 3)) THEN (CD.AVG_VALUE - CL.LSL) / (CD.STDEV_VALUE * 3)
+                       ELSE (CL.USL - CD.AVG_VALUE) / (CD.STDEV_VALUE * 3)
+                  END AS [CPK] -- CPK = 상한 CP 와 하한 CP 중 작은 값 (2024-08-13 박경진 전임 요청)
+                , CL.CPKTARGET AS [CPK Target]
+                , CL.UISEQUENCE
+            FROM CPK_SUM_DATA CD
+                INNER JOIN @CPK_ITEM_LIST CL
+                    ON  CD.TABLENAME = CL.DATAMAPPINGTABLE
+                    AND CD.COLNAME = CL.DATAMAPPINGCOLUMN
+        ) M
+        UNPIVOT 
+        (
+            ITEMVALUE FOR ITEMTYPE IN ( [Max], [Min],[Range],[Avg],[STDEV],CPK,[CPK Target] )
+        ) UNP
+        ORDER BY UNP.UISEQUENCE
+    END 
+    --
+    -- CHART DATA
+    --
+    ELSE IF @ISGRID = &#x27;N&#x27;
+    BEGIN 
+        
+        SELECT
+            CL.CPKITEMID
+            , CL.CPKITEMNAME
+            , CV.MODIFYTIME
+            , CL.TARGET
+            , CL.USL
+            , CL.LSL
+            , CV.NOW_VALUE AS VALUE
+        FROM @CPK_VALUE CV
+            INNER JOIN @CPK_ITEM_LIST CL
+                ON  CV.TABLENAME = CL.DATAMAPPINGTABLE
+                AND CV.COLNAME   = CL.DATAMAPPINGCOLUMN
+        ORDER BY CL.CPKITEMID, CV.MODIFYTIME                
+        
+    END
+
+END</pre></details><details class="sql"><summary>테이블 반환 함수 FN_MES_SPLIT 정의 보기</summary><pre>CREATE FUNCTION [dbo].[FN_MES_SPLIT]
+(
+  @I_STR     NVARCHAR(MAX),
+  @I_DELIM    NVARCHAR(40) = &#x27;,&#x27;
+)
+RETURNS @RETARRAY TABLE
+(
+	VALUE NVARCHAR(MAX)
+)
+AS  
+BEGIN  
+	DECLARE @VALUE			VARCHAR(8000)
+	DECLARE	@BCONTINUE		BIT
+	DECLARE @ISTRIKE		SMALLINT
+	DECLARE @IDELIMLENGTH	TINYINT
+   
+
+	SET @I_STR = LTRIM(RTRIM(@I_STR))  
+	SET @IDELIMLENGTH = LEN(@I_DELIM)  
+	SET @BCONTINUE = 1  
+
+	WHILE @BCONTINUE = 1  
+	BEGIN  
+		--텍스트에서 구분자를 발견하면, 첫 번째 요소를 반환하고  
+		--반환되는 테이블에 인덱스를 입력한다.  
+		IF CHARINDEX(@I_DELIM, @I_STR)&gt;0  
+		BEGIN  
+			-- 첫 번째 요소를 반환  
+			SET @VALUE = SUBSTRING(@I_STR,1, CHARINDEX(@I_DELIM,@I_STR)-1)  
+				
+			INSERT @RETARRAY (VALUE) VALUES (@VALUE)  
+
+			--다음 요소와 구분자를 문자열의 앞에서부터 제거하고,  
+			--INDEX를 증가시키고 반복작업(LOOP)을 이어간다.  
+			SET @ISTRIKE = LEN(@VALUE) + @IDELIMLENGTH  
+			SET @I_STR = LTRIM(RIGHT(@I_STR,LEN(@I_STR) - @ISTRIKE))  
+		END
+		ELSE  
+		BEGIN  
+			--만약 텍스트 안에서 구분자를 더 이상 찾을 수 없게 되면,   
+			--@I_STR가 @RETARRAY의 마지막 값이다.  
+			SET @VALUE = @I_STR  
+			-- 마지막 값도 구분자로 나누어져 있으뎐  
+			INSERT @RETARRAY (VALUE) VALUES (@VALUE)  
+
+			--WHILE 루프를 빠져 나온다.  
+			SET @BCONTINUE = 0  
+		END  
+	END 
+	
+	RETURN  
+END</pre></details></details><details id="svc-2" class="svc" open><summary><b>#2</b> Query <code>CDS_Code_200</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-2">#2 검색조건 콤보 - LINEID (LINEID)</a></p><h4>Query (조회 서비스) : CDS_Code_200</h4><ul><li>ID 구성: <code>CDS_Code_200</code> / 클래스 <code>THiRA.MES.Modeler</code> / 버전 <code>00001</code></li><li>정의 위치: Modeler 내장 쿼리 (THiRAMES.Service.Modeler.MSSQL DLL)</li><li>쿼리 파라메터: <code>CODECLASSID</code> <code>SITEID</code></li><li>테이블(조회/쓰기 전체, 함수·SP 포함): <div><a class="tbl" href="../tables.html#CIM_CODE">CIM_CODE</a><span class="b m">메인</span><span class="b r">읽기</span></div></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 1 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 202 76" width="202" height="76" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="170" height="44" rx="7"/><text x="26" y="35" class="t1">CIM_CODE</text><text x="26" y="52" class="t2">기준 테이블</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>SELECT CODEID AS CODE,
+       CODENAME AS NAME,
+       UISEQUENCE
+FROM CIM_CODE 
+WHERE CODECLASSID = :CODECLASSID
+      AND ISUSABLE= &#x27;Usable&#x27; 
+      AND SITEID = :SITEID
+ORDER BY UISEQUENCE</pre></details></details><details id="svc-3" class="svc" open><summary><b>#3</b> Query <code>SelectCboProcessCpkItem</code></summary><p class="usedby"><b>연결된 기능</b> (1번 표): <a class="chip" href="#fn-3">#3 검색조건 콤보 - CPKITEM (MANAGEMENTITEM)</a></p><h4>Query (조회 서비스) : SelectCboProcessCpkItem</h4><ul><li>ID 구성: <code>SelectCboProcessCpkItem</code> / 클래스 <code>THiRAMES.Service.UI</code> / 버전 <code>00001</code></li><li>정의 위치: DB 저장 쿼리 (CIM_STOREDQUERY)</li><li>쿼리명: RT_PM_003_공정 Cpk 관리항목 다중 체크 콤보박스 조회 쿼리</li><li>쿼리 파라메터: <code>SITEID</code></li><li>테이블(조회/쓰기 전체, 함수·SP 포함): <div><a class="tbl" href="../tables.html#RPT_PROCESSCPK_DEFINITION">RPT_PROCESSCPK_DEFINITION</a><span class="b m">메인</span><span class="b r">읽기</span> &nbsp; <a class="tbl" href="../tables.html#CST_OPCTAGINFO">CST_OPCTAGINFO</a><span class="b r">읽기</span></div></li></ul><details class="joinviz" open><summary><b>조인 구조도</b> <small class="muted">테이블 1 · 조인 0</small></summary><div class="wrap"><svg class="jv" viewBox="0 0 241 76" width="241" height="76" role="img" aria-label="조인 구조도"><g class="node base"><rect x="16" y="16" width="209" height="44" rx="7"/><text x="26" y="35" class="t1">RPT_PROCESSCPK_DEFINITION</text><text x="26" y="52" class="t2">alias PD</text></g></svg></div><div class="jlegend"><span class="lg inner"></span>INNER JOIN <span class="lg left"></span>LEFT JOIN <span class="lg base"></span>기준(FROM) 테이블 <small class="muted">· 박스 안 ON 줄은 해당 테이블의 조인 조건 (정적 분석, 서브쿼리/UNION은 근사)</small><br><small class="muted">마스터/명칭 조회용 조인 제외(기준 테이블 제외): CST_OPCTAGINFO</small></div></details><details class="sql"><summary>SQL 보기</summary><pre>------------------------------------------
+--RT_PM_003_공정 Cpk 관리항목 다중 체크 콤보박스 조회 쿼리
+--SelectCboProcessCpkItem
+--Param : SITEID
+------------------------------------------
+SELECT  
+    PD.CPKITEMID AS CODE,
+    PD.CPKITEMNAME AS NAME
+FROM RPT_PROCESSCPK_DEFINITION PD
+    INNER JOIN CST_OPCTAGINFO OT
+        ON  PD.TAGID = OT.TAGID 
+        AND PD.SITEID = OT.SITEID 
+WHERE PD.SITEID = @SITEID
+ORDER BY PD.UISEQUENCE</pre></details></details><h2>3. 그리드 / 검색조건 정의</h2><details><summary><b>RT_PM_0031</b> 공정Cpk1_공정Cpk현황 — 컬럼 6, 검색조건 2</summary><p>actionId: <code class="wrapc">THiRAMES.Service.UI$RuleMultiInquiry$THiRAMES.Service.UI$SelectProcessCpkList$00001?SITEID=@STORAGE:siteid&amp;FROMDATE=&amp;TODATE=&amp;UNIT=&amp;CPKITEMID=&amp;ISGRID=</code></p><h4>검색조건</h4><table class="grid sm"><thead><tr><th>필드</th><th>유형</th><th>표시명</th><th>표시명(한글)</th><th>콤보 서비스</th></tr></thead><tbody><tr><td><code>LINEID</code></td><td>FILTER</td><td>LINEID</td><td><b>라인</b></td><td class="wrapc">THiRA.MES.Modeler$RuleMultiInquiry$THiRA.MES.Modeler$CDS_Code_200$00001?CODECLASSID=LINEID&amp;SITEID=@STORAGE:siteid</td></tr><tr><td><code>CPKITEM</code></td><td>FILTER</td><td>MANAGEMENTITEM</td><td><b>관리 항목</b></td><td class="wrapc">THiRAMES.Service.UI$RuleMultiInquiry$THiRAMES.Service.UI$SelectCboProcessCpkItem$00001?SITEID=@STORAGE:siteid</td></tr></tbody></table><h4>컬럼</h4><table class="grid sm"><thead><tr><th>필드</th><th>표시명</th><th>표시명(한글)</th><th>편집</th><th>필수</th><th>콤보 서비스</th></tr></thead><tbody><tr><td><code>UNITNAME</code></td><td>RPTUNITNAME</td><td><b>유닛</b></td><td></td><td></td><td class="wrapc"></td></tr><tr><td><code>CPKITEMNAME</code></td><td>MANAGEMENTITEM</td><td><b>관리 항목</b></td><td></td><td></td><td class="wrapc"></td></tr><tr><td><code>CPKITEMID</code></td><td>MANAGEMENTITEMID</td><td><b>관리항목</b></td><td></td><td></td><td class="wrapc"></td></tr><tr><td><code>DCSTAGID</code></td><td>TAG</td><td><b>TAG</b></td><td></td><td></td><td class="wrapc"></td></tr><tr><td><code>ITEMTYPE</code></td><td>STATISTICALANALYSIS</td><td><b>통계분석</b></td><td></td><td></td><td class="wrapc"></td></tr><tr><td><code>ITEMVALUE</code></td><td>PERFOMANCE</td><td><b>실적</b></td><td></td><td></td><td class="wrapc"></td></tr></tbody></table></details><footer>자동 생성 문서 · DB: EM_MES_DEV (10.130.11.100) · 소스: THiRAMES_UI / THiRAMES_Service · "추정"/"코드 분석 기반" 표기는 정적 분석 결과이므로 실제 동작과 다를 수 있습니다.</footer></main></body></html>
