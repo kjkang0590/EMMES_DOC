@@ -432,6 +432,10 @@ def render_page(pg):
                     # 정의 미확인(프레임워크 내장 GRD_*, CDS_*) → 쿼리 ID 명명규칙으로 추정한 테이블을 메인으로 간주
                     maintab = _rq['tables_r'][0]
                     mainset = {c[0].upper() for c in A.COLS.get(maintab, [])}
+        if not maintab and w['action']:
+            _sp = re.match(r'\s*(?:EXEC(?:UTE)?\s+)?((?:dbo\.)?SP_\w+)', (_rq.get('sql') or '') if _qid else '', re.I)
+            if _sp:
+                ph('<p class="muted">조회 서비스가 저장 프로시저(<code>%s</code>)라 메인 테이블을 판별할 수 없어 컬럼 강조 표시가 없습니다.</p>' % esc(_sp.group(1)))
         if maintab:
             ph('<p class="muted">조회 쿼리의 메인 테이블 <a class="tbl" href="../tables.html#%s">%s</a>%s 에서 오는 컬럼은 <span class="mainmark">강조</span> 표시됩니다 (%d개 / %d개)</p>' % (
                 esc(maintab), esc(maintab), ('' if _rq.get('sql') else ' (쿼리 정의 미확인 - ID 명명규칙 기반 추정)'), sum(1 for c in w['cols'] if (c['field'] or '').upper() in mainset), len(w['cols'])))
